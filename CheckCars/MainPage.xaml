@@ -21,13 +21,11 @@
                 x:Name="btnCrashReport"
                 Text="Reportes de Accidentes" 
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
             <Button
                 x:Name="btnIssue"
                 Text="Reportes Problemas" 
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
