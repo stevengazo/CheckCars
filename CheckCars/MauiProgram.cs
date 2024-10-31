@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CheckCars.Data;
+using CheckCars.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace CheckCars
 {
@@ -14,6 +16,14 @@ namespace CheckCars
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            builder.Services.AddDbContext<ReportsDBContextSQLite>();
+            builder.Services.AddTransient<MainPage>();
+
+            builder.Services.AddTransient<MainPageVM>();
+
+            var dbContext = new ReportsDBContextSQLite();
+            dbContext.Database.EnsureCreated();
+            dbContext.Dispose();
 
 #if DEBUG
     		builder.Logging.AddDebug();

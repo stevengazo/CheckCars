@@ -1,12 +1,15 @@
-﻿namespace CheckCars
+﻿using CheckCars.ViewModels;
+
+namespace CheckCars
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
 
-        public MainPage()
+        public MainPage(MainPageVM vm)
         {
             InitializeComponent();
+            BindingContext = vm;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

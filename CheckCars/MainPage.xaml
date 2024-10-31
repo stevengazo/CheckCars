@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              x:Class="CheckCars.MainPage">
-    <ContentPage.BindingContext>
-        <ViewModels:MainPageVM/>
-    </ContentPage.BindingContext>
+
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
@@ -21,11 +19,13 @@
                 x:Name="btnCrashReport"
                 Text="Reportes de Accidentes" 
                 SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding CrashList}"
                 HorizontalOptions="Fill" />
             <Button
                 x:Name="btnIssue"
                 Text="Reportes Problemas" 
                 SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding IssuesList}"
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
