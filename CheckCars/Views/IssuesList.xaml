@@ -3,10 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckCars.Views.IssuesList"
              Title="Lista de Incidentes">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <!-- Grid que ocupa toda la pantalla y tiene tres secciones -->
+    <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
+
+        <!-- Define tres filas que ocupen cada una el 33% del alto de la pantalla -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="green"  Margin="6">
+
+        </StackLayout>
+
+        <Button x:Name="btnAdd" 
+                    BackgroundColor="Green" 
+                    Text="Agregar Registro"
+                    Padding="0"
+                    WidthRequest="130"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Grid.Row="2" />
+
+    </Grid>
 </ContentPage>

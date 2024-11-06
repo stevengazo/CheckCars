@@ -20,7 +20,6 @@ namespace CheckCars.Data
         {
             Database.EnsureCreated();   
         }
-
         public ReportsDBContextSQLite()
         {
                 
