@@ -2,11 +2,71 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckCars.Views.AddEntryExitReport"
-             Title="Nuevo Entrada o Salida">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Nuevo Reporte">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackLayout Grid.Row="0" BackgroundColor="Red">
+            <Label Text="Información de Reporte" Margin="5" FontSize="Title" VerticalTextAlignment="Center" TextColor="White" />
+        </StackLayout>
+
+        <!-- Formulario en ScrollView -->
+        <ScrollView Grid.Row="1" BackgroundColor="Aquamarine" HorizontalOptions="CenterAndExpand">
+            <VerticalStackLayout Padding="10" Spacing="15" HorizontalOptions="Center">
+
+                <!-- Fecha de Registro -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Fecha de Registro:" VerticalOptions="Center" />
+                    <DatePicker BackgroundColor="White" Margin="5" />
+                </HorizontalStackLayout>
+
+                <!-- Nivel de Combustible -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Nivel de Combustible:" VerticalOptions="Center" />
+                    <Entry Placeholder="Ingrese el nivel de combustible" BackgroundColor="White" Margin="5" />
+                </HorizontalStackLayout>
+
+                <!-- Estado del Auto -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Estado del Auto:" VerticalOptions="Center" />
+                    <Entry Placeholder="Estado del auto" BackgroundColor="White" Margin="5" WidthRequest="130" />
+                </HorizontalStackLayout>
+
+                <!-- Quick Pass -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Quick Pass:" VerticalOptions="Center" />
+                    <CheckBox />
+                </HorizontalStackLayout>
+
+                <!-- Estado de las Llantas -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Estado de las Llantas:" VerticalOptions="Center" />
+                    <Entry Placeholder="Ingrese el estado de las llantas" BackgroundColor="White" Margin="5" WidthRequest="130" />
+                </HorizontalStackLayout>
+
+                <!-- Llanta de Repuesto -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Llanta de Repuesto:" VerticalOptions="Center" WidthRequest="130" />
+                    <CheckBox />
+                </HorizontalStackLayout>
+
+                <!-- Herramientas -->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Herramientas:" VerticalOptions="Center" />
+                    <CheckBox />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Botón de Agregar Reporte -->
+        <HorizontalStackLayout Grid.Row="2" Padding="5" HorizontalOptions="Center">
+            <Button Text="Agregar Reporte" HeightRequest="40" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" />
+        </HorizontalStackLayout>
+    </Grid>
 </ContentPage>

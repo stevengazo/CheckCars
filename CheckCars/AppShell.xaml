@@ -4,12 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CheckCars"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:Views="clr-namespace:CheckCars.Views"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.TabBarIsVisible="False"
     Title="CheckCars">
 
-    <ShellContent
+    <FlyoutItem Title="Option" FlyoutDisplayOptions="AsMultipleItems" >
+        <ShellContent
         Title="Reportes Vehiculares"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-
+        <ShellContent
+        Title="Cuenta"
+        ContentTemplate="{DataTemplate Views:Account}"
+        Route="Account" />
+    </FlyoutItem>
+    <Shell.FlyoutFooter>
+        <Button Text="Cerrar Sesion" CornerRadius="0" />
+    </Shell.FlyoutFooter>
 </Shell>
