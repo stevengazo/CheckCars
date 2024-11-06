@@ -1,33 +1,66 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              x:Class="CheckCars.Views.EntryExitReportList"
-               xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              Title="Reportes de Entradas y Salidas">
 
-   
-    <!-- Grid que ocupa toda la pantalla y tiene tres secciones -->
-    <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
+    <!-- Grid que ocupa toda la pantalla -->
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
 
-        <!-- Define tres filas que ocupen cada una el 33% del alto de la pantalla -->
+        <!-- Define dos filas -->
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="green"  Margin="6">
 
-        </StackLayout>
+        <!-- CollectionView para mostrar cada EntryExitReport en un card -->
+        <CollectionView ItemsSource="{Binding EntryExitReports}" Grid.Row="0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="10" Margin="5" HasShadow="True"  Padding="10" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" BorderColor="Gray">
+                        <StackLayout Orientation="Vertical" Spacing="3">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
+                                <Label Grid.Row="0" Grid.Column="0" Text="Estado del Vehículo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Text="Estado del Vehículo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding CarState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
+                                <Label Grid.Row="2" Grid.Column="0" Text="Nivel de Combustible" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding FuelLevel}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
+                                <Label Grid.Row="3" Grid.Column="0" Text="Estado de Llantas" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding TiresState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Botón para agregar un nuevo reporte -->
         <Button x:Name="btnAdd" 
-                    BackgroundColor="Green" 
-                    Text="Agregar Registro"
-                    Padding="0"
-                    WidthRequest="130"
-                    HorizontalOptions="Center"
+                BackgroundColor="Green" 
+                Text="Agregar Registro"
+                Padding="0"
+                WidthRequest="130"
+                HorizontalOptions="Center"
                 Command="{Binding AddReport}"
-                    VerticalOptions="Center"
-                    Grid.Row="2" />
-
+                VerticalOptions="Center"
+                Grid.Row="1" />
     </Grid>
-
 </ContentPage>

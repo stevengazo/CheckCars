@@ -4,11 +4,14 @@
              xmlns:local="clr-namespace:CheckCars"
              x:Class="CheckCars.App">
     <Application.Resources>
+        <!-- Definir color dinámico para TitleColor -->
+    
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+      
     </Application.Resources>
 </Application>

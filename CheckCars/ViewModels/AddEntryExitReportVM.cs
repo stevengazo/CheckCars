@@ -1,4 +1,5 @@
-﻿using CheckCars.Models;
+﻿using CheckCars.Data;
+using CheckCars.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,22 @@ namespace CheckCars.ViewModels
         }
         #endregion
 
+
+        private EntryExitReport _report = new();
+
+        public EntryExitReport Report
+        {
+            get { return _report; }
+            set
+            {
+                if(_report != value)
+                {
+                    _report = value;
+                    OnPropertyChanged(nameof(Report));
+                }
+            }
+        }
+
         // Lista para almacenar las fotos capturadas
         private ObservableCollection<Photo> _imgs = new();
 
@@ -48,6 +65,56 @@ namespace CheckCars.ViewModels
                 return new Command(() => Task.Run(TakePhoto));
             }
             private set { }
+        }
+        public ICommand AddReport
+        {
+            get
+            {
+                return new Command(() => AddReportEntry());
+            }
+            private set { }
+        }
+
+    private async Task AddReportEntry()
+        {
+            try
+            {
+                // Muestra un cuadro de diálogo con una pregunta
+                bool answer = await Application.Current.MainPage.DisplayAlert(
+                    "Confirmación",                   // Título del cuadro de diálogo
+                    "¿Deseas continuar?",             // Pregunta
+                    "Sí",                             // Texto del botón de confirmación
+                    "No"                              // Texto del botón de cancelación
+                );
+                if (answer)
+                {
+                    using (var db = new ReportsDBContextSQLite())
+                    {
+                        //Report.Id = db.EntryExitReports.OrderBy(e=>e.Id).LastOrDefault().Id + 1;
+                        db.EntryExitReports.Add(Report);
+                        db.SaveChanges();
+                        foreach (var item in ImgList)
+                        {
+                            item.Id = Report.Id;
+                        }
+                        db.Photos.AddRange(ImgList);
+                        db.SaveChanges();
+
+
+                        Close();
+                    }
+                }
+            }
+            catch (Exception rf) 
+            {
+
+            }
+        }
+    
+        private async Task Close()
+        {
+            var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+            Application.Current.MainPage.Navigation.RemovePage(d);
         }
 
         // Método para capturar y guardar la foto

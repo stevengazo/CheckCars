@@ -7,13 +7,16 @@
     xmlns:Views="clr-namespace:CheckCars.Views"
     Shell.FlyoutBehavior="Flyout"
     Shell.TabBarIsVisible="False"
+    TitleColor="{AppThemeBinding Light=Black, Dark=White}"
+    
     Title="CheckCars">
     <Shell.FlyoutHeader>
-        <Image Source="dotnet_bot.png" WidthRequest="180" HorizontalOptions="Center" />
+        <Image Source="checkcar.png" WidthRequest="180" HorizontalOptions="Center" />
     </Shell.FlyoutHeader>
     
     <FlyoutItem Title="Option" FlyoutDisplayOptions="AsMultipleItems" >
         <ShellContent
+            
         Title="Reportes Vehiculares"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />

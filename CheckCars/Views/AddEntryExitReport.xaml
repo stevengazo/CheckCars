@@ -44,10 +44,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
-                    <DatePicker Grid.Row="0" Grid.Column="1" BackgroundColor="White" Margin="2" />
+                    <DatePicker Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Date="{Binding Report.Created}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                     <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
-                    <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione el " BackgroundColor="White" Margin="2">
+                    <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione el " BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" SelectedItem="{Binding Report.CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}">
                         <!-- Opciones del ComboBox -->
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -61,18 +61,16 @@
                     </Picker>
 
                     <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Descripcion" VerticalOptions="Center" />
-                    <Entry Grid.Row="2" Grid.Column="1" BackgroundColor="White" Margin="2"  Placeholder="Descripcion" />
+                    <Entry Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Placeholder="Descripcion" Text="{Binding Report.Description}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                     <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
-                    <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="White" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" />
+                    <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" Text="{Binding Report.mileage}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                     <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Nivel de Combustible:" VerticalOptions="Center" />
-                    <Slider Grid.Row="4" Grid.Column="1" Maximum="100" Minimum="1"  BackgroundColor="White" Margin="2">
-
-                    </Slider>
+                    <Slider Grid.Row="4" Grid.Column="1" Maximum="100" Minimum="1"  BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Value="{Binding Report.FuelLevel}" />
 
                     <Label FontSize="Medium" Grid.Row="5" Grid.Column="0" Text="Estado del Auto:" VerticalOptions="Center" />
-                    <Picker Grid.Row="5" Grid.Column="1" Title="Seleccione el estado del auto" BackgroundColor="White" Margin="2">
+                    <Picker Grid.Row="5" Grid.Column="1" Title="Seleccione el estado del auto" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}" >
                         <!-- Opciones del ComboBox -->
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -83,10 +81,10 @@
                     </Picker>
 
                     <Label FontSize="Medium" Grid.Row="6" Grid.Column="0" Text="Posee Quick Pass:" VerticalOptions="Center" />
-                    <CheckBox Grid.Row="6" Grid.Column="1" />
+                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Report.HasQuickPass}"  />
 
                     <Label FontSize="Medium" Grid.Row="7" Grid.Column="0" Text="Estado de las llantas:" VerticalOptions="Center" />
-                    <Picker Grid.Row="7" Grid.Column="1" Title="Seleccione el estado de las llantas" BackgroundColor="White" Margin="2">
+                    <Picker Grid.Row="7" Grid.Column="1" Title="Seleccione el estado de las llantas" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
                         <!-- Opciones del ComboBox -->
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -97,12 +95,12 @@
                         </Picker.ItemsSource>
                     </Picker>
                     <Label FontSize="Medium" Grid.Row="8" Grid.Column="0" Text="Posee Llanta de Repuesto:" VerticalOptions="Center" />
-                    <CheckBox Grid.Row="8" Grid.Column="1" />
+                    <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding Report.SpareTire}" />
 
                     <Label FontSize="Medium" Grid.Row="9" Grid.Column="0"  Text="Posee Herramientas:" VerticalOptions="Center" />
                     <CheckBox Grid.Row="9" Grid.Column="1" />
                 </Grid>
-                <VerticalStackLayout Margin="5" BackgroundColor="AntiqueWhite" Padding="4">
+                <VerticalStackLayout Margin="5"  Padding="4">
                     <Label HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
 
                     <!-- Botón para tomar foto -->
@@ -130,6 +128,7 @@
                                             Source="{Binding FilePath}" 
                                             HorizontalOptions="CenterAndExpand"
                                             Aspect="AspectFill" />
+                                    <Button BackgroundColor="Red" TextColor="White" Padding="0" FontSize="Small" HeightRequest="40" WidthRequest="80" Text="Eliminar"></Button>
                                                                    </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -141,7 +140,7 @@
 
         <!-- Botón de Agregar Reporte -->
         <HorizontalStackLayout Grid.Row="2" Padding="5" HorizontalOptions="Center">
-            <Button Text="Agregar Reporte" HeightRequest="60" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" />
+            <Button Text="Agregar Reporte" WidthRequest="150" HeightRequest="40" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" Command="{Binding AddReport}" />
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
