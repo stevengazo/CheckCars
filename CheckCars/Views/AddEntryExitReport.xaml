@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckCars.Views.AddEntryExitReport"
-             Title="Nuevo Reporte">
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+            Title="Nuevo Reporte">
+    <ContentPage.BindingContext>
+        <ViewModels:AddEntryExitReportVM />
+    </ContentPage.BindingContext>
     <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -17,7 +21,7 @@
 
         <!-- Formulario en ScrollView -->
         <ScrollView Grid.Row="1" >
-           
+
             <StackLayout>
                 <Grid Padding="10"  HorizontalOptions="CenterAndExpand" Margin="5" >
                     <Grid.RowDefinitions>
@@ -63,18 +67,9 @@
                     <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="White" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" />
 
                     <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Nivel de Combustible:" VerticalOptions="Center" />
-                    <Picker Grid.Row="4" Grid.Column="1" Title="Seleccione el nivel de combustible" BackgroundColor="White" Margin="2">
-                        <!-- Opciones del ComboBox -->
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Vacío</x:String>
-                                <x:String>1/4</x:String>
-                                <x:String>1/2</x:String>
-                                <x:String>3/4</x:String>
-                                <x:String>Lleno</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
+                    <Slider Grid.Row="4" Grid.Column="1" Maximum="100" Minimum="1"  BackgroundColor="White" Margin="2">
+
+                    </Slider>
 
                     <Label FontSize="Medium" Grid.Row="5" Grid.Column="0" Text="Estado del Auto:" VerticalOptions="Center" />
                     <Picker Grid.Row="5" Grid.Column="1" Title="Seleccione el estado del auto" BackgroundColor="White" Margin="2">
@@ -107,16 +102,46 @@
                     <Label FontSize="Medium" Grid.Row="9" Grid.Column="0"  Text="Posee Herramientas:" VerticalOptions="Center" />
                     <CheckBox Grid.Row="9" Grid.Column="1" />
                 </Grid>
-                <VerticalStackLayout Margin="5" BackgroundColor="AntiqueWhite" Padding="4" >
-                    <Label  HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
-                    <Button Text="Agregar Foto" FontSize="Small" TextColor="Blue" BackgroundColor="White" BorderColor="Blue" BorderWidth="1" Margin="2"  />
+                <VerticalStackLayout Margin="5" BackgroundColor="AntiqueWhite" Padding="4">
+                    <Label HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
+
+                    <!-- Botón para tomar foto -->
+                    <Button 
+                        Text="Agregar Foto" 
+                        FontSize="Small" 
+                        TextColor="Blue" 
+                        BackgroundColor="White" 
+                        BorderColor="Blue" 
+                        BorderWidth="1" 
+                        Margin="2"  
+                        Command="{Binding TakePhotoCommand}" />
+
+                    <!-- CollectionView para mostrar las imágenes -->
+                    <CollectionView 
+                        ItemsSource="{Binding ImgList}" 
+                        Margin="10, 5"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Vertical" Padding="5">
+                                    <Image 
+                                            Source="{Binding FilePath}" 
+                                            HorizontalOptions="CenterAndExpand"
+                                            Aspect="AspectFill" />
+                                                                   </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
+
             </StackLayout>
         </ScrollView>
 
         <!-- Botón de Agregar Reporte -->
         <HorizontalStackLayout Grid.Row="2" Padding="5" HorizontalOptions="Center">
-            <Button Text="Agregar Reporte" HeightRequest="40" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" />
+            <Button Text="Agregar Reporte" HeightRequest="60" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" />
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
