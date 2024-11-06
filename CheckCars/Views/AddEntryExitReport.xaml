@@ -11,24 +11,59 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <StackLayout Grid.Row="0" BackgroundColor="Red">
-            <Label Text="Información de Reporte" Margin="5" FontSize="Title" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="White" />
+        <StackLayout Grid.Row="0">
+            <Label  Text="Información de Reporte" Margin="2" FontSize="Title" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalTextAlignment="Center"  />
         </StackLayout>
 
         <!-- Formulario en ScrollView -->
-        <ScrollView Grid.Row="1" BackgroundColor="Aquamarine"  HorizontalOptions="CenterAndExpand" Padding="5">
-            <VerticalStackLayout Padding="10" Spacing="15" HorizontalOptions="Center">
+        <ScrollView Grid.Row="1" >
+           
+            <StackLayout>
+                <Grid Padding="10"  HorizontalOptions="CenterAndExpand" Margin="5" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!-- Fecha de Registro -->
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Fecha de Registro:" VerticalOptions="Center" />
-                    <DatePicker BackgroundColor="White" Margin="5" WidthRequest="130" />
-                </HorizontalStackLayout>
+                    <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
+                    <DatePicker Grid.Row="0" Grid.Column="1" BackgroundColor="White" Margin="2" />
 
-                <!-- Nivel de Combustible -->
-                <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                    <Label Text="Nivel de Combustible:" VerticalOptions="Center" />
-                    <Picker Title="Seleccione el nivel de combustible" BackgroundColor="White" Margin="5" WidthRequest="130">
+                    <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                    <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione el " BackgroundColor="White" Margin="2">
+                        <!-- Opciones del ComboBox -->
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Nissan Frontier 2008</x:String>
+                                <x:String>Terios Bego</x:String>
+                                <x:String>JMC 1</x:String>
+                                <x:String>Nissan Frontier 2024</x:String>
+                                <x:String>Toyota Raize</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Descripcion" VerticalOptions="Center" />
+                    <Entry Grid.Row="2" Grid.Column="1" BackgroundColor="White" Margin="2"  Placeholder="Descripcion" />
+
+                    <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
+                    <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="White" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" />
+
+                    <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Nivel de Combustible:" VerticalOptions="Center" />
+                    <Picker Grid.Row="4" Grid.Column="1" Title="Seleccione el nivel de combustible" BackgroundColor="White" Margin="2">
                         <!-- Opciones del ComboBox -->
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -40,51 +75,43 @@
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
-                </HorizontalStackLayout>
 
-
-                <!-- Estado del Auto -->
-                <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                    <Label Text="Estado del Auto:" VerticalOptions="Center" />
-                    <Picker Title="Seleccione el estado del auto" BackgroundColor="White" Margin="5" WidthRequest="130">
+                    <Label FontSize="Medium" Grid.Row="5" Grid.Column="0" Text="Estado del Auto:" VerticalOptions="Center" />
+                    <Picker Grid.Row="5" Grid.Column="1" Title="Seleccione el estado del auto" BackgroundColor="White" Margin="2">
                         <!-- Opciones del ComboBox -->
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
-                                <x:String>En Marcha</x:String>
-                                <x:String>Detenido</x:String>
-                                <x:String>En Mantenimiento</x:String>
+                                <x:String>Buen estado</x:String>
                                 <x:String>Descompuesto</x:String>
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
-                </HorizontalStackLayout>
 
+                    <Label FontSize="Medium" Grid.Row="6" Grid.Column="0" Text="Posee Quick Pass:" VerticalOptions="Center" />
+                    <CheckBox Grid.Row="6" Grid.Column="1" />
 
-                <!-- Quick Pass -->
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Quick Pass:" VerticalOptions="Center" />
-                    <CheckBox />
-                </HorizontalStackLayout>
+                    <Label FontSize="Medium" Grid.Row="7" Grid.Column="0" Text="Estado de las llantas:" VerticalOptions="Center" />
+                    <Picker Grid.Row="7" Grid.Column="1" Title="Seleccione el estado de las llantas" BackgroundColor="White" Margin="2">
+                        <!-- Opciones del ComboBox -->
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Buen estado</x:String>
+                                <x:String>Regular</x:String>
+                                <x:String>Requiren Cambio</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Label FontSize="Medium" Grid.Row="8" Grid.Column="0" Text="Posee Llanta de Repuesto:" VerticalOptions="Center" />
+                    <CheckBox Grid.Row="8" Grid.Column="1" />
 
-                <!-- Estado de las Llantas -->
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Estado de las Llantas:" VerticalOptions="Center" />
-                    <Entry Placeholder="Ingrese el estado de las llantas" BackgroundColor="White" Margin="5" WidthRequest="130" />
-                </HorizontalStackLayout>
-
-                <!-- Llanta de Repuesto -->
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Llanta de Repuesto:" VerticalOptions="Center" WidthRequest="130" />
-                    <CheckBox />
-                </HorizontalStackLayout>
-
-                <!-- Herramientas -->
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Herramientas:" VerticalOptions="Center" />
-                    <CheckBox />
-                </HorizontalStackLayout>
-
-            </VerticalStackLayout>
+                    <Label FontSize="Medium" Grid.Row="9" Grid.Column="0"  Text="Posee Herramientas:" VerticalOptions="Center" />
+                    <CheckBox Grid.Row="9" Grid.Column="1" />
+                </Grid>
+                <VerticalStackLayout Margin="5" BackgroundColor="AntiqueWhite" Padding="4" >
+                    <Label  HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
+                    <Button Text="Agregar Foto" FontSize="Small" TextColor="Blue" BackgroundColor="White" BorderColor="Blue" BorderWidth="1" Margin="2"  />
+                </VerticalStackLayout>
+            </StackLayout>
         </ScrollView>
 
         <!-- Botón de Agregar Reporte -->

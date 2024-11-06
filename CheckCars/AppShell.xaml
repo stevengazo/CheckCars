@@ -8,7 +8,10 @@
     Shell.FlyoutBehavior="Flyout"
     Shell.TabBarIsVisible="False"
     Title="CheckCars">
-
+    <Shell.FlyoutHeader>
+        <Image Source="dotnet_bot.png" WidthRequest="180" HorizontalOptions="Center" />
+    </Shell.FlyoutHeader>
+    
     <FlyoutItem Title="Option" FlyoutDisplayOptions="AsMultipleItems" >
         <ShellContent
         Title="Reportes Vehiculares"
