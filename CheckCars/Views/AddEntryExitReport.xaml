@@ -12,30 +12,53 @@
 
         <!-- Header -->
         <StackLayout Grid.Row="0" BackgroundColor="Red">
-            <Label Text="Información de Reporte" Margin="5" FontSize="Title" VerticalTextAlignment="Center" TextColor="White" />
+            <Label Text="Información de Reporte" Margin="5" FontSize="Title" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="White" />
         </StackLayout>
 
         <!-- Formulario en ScrollView -->
-        <ScrollView Grid.Row="1" BackgroundColor="Aquamarine" HorizontalOptions="CenterAndExpand">
+        <ScrollView Grid.Row="1" BackgroundColor="Aquamarine"  HorizontalOptions="CenterAndExpand" Padding="5">
             <VerticalStackLayout Padding="10" Spacing="15" HorizontalOptions="Center">
 
                 <!-- Fecha de Registro -->
                 <HorizontalStackLayout HorizontalOptions="Center">
                     <Label Text="Fecha de Registro:" VerticalOptions="Center" />
-                    <DatePicker BackgroundColor="White" Margin="5" />
+                    <DatePicker BackgroundColor="White" Margin="5" WidthRequest="130" />
                 </HorizontalStackLayout>
 
                 <!-- Nivel de Combustible -->
-                <HorizontalStackLayout HorizontalOptions="Center">
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Nivel de Combustible:" VerticalOptions="Center" />
-                    <Entry Placeholder="Ingrese el nivel de combustible" BackgroundColor="White" Margin="5" />
+                    <Picker Title="Seleccione el nivel de combustible" BackgroundColor="White" Margin="5" WidthRequest="130">
+                        <!-- Opciones del ComboBox -->
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Vacío</x:String>
+                                <x:String>1/4</x:String>
+                                <x:String>1/2</x:String>
+                                <x:String>3/4</x:String>
+                                <x:String>Lleno</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
                 </HorizontalStackLayout>
 
+
                 <!-- Estado del Auto -->
-                <HorizontalStackLayout HorizontalOptions="Center">
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Estado del Auto:" VerticalOptions="Center" />
-                    <Entry Placeholder="Estado del auto" BackgroundColor="White" Margin="5" WidthRequest="130" />
+                    <Picker Title="Seleccione el estado del auto" BackgroundColor="White" Margin="5" WidthRequest="130">
+                        <!-- Opciones del ComboBox -->
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>En Marcha</x:String>
+                                <x:String>Detenido</x:String>
+                                <x:String>En Mantenimiento</x:String>
+                                <x:String>Descompuesto</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
                 </HorizontalStackLayout>
+
 
                 <!-- Quick Pass -->
                 <HorizontalStackLayout HorizontalOptions="Center">
