@@ -8,7 +8,8 @@
     Shell.FlyoutBehavior="Flyout"
     Shell.TabBarIsVisible="False"
     TitleColor="{AppThemeBinding Light=Black, Dark=White}"
-    
+    FlyoutBackgroundColor="LightGrey"
+    BackgroundColor="LightBlue"
     Title="CheckCars">
     <Shell.FlyoutHeader>
         <Image Source="checkcar.png" WidthRequest="180" HorizontalOptions="Center" />

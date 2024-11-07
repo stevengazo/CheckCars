@@ -24,6 +24,11 @@ namespace CheckCars.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public AddEntryExitReportVM()
+        {
+            Report = new();
+            Report.Created = DateTime.Now;
+        }
         #endregion
 
 
@@ -34,7 +39,7 @@ namespace CheckCars.ViewModels
             get { return _report; }
             set
             {
-                if(_report != value)
+                if (_report != value)
                 {
                     _report = value;
                     OnPropertyChanged(nameof(Report));
@@ -75,48 +80,47 @@ namespace CheckCars.ViewModels
             private set { }
         }
 
-    private async Task AddReportEntry()
+        private async Task AddReportEntry()
         {
             try
             {
-                // Muestra un cuadro de diálogo con una pregunta
                 bool answer = await Application.Current.MainPage.DisplayAlert(
-                    "Confirmación",                   // Título del cuadro de diálogo
-                    "¿Deseas continuar?",             // Pregunta
-                    "Sí",                             // Texto del botón de confirmación
-                    "No"                              // Texto del botón de cancelación
+                    "Confirmación",
+                    "¿Deseas continuar?",
+                    "Sí",
+                    "No"
                 );
+
                 if (answer)
                 {
+                    Report.Name = "Registro de Entrada y Salida";
+                    Report.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
-                        //Report.Id = db.EntryExitReports.OrderBy(e=>e.Id).LastOrDefault().Id + 1;
+                        // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
+                        Report.Photos = ImgList.Select(photo =>
+                        {
+                            photo.PhotoId = 0;  // Reset para que se genere automáticamente
+                            return photo;
+                        }).ToList();
+
                         db.EntryExitReports.Add(Report);
                         db.SaveChanges();
-                        foreach (var item in ImgList)
-                        {
-                            item.ReportId = Report.ReportId;
-                        }
-                        db.Photos.AddRange(ImgList);
-                        db.SaveChanges();
-
-
                         Close();
                     }
                 }
             }
-            catch (Exception rf) 
+            catch (Exception rf)
             {
-
+                Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
             }
         }
-    
+
         private async Task Close()
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
         }
-
         // Método para capturar y guardar la foto
         private async Task TakePhoto()
         {

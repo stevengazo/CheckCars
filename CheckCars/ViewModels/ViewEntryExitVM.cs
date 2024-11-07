@@ -24,6 +24,23 @@ namespace CheckCars.ViewModels
         #endregion
 
 
+
+        private double _FuelLevel;
+
+        public double FuelLevel
+        {
+            get { return _FuelLevel; }
+            set
+            {
+                if (_FuelLevel != value)
+                {
+                    _FuelLevel = value;
+                    OnPropertyChanged(nameof(FuelLevel));
+                }
+            }
+        }
+
+
         private EntryExitReport _Report = new();
 
         public EntryExitReport Report
@@ -48,6 +65,12 @@ namespace CheckCars.ViewModels
             {
                 Report = dbo.EntryExitReports.Include(E=>E.Photos).FirstOrDefault(e => e.ReportId == Id);
             }
+
+            if (Report != null) {
+                FuelLevel = Report.FuelLevel / 100;
+            
+            }
+
         }
     }
 }

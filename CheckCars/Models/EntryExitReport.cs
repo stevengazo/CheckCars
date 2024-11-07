@@ -9,7 +9,7 @@ namespace CheckCars.Models
 {
     public class EntryExitReport : Report
     {
-        public int  FuelLevel { get; set; }
+        public double  FuelLevel { get; set; }
         public string? CarState { get; set; }
         public bool HasCharger {  get; set; }
         public bool HasQuickPass { get; set; }

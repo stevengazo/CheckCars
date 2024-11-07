@@ -53,8 +53,8 @@
                                 <Label Grid.Row="1" Grid.Column="0" Text="Placa Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding CarState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                <Label Grid.Row="2" Grid.Column="0" Text="Nivel de Combustible" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding FuelLevel}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="Estado Llantas" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding  TiresState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label Grid.Row="3" Grid.Column="0" Text="Kilometraje" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="3" Grid.Column="1" Text="{Binding  mileage}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />

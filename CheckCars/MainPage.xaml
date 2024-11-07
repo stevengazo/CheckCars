@@ -5,10 +5,9 @@
              
              x:Class="CheckCars.MainPage">
 
-    <Grid>
+    <Grid RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"  />
-            <RowDefinition Height="2*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -16,39 +15,28 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackLayout BackgroundColor="CadetBlue" 
-                     Grid.Column="0"
-                     Grid.Row="0"
-                     Grid.ColumnSpan="2"
-                     Margin="10" 
-                     >
-            <Label>TEXTO</Label>
-        </StackLayout >
-
         <StackLayout
                       Margin="20"
                       VerticalOptions="Start"
-                      Grid.Row="1"
+                      Grid.Row="0"
                       Grid.Column="0">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Entradas y Salidas" />
             <ImageButton Source="checklist.png" HeightRequest="250" BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
                          Command="{Binding ViewEntryExitList}"  />
         </StackLayout>
-
         <StackLayout
                       Margin="20"
                       VerticalOptions="Start"                         
-                      Grid.Row="2"
+                      Grid.Row="1"
                       Grid.Column="0">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Accidentes" />
             <ImageButton Source="carcrash.png"  HeightRequest="250"  BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
                          Command="{Binding CrashList}"  />
         </StackLayout>
-
         <StackLayout
                         Margin="20"
                         VerticalOptions="Start"                         
-                        Grid.Row="1"
+                        Grid.Row="0"
                         Grid.Column="1">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Reportes Problemas" />
             <ImageButton Source="caraccident.png"  HeightRequest="250"  BackgroundColor="{StaticResource Primary}" CornerRadius="5" 

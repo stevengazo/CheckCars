@@ -7,46 +7,64 @@
     <ContentPage.BindingContext>
         <ViewModels:ViewEntryExitVM />
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Report.CarPlate}"> </Label>
-            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.Created}"></Label>
-            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Description}"></Label>
-            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Report.FuelLevel}"></Label>
-            <Label Grid.Row="4" Grid.Column="1" Text="{Binding Report.mileage}"></Label>
-        </Grid>
-        <!-- CollectionView para mostrar las imágenes -->
-        <CollectionView 
-                     ItemsSource="{Binding Report.Photos}" 
-                     Margin="10, 5"
-                     HorizontalOptions="FillAndExpand"
-                     VerticalOptions="Start">
+    <ScrollView Margin="5">
+        <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+            <Frame Margin="30,0,30,0"  BorderColor="LightBlue" HasShadow="True">
+                <Grid  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Vertical" Padding="5">
-                        <Image 
-                                         Source="{Binding FilePath}" 
-                                         HorizontalOptions="CenterAndExpand"
-                                         Aspect="AspectFill" />
-                     
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo"></Label>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Fecha de Creacion"></Label>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Descripcion"></Label>
+                    <Label Grid.Row="3" Grid.Column="0" Text="Nivel Combustible"></Label>
+                    <Label Grid.Row="4" Grid.Column="0" Text="Kilometraje"></Label>
+                    <Label Grid.Row="5" Grid.Column="0" Text="Autor"></Label>
+
+
+
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Report.CarPlate}"></Label>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.Created}"></Label>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Description}"></Label>
+                    <ProgressBar Grid.Row="3" Grid.Column="1" Progress="{Binding FuelLevel}" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Report.mileage}"></Label>
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Report.Author}"></Label>
+                </Grid>
+            </Frame>
+            <!-- CollectionView para mostrar las imágenes -->
+
+            <CollectionView 
+              ItemsSource="{Binding Report.Photos}" 
+              Margin="10, 5"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="Start">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Vertical" Padding="5">
+                            <Image 
+                                     Margin="5"
+                                     Source="{Binding FilePath}" 
+                                     HorizontalOptions="CenterAndExpand"
+                                     Aspect="AspectFill" />
+
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+ 
 </ContentPage>
