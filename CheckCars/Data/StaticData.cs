@@ -8,6 +8,6 @@ namespace CheckCars.Data
 {
     public static class StaticData
     {
-        static int ReportId;
+       public  static int ReportId;
     }
 }

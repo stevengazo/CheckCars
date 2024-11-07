@@ -1,6 +1,7 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
 using CheckCars.Views;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +27,17 @@ namespace CheckCars.ViewModels
         public ICommand AddReport { get; } = new Command(async () =>
         await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(),true));
 
+        public ICommand ViewReport { get; } = new Command(async (e) =>
+        {
+            if (e is int reportId) // Cambia 'int' por el tipo adecuado si es necesario
+            {
+                Data.StaticData.ReportId = reportId;
+                await Application.Current.MainPage.Navigation.PushAsync(new ViewEntryExit(), true);
+            }
+        });
+
+
+
         public List<EntryExitReport> _EntryExitReports= new();
         
         public List<EntryExitReport> EntryExitReports
@@ -49,5 +61,7 @@ namespace CheckCars.ViewModels
                 EntryExitReports = db.EntryExitReports.ToList();
             }
         }
+  
+    
     }
 }

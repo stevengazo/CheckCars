@@ -95,7 +95,7 @@ namespace CheckCars.ViewModels
                         db.SaveChanges();
                         foreach (var item in ImgList)
                         {
-                            item.Id = Report.Id;
+                            item.ReportId = Report.ReportId;
                         }
                         db.Photos.AddRange(ImgList);
                         db.SaveChanges();
