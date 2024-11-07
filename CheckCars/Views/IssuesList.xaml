@@ -16,6 +16,7 @@
         </StackLayout>
 
         <Button x:Name="btnAdd" 
+                FontFamily="ArialRegular"
                     BackgroundColor="Green" 
                     Text="Agregar Registro"
                     Padding="0"

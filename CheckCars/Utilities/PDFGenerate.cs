@@ -14,10 +14,8 @@ namespace CheckCars.Utilities
 {
     public class PDFGenerate
     {
-        XFont fuenteTitulo = new XFont("Arial", 12);
-        XFont fuentePequena = new XFont("Arial", 12);
-        XFont fuenteBold = new XFont("Arial", 12);
-        XFont fuenteGeneral = new XFont("Arial", 12);
+
+        XFont fuenteGeneral = new XFont("ArialRegular", 12, XFontStyleEx.Regular);
 
         public async Task<byte[]> EntryExitReport(EntryExitReport i)
         {
@@ -43,7 +41,7 @@ namespace CheckCars.Utilities
                     double xPos = 50;
 
                     // Agregar título
-                    graphics.DrawString("Reporte de Entrada y Salida", new XFont("Arial", 14), XBrushes.Black, new XPoint(xPos, yPos));
+                    graphics.DrawString("Reporte de Entrada y Salida", fuenteGeneral, XBrushes.Black, new XPoint(xPos, yPos));
                     yPos += 20; // Separar título
 
                     // Agregar los datos en formato tabla
@@ -81,7 +79,7 @@ namespace CheckCars.Utilities
                     graphics.DrawString(i.HasQuickPass ? "Sí" : "No", fuenteGeneral, XBrushes.Black, new XPoint(xPos + 100, yPos));
                     yPos += 20;
 
-                 
+                
 
                     // Guardar el documento PDF en el MemoryStream
                     document.Save(memoryStream, false);
