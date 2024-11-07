@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                          xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              x:Class="CheckCars.Views.ViewEntryExit"
              Title="Información del Registro">
+    <ContentPage.BindingContext>
+        <ViewModels:ViewEntryExitVM />
+    </ContentPage.BindingContext>
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Report.CarPlate}"> </Label>
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.Created}"></Label>
+            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Description}"></Label>
+            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Report.FuelLevel}"></Label>
+            <Label Grid.Row="4" Grid.Column="1" Text="{Binding Report.mileage}"></Label>
+        </Grid>
+        <!-- CollectionView para mostrar las imágenes -->
+        <CollectionView 
+                     ItemsSource="{Binding Report.Photos}" 
+                     Margin="10, 5"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Start">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Vertical" Padding="5">
+                        <Image 
+                                         Source="{Binding FilePath}" 
+                                         HorizontalOptions="CenterAndExpand"
+                                         Aspect="AspectFill" />
+                     
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>
