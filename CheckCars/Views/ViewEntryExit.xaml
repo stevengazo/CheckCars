@@ -7,64 +7,120 @@
     <ContentPage.BindingContext>
         <ViewModels:ViewEntryExitVM />
     </ContentPage.BindingContext>
-    <ScrollView Margin="5">
-        <VerticalStackLayout HorizontalOptions="CenterAndExpand">
-            <Frame Margin="30,0,30,0"  BorderColor="LightBlue" HasShadow="True">
-                <Grid  >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <ScrollView Margin="5" Grid.Row="0">
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Frame BorderColor="Gray" CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                    <Frame.Shadow>
+                        <Shadow Brush="Black"
+               Offset="10,10"
+               Radius="40"
+               Opacity="0.2" />
+                    </Frame.Shadow>
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo"></Label>
-                    <Label Grid.Row="1" Grid.Column="0" Text="Fecha de Creacion"></Label>
-                    <Label Grid.Row="2" Grid.Column="0" Text="Descripcion"></Label>
-                    <Label Grid.Row="3" Grid.Column="0" Text="Nivel Combustible"></Label>
-                    <Label Grid.Row="4" Grid.Column="0" Text="Kilometraje"></Label>
-                    <Label Grid.Row="5" Grid.Column="0" Text="Autor"></Label>
+                    <Grid Padding="10" RowSpacing="12"  HorizontalOptions="Fill" Margin="5"  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
 
+                        <!-- Fecha Registro -->
+                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
+                        <Label Grid.Row="0" Grid.Column="1" FontSize="Small" Text="{Binding Report.Created}" VerticalOptions="Center" />
+                        <!-- Vehiculo -->
+                        <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="1" Grid.Column="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
+                        <!-- Notas -->
+                        <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="2" Grid.Column="1" Text="{Binding Report.Notes}" VerticalOptions="Center" />
+                        <!-- Kilometraje -->
+                        <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="3" Grid.Column="1" Text="{Binding Report.mileage}" VerticalOptions="Center" />
+                        <!-- Nivel de Combustuble -->
+                        <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Nivel de Combustible:" VerticalOptions="Center" />
+                        <ProgressBar Progress="{Binding FuelLevel}" Grid.Row="4" Grid.Column="1"  ProgressColor="Orange" />
+                        <!-- Author -->
+                        <Label FontSize="Medium" Grid.Row="5" Grid.Column="0"  Text="Autor:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="5" Grid.Column="1" Text="{Binding Report.Author}" VerticalOptions="Center" />
+                        <!-- Quick pass -->
+                        <Label FontSize="Medium" Grid.Row="6" Grid.Column="0" Text="Posee Quick Pass:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="6" Grid.Column="1" Text="{Binding Report.HasQuickPass}" VerticalOptions="Center" />
+                        <!-- Estado de las llantas -->
+                        <Label FontSize="Medium" Grid.Row="7" Grid.Column="0" Text="Estado de las llantas:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="7" Grid.Column="1" Text="{Binding Report.TiresState}" VerticalOptions="Center" />
+                        <!-- Llanta de repuesto -->
+                        <Label FontSize="Medium" Grid.Row="8" Grid.Column="0" Text="Posee Llanta de Repuesto:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="8" Grid.Column="1" Text="{Binding Report.HasSpareTire}" VerticalOptions="Center" />
+                        <!-- Kit Emergencias -->
+                        <Label FontSize="Medium" Grid.Row="9" Grid.Column="0"  Text="Posee Kit de Emergencias:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="9" Grid.Column="1" Text="{Binding Report.HasEmergencyKit}" VerticalOptions="Center" />
+                        <!-- Estado Pintura -->
+                        <Label FontSize="Medium" Grid.Row="10" Grid.Column="0"  Text="Estado Pintura:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="10" Grid.Column="1" Text="{Binding Report.PaintState}" VerticalOptions="Center" />
+                        <!-- Estado Mecanico -->
+                        <Label FontSize="Medium" Grid.Row="11" Grid.Column="0"  Text="Estado Mecanico:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="11" Grid.Column="1" Text="{Binding Report.MecanicState}" VerticalOptions="Center" />
+                        <!-- Portacelular -->
+                        <Label FontSize="Medium" Grid.Row="12" Grid.Column="0"  Text="Posee Portacelular:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="12" Grid.Column="1" Text="{Binding Report.HasPhoneSupport}" VerticalOptions="Center" />
+                        <!-- Estado Interiores -->
+                        <Label FontSize="Medium" Grid.Row="13" Grid.Column="0"  Text="Estado Interiores:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="13" Grid.Column="1" Text="{Binding Report.InteriorsState}" VerticalOptions="Center" />
+                        <!-- Nivel Aceite -->
+                        <Label FontSize="Medium" Grid.Row="14" Grid.Column="0"  Text="Nivel de Aceite:" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="14" Grid.Column="1" Text="{Binding Report.OilLevel}" VerticalOptions="Center" />
 
+                    </Grid>
+                </Frame>
+                <!-- CollectionView para mostrar las imágenes -->
 
-                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Report.CarPlate}"></Label>
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.Created}"></Label>
-                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Description}"></Label>
-                    <ProgressBar Grid.Row="3" Grid.Column="1" Progress="{Binding FuelLevel}" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Report.mileage}"></Label>
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Report.Author}"></Label>
-                </Grid>
-            </Frame>
-            <!-- CollectionView para mostrar las imágenes -->
-
-            <CollectionView 
+                <CollectionView 
               ItemsSource="{Binding Report.Photos}" 
               Margin="10, 5"
               HorizontalOptions="FillAndExpand"
               VerticalOptions="Start">
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Orientation="Vertical" Padding="5">
-                            <Image 
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Vertical" Padding="5">
+                                <Image 
                                      Margin="5"
                                      Source="{Binding FilePath}" 
                                      HorizontalOptions="CenterAndExpand"
                                      Aspect="AspectFill" />
 
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
- 
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView >
+        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
+            <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120"  />
+            <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  />
+            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  />
+        </HorizontalStackLayout>
+    </Grid>
+
 </ContentPage>

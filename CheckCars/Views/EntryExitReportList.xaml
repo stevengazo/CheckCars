@@ -47,11 +47,11 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Grid.Row="0" Grid.Column="0" Text="Estado del Vehículo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                <Label Grid.Row="1" Grid.Column="0" Text="Placa Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding CarState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecanico" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding MecanicState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label Grid.Row="2" Grid.Column="0" Text="Estado Llantas" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="2" Grid.Column="1" Text="{Binding  TiresState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
@@ -67,9 +67,13 @@
 
         <!-- Botón para agregar un nuevo reporte -->
         <Button x:Name="btnAdd" 
-                BackgroundColor="Green" 
+                BackgroundColor="white" 
+                TextColor="Green"
+    BorderColor="Green"
+BorderWidth="1"
                 Text="Agregar Registro"
                 Padding="0"
+                Margin="10"
                 WidthRequest="130"
                 HorizontalOptions="Center"
                 Command="{Binding AddReport}"

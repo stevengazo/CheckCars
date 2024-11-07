@@ -14,7 +14,6 @@ namespace CheckCars.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReportId { get; set; }
         public string? Name { get; set; }    
-        public string? Description { get; set; }
         public string? Author { get; set; }
         public DateTime Created { get; set; }
         public long mileage { get; set; }

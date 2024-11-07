@@ -23,83 +23,139 @@
         <ScrollView Grid.Row="1" >
 
             <StackLayout>
-                <Grid Padding="10"  HorizontalOptions="CenterAndExpand" Margin="5" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="2*"/>
-                    </Grid.ColumnDefinitions>
+                <Frame BorderColor="Gray" CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                    <Frame.Shadow>
+                        <Shadow Brush="Black"
+                Offset="10,10"
+                Radius="40"
+                Opacity="0.2" />
+                    </Frame.Shadow>
+                    
+                    <Grid Padding="10" RowSpacing="8"  HorizontalOptions="Fill" Margin="5"  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
-                    <DatePicker Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Date="{Binding Report.Created}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-
-                    <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
-                    <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione el " BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" SelectedItem="{Binding Report.CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}">
-                        <!-- Opciones del ComboBox -->
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Nissan Frontier 2008</x:String>
-                                <x:String>Terios Bego</x:String>
-                                <x:String>JMC 1</x:String>
-                                <x:String>Nissan Frontier 2024</x:String>
-                                <x:String>Toyota Raize</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-
-                    <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Descripcion" VerticalOptions="Center" />
-                    <Entry Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Placeholder="Descripcion" Text="{Binding Report.Description}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-
-                    <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
-                    <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" Text="{Binding Report.mileage}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-
-                    <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Nivel de Combustible:" VerticalOptions="Center" />
-                    <Slider Grid.Row="4" Grid.Column="1" Maximum="100" Minimum="1"  BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Value="{Binding Report.FuelLevel}" />
-
-                    <Label FontSize="Medium" Grid.Row="5" Grid.Column="0" Text="Estado del Auto:" VerticalOptions="Center" />
-                    <Picker Grid.Row="5" Grid.Column="1" Title="Seleccione el estado del auto" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}" >
-                        <!-- Opciones del ComboBox -->
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Buen estado</x:String>
-                                <x:String>Descompuesto</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-
-                    <Label FontSize="Medium" Grid.Row="6" Grid.Column="0" Text="Posee Quick Pass:" VerticalOptions="Center" />
-                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Report.HasQuickPass}"  />
-
-                    <Label FontSize="Medium" Grid.Row="7" Grid.Column="0" Text="Estado de las llantas:" VerticalOptions="Center" />
-                    <Picker Grid.Row="7" Grid.Column="1" Title="Seleccione el estado de las llantas" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
-                        <!-- Opciones del ComboBox -->
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Buen estado</x:String>
-                                <x:String>Regular</x:String>
-                                <x:String>Requiren Cambio</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                    <Label FontSize="Medium" Grid.Row="8" Grid.Column="0" Text="Posee Llanta de Repuesto:" VerticalOptions="Center" />
-                    <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding Report.SpareTire}" />
-
-                    <Label FontSize="Medium" Grid.Row="9" Grid.Column="0"  Text="Posee Herramientas:" VerticalOptions="Center" />
-                    <CheckBox Grid.Row="9" Grid.Column="1" />
-                </Grid>
+                        <!-- Fecha Registro -->
+                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
+                        <DatePicker Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Date="{Binding Report.Created}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <!-- Vehiculo -->
+                        <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione el vehiculo" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" SelectedItem="{Binding Report.CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Nissan Frontier 2008</x:String>
+                                    <x:String>Terios Bego</x:String>
+                                    <x:String>JMC 1</x:String>
+                                    <x:String>Nissan Frontier 2024</x:String>
+                                    <x:String>Toyota Raize</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <!-- Notas -->
+                        <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />
+                        <Editor AutoSize="TextChanges" Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Placeholder="Descripcion" Text="{Binding Report.Notes}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <!-- Kilometraje -->
+                        <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
+                        <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" Text="{Binding Report.mileage}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <!-- Nivel de Combustuble -->
+                        <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Nivel de Combustible:" VerticalOptions="Center" />
+                        <Slider Grid.Row="4" Grid.Column="1" Maximum="100" Minimum="1"  BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Value="{Binding Report.FuelLevel}" />
+                        <!-- Quick pass -->
+                        <Label FontSize="Medium" Grid.Row="6" Grid.Column="0" Text="Posee Quick Pass:" VerticalOptions="Center" />
+                        <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Report.HasQuickPass}"  />
+                        <!-- Estado de las llantas -->
+                        <Label FontSize="Medium" Grid.Row="7" Grid.Column="0" Text="Estado de las llantas:" VerticalOptions="Center" />
+                        <Picker Grid.Row="7" Grid.Column="1" Title="Seleccione el estado" SelectedItem="{Binding Report.TiresState}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Buen estado</x:String>
+                                    <x:String>Regular</x:String>
+                                    <x:String>Requiren Cambio</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <!-- Llanta de repuesto -->
+                        <Label FontSize="Medium" Grid.Row="8" Grid.Column="0" Text="Posee Llanta de Repuesto:" VerticalOptions="Center" />
+                        <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding Report.HasSpareTire}" />
+                        <!-- Kit Emergencias -->
+                        <Label FontSize="Medium" Grid.Row="9" Grid.Column="0"  Text="Posee Kit de Emergencias:" VerticalOptions="Center" />
+                        <CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding Report.HasEmergencyKit}" />
+                        <!-- Estado Pintura -->
+                        <Label FontSize="Medium" Grid.Row="10" Grid.Column="0"  Text="Estado Pintura:" VerticalOptions="Center" />
+                        <Picker Grid.Row="10" Grid.Column="1" Title="Seleccione una opción" SelectedItem="{Binding Report.PaintState}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Buen estado</x:String>
+                                    <x:String>Regular</x:String>
+                                    <x:String>Presenta daños</x:String>
+                                    <x:String>Necesario Revisar</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <!-- Estado Mecanico -->
+                        <Label FontSize="Medium" Grid.Row="11" Grid.Column="0"  Text="Estado Mecanico:" VerticalOptions="Center" />
+                        <Picker Grid.Row="11" Grid.Column="1" Title="Seleccione una opción" SelectedItem="{Binding Report.MecanicState}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Buen estado</x:String>
+                                    <x:String>Regular</x:String>
+                                    <x:String>Necesario Revisar</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <!-- Portacelular -->
+                        <Label FontSize="Medium" Grid.Row="12" Grid.Column="0"  Text="Posee Portacelular:" VerticalOptions="Center" />
+                        <CheckBox Grid.Row="12" Grid.Column="1" IsChecked="{Binding Report.HasPhoneSupport}" />
+                        <!-- Estado Interiores -->
+                        <Label FontSize="Medium" Grid.Row="13" Grid.Column="0"  Text="Estado Interiores:" VerticalOptions="Center" />
+                        <Picker Grid.Row="13" Grid.Column="1" Title="Seleccione una opción" SelectedItem="{Binding Report.InteriorsState}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Buen estado</x:String>
+                                    <x:String>Regular</x:String>
+                                    <x:String>Presenta daños</x:String>
+                                    <x:String>Necesario Revisar</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <!-- Nivel Aceite -->
+                        <Label FontSize="Medium" Grid.Row="14" Grid.Column="0"  Text="Nivel de Aceite:" VerticalOptions="Center" />
+                        <Picker Grid.Row="14" Grid.Column="1" Title="Seleccione una opción" SelectedItem="{Binding Report.OilLevel}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Lleno</x:String>
+                                    <x:String>Regular</x:String>
+                                    <x:String>Bajo</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Grid>
+                </Frame>
                 <VerticalStackLayout Margin="5"  Padding="4">
                     <Label HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
 
