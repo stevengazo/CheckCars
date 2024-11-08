@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:Models="clr-namespace:CheckCars.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CheckCars.Views.IssuesList"
              Title="Lista de Incidentes">
+    <ContentPage.BindingContext>
+        <ViewModels:IssuesListVM />
+    </ContentPage.BindingContext>
+
+    <!-- Behaviors -->
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+           EventName="Appearing"
+           Command="{Binding UpdateIssues ,Mode=OneWay}"
+        />
+    </ContentPage.Behaviors>
+
+
     <!-- Grid que ocupa toda la pantalla y tiene tres secciones -->
     <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
 
@@ -11,17 +27,54 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="green"  Margin="6">
+        
+        <CollectionView SelectionMode="Single" ItemsSource="{Binding Issues, Mode=OneWay}" Grid.Row="0">
+                <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:IssueReport">
+                        <Frame CornerRadius="10" Margin="5" HasShadow="True" Padding="10"
+                     BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" BorderColor="Gray">
+                            <!-- TapGestureRecognizer en el Frame -->
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                          Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:EntryExitReportsListVM}}, Path=ViewIssue}"
+                          CommandParameter="{Binding  ReportId}" />
+                        </Frame.GestureRecognizers>
+                        <StackLayout Orientation="Vertical" Spacing="3">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Prioridad" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding  Priority}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="Tipo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Type}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            </Grid>
+                            </StackLayout>
 
-        </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <Button x:Name="btnAdd" 
+
+
+            <Button x:Name="btnAdd" 
                 FontFamily="ArialRegular"
                     BackgroundColor="Green" 
                     Text="Agregar Registro"
                     Padding="0"
                     WidthRequest="130"
                     HorizontalOptions="Center"
+                    Command="{Binding AddIssueReport}"            
                     VerticalOptions="Center"
                     Grid.Row="2" />
 

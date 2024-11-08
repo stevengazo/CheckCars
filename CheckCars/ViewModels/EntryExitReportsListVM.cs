@@ -59,8 +59,6 @@ namespace CheckCars.ViewModels
             }
         }
 
-
-       
         public EntryExitReportsListVM()
         {
            

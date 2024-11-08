@@ -97,6 +97,9 @@
 		<MauiXaml Update="Views\AddEntryExitReport.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\AddIssuesReport.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\CrashList.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
