@@ -49,24 +49,25 @@ namespace CheckCars.Utilities
                     // Crear una lista de propiedades y sus valores
                     var rows = new List<Tuple<string, string>>
                         {
-                            new Tuple<string, string>("ReportId", i.ReportId.ToString()),
-                            new Tuple<string, string>("Name", i.Name ?? ""),
-                            new Tuple<string, string>("Author", i.Author ?? ""),
-                            new Tuple<string, string>("Created", i.Created.ToString("yyyy-MM-dd")),
-                            new Tuple<string, string>("Mileage", i.mileage.ToString()),
-                            new Tuple<string, string>("CarPlate", i.CarPlate ?? ""),
-                            new Tuple<string, string>("FuelLevel", i.FuelLevel.ToString()),
-                            new Tuple<string, string>("Notes", i.Notes ?? ""),
-                            new Tuple<string, string>("HasChargerUSB", i.HasChargerUSB.ToString()),
-                            new Tuple<string, string>("HasQuickPass", i.HasQuickPass.ToString()),
-                            new Tuple<string, string>("HasPhoneSupport", i.HasPhoneSupport.ToString()),
-                            new Tuple<string, string>("TiresState", i.TiresState ?? ""),
-                            new Tuple<string, string>("HasSpareTire", i.HasSpareTire.ToString()),
-                            new Tuple<string, string>("HasEmergencyKit", i.HasEmergencyKit.ToString()),
-                            new Tuple<string, string>("PaintState", i.PaintState ?? ""),
-                            new Tuple<string, string>("MecanicState", i.MecanicState ?? ""),
-                            new Tuple<string, string>("OilLevel", i.OilLevel ?? ""),
-                            new Tuple<string, string>("InteriorsState", i.InteriorsState ?? "")
+                            new Tuple<string, string>("Id de Reporte", i.ReportId.ToString()),
+                            new Tuple<string, string>("Nombre", i.Name ?? ""),
+                            new Tuple<string, string>("Autor", i.Author ?? ""),
+                            new Tuple<string, string>("Fecha  Creación", i.Created.ToString("yyyy-MM-dd")),
+                            new Tuple<string, string>("Kilometraje", i.mileage.ToString()),
+                            new Tuple<string, string>("Vehículo", i.CarPlate ?? ""),
+                            new Tuple<string, string>("Nivel Combustible", (i.FuelLevel/100).ToString() + "%"),
+                            new Tuple<string, string>("Notas", i.Notes ?? ""),
+                            new Tuple<string, string>("Tiene Cargador USB", i.HasChargerUSB.ToString()),
+                            new Tuple<string, string>("Tiene QuickPass", i.HasQuickPass.ToString()),
+                            new Tuple<string, string>("Tiene Soporte Teléfono", i.HasPhoneSupport.ToString()),
+                            new Tuple<string, string>("Estado de las llantas", i.TiresState ?? ""),
+                            new Tuple<string, string>("Tiene Llanta Repuesto", i.HasSpareTire.ToString()),
+                            new Tuple<string, string>("Tiene Kit de Emergencias", i.HasEmergencyKit.ToString()),
+                            new Tuple<string, string>("Estado de las pinturas", i.PaintState ?? ""),
+                            new Tuple<string, string>("Estado Mecánico", i.MecanicState ?? ""),
+                            new Tuple<string, string>("Nivel Aceite", i.OilLevel ?? ""),
+                            new Tuple<string, string>("Estado de los interiores" +
+                            "", i.InteriorsState ?? "")
                         };
 
                     // Dibujar cada fila de la tabla (propiedad - valor) con bordes
@@ -87,24 +88,52 @@ namespace CheckCars.Utilities
                         yPosition += cellHeight; // Saltar una línea después de cada propiedad
                     }
 
-                    // Si tiene fotos, agregar las imágenes al documento
+
+
                     if (i.Photos != null && i.Photos.Any())
                     {
-                        yPosition += 20; // Separar un poco para las fotos
-                        gfx.DrawString("Fotos:", new XFont("OpenSans", 12, XFontStyle.Bold), XBrushes.Black, new XPoint(margin, yPosition));
-                        yPosition += 20;
-
                         foreach (var photo in i.Photos)
                         {
-                            // Asegurarse de que la ruta de la foto sea válida
+                            // Verifica que la ruta de la foto sea válida
                             if (File.Exists(photo.FilePath))
                             {
+                                // Crea una nueva página en el documento
+                                PdfPage page1 = document.AddPage();
+                                XGraphics gfx1 = XGraphics.FromPdfPage(page1);
+
+                                // Carga la imagen
                                 XImage image = XImage.FromFile(photo.FilePath);
-                                gfx.DrawImage(image, margin, yPosition);  // Tamaño de la imagen ajustable
-                                yPosition += 110;  // Ajustar el salto de línea después de la imagen
+
+                                // Dimensiones de la página
+                                double pageWidth1 = page1.Width.Point;
+                                double pageHeight1 = page1.Height.Point;
+
+                                // Dimensiones originales de la imagen
+                                double originalImageWidth = image.PixelWidth;
+                                double originalImageHeight = image.PixelHeight;
+
+                                // Dimensiones máximas para la imagen en la página
+                                double imageWidth1 = 300;  // Cambia este valor según el ancho máximo deseado
+                                double imageHeight1 = 600;  // Cambia este valor según el alto máximo deseado
+
+                                // Calcula el factor de escala para conservar la relación de aspecto
+                                double scaleFactor = Math.Min(imageWidth1 / originalImageWidth, imageHeight1 / originalImageHeight);
+                                double adjustedImageWidth = originalImageWidth * scaleFactor;
+                                double adjustedImageHeight = originalImageHeight * scaleFactor;
+
+                                // Calcula la posición para centrar la imagen en la página
+                                double xPosition1 = (pageWidth1 - adjustedImageWidth) / 2;
+                                double yPosition1 = (pageHeight1 - adjustedImageHeight) / 2;
+
+                                // Dibuja la imagen en la página, centrada y con el tamaño ajustado
+                                gfx1.DrawImage(image, xPosition1, yPosition1, adjustedImageWidth, adjustedImageHeight);
+
+                                // Libera la imagen después de usarla
+                                image.Dispose();
                             }
                         }
                     }
+
 
                     // Crear un MemoryStream para almacenar el byte array
                     using (MemoryStream stream = new MemoryStream())
