@@ -57,45 +57,57 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\caraccident.png" />
-	  <None Remove="Resources\Images\carcrash.png" />
-	  <None Remove="Resources\Images\CheckCar.png" />
-	  <None Remove="Resources\Images\checklist.png" />
+		<None Remove="Resources\Images\caraccident.png" />
+		<None Remove="Resources\Images\carcrash.png" />
+		<None Remove="Resources\Images\CheckCar.png" />
+		<None Remove="Resources\Images\checklist.png" />
 	</ItemGroup>
+
+
+	<ItemGroup>
+		<MauiFont Include="Resources\Fonts\OpenSans-Regular.ttf" Alias="OpenSansRegular" />
+		<MauiFont Include="Resources\Fonts\OpenSans-Semibold.ttf" Alias="OpenSansSemibold" />
+	
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\Fonts\OpenSans-Regular.ttf" />
+		<EmbeddedResource Include="Resources\Fonts\OpenSans-Semibold.ttf" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="PDFsharp" Version="6.1.1" />
+		<PackageReference Include="PdfSharpCore" Version="1.3.65" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\Account.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\AddEntryExitReport.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\CrashList.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\EntryExitReportList.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\IssuesList.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewEntryExit.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Views\Account.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\AddEntryExitReport.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\CrashList.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\EntryExitReportList.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\IssuesList.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\ViewEntryExit.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>
