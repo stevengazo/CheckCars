@@ -66,10 +66,41 @@ namespace CheckCars.ViewModels
             
             }
             DownloadReportCommand = new Command(async () => await DownloadReport());
+            IDeleteReport = new Command(async () => await DeleteReport());
         }
 
         // Propiedad para el comando DownloadReport
         public ICommand DownloadReportCommand { get; } 
+        public ICommand IDeleteReport {  get; }
+
+
+        public async Task DeleteReport()
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert(
+                   "Confirmación",
+                   "¿Deseas borrar este reporte?",
+                   "Sí",
+                   "No"
+               );
+
+            if( answer )
+            {
+
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    db.Photos.RemoveRange(Report.Photos);
+                    db.SaveChanges();   
+                    db.EntryExitReports.Remove(Report);
+                    db.SaveChanges();
+
+                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                    Application.Current.MainPage.Navigation.RemovePage(d);
+              
+                }
+
+            }
+
+        }
 
 
 

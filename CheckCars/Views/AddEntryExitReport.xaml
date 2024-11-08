@@ -23,7 +23,7 @@
         <ScrollView Grid.Row="1" >
 
             <StackLayout>
-                <Frame BorderColor="Gray" CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                <Frame BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
                     <Frame.Shadow>
                         <Shadow Brush="Black"
                 Offset="10,10"
