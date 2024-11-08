@@ -48,39 +48,43 @@ namespace CheckCars.Utilities
 
                     // Crear una lista de propiedades y sus valores
                     var rows = new List<Tuple<string, string>>
-            {
-                new Tuple<string, string>("ReportId", i.ReportId.ToString()),
-                new Tuple<string, string>("Name", i.Name ?? ""),
-                new Tuple<string, string>("Author", i.Author ?? ""),
-                new Tuple<string, string>("Created", i.Created.ToString("yyyy-MM-dd")),
-                new Tuple<string, string>("Mileage", i.mileage.ToString()),
-                new Tuple<string, string>("CarPlate", i.CarPlate ?? ""),
-                new Tuple<string, string>("FuelLevel", i.FuelLevel.ToString()),
-                new Tuple<string, string>("Notes", i.Notes ?? ""),
-                new Tuple<string, string>("HasChargerUSB", i.HasChargerUSB.ToString()),
-                new Tuple<string, string>("HasQuickPass", i.HasQuickPass.ToString()),
-                new Tuple<string, string>("HasPhoneSupport", i.HasPhoneSupport.ToString()),
-                new Tuple<string, string>("TiresState", i.TiresState ?? ""),
-                new Tuple<string, string>("HasSpareTire", i.HasSpareTire.ToString()),
-                new Tuple<string, string>("HasEmergencyKit", i.HasEmergencyKit.ToString()),
-                new Tuple<string, string>("PaintState", i.PaintState ?? ""),
-                new Tuple<string, string>("MecanicState", i.MecanicState ?? ""),
-                new Tuple<string, string>("OilLevel", i.OilLevel ?? ""),
-                new Tuple<string, string>("InteriorsState", i.InteriorsState ?? "")
-            };
+                        {
+                            new Tuple<string, string>("ReportId", i.ReportId.ToString()),
+                            new Tuple<string, string>("Name", i.Name ?? ""),
+                            new Tuple<string, string>("Author", i.Author ?? ""),
+                            new Tuple<string, string>("Created", i.Created.ToString("yyyy-MM-dd")),
+                            new Tuple<string, string>("Mileage", i.mileage.ToString()),
+                            new Tuple<string, string>("CarPlate", i.CarPlate ?? ""),
+                            new Tuple<string, string>("FuelLevel", i.FuelLevel.ToString()),
+                            new Tuple<string, string>("Notes", i.Notes ?? ""),
+                            new Tuple<string, string>("HasChargerUSB", i.HasChargerUSB.ToString()),
+                            new Tuple<string, string>("HasQuickPass", i.HasQuickPass.ToString()),
+                            new Tuple<string, string>("HasPhoneSupport", i.HasPhoneSupport.ToString()),
+                            new Tuple<string, string>("TiresState", i.TiresState ?? ""),
+                            new Tuple<string, string>("HasSpareTire", i.HasSpareTire.ToString()),
+                            new Tuple<string, string>("HasEmergencyKit", i.HasEmergencyKit.ToString()),
+                            new Tuple<string, string>("PaintState", i.PaintState ?? ""),
+                            new Tuple<string, string>("MecanicState", i.MecanicState ?? ""),
+                            new Tuple<string, string>("OilLevel", i.OilLevel ?? ""),
+                            new Tuple<string, string>("InteriorsState", i.InteriorsState ?? "")
+                        };
 
                     // Dibujar cada fila de la tabla (propiedad - valor) con bordes
                     foreach (var row in rows)
                     {
+                        double cellHeight = 20; // Altura de cada celda
+
                         // Dibujar el borde de la celda para la propiedad
-                        gfx.DrawRectangle(XPens.Black, tableX, yPosition, 150, 20); // Borde de la propiedad
-                        gfx.DrawString(row.Item1, new XFont("OpenSans", 10, XFontStyle.Bold), XBrushes.Black, new XPoint(tableX + 5, yPosition + 5));
+                        gfx.DrawRectangle(XPens.Black, tableX, yPosition, 150, cellHeight); // Borde de la propiedad
+                        gfx.DrawString(row.Item1, new XFont("OpenSans", 10, XFontStyle.Bold), XBrushes.Black,
+                            new XPoint(tableX + 5, yPosition + cellHeight / 2 + 3)); // Ajuste de alineación vertical
 
                         // Dibujar el borde de la celda para el valor
-                        gfx.DrawRectangle(XPens.Black, tableX + 150, yPosition, 200, 20); // Borde del valor
-                        gfx.DrawString(row.Item2, new XFont("OpenSans", 10), XBrushes.Black, new XPoint(tableX + 155, yPosition + 5));
+                        gfx.DrawRectangle(XPens.Black, tableX + 150, yPosition, 200, cellHeight); // Borde del valor
+                        gfx.DrawString(row.Item2, new XFont("OpenSans", 10), XBrushes.Black,
+                            new XPoint(tableX + 155, yPosition + cellHeight / 2 + 3)); // Ajuste de alineación vertical
 
-                        yPosition += 20;  // Saltar una línea después de cada propiedad
+                        yPosition += cellHeight; // Saltar una línea después de cada propiedad
                     }
 
                     // Si tiene fotos, agregar las imágenes al documento

@@ -11,14 +11,14 @@
         <ViewModels:EntryExitReportsListVM />
     </ContentPage.BindingContext>
 
-
     <!-- Behaviors -->
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior 
-               EventName="Appearing"
-               Command="{Binding UpdateReports}"
-            />
+             EventName="Appearing"
+             Command="{Binding UpdateReports ,Mode=OneWay}"
+          />
     </ContentPage.Behaviors>
+
 
     <!-- Grid que ocupa toda la pantalla -->
     <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
@@ -30,12 +30,11 @@
         </Grid.RowDefinitions>
 
         <!-- CollectionView para mostrar cada EntryExitReport en un card -->
-        <CollectionView ItemsSource="{Binding EntryExitReports}" Grid.Row="0">
+        <CollectionView SelectionMode="Single" ItemsSource="{Binding EntryExitReports, Mode=OneWay}" Grid.Row="0">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Models:EntryExitReport">
                     <Frame CornerRadius="10" Margin="5" HasShadow="True" Padding="10"
                            BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" BorderColor="Gray">
-
                         <!-- TapGestureRecognizer en el Frame -->
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
@@ -69,6 +68,7 @@
                                 <Label Grid.Row="3" Grid.Column="1" Text="{Binding  mileage}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Grid>
                         </StackLayout>
+                        
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -88,5 +88,6 @@ BorderWidth="1"
                 Command="{Binding AddReport}"
                 VerticalOptions="Center"
                 Grid.Row="1" />
-    </Grid>
+        </Grid>
+    
 </ContentPage>

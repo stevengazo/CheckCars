@@ -50,9 +50,9 @@ namespace CheckCars.ViewModels
             get { return _EntryExitReports; }
             set
             {
-                if (_EntryExitReports != value)
+                _EntryExitReports = value;
+                if (_EntryExitReports != null)
                 {
-                    _EntryExitReports = value;
                     OnPropertyChanged(nameof(EntryExitReports));
                 }
 
@@ -60,30 +60,37 @@ namespace CheckCars.ViewModels
         }
 
 
-        public ICommand UpdateReports { get; }
+       
         public EntryExitReportsListVM()
         {
            
-           LoadReports();
-            
-            UpdateReports = new Command( () => LoadReports());
+          LoadReports();
+
         }
 
+        public ICommand UpdateReports => new Command( () =>  LoadReports());
 
-  
-        public void LoadReports()
+        public async Task LoadReports()
         {
-     
-                EntryExitReports = new ObservableCollection<EntryExitReport>(); 
-                
+            try
+            {
                 using (var db = new ReportsDBContextSQLite())
                 {
-                    var d = db.EntryExitReports.ToList();
-                    EntryExitReports = new ObservableCollection<EntryExitReport>(d);
+                    EntryExitReports.Clear();
+                    var data = db.EntryExitReports.ToList();
+                    foreach (var entry in data)
+                    {
+                        EntryExitReports.Add(entry);
+                    }
                 }
-     
-          
+            }
+            catch (Exception e)
+            {
+                // Puedes registrar o manejar la excepción aquí si es necesario
+                Console.WriteLine(e.Message);
+            }
         }
+
 
     }
 }
