@@ -3,13 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              xmlns:Models="clr-namespace:CheckCars.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CheckCars.Views.EntryExitReportList"
-         
              Title="Reportes de Entradas y Salidas">
 
     <ContentPage.BindingContext>
         <ViewModels:EntryExitReportsListVM />
     </ContentPage.BindingContext>
+
+
+    <!-- Behaviors -->
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+               EventName="Appearing"
+               Command="{Binding UpdateReports}"
+            />
+    </ContentPage.Behaviors>
 
     <!-- Grid que ocupa toda la pantalla -->
     <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">

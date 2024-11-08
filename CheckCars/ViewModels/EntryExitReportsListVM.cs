@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
-    public class EntryExitReportsListVM :INotifyPropertyChangedAbst
+    public class EntryExitReportsListVM : INotifyPropertyChangedAbst
     {
         // Implementación de INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -25,7 +25,7 @@ namespace CheckCars.ViewModels
         }
 
         public ICommand AddReport { get; } = new Command(async () =>
-        await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(),true));
+        await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(), true));
 
         public ICommand ViewReport { get; } = new Command(async (e) =>
         {
@@ -37,10 +37,15 @@ namespace CheckCars.ViewModels
         });
 
 
+    
 
-        public List<EntryExitReport> _EntryExitReports= new();
-        
-        public List<EntryExitReport> EntryExitReports
+
+
+
+
+        public ObservableCollection<EntryExitReport> _EntryExitReports = new();
+
+        public ObservableCollection<EntryExitReport> EntryExitReports
         {
             get { return _EntryExitReports; }
             set
@@ -54,14 +59,31 @@ namespace CheckCars.ViewModels
             }
         }
 
+
+        public ICommand UpdateReports { get; }
         public EntryExitReportsListVM()
         {
-            using (var db = new ReportsDBContextSQLite())
-            {
-                EntryExitReports = db.EntryExitReports.ToList();
-            }
+           
+           LoadReports();
+            
+            UpdateReports = new Command( () => LoadReports());
         }
+
+
   
-    
+        public void LoadReports()
+        {
+     
+                EntryExitReports = new ObservableCollection<EntryExitReport>(); 
+                
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    var d = db.EntryExitReports.ToList();
+                    EntryExitReports = new ObservableCollection<EntryExitReport>(d);
+                }
+     
+          
+        }
+
     }
 }
