@@ -36,7 +36,7 @@
                             <!-- TapGestureRecognizer en el Frame -->
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
-                          Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:EntryExitReportsListVM}}, Path=ViewIssue}"
+                          Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:IssuesListVM}}, Path=ViewIssue}"
                           CommandParameter="{Binding  ReportId}" />
                         </Frame.GestureRecognizers>
                         <StackLayout Orientation="Vertical" Spacing="3">

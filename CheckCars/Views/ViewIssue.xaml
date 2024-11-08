@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             x:Class="CheckCars.Views.ViewIssue"
+             Title="Información">
+    <ContentPage.BindingContext>
+        <ViewModels:ViewIssueVM />
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <ScrollView Margin="5" Grid.Row="0">
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Frame  BorderColor="Gray"  
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
+                        CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                    <Frame.Shadow>
+                        <Shadow  Brush="Black"
+                                 Offset="10,10"
+                                 Radius="40"
+                                 Opacity="0.2" />
+                    </Frame.Shadow>
+
+                    <Grid Padding="10" RowSpacing="5"  HorizontalOptions="Fill" Margin="5"   >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="60"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Fecha Registro -->
+                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
+                        <Label Grid.Row="0" Grid.Column="1" FontSize="Small" Text="{Binding Report.Created}" VerticalOptions="Center" />
+                        <!-- Vehiculo -->
+                        <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="1" Grid.Column="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
+                        <!-- Notas -->
+                        <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Prioridad" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="2" Grid.Column="1" Text="{Binding Report.Priority}" VerticalOptions="Center" />
+                        <!-- Kilometraje -->
+                        <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="3" Grid.Column="1" Text="{Binding Report.Type}" VerticalOptions="Center" />
+
+                        <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
+                        <Label FontSize="Small" Grid.Row="4" Grid.Column="1" LineBreakMode="WordWrap" LineHeight="20" Text="{Binding Report.Details}"  />
+
+                    </Grid>
+                </Frame>
+                <!-- CollectionView para mostrar las imágenes -->
+
+                <CollectionView 
+                ItemsSource="{Binding Report.Photos}" 
+                Margin="10, 5"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Vertical" Padding="5">
+                                    <Image 
+                                       Margin="5"
+                                       Source="{Binding FilePath}" 
+                                       HorizontalOptions="CenterAndExpand"
+                                       Aspect="AspectFill" />
+
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView >
+        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
+            <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120" Command="{Binding DownloadReportCommand}"  />
+            <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
+            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  />
+        </HorizontalStackLayout>    
+    </Grid>
+</ContentPage>
