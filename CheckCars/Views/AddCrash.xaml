@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             x:Class="CheckCars.Views.AddCrash"
+             Title="AddCrash">
+    <ContentPage.BindingContext>
+        <ViewModels:AddCrashVM />
+    </ContentPage.BindingContext>
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <ScrollView Grid.Row="0">
+
+            <StackLayout>
+                <Frame   BorderColor="Gray" Margin="10" VerticalOptions="Start" HasShadow="True">
+                    <Frame.Shadow>
+                        <Shadow Brush="Black"
+                Offset="10,10"
+                Radius="40"
+                Opacity="0.3" />
+                    </Frame.Shadow>
+                    <Grid HorizontalOptions="FillAndExpand"  Padding="5" RowSpacing="1">
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha"  FontSize="Medium" />
+                        <DatePicker Grid.Row="0" Grid.Column="1" Date="{Binding newCrashReport.Created}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label  Grid.Row="1" Grid.Column="0"  Text="Vehiculo"  FontSize="Medium" />
+                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.CarPlate}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                            <!-- Opciones del ComboBox -->
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Nissan Frontier 2008</x:String>
+                                    <x:String>Terios Bego</x:String>
+                                    <x:String>JMC 1</x:String>
+                                    <x:String>Nissan Frontier 2024</x:String>
+                                    <x:String>Toyota Raize</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Label  Grid.Row="2" Grid.Column="0"  Text="Ubicacion"  FontSize="Medium" />
+                        <Entry Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Text="{Binding newCrashReport.Location}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Grid.Row="3" Grid.Column="0" Text="Detalles"  FontSize="Medium" Padding="0" />
+                        <Frame Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  Padding="5" HeightRequest="110" >
+                            <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashDetails}" />
+                        </Frame>
+                        <Label  Grid.Row="5" Grid.Column="0" Text="Daños"  FontSize="Medium" Padding="0" />
+                        <Frame Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Padding="5" HeightRequest="110" >
+                            <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashedParts}" />
+                        </Frame>
+                    </Grid>
+                </Frame>
+
+                <VerticalStackLayout Margin="5"  Padding="4">
+                    <Label HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
+
+                    <!-- Botón para tomar foto -->
+                    <Button 
+                         Text="Agregar Foto" 
+                         FontSize="Small" 
+                         TextColor="Blue" 
+                         BackgroundColor="White" 
+                         BorderColor="Blue" 
+                         BorderWidth="1" 
+                         Margin="2"  
+                         Command="{Binding TakePhotoCommand}" />
+
+                    <!-- CollectionView para mostrar las imágenes -->
+                    <CollectionView 
+                         ItemsSource="{Binding ImgList}" 
+                         Margin="10, 5"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Start">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Vertical" Padding="5">
+                                    <Image 
+                                         Source="{Binding FilePath}" 
+                                         HorizontalOptions="CenterAndExpand"
+                                         Aspect="AspectFill" />
+                                    <Button BackgroundColor="Red" TextColor="White" Padding="0" FontSize="Small" HeightRequest="40" WidthRequest="80" Text="Eliminar"></Button>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Botón de Agregar Reporte -->
+        <HorizontalStackLayout  Grid.Row="1" Padding="5" HorizontalOptions="Center" >
+            <Button Text="Agregar Reporte" WidthRequest="150" HeightRequest="40" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" Command="{Binding AddReport}"/>
+        </HorizontalStackLayout>
+    </Grid>
+
+</ContentPage>
