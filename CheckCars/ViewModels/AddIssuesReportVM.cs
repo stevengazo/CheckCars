@@ -1,5 +1,6 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
+using CheckCars.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,12 +26,11 @@ namespace CheckCars.ViewModels
         }
 
         #endregion
-
+        private CheckCars.Utilities.SensorManager SensorManager = new();
         public AddIssuesReportVM()
         {
             
         }
-
         private IssueReport _newIssueReport = new();
         public IssueReport newIssueReport
         {
@@ -44,11 +44,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
-        // Lista para almacenar las fotos capturadas
         private ObservableCollection<Photo> _imgs = new();
-
-        // Propiedad para la lista de fotos
         public ObservableCollection<Photo> ImgList
         {
             get { return _imgs; }
@@ -61,56 +57,20 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         public ICommand TakePhotoCommand
         {
             get
             {
-                return new Command(() => Task.Run(TakePhoto));
+                return new Command(() => Task.Run(TakePhotos));
             }
             private set { }
         }
-        private async Task TakePhoto()
+        private async Task TakePhotos()
         {
-            try
+            Photo photo = await SensorManager.TakePhoto();
+            if (photo != null)
             {
-                if (MediaPicker.Default.IsCaptureSupported)
-                {
-                    // Captura la foto
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
-                    if (photo != null)
-                    {
-                        // Obtiene la ruta local del archivo (temporal)
-                        string filePath = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
-
-                        // Guarda la foto en el almacenamiento local
-                        using (var stream = await photo.OpenReadAsync())
-                        {
-                            using (var fileStream = File.OpenWrite(filePath))
-                            {
-                                await stream.CopyToAsync(fileStream);
-                            }
-                        }
-
-                        // Crea un objeto Photo con la información de la imagen
-                        var newPhoto = new Photo
-                        {
-                            PhotoId = ImgList.Count + 1, // O cualquier otra lógica para generar PhotoId
-                            FileName = photo.FileName,
-                            FilePath = filePath,
-                            DateTaken = DateTime.Now
-                        };
-
-                        // Agrega el objeto Photo a la lista
-                        ImgList.Add(newPhoto);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Manejo de excepciones, por ejemplo, mostrar un mensaje de error
-                Console.WriteLine($"Error al capturar y guardar la foto: {ex.Message}");
+                ImgList.Add(photo);
             }
         }
 
@@ -139,7 +99,7 @@ namespace CheckCars.ViewModels
                     newIssueReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
-                        double[] location = await GetCurrentLocation();
+                        double[] location = await SensorManager.GetCurrentLocation();
                         newIssueReport.Latitude = location[0];
                         newIssueReport.Longitude = location[1];
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
@@ -157,7 +117,9 @@ namespace CheckCars.ViewModels
             }
             catch (Exception rf)
             {
-                Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
+  
+                MessageManager.MessageToastAsync("Error Interno: " + rf.Message, true);
+                SensorManager.CancelRequest();
             }
         }
 
@@ -167,46 +129,8 @@ namespace CheckCars.ViewModels
             Application.Current.MainPage.Navigation.RemovePage(d);
         }
 
-        private CancellationTokenSource _cancelTokenSource;
-        private bool _isCheckingLocation;
+      
 
-        public async Task<double[]> GetCurrentLocation()
-        {
-            try
-            {
-                _isCheckingLocation = true;
-
-                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-
-                _cancelTokenSource = new CancellationTokenSource();
-
-                Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
-
-                return new double[] { location.Latitude, location.Longitude };
-
-
-
-            }
-            // Catch one of the following exceptions:
-            //   FeatureNotSupportedException
-            //   FeatureNotEnabledException
-            //   PermissionException
-            catch (Exception ex)
-            {
-                // Unable to get location
-                return null;
-            }
-            finally
-            {
-                _isCheckingLocation = false;
-
-            }
-        }
-
-        public void CancelRequest()
-        {
-            if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
-                _cancelTokenSource.Cancel();
-        }
+      
     }
 }

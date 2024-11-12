@@ -135,7 +135,7 @@ namespace CheckCars.ViewModels
             // Verificar si ya se está descargando el reporte
             if (isDownloading)
             {
-                Application.Current.MainPage.DisplayAlert("Información", "El reporte ya se encuentra generandose", "ok");
+                Application.Current.MainPage.DisplayAlert("Información", "El reporte ya se encuentra generándose", "ok");
                 return;
             }
 
@@ -147,6 +147,7 @@ namespace CheckCars.ViewModels
             {
                 try
                 {
+                    
                     // Verificar si el reporte existe
                     if (Report != null)
                     {
