@@ -51,6 +51,8 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+        public ICommand DownloadReportCommand { get; }
+        public ICommand IDeleteReport { get; }
 
         public ViewEntryExitVM()
         {
@@ -69,11 +71,7 @@ namespace CheckCars.ViewModels
             IDeleteReport = new Command(async () => await DeleteReport());
         }
 
-        // Propiedad para el comando DownloadReport
-        public ICommand DownloadReportCommand { get; } 
-        public ICommand IDeleteReport {  get; }
-
-
+        #region Methods
         public async Task DeleteReport()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert(
@@ -99,17 +97,11 @@ namespace CheckCars.ViewModels
                         // Ejecuta la eliminación de fotos en un hilo aparte
                         new Thread(() => DeletePhotos(paths)).Start();
                     }
-
-
                     var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
                     Application.Current.MainPage.Navigation.RemovePage(d);
-              
                 }
-
             }
-
         }
-
         private async Task DeletePhotos(List<string> paths)
         {
             foreach (var item in paths)
@@ -125,11 +117,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
-
-
         private bool isDownloading = false;
-
         private void DownloadReport()
         {
             // Verificar si ya se está descargando el reporte
@@ -177,8 +165,6 @@ namespace CheckCars.ViewModels
             // Iniciar el hilo
             reportThread.Start();
         }
-
-        // Método para compartir el PDF
         private async Task SharePdf(string filePath)
         {
             try
@@ -196,7 +182,7 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
             }
         }
-
+        #endregion
 
     }
 }
