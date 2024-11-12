@@ -65,7 +65,7 @@ namespace CheckCars.ViewModels
                 FuelLevel = Report.FuelLevel / 100;
             
             }
-            DownloadReportCommand = new Command(async () => await DownloadReport());
+            DownloadReportCommand = new Command( () =>  DownloadReport());
             IDeleteReport = new Command(async () => await DeleteReport());
         }
 
@@ -128,31 +128,53 @@ namespace CheckCars.ViewModels
 
 
 
-        // Método para descargar el reporte en formato PDF
-        private async Task DownloadReport()
+        private bool isDownloading = false;
+
+        private void DownloadReport()
         {
-            try
+            // Verificar si ya se está descargando el reporte
+            if (isDownloading)
             {
-                // Verificar si el reporte existe
-                if (Report != null)
+                Application.Current.MainPage.DisplayAlert("Información", "El reporte ya se encuentra generandose", "ok");
+                return;
+            }
+
+            // Marcar como en proceso de descarga
+            isDownloading = true;
+
+            // Ejecutar el proceso en un hilo separado
+            Thread reportThread = new Thread(new ThreadStart(async () =>
+            {
+                try
                 {
-                    PDFGenerate d = new PDFGenerate();
-                    // Generar el PDF
-                    byte[] pdfBytes = await d.EntryExitReport(Report);
+                    // Verificar si el reporte existe
+                    if (Report != null)
+                    {
+                        PDFGenerate d = new PDFGenerate();
+                        // Generar el PDF
+                        byte[] pdfBytes = await d.EntryExitReport(Report);
 
-                    // Guardar el archivo PDF en el almacenamiento local
-                    var filePath = Path.Combine(FileSystem.CacheDirectory, "reporte.pdf");
-                    File.WriteAllBytes(filePath, pdfBytes);
+                        // Guardar el archivo PDF en el almacenamiento local
+                        var filePath = Path.Combine(FileSystem.CacheDirectory, "reporte.pdf");
+                        File.WriteAllBytes(filePath, pdfBytes);
 
-                    // Llamar a la función para compartir el archivo
-                    await SharePdf(filePath);
+                        // Llamar a la función para compartir el archivo
+                        await SharePdf(filePath);
+                    }
                 }
-            }
-            catch (NullReferenceException e)
-            {
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                }
+                finally
+                {
+                    // Liberar la bandera al finalizar el proceso
+                    isDownloading = false;
+                }
+            }));
 
-                throw;
-            }
+            // Iniciar el hilo
+            reportThread.Start();
         }
 
         // Método para compartir el PDF

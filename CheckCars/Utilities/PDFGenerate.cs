@@ -15,6 +15,8 @@ namespace CheckCars.Utilities
     public class PDFGenerate
     {
 
+
+
         public async Task<byte[]> EntryExitReport(EntryExitReport i)
         {
             try
@@ -46,6 +48,8 @@ namespace CheckCars.Utilities
                     gfx.DrawString("Reporte de Entrada y Salida", new XFont("OpenSans", 16, XFontStyle.Bold), XBrushes.Black, new XPoint(margin, yPosition));
                     yPosition += 30;
 
+
+
                     // Crear una lista de propiedades y sus valores
                     var rows = new List<Tuple<string, string>>
                         {
@@ -56,7 +60,7 @@ namespace CheckCars.Utilities
                             new Tuple<string, string>("Longitud", i.Longitude.ToString()),
                             new Tuple<string, string>("Kilometraje", i.mileage.ToString()),
                             new Tuple<string, string>("Vehículo", i.CarPlate ?? ""),
-                            new Tuple<string, string>("Nivel Combustible", Math.Round((i.FuelLevel/10)).ToString() + "%"),
+                            new Tuple<string, string>("Nivel Combustible", Math.Round((i.FuelLevel/100)).ToString() + "%"),
                             new Tuple<string, string>("Notas", i.Notes ?? ""),
                             new Tuple<string, string>("Tiene Cargador USB", i.HasChargerUSB.ToString()),
                             new Tuple<string, string>("Tiene QuickPass", i.HasQuickPass.ToString()),
@@ -67,8 +71,7 @@ namespace CheckCars.Utilities
                             new Tuple<string, string>("Estado de las pinturas", i.PaintState ?? ""),
                             new Tuple<string, string>("Estado Mecánico", i.MecanicState ?? ""),
                             new Tuple<string, string>("Nivel Aceite", i.OilLevel ?? ""),
-                            new Tuple<string, string>("Estado de los interiores" +
-                            "", i.InteriorsState ?? "")
+                            new Tuple<string, string>("Estado de los interiores" +"", i.InteriorsState ?? "")
                         };
 
                     // Dibujar cada fila de la tabla (propiedad - valor) con bordes
@@ -154,6 +157,8 @@ namespace CheckCars.Utilities
                 return null;
             }
         }
+     
+
 
     }
 }

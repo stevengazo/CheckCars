@@ -1,5 +1,6 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
+using SkiaSharp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace CheckCars.ViewModels
             Report.Created = DateTime.Now;
         }
         #endregion
+        private CheckCars.Utilities.SensorManager SensorManager = new();
 
         private EntryExitReport _report = new();
         public EntryExitReport Report
@@ -63,10 +65,20 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command(() => Task.Run(TakePhoto));
+                return new Command(() => Task.Run(TakePhotos));
             }
             private set { }
         }
+
+        private async Task TakePhotos()
+        {
+            Photo photo = await SensorManager.TakePhoto();
+            if(photo != null)
+            {
+                ImgList.Add(photo);
+            }
+        }
+
         public ICommand AddReport
         {
             get
@@ -89,12 +101,12 @@ namespace CheckCars.ViewModels
 
                 if (answer)
                 {
-                    _isCheckingLocation = true;
+                    SensorManager._isCheckingLocation = true;
 
                     Report.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
-                        double[] location =await GetCurrentLocation();
+                        double[] location =await  SensorManager.GetCurrentLocation();
                         Report.Latitude = location[0];
                         Report.Longitude = location[1]; 
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
@@ -113,7 +125,7 @@ namespace CheckCars.ViewModels
             catch (Exception rf)
             {
                 Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
-                CancelRequest();
+                SensorManager.CancelRequest();
             }
         }
         private async Task Close()
@@ -122,90 +134,10 @@ namespace CheckCars.ViewModels
             Application.Current.MainPage.Navigation.RemovePage(d);
         }
         // Método para capturar y guardar la foto
-        private async Task TakePhoto()
-        {
-            try
-            {
-                if (MediaPicker.Default.IsCaptureSupported)
-                {
-                    // Captura la foto
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+  
 
-                    if (photo != null)
-                    {
-                        // Obtiene la ruta local del archivo (temporal)
-                        string filePath = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
-
-                        // Guarda la foto en el almacenamiento local
-                        using (var stream = await photo.OpenReadAsync())
-                        {
-                            using (var fileStream = File.OpenWrite(filePath))
-                            {
-                                await stream.CopyToAsync(fileStream);
-                            }
-                        }
-
-                        // Crea un objeto Photo con la información de la imagen
-                        var newPhoto = new Photo
-                        {
-                            PhotoId = ImgList.Count + 1, // O cualquier otra lógica para generar PhotoId
-                            FileName = photo.FileName,
-                            FilePath = filePath,
-                            DateTaken = DateTime.Now
-                        };
-
-                        // Agrega el objeto Photo a la lista
-                        ImgList.Add(newPhoto);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Manejo de excepciones, por ejemplo, mostrar un mensaje de error
-                Console.WriteLine($"Error al capturar y guardar la foto: {ex.Message}");
-            }
-        }
-
-        private CancellationTokenSource _cancelTokenSource;
-        private bool _isCheckingLocation;
-
-        public async Task<double[]> GetCurrentLocation()
-        {
-            try
-            {
-                _isCheckingLocation = true;
-
-                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-
-                _cancelTokenSource = new CancellationTokenSource();
-
-                Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
-
-               return new double[] { location.Latitude,location.Longitude};
+   
 
 
-              
-            }
-            // Catch one of the following exceptions:
-            //   FeatureNotSupportedException
-            //   FeatureNotEnabledException
-            //   PermissionException
-            catch (Exception ex)
-            {
-                // Unable to get location
-                return null;
-            }
-            finally
-            {
-                _isCheckingLocation = false;
-             
-            }
-        }
-
-        public void CancelRequest()
-        {
-            if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
-                _cancelTokenSource.Cancel();
-        }
     }
 }
