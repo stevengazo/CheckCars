@@ -113,6 +113,9 @@
 		<MauiXaml Update="Views\IssuesList.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\LoginPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\ViewCrash.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

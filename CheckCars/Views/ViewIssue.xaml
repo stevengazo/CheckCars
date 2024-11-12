@@ -81,7 +81,7 @@
         <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
             <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120" Command="{Binding DownloadReportCommand}"  />
             <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
-            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  />
+            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  Command="{Binding ISendReport}" />
         </HorizontalStackLayout>    
     </Grid>
 </ContentPage>

@@ -117,8 +117,6 @@ namespace CheckCars.ViewModels
             }
             catch (Exception rf)
             {
-  
-                MessageManager.MessageToastAsync("Error Interno: " + rf.Message, true);
                 SensorManager.CancelRequest();
             }
         }

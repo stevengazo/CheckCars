@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckCars.Views.LoginPage"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:Models="clr-namespace:CheckCars.Models"
+             >
+    <ContentPage.BindingContext>
+        <ViewModels:LoginPageVM/>
+    </ContentPage.BindingContext>
+    <StackLayout
+        Padding="10" 
+        BackgroundColor="WhiteSmoke"
+             HorizontalOptions="Center"
+             VerticalOptions="Center"
+             Spacing="10">
+        <!-- Label de Usuario -->
+        <Label Text="Usuario" 
+            VerticalTextAlignment="Center" 
+            HorizontalTextAlignment="Center"
+            FontSize="Subtitle"
+            HorizontalOptions="Center" 
+            WidthRequest="200" />
+
+        <!-- Entrada de Usuario -->
+        <Entry x:Name="UsernameEntry" 
+            Placeholder="Ingresa tu usuario" 
+            VerticalTextAlignment="Center" 
+            HorizontalTextAlignment="Center"
+            FontSize="Header"
+            HorizontalOptions="Center" 
+            WidthRequest="200"  />
+
+        <!-- Label de Contraseña -->
+        <Label Text="Contraseña" 
+                VerticalTextAlignment="Center" 
+                HorizontalTextAlignment="Center"
+                FontSize="Subtitle"
+                HorizontalOptions="Center" 
+                WidthRequest="200"  />
+
+        <!-- Entrada de Contraseña -->
+        <Entry x:Name="PasswordEntry" 
+           Placeholder="Ingresa tu contraseña" 
+           IsPassword="True"  
+            WidthRequest="200"
+               HorizontalTextAlignment="Center"
+           HorizontalOptions="Center" />
+
+        <!-- Botón de Iniciar sesión -->
+        <Button Text="Iniciar sesión" 
+            Command="{Binding Login}" 
+            WidthRequest="120"
+            HorizontalOptions="Center" />
+    </StackLayout>
+
+</ContentPage>

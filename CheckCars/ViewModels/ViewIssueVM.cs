@@ -44,6 +44,7 @@ namespace CheckCars.ViewModels
             var Id = Data.StaticData.ReportId;
 
             IDeleteReport = new Command(async () => await DeleteReport());
+            ISendReport = new Command(async () => await SendReport());
 
             using (var dbo = new ReportsDBContextSQLite())
             {
@@ -104,5 +105,10 @@ namespace CheckCars.ViewModels
 
         }
 
+        public ICommand ISendReport { get; }
+        public async Task SendReport()
+        {
+
+        }
     }
 }
