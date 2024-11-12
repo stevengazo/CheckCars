@@ -13,11 +13,11 @@ namespace CheckCars.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReportId { get; set; }
-        public string? Name { get; set; }    
         public string? Author { get; set; }
         public DateTime Created { get; set; }
-        public long mileage { get; set; }
         public string? CarPlate { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public ICollection<Photo>? Photos { get; set; }
     }
 }

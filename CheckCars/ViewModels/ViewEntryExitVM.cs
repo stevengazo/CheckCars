@@ -90,8 +90,16 @@ namespace CheckCars.ViewModels
                 {
                     db.Photos.RemoveRange(Report.Photos);
                     db.SaveChanges();   
+                
                     db.EntryExitReports.Remove(Report);
                     db.SaveChanges();
+                    var paths = Report.Photos.Select(e => e.FilePath).ToList();
+                    if (paths.Any())
+                    {
+                        // Ejecuta la eliminación de fotos en un hilo aparte
+                        new Thread(() => DeletePhotos(paths)).Start();
+                    }
+
 
                     var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
                     Application.Current.MainPage.Navigation.RemovePage(d);
@@ -100,6 +108,22 @@ namespace CheckCars.ViewModels
 
             }
 
+        }
+
+        private async Task DeletePhotos(List<string> paths)
+        {
+            foreach (var item in paths)
+            {
+                try
+                {
+                    File.Delete(item);
+                }
+                catch (Exception ex)
+                {
+                    // Puedes registrar el error o manejarlo según lo necesites
+                    Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
+                }
+            }
         }
 
 

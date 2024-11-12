@@ -91,7 +91,8 @@ namespace CheckCars.ViewModels
                 Console.WriteLine($"Error al capturar y guardar la foto: {ex.Message}");
             }
         }
-        private CrashReport _newCrashReport = new();
+        private CrashReport _newCrashReport = new() { DateOfCrash = DateTime.Now,
+        Created = DateTime.Now};
         public CrashReport newCrashReport
         {
             get { return _newCrashReport; }
@@ -125,10 +126,12 @@ namespace CheckCars.ViewModels
 
                 if (answer)
                 {
-                    newCrashReport.Name = "Registro de Entrada y Salida";
                     newCrashReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
+                        double[] location = await GetCurrentLocation();
+                        newCrashReport.Latitude = location[0];
+                        newCrashReport.Longitude = location[1];
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newCrashReport.Photos = ImgList.Select(photo =>
                         {
@@ -145,12 +148,56 @@ namespace CheckCars.ViewModels
             catch (Exception rf)
             {
                 Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
+                CancelRequest();
             }
         }
         private async Task Close()
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
+        }
+
+
+        private CancellationTokenSource _cancelTokenSource;
+        private bool _isCheckingLocation;
+
+        public async Task<double[]> GetCurrentLocation()
+        {
+            try
+            {
+                _isCheckingLocation = true;
+
+                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+                _cancelTokenSource = new CancellationTokenSource();
+
+                Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
+
+                return new double[] { location.Latitude, location.Longitude };
+
+
+
+            }
+            // Catch one of the following exceptions:
+            //   FeatureNotSupportedException
+            //   FeatureNotEnabledException
+            //   PermissionException
+            catch (Exception ex)
+            {
+                // Unable to get location
+                return null;
+            }
+            finally
+            {
+                _isCheckingLocation = false;
+
+            }
+        }
+
+        public void CancelRequest()
+        {
+            if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
+                _cancelTokenSource.Cancel();
         }
     }
 }

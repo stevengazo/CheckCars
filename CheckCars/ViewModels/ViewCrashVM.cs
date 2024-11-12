@@ -11,9 +11,8 @@ using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
-    public class ViewIssueVM : INotifyPropertyChangedAbst
+   public class ViewCrashVM : INotifyPropertyChangedAbst
     {
-
         #region General
         // Implementación de INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -23,10 +22,13 @@ namespace CheckCars.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
 
-        private IssueReport _Report = new();
-        public IssueReport Report
+
+
+        private CrashReport _Report = new();
+        public CrashReport Report
         {
             get { return _Report; }
             set
@@ -38,8 +40,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
-        public ViewIssueVM()
+        public ViewCrashVM()
         {
             var Id = Data.StaticData.ReportId;
 
@@ -47,11 +48,14 @@ namespace CheckCars.ViewModels
 
             using (var dbo = new ReportsDBContextSQLite())
             {
-                Report = dbo.IssueReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId == Id);
-            
+                Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId == Id);
+
             }
 
         }
+        public ICommand IDeleteReport { get; }
+
+
         private async Task DeletePhotos(List<string> paths)
         {
             foreach (var item in paths)
@@ -67,7 +71,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        public ICommand IDeleteReport { get; }
+
 
         public async Task DeleteReport()
         {
@@ -85,8 +89,10 @@ namespace CheckCars.ViewModels
                 {
                     db.Photos.RemoveRange(Report.Photos);
                     db.SaveChanges();
-                    db.IssueReports.Remove(Report);
+                    db.CrashReports.Remove(Report);
                     db.SaveChanges();
+
+                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
 
                     var paths = Report.Photos.Select(e => e.FilePath).ToList();
                     if (paths.Any())
@@ -94,15 +100,10 @@ namespace CheckCars.ViewModels
                         // Ejecuta la eliminación de fotos en un hilo aparte
                         new Thread(() => DeletePhotos(paths)).Start();
                     }
-
-                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
                     Application.Current.MainPage.Navigation.RemovePage(d);
 
                 }
-
             }
-
         }
-
     }
 }

@@ -31,9 +31,7 @@ namespace CheckCars.ViewModels
         }
         #endregion
 
-
         private EntryExitReport _report = new();
-
         public EntryExitReport Report
         {
             get { return _report; }
@@ -46,10 +44,8 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         // Lista para almacenar las fotos capturadas
         private ObservableCollection<Photo> _imgs = new();
-
         // Propiedad para la lista de fotos
         public ObservableCollection<Photo> ImgList
         {
@@ -93,10 +89,14 @@ namespace CheckCars.ViewModels
 
                 if (answer)
                 {
-                    Report.Name = "Registro de Entrada y Salida";
+                    _isCheckingLocation = true;
+
                     Report.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
+                        double[] location =await GetCurrentLocation();
+                        Report.Latitude = location[0];
+                        Report.Longitude = location[1]; 
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         Report.Photos = ImgList.Select(photo =>
                         {
@@ -113,9 +113,9 @@ namespace CheckCars.ViewModels
             catch (Exception rf)
             {
                 Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
+                CancelRequest();
             }
         }
-
         private async Task Close()
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
@@ -164,6 +164,48 @@ namespace CheckCars.ViewModels
                 // Manejo de excepciones, por ejemplo, mostrar un mensaje de error
                 Console.WriteLine($"Error al capturar y guardar la foto: {ex.Message}");
             }
+        }
+
+        private CancellationTokenSource _cancelTokenSource;
+        private bool _isCheckingLocation;
+
+        public async Task<double[]> GetCurrentLocation()
+        {
+            try
+            {
+                _isCheckingLocation = true;
+
+                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+                _cancelTokenSource = new CancellationTokenSource();
+
+                Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
+
+               return new double[] { location.Latitude,location.Longitude};
+
+
+              
+            }
+            // Catch one of the following exceptions:
+            //   FeatureNotSupportedException
+            //   FeatureNotEnabledException
+            //   PermissionException
+            catch (Exception ex)
+            {
+                // Unable to get location
+                return null;
+            }
+            finally
+            {
+                _isCheckingLocation = false;
+             
+            }
+        }
+
+        public void CancelRequest()
+        {
+            if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
+                _cancelTokenSource.Cancel();
         }
     }
 }

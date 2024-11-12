@@ -40,7 +40,7 @@
                         <Label Grid.Row="0" Grid.Column="0" Text="Fecha"  FontSize="Medium" />
                         <DatePicker Grid.Row="0" Grid.Column="1" Date="{Binding newCrashReport.Created}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <Label  Grid.Row="1" Grid.Column="0"  Text="Vehiculo"  FontSize="Medium" />
-                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.CarPlate}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
                             <!-- Opciones del ComboBox -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">

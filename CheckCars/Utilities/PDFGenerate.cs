@@ -50,12 +50,13 @@ namespace CheckCars.Utilities
                     var rows = new List<Tuple<string, string>>
                         {
                             new Tuple<string, string>("Id de Reporte", i.ReportId.ToString()),
-                            new Tuple<string, string>("Nombre", i.Name ?? ""),
                             new Tuple<string, string>("Autor", i.Author ?? ""),
                             new Tuple<string, string>("Fecha  Creación", i.Created.ToString("yyyy-MM-dd")),
+                            new Tuple<string, string>("Latitud", i.Latitude.ToString()),
+                            new Tuple<string, string>("Longitud", i.Longitude.ToString()),
                             new Tuple<string, string>("Kilometraje", i.mileage.ToString()),
                             new Tuple<string, string>("Vehículo", i.CarPlate ?? ""),
-                            new Tuple<string, string>("Nivel Combustible", (i.FuelLevel/100).ToString() + "%"),
+                            new Tuple<string, string>("Nivel Combustible", Math.Round((i.FuelLevel/10)).ToString() + "%"),
                             new Tuple<string, string>("Notas", i.Notes ?? ""),
                             new Tuple<string, string>("Tiene Cargador USB", i.HasChargerUSB.ToString()),
                             new Tuple<string, string>("Tiene QuickPass", i.HasQuickPass.ToString()),
@@ -153,9 +154,6 @@ namespace CheckCars.Utilities
                 return null;
             }
         }
-
-
-
 
     }
 }

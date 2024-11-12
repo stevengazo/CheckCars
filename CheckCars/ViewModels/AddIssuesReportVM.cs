@@ -136,10 +136,12 @@ namespace CheckCars.ViewModels
 
                 if (answer)
                 {
-                    newIssueReport.Name = "Registro de Entrada y Salida";
                     newIssueReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
+                        double[] location = await GetCurrentLocation();
+                        newIssueReport.Latitude = location[0];
+                        newIssueReport.Longitude = location[1];
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newIssueReport.Photos = ImgList.Select(photo =>
                         {
@@ -163,6 +165,48 @@ namespace CheckCars.ViewModels
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
+        }
+
+        private CancellationTokenSource _cancelTokenSource;
+        private bool _isCheckingLocation;
+
+        public async Task<double[]> GetCurrentLocation()
+        {
+            try
+            {
+                _isCheckingLocation = true;
+
+                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+                _cancelTokenSource = new CancellationTokenSource();
+
+                Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
+
+                return new double[] { location.Latitude, location.Longitude };
+
+
+
+            }
+            // Catch one of the following exceptions:
+            //   FeatureNotSupportedException
+            //   FeatureNotEnabledException
+            //   PermissionException
+            catch (Exception ex)
+            {
+                // Unable to get location
+                return null;
+            }
+            finally
+            {
+                _isCheckingLocation = false;
+
+            }
+        }
+
+        public void CancelRequest()
+        {
+            if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
+                _cancelTokenSource.Cancel();
         }
     }
 }

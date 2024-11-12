@@ -21,22 +21,20 @@
 
     <!-- Grid que ocupa toda la pantalla y tiene tres secciones -->
     <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
-
         <!-- Define tres filas que ocupen cada una el 33% del alto de la pantalla -->
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-
         <CollectionView SelectionMode="Single" ItemsSource="{Binding CrashReports, Mode=OneWay}" Grid.Row="0">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Models:IssueReport">
+                <DataTemplate x:DataType="Models:CrashReport">
                     <Frame CornerRadius="10" Margin="5" HasShadow="True" Padding="10"
                  BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" BorderColor="Gray">
                         <!-- TapGestureRecognizer en el Frame -->
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
-                      Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CrashListVM}}, Path=ViewIssue}"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CrashListVM}}, Path=ViewReport}"
                       CommandParameter="{Binding  ReportId}" />
                         </Frame.GestureRecognizers>
                         <StackLayout Orientation="Vertical" Spacing="3">
@@ -52,10 +50,11 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                          </Grid>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding  CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Fecha" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DateOfCrash}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            </Grid>
                         </StackLayout>
-
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

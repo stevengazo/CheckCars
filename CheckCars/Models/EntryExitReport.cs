@@ -9,6 +9,7 @@ namespace CheckCars.Models
 {
     public class EntryExitReport : Report
     {
+        public long mileage { get; set; }
         /// <summary>
         /// Nivel de Aceite
         /// </summary>
