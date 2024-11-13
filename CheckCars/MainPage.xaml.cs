@@ -1,4 +1,5 @@
 ﻿using CheckCars.ViewModels;
+using Microsoft.Maui.ApplicationModel;
 
 namespace CheckCars
 {
