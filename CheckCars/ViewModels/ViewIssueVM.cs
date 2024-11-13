@@ -1,6 +1,7 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +39,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         public ViewIssueVM()
         {
             var Id = Data.StaticData.ReportId;
@@ -49,7 +49,7 @@ namespace CheckCars.ViewModels
             using (var dbo = new ReportsDBContextSQLite())
             {
                 Report = dbo.IssueReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId == Id);
-            
+
             }
 
         }
@@ -106,9 +106,44 @@ namespace CheckCars.ViewModels
         }
 
         public ICommand ISendReport { get; }
+
         public async Task SendReport()
         {
+            try
+            {
+                // 1. Serializar el objeto 'Report' a JSON
+                string jsonContent = JsonConvert.SerializeObject(Report, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+                // 2. Generar un archivo y guardar el JSON en el almacenamiento local
+                string fileName = "reporte.json";
+                string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
 
+                // Guardar el JSON en el archivo
+                await File.WriteAllTextAsync(filePath, jsonContent);
+
+                // 3. Compartir el archivo (opcional)
+                await ShareFile(filePath, fileName);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
+            }
         }
+
+        // Método para compartir el archivo usando el sistema de compartición de MAUI
+        private async Task ShareFile(string filePath, string fileName)
+        {
+            var request = new ShareFileRequest
+            {
+                Title = "Enviar Reporte",
+                File = new ShareFile(filePath)
+            };
+
+            await Share.Default.RequestAsync(request);
+        }
+
     }
 }

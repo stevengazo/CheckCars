@@ -38,7 +38,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Fecha Registro -->
-                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="Fecha de Registro:" VerticalOptions="Center" />
+                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="FÑÑÑecha de Registro:" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1" FontSize="Small" Text="{Binding Report.Created}" VerticalOptions="Center" />
                         <!-- Vehiculo -->
                         <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
@@ -49,7 +49,7 @@
                         <!-- Kilometraje -->
                         <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
                         <Label FontSize="Small" Grid.Row="3" Grid.Column="1" Text="{Binding Report.Type}" VerticalOptions="Center" />
-
+                        
                         <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
                         <Label FontSize="Small" Grid.Row="4" Grid.Column="1" LineBreakMode="WordWrap" LineHeight="20" Text="{Binding Report.Details}"  />
 
