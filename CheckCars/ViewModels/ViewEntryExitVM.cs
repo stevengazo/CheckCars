@@ -2,15 +2,9 @@
 using CheckCars.Models;
 using CheckCars.Utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Maui.ApplicationModel.DataTransfer;
-using Microsoft.Maui.Storage;
+using Newtonsoft.Json;
 
 namespace CheckCars.ViewModels
 {
@@ -62,7 +56,7 @@ namespace CheckCars.ViewModels
 
             using (var dbo = new ReportsDBContextSQLite())
             {
-                Report = dbo.EntryExitReports.Include(E=>E.Photos).FirstOrDefault(e => e.ReportId == Id);
+                Report = dbo.EntryExitReports.Include(E=>E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id) );
             }
 
             if (Report != null) {
@@ -71,6 +65,48 @@ namespace CheckCars.ViewModels
             }
             DownloadReportCommand = new Command( () =>  DownloadReport());
             IDeleteReport = new Command(async () => await DeleteReport());
+            ISendReport = new Command(async () => await SendReport());
+
+        }
+
+        public ICommand ISendReport { get; }
+
+        public async Task SendReport()
+        {
+            try
+            {
+                // 1. Serializar el objeto 'Report' a JSON
+                string jsonContent = JsonConvert.SerializeObject(Report, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+                // 2. Generar un archivo y guardar el JSON en el almacenamiento local
+                string fileName = "reporte.json";
+                string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+
+                // Guardar el JSON en el archivo
+                await File.WriteAllTextAsync(filePath, jsonContent);
+
+                // 3. Compartir el archivo (opcional)
+                await ShareFile(filePath, fileName);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
+            }
+        }
+
+        // Método para compartir el archivo usando el sistema de compartición de MAUI
+        private async Task ShareFile(string filePath, string fileName)
+        {
+            var request = new ShareFileRequest
+            {
+                Title = "Enviar Reporte",
+                File = new ShareFile(filePath)
+            };
+
+            await Share.Default.RequestAsync(request);
         }
 
         #region Methods

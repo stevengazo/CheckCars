@@ -38,7 +38,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Fecha Registro -->
-                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="FÑÑÑecha de Registro:" VerticalOptions="Center" />
+                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="FÑÑÑÉÉcha de Registro:" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1" FontSize="Small" Text="{Binding Report.Created}" VerticalOptions="Center" />
                         <!-- Vehiculo -->
                         <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />

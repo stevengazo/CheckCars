@@ -48,7 +48,7 @@ namespace CheckCars.ViewModels
 
             using (var dbo = new ReportsDBContextSQLite())
             {
-                Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId == Id);
+                Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
 
             }
 

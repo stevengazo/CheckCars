@@ -48,14 +48,11 @@ namespace CheckCars.Utilities
 
             }
         }
-
         public void CancelRequest()
         {
             if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
                 _cancelTokenSource.Cancel();
         }
-
-
         public async Task<Photo> TakePhoto()
         {
             try
@@ -103,8 +100,5 @@ namespace CheckCars.Utilities
                 return null;
             }
         }
-
-
-
     }
 }

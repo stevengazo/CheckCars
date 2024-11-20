@@ -20,23 +20,22 @@ namespace CheckCars
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-
                 });
             builder.Services.AddDbContext<ReportsDBContextSQLite>();
             builder.Services.AddTransient<MainPage>();
 
             builder.Services.AddTransient<MainPageVM>();
 
-           GlobalFontSettings.FontResolver = new FileFontProvider();
+            GlobalFontSettings.FontResolver = new FileFontProvider();
 
             var dbContext = new ReportsDBContextSQLite();
 
             dbContext.Database.EnsureCreated();
             dbContext.Dispose();
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            #if DEBUG
+            builder.Logging.AddDebug();
+            #endif
 
             return builder.Build();
         }

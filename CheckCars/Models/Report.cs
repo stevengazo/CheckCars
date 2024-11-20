@@ -11,8 +11,7 @@ namespace CheckCars.Models
     public  abstract class Report
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ReportId { get; set; }
+        public string ReportId { get; set; } = Guid.NewGuid().ToString();
         public string? Author { get; set; }
         public DateTime Created { get; set; }
         public string? CarPlate { get; set; }

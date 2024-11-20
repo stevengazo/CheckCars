@@ -3,11 +3,17 @@
 using CheckCars.Models;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.IO.enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SixLabors.ImageSharp;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Processing;
+using System.Diagnostics;
 
 
 namespace CheckCars.Utilities
@@ -16,9 +22,26 @@ namespace CheckCars.Utilities
     {
 
 
+        public void ResizeImage(string filePath, string outputPath)
+        {
+            // Cargar la imagen
+            using (Image image = Image.Load(filePath))
+            {
+                // Redimensionar la imagen
+                image.Mutate(x => x.Resize(1200, 2400));
+
+                // Guardar la imagen redimensionada
+                image.Save(outputPath, new JpegEncoder { Quality = 75 }); // Puedes ajustar la calidad
+            }
+        }
+
+
 
         public async Task<byte[]> EntryExitReport(EntryExitReport i)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             try
             {
                 // Crear un documento PDF
@@ -101,39 +124,30 @@ namespace CheckCars.Utilities
                             // Verifica que la ruta de la foto sea válida
                             if (File.Exists(photo.FilePath))
                             {
+                                var newName = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                                ResizeImage(photo.FilePath, newName); 
                                 // Crea una nueva página en el documento
                                 PdfPage page1 = document.AddPage();
                                 XGraphics gfx1 = XGraphics.FromPdfPage(page1);
 
                                 // Carga la imagen
-                                XImage image = XImage.FromFile(photo.FilePath);
+                               byte[] imageBytes = File.ReadAllBytes(photo.FilePath);
 
-                                // Dimensiones de la página
-                                double pageWidth1 = page1.Width.Point;
-                                double pageHeight1 = page1.Height.Point;
 
-                                // Dimensiones originales de la imagen
-                                double originalImageWidth = image.PixelWidth;
-                                double originalImageHeight = image.PixelHeight;
+                                using (MemoryStream MS = new MemoryStream(imageBytes))
+                                {
+                                    // esto se queda pegado aqui
+                                    var image = XImage.FromStream(() => MS);
 
-                                // Dimensiones máximas para la imagen en la página
-                                double imageWidth1 = 300;  // Cambia este valor según el ancho máximo deseado
-                                double imageHeight1 = 600;  // Cambia este valor según el alto máximo deseado
+                                    // Left position in point
+                                   
+                                    double x = (250 - image.PixelWidth * 72 / image.HorizontalResolution) / 2;
+                                    
+                                    gfx1.DrawImage(image, x, 0);
 
-                                // Calcula el factor de escala para conservar la relación de aspecto
-                                double scaleFactor = Math.Min(imageWidth1 / originalImageWidth, imageHeight1 / originalImageHeight);
-                                double adjustedImageWidth = originalImageWidth * scaleFactor;
-                                double adjustedImageHeight = originalImageHeight * scaleFactor;
-
-                                // Calcula la posición para centrar la imagen en la página
-                                double xPosition1 = (pageWidth1 - adjustedImageWidth) / 2;
-                                double yPosition1 = (pageHeight1 - adjustedImageHeight) / 2;
-
-                                // Dibuja la imagen en la página, centrada y con el tamaño ajustado
-                                gfx1.DrawImage(image, xPosition1, yPosition1, adjustedImageWidth, adjustedImageHeight);
-
-                                // Libera la imagen después de usarla
-                                image.Dispose();
+                                    image.Dispose();
+                                }
+                      
                             }
                         }
                     }
@@ -155,6 +169,13 @@ namespace CheckCars.Utilities
                 // Manejo de errores
                 Console.WriteLine($"Error al generar el reporte: {ex.Message}");
                 return null;
+            }
+            finally
+            {
+                var e = $"El tiempo transcurrido es: {stopwatch.ElapsedMilliseconds} ms";
+                Application.Current.MainPage.DisplayAlert("Info", e, "Ok");
+                stopwatch.Stop();
+                Console.WriteLine(e);
             }
         }
      

@@ -18,7 +18,7 @@ namespace CheckCars.Models
         public DateTime DateTaken { get; set; }
 
         [ForeignKey("Report")]
-        public int ReportId { get; set; }
+        public string ReportId { get; set; }
         public Report Report { get; set; }
 
     }

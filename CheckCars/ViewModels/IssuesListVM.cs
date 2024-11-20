@@ -32,7 +32,7 @@ namespace CheckCars.ViewModels
         public ICommand AddIssueReport { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddIssuesReport()));
         public ICommand ViewIssue { get; } = new Command(async (e) =>
         {
-            if (e is int reportId) // Cambia 'int' por el tipo adecuado si es necesario
+            if (e is string reportId) // Cambia 'int' por el tipo adecuado si es necesario
             {
                 Data.StaticData.ReportId = reportId;
                 await Application.Current.MainPage.Navigation.PushAsync(new ViewIssue(), true);
