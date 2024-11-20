@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using Microsoft.Maui.Media;
 using Microsoft.Maui.Devices.Sensors;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Processors.Transforms;
+
 
 namespace CheckCars.Utilities
 {
@@ -21,17 +26,10 @@ namespace CheckCars.Utilities
             try
             {
                 _isCheckingLocation = true;
-
                 GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-
                 _cancelTokenSource = new CancellationTokenSource();
-
                 Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
-
                 return new double[] { location.Latitude, location.Longitude };
-
-
-
             }
             // Catch one of the following exceptions:
             //   FeatureNotSupportedException
@@ -45,7 +43,6 @@ namespace CheckCars.Utilities
             finally
             {
                 _isCheckingLocation = false;
-
             }
         }
         public void CancelRequest()
@@ -53,6 +50,21 @@ namespace CheckCars.Utilities
             if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
                 _cancelTokenSource.Cancel();
         }
+
+        public void ResizeImage(string filePath, string outputPath)
+        {
+            // Cargar la imagen
+            using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(filePath))
+            {
+                // Redimensionar la imagen
+                image.Mutate(x => x.Resize(image.Width / 5, image.Height / 5));
+                // Guardar la imagen redimensionada
+                image.Save(outputPath, new JpegEncoder { Quality = 80 }); // Puedes ajustar la calidad
+            }
+        }
+
+
+
         public async Task<Photo> TakePhoto()
         {
             try
@@ -62,11 +74,13 @@ namespace CheckCars.Utilities
                 {
                     // Captura la foto
                     FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+                    photo.FileName = $"Img-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.jpeg";
 
                     if (photo != null)
                     {
-                        // Obtiene la ruta local del archivo comprimido
-                        string filePath = Path.Combine(FileSystem.AppDataDirectory, photo.FileName);
+           
+                        Directory.CreateDirectory(FileSystem.AppDataDirectory + "/Photos");
+                        string filePath = Path.Combine(FileSystem.AppDataDirectory, "Photos", photo.FileName);
 
                         // Guarda la foto en la ruta local
                         using (var stream = await photo.OpenReadAsync())
@@ -74,6 +88,9 @@ namespace CheckCars.Utilities
                         {
                             await stream.CopyToAsync(fileStream);
                         }
+                        Task.Run(() => {
+                            ResizeImage(filePath,filePath);  
+                        });
 
                         // Crea un objeto Photo con la información de la imagen
                         var newPhoto = new Photo
