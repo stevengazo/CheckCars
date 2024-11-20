@@ -21,7 +21,8 @@ namespace CheckCars.ViewModels
         }
         #endregion
 
-        private double _FuelLevel;
+        private Thread reportThread = new Thread(() => { });
+        private double _FuelLevel; 
         public double FuelLevel
         {
             get { return _FuelLevel; }
@@ -49,28 +50,26 @@ namespace CheckCars.ViewModels
         }
         public ICommand DownloadReportCommand { get; }
         public ICommand IDeleteReport { get; }
-
         public ViewEntryExitVM()
         {
             var Id = Data.StaticData.ReportId;
 
             using (var dbo = new ReportsDBContextSQLite())
             {
-                Report = dbo.EntryExitReports.Include(E=>E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id) );
+                Report = dbo.EntryExitReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
             }
 
-            if (Report != null) {
+            if (Report != null)
+            {
                 FuelLevel = Report.FuelLevel / 100;
-            
+
             }
-            DownloadReportCommand = new Command( () =>  DownloadReport());
+            DownloadReportCommand = new Command(() => DownloadReport());
             IDeleteReport = new Command(async () => await DeleteReport());
             ISendReport = new Command(async () => await SendReport());
 
         }
-
         public ICommand ISendReport { get; }
-
         public async Task SendReport()
         {
             try
@@ -88,7 +87,7 @@ namespace CheckCars.ViewModels
                 await File.WriteAllTextAsync(filePath, jsonContent);
 
                 // 3. Compartir el archivo (opcional)
-                await ShareFile(filePath, fileName);
+                await ShareFile(filePath);
             }
             catch (Exception ex)
             {
@@ -97,17 +96,6 @@ namespace CheckCars.ViewModels
             }
         }
 
-        // Método para compartir el archivo usando el sistema de compartición de MAUI
-        private async Task ShareFile(string filePath, string fileName)
-        {
-            var request = new ShareFileRequest
-            {
-                Title = "Enviar Reporte",
-                File = new ShareFile(filePath)
-            };
-
-            await Share.Default.RequestAsync(request);
-        }
 
         #region Methods
         public async Task DeleteReport()
@@ -119,14 +107,14 @@ namespace CheckCars.ViewModels
                    "No"
                );
 
-            if( answer )
+            if (answer)
             {
 
                 using (var db = new ReportsDBContextSQLite())
                 {
                     db.Photos.RemoveRange(Report.Photos);
-                    db.SaveChanges();   
-                
+                    db.SaveChanges();
+
                     db.EntryExitReports.Remove(Report);
                     db.SaveChanges();
                     var paths = Report.Photos.Select(e => e.FilePath).ToList();
@@ -155,55 +143,34 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        private bool isDownloading = false;
+
         private void DownloadReport()
         {
-            // Verificar si ya se está descargando el reporte
-            if (isDownloading)
+
+            try
             {
-                Application.Current.MainPage.DisplayAlert("Información", "El reporte ya se encuentra generándose", "ok");
-                return;
+                if (Report != null)
+                {
+                    PDFGenerate d = new PDFGenerate();
+                    byte[] pdfBytes = d.EntryExitReport(Report).Result;
+                    var filePath = Path.Combine(FileSystem.CacheDirectory, $"Reporte Entrada {DateTime.Now.ToString("yy-MM-dd hh-mm-ss")}.pdf");
+                    File.WriteAllBytes(filePath, pdfBytes);
+                    ShareFile(filePath);
+
+                }
             }
-
-            // Marcar como en proceso de descarga
-            isDownloading = true;
-
-            // Ejecutar el proceso en un hilo separado
-            Thread reportThread = new Thread(new ThreadStart(async () =>
+            catch ( Exception e)
             {
-                try
-                {
+
+                throw;
+            }
                     
-                    // Verificar si el reporte existe
-                    if (Report != null)
-                    {
-                        PDFGenerate d = new PDFGenerate();
-                        // Generar el PDF
-                        byte[] pdfBytes = await d.EntryExitReport(Report);
-
-                        // Guardar el archivo PDF en el almacenamiento local
-                        var filePath = Path.Combine(FileSystem.CacheDirectory, "reporte.pdf");
-                        File.WriteAllBytes(filePath, pdfBytes);
-
-                        // Llamar a la función para compartir el archivo
-                        await SharePdf(filePath);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error: {e.Message}");
-                }
-                finally
-                {
-                    // Liberar la bandera al finalizar el proceso
-                    isDownloading = false;
-                }
-            }));
-
-            // Iniciar el hilo
-            reportThread.Start();
+                   
+              
+               
+          
         }
-        private async Task SharePdf(string filePath)
+        private async Task ShareFile(string filePath)
         {
             try
             {

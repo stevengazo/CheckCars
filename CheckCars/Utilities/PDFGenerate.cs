@@ -71,8 +71,6 @@ namespace CheckCars.Utilities
                     gfx.DrawString("Reporte de Entrada y Salida", new XFont("OpenSans", 16, XFontStyle.Bold), XBrushes.Black, new XPoint(margin, yPosition));
                     yPosition += 30;
 
-
-
                     // Crear una lista de propiedades y sus valores
                     var rows = new List<Tuple<string, string>>
                         {
@@ -114,46 +112,7 @@ namespace CheckCars.Utilities
 
                         yPosition += cellHeight; // Saltar una línea después de cada propiedad
                     }
-
-
-
-                    if (i.Photos != null && i.Photos.Any())
-                    {
-                        foreach (var photo in i.Photos)
-                        {
-                            // Verifica que la ruta de la foto sea válida
-                            if (File.Exists(photo.FilePath))
-                            {
-                                var newName = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-                                ResizeImage(photo.FilePath, newName); 
-                                // Crea una nueva página en el documento
-                                PdfPage page1 = document.AddPage();
-                                XGraphics gfx1 = XGraphics.FromPdfPage(page1);
-
-                                // Carga la imagen
-                               byte[] imageBytes = File.ReadAllBytes(photo.FilePath);
-
-
-                                using (MemoryStream MS = new MemoryStream(imageBytes))
-                                {
-                                    // esto se queda pegado aqui
-                                    var image = XImage.FromStream(() => MS);
-
-                                    // Left position in point
-                                   
-                                    double x = (250 - image.PixelWidth * 72 / image.HorizontalResolution) / 2;
-                                    
-                                    gfx1.DrawImage(image, x, 0);
-
-                                    image.Dispose();
-                                }
-                      
-                            }
-                        }
-                    }
-
-
-                    // Crear un MemoryStream para almacenar el byte array
+                   // Crear un MemoryStream para almacenar el byte array
                     using (MemoryStream stream = new MemoryStream())
                     {
                         // Guardar el documento PDF en el MemoryStream
@@ -179,6 +138,12 @@ namespace CheckCars.Utilities
             }
         }
      
+
+        private void DrawPage(PdfPage page)
+        {
+            XGraphics xGraphics = XGraphics.FromPdfPage(page);
+
+        }
 
 
     }

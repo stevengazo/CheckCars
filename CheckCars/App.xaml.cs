@@ -9,9 +9,9 @@ namespace CheckCars
         {
             InitializeComponent();
 
-           // MainPage = new AppShell();
+            MainPage = new AppShell();
 
-            MainPage =   new LoginPage();
+           // MainPage =   new LoginPage();
         }
     }
 }
