@@ -3,7 +3,7 @@ using CheckCars.Utilities;
 using CheckCars.ViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using PdfSharpCore.Fonts;
+
 
 
 namespace CheckCars
@@ -26,7 +26,7 @@ namespace CheckCars
 
             builder.Services.AddTransient<MainPageVM>();
 
-            GlobalFontSettings.FontResolver = new FileFontProvider();
+            //GlobalFontSettings.FontResolver = new FileFontProvider();
 
             var dbContext = new ReportsDBContextSQLite();
 

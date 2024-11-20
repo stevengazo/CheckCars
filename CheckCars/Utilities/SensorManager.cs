@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using Microsoft.Maui.Media;
 using Microsoft.Maui.Devices.Sensors;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Processors.Transforms;
-
 
 namespace CheckCars.Utilities
 {
@@ -51,17 +46,6 @@ namespace CheckCars.Utilities
                 _cancelTokenSource.Cancel();
         }
 
-        public void ResizeImage(string filePath, string outputPath)
-        {
-            // Cargar la imagen
-            using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(filePath))
-            {
-                // Redimensionar la imagen
-                image.Mutate(x => x.Resize(image.Width / 5, image.Height / 5));
-                // Guardar la imagen redimensionada
-                image.Save(outputPath, new JpegEncoder { Quality = 80 }); // Puedes ajustar la calidad
-            }
-        }
 
 
 
@@ -88,10 +72,7 @@ namespace CheckCars.Utilities
                         {
                             await stream.CopyToAsync(fileStream);
                         }
-                        Task.Run(() => {
-                            ResizeImage(filePath,filePath);  
-                        });
-
+                       
                         // Crea un objeto Photo con la información de la imagen
                         var newPhoto = new Photo
                         {

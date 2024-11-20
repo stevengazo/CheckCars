@@ -95,8 +95,6 @@ namespace CheckCars.ViewModels
                 Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
             }
         }
-
-
         #region Methods
         public async Task DeleteReport()
         {
@@ -143,7 +141,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         private void DownloadReport()
         {
 
@@ -161,14 +158,8 @@ namespace CheckCars.ViewModels
             }
             catch ( Exception e)
             {
-
                 throw;
-            }
-                    
-                   
-              
-               
-          
+            }  
         }
         private async Task ShareFile(string filePath)
         {
