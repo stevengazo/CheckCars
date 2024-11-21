@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              x:Class="CheckCars.Views.Account"
              Title="Cuenta">
+    <ContentPage.BindingContext>
+        <ViewModels:AccountVM />
+    </ContentPage.BindingContext>
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="2">
 
@@ -61,7 +65,8 @@
                                        VerticalOptions="Center">
                     <Button WidthRequest="180" 
                             HeightRequest="40" 
-                            Text="Borrar Reportes" />
+                            Text="Borrar Reportes"
+                            Command="{Binding CleanReports}"/>
                     <Label Text="Borra los reportes existentes" 
                            WidthRequest="200" 
                            VerticalOptions="Center" 
@@ -74,7 +79,8 @@
                                        VerticalOptions="Center">
                     <Button WidthRequest="180" 
                             HeightRequest="40" 
-                            Text="Borrar PDFs" />
+                            Text="Borrar PDFs"
+                            Command="{Binding CleanPdfs}"/>
                     <Label Text="Borra los PDFs generados" 
                            WidthRequest="200" 
                            VerticalOptions="Center" 
