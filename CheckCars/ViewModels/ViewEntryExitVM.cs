@@ -143,23 +143,25 @@ namespace CheckCars.ViewModels
         }
         private void DownloadReport()
         {
-
-            try
+            Task.Run(async () =>
             {
-                if (Report != null)
+                try
                 {
-                    PDFGenerate d = new PDFGenerate();
-                    byte[] pdfBytes = d.EntryExitReport(Report).Result;
-                    var filePath = Path.Combine(FileSystem.CacheDirectory, $"Reporte Entrada {DateTime.Now.ToString("yy-MM-dd hh-mm-ss")}.pdf");
-                    File.WriteAllBytes(filePath, pdfBytes);
-                    ShareFile(filePath);
-
+                    if (Report != null)
+                    {
+                        PDFGenerate d = new PDFGenerate();
+                        byte[] pdfBytes = await d.EntryExitReport(Report); // Asegúrate de usar 'await' con métodos async.
+                        var filePath = Path.Combine(FileSystem.CacheDirectory, $"Reporte Entrada {Report.CarPlate} {DateTime.Now:yy-MM-dd hh-mm-ss}.pdf");
+                        File.WriteAllBytes(filePath, pdfBytes);
+                        ShareFile(filePath);
+                    }
                 }
-            }
-            catch ( Exception e)
-            {
-                throw;
-            }  
+                catch (Exception e)
+                {
+                    // Manejo de errores (log, mensajes, etc.)
+                    Console.WriteLine($"Error: {e.Message}");
+                }
+            });
         }
         private async Task ShareFile(string filePath)
         {
