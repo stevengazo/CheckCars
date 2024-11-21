@@ -8,7 +8,7 @@
     Shell.FlyoutBehavior="Flyout"
     Shell.TabBarIsVisible="False"
     TitleColor="{AppThemeBinding Light=Black, Dark=White}"
-    FlyoutBackgroundColor="LightGrey"
+    FlyoutBackgroundColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
     BackgroundColor="LightBlue"
     Title="CheckCars">
     <Shell.FlyoutHeader>
@@ -22,7 +22,7 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
         <ShellContent
-        Title="Cuenta"
+        Title="Cuenta y Configuración"
         ContentTemplate="{DataTemplate Views:Account}"
         Route="Account" />
     </FlyoutItem>

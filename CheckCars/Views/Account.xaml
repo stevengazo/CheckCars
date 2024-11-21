@@ -2,11 +2,86 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckCars.Views.Account"
-             Title="Account">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Cuenta">
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="2">
+
+            <!-- Sección: Cuenta -->
+            <VerticalStackLayout>
+                <Label FontSize="Title" 
+                       HorizontalOptions="Center" 
+                       Margin="10" 
+                       Text="Cuenta" />
+
+                <!-- Entrada de Usuario -->
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+                    <Label Text="Usuario" 
+                           WidthRequest="80" 
+                           VerticalOptions="Center" />
+                    <Entry Keyboard="Text" 
+                           WidthRequest="200" 
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!-- Entrada de Correo -->
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+                    <Label Text="Correo" 
+                           WidthRequest="80" 
+                           VerticalOptions="Center" />
+                    <Entry Keyboard="Email" 
+                           WidthRequest="200" 
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!-- Entrada de Cédula -->
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+                    <Label Text="Cédula" 
+                           WidthRequest="80" 
+                           VerticalOptions="Center" />
+                    <Entry Keyboard="Text" 
+                           WidthRequest="200" 
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Línea divisoria -->
+            <BoxView HeightRequest="1" 
+                     BackgroundColor="Gray" 
+                     HorizontalOptions="Fill" />
+
+            <!-- Sección: Configuración -->
+            <VerticalStackLayout Spacing="15">
+                <Label FontSize="Title" 
+                       HorizontalOptions="Center" 
+                       Text="Configuración" />
+
+                <!-- Botón y descripción para borrar reportes -->
+                <HorizontalStackLayout Spacing="10" 
+                                       HorizontalOptions="CenterAndExpand" 
+                                       VerticalOptions="Center">
+                    <Button WidthRequest="180" 
+                            HeightRequest="40" 
+                            Text="Borrar Reportes" />
+                    <Label Text="Borra los reportes existentes" 
+                           WidthRequest="200" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Start" />
+                </HorizontalStackLayout>
+
+                <!-- Botón y descripción para borrar PDFs -->
+                <HorizontalStackLayout Spacing="10" 
+                                       HorizontalOptions="CenterAndExpand" 
+                                       VerticalOptions="Center">
+                    <Button WidthRequest="180" 
+                            HeightRequest="40" 
+                            Text="Borrar PDFs" />
+                    <Label Text="Borra los PDFs generados" 
+                           WidthRequest="200" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Start" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
