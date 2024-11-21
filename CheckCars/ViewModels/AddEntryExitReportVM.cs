@@ -1,6 +1,5 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
-using SkiaSharp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace CheckCars.ViewModels
 {
@@ -31,6 +31,7 @@ namespace CheckCars.ViewModels
             Report.Created = DateTime.Now;
 
             Report.Author = StaticData.User.UserName;
+            DeletePhotoCommand = new Command<Photo>(DeletePhoto);
         }
         #endregion
         private CheckCars.Utilities.SensorManager SensorManager = new();
@@ -71,7 +72,6 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
-
         private async Task TakePhotos()
         {
             Photo photo = await SensorManager.TakePhoto();
@@ -80,7 +80,6 @@ namespace CheckCars.ViewModels
                 ImgList.Add(photo);
             }
         }
-
         public ICommand AddReport
         {
             get
@@ -89,7 +88,25 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
+        public ICommand DeletePhotoCommand { get; } 
+        private void DeletePhoto(Photo photo)
+        {
+            if (photo == null) return; // Evitar argumentos nulos
 
+            try
+            {
+                if (File.Exists(photo.FilePath))
+                {
+                    File.Delete(photo.FilePath);
+                }
+                ImgList.Remove(photo); // Eliminar de la lista
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción (por ejemplo, loguearla)
+                Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
+            }
+        }
         private async Task AddReportEntry()
         {
             try
