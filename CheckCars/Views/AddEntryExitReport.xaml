@@ -196,7 +196,7 @@
 
         <!-- Botón de Agregar Reporte -->
         <HorizontalStackLayout Grid.Row="2" Padding="5" HorizontalOptions="Center">
-            <Button Text="Agregar Reporte" WidthRequest="150" HeightRequest="40" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" Command="{Binding AddReport}" />
+            <Button Text="Agregar Reporte" WidthRequest="150" HeightRequest="40" BackgroundColor="Green"  TextColor="{AppThemeBinding Light=White, Dark=White}"  Command="{Binding AddReport}" />
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>

@@ -29,9 +29,11 @@ namespace CheckCars.ViewModels
         private CheckCars.Utilities.SensorManager SensorManager = new();
         public AddIssuesReportVM()
         {
-            
         }
-        private IssueReport _newIssueReport = new();
+        private IssueReport _newIssueReport = new()
+        {
+            Created = DateTime.Now,
+        };
         public IssueReport newIssueReport
         {
             get { return _newIssueReport; }
@@ -73,7 +75,6 @@ namespace CheckCars.ViewModels
                 ImgList.Add(photo);
             }
         }
-
         public ICommand AddReport
         {
             get
@@ -82,7 +83,6 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
-
         private async Task AddReportEntry()
         {
             try
@@ -120,15 +120,10 @@ namespace CheckCars.ViewModels
                 SensorManager.CancelRequest();
             }
         }
-
         private async Task Close()
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
-        }
-
-      
-
-      
+        }     
     }
 }

@@ -85,8 +85,8 @@
                 Margin="10"
                 WidthRequest="130"
                 HorizontalOptions="Center"
-                Command="{Binding AddReport}"
                 VerticalOptions="Center"
+                  Command="{Binding AddReport}"
                 Grid.Row="1" />
         </Grid>
     

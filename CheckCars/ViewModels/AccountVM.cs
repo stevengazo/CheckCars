@@ -53,7 +53,6 @@ namespace CheckCars.ViewModels
             StaticData.User.UserName = User.UserName;
             Preferences.Set(nameof(UserProfile.UserName), User.UserName);
             Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
-
         }
         private UserProfile _User = new();
         public UserProfile User
@@ -72,10 +71,7 @@ namespace CheckCars.ViewModels
         {
             StaticData.User = new UserProfile();
             StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Default User");
-            User.UserName = StaticData.User.UserName;   
-
-
-            
+            User.UserName = StaticData.User.UserName;       
         }
         private async Task DeleteReports()
         {
