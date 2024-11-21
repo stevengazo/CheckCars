@@ -1,4 +1,5 @@
 ﻿using CheckCars.Data;
+using CheckCars.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,31 +40,43 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
-
-
-        private string _UserName;
-        public string UserName
+        public ICommand UpdateUser
         {
-            get { return _UserName; }
-            set {
-                if (_UserName != value)
+            get
+            {
+                return new Command(async () => await UpdateUserProfile());
+            }
+            private set { }
+        }
+        private async Task UpdateUserProfile()
+        {
+            StaticData.User.UserName = User.UserName;
+            Preferences.Set(nameof(UserProfile.UserName), User.UserName);
+            Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
+
+        }
+        private UserProfile _User = new();
+        public UserProfile User
+        {
+            get { return _User; }
+            set
+            {
+                if (_User != value)
                 {
-                    _UserName = value;
-                    OnPropertyChanged(nameof(UserName));  // Notificamos el cambio de lista
+                    _User = value;
+                    OnPropertyChanged(nameof(User));  // Notificamos el cambio de lista
                 }
             }
         }
-
-
-
         public AccountVM()
         {
-            Preferences.Set("UserName", "Default");
+            StaticData.User = new UserProfile();
+            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Default User");
+            User.UserName = StaticData.User.UserName;   
+
+
             
         }
-
-
-
         private async Task DeleteReports()
         {
             try
@@ -85,7 +98,7 @@ namespace CheckCars.ViewModels
                         db.IssueReports.RemoveRange(db.IssueReports.ToList());
                         db.CrashReports.RemoveRange(db.CrashReports.ToList());
                         db.SaveChanges();
-                        Application.Current.MainPage.DisplayAlert("Información", "Base de Datos borrada", "Ok");
+                        Application.Current.MainPage.DisplayAlert("Información", "Base de Datos Borrada", "Ok");
                     }
                 }
             }
@@ -96,7 +109,6 @@ namespace CheckCars.ViewModels
             }
 
         }
-
         private async Task DeletePhotos(List<string> photos)
         {
             foreach (var photo in photos)
@@ -104,7 +116,6 @@ namespace CheckCars.ViewModels
                 File.Delete(photo);
             }
         }
-
         private async Task DeletePdf()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert(
@@ -121,7 +132,7 @@ namespace CheckCars.ViewModels
                 {
                     File.Delete( file );
                 }
-                Application.Current.MainPage.DisplayAlert("Información", "Cache borrada", "Ok");
+                Application.Current.MainPage.DisplayAlert("Información", "Cache Borrada", "Ok");
             }
         }
     }

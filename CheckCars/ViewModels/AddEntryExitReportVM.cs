@@ -29,6 +29,8 @@ namespace CheckCars.ViewModels
         {
             Report = new();
             Report.Created = DateTime.Now;
+
+            Report.Author = StaticData.User.UserName;
         }
         #endregion
         private CheckCars.Utilities.SensorManager SensorManager = new();
@@ -103,7 +105,6 @@ namespace CheckCars.ViewModels
                 {
                     SensorManager._isCheckingLocation = true;
 
-                    Report.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
                         double[] location =await  SensorManager.GetCurrentLocation();

@@ -1,5 +1,8 @@
 ﻿using CheckCars.ViewModels;
 using Microsoft.Maui.ApplicationModel;
+using CheckCars.Data;
+using CheckCars.Models;
+using System.Net;
 
 namespace CheckCars
 {
@@ -12,8 +15,17 @@ namespace CheckCars
             InitializeComponent();
             BindingContext = vm;
             RequestPermissions();
+
+            LoadData();
         }
 
+        private void LoadData()
+        {
+            StaticData.User = new UserProfile();
+
+            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Default User");
+            StaticData.User.DNI = int.Parse(Preferences.Get(nameof(UserProfile.DNI), "00000000"));
+        }
 
         private async void RequestPermissions()
         {

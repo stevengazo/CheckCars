@@ -24,7 +24,9 @@
                            VerticalOptions="Center" />
                     <Entry Keyboard="Text" 
                            WidthRequest="200" 
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"
+                           Text="{Binding User.UserName}"
+                           />
                 </HorizontalStackLayout>
 
                 <!-- Entrada de Correo -->
@@ -45,6 +47,12 @@
                     <Entry Keyboard="Text" 
                            WidthRequest="200" 
                            VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Button WidthRequest="180" 
+          HeightRequest="40" 
+          Text="Actualizar"
+          Command="{Binding UpdateUser}"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
 
