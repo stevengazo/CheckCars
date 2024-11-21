@@ -22,25 +22,74 @@ namespace CheckCars.Utilities
 {
     public class PDFGenerate
     {
-
-
-        public void ResizeImage(string filePath, string outputPath)
+        public async Task<byte[]> IssueReport(IssueReport issueReport)
         {
+            try
+            {
+                using(MemoryStream ms = new MemoryStream())
+                {
+                    PdfWriter writer = new PdfWriter(ms);
+                    PdfDocument pdf = new PdfDocument(writer);
+                    Document doc = new Document(pdf);
 
+                    Paragraph header = new Paragraph($"Problema - {issueReport.CarPlate} ")
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    doc.Add(header);
+
+                    addIssueTable(doc, issueReport);
+                    Paragraph Title = new Paragraph($"Detalles")
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    doc.Add(Title);
+
+                    Paragraph details = new Paragraph(issueReport.Details)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFontSize(15);
+                   doc.Add(details);
+
+
+
+                    if (issueReport.Photos?.Count > 0)
+                    {
+                        AddPhotos(doc, issueReport.Photos.ToList(), issueReport.CarPlate, issueReport.Created);
+                    }
+                    doc.Close();
+                    return ms.ToArray();
+
+
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
 
-
-        private void GenerateTableEntry()
+        private void addIssueTable(Document document, IssueReport i)
         {
-           
+            // Crear una tabla con 3 columnas
+            Table table = new Table(UnitValue.CreatePercentArray(2)).UseAllAvailableWidth();
+
+            // Agregar encabezados
+            table.AddHeaderCell("Categorias");
+            table.AddHeaderCell("Datos");
+
+            AddRow(table, nameof(i.ReportId), i.ReportId);
+            AddRow(table, nameof(i.Author), i.Author);
+            AddRow(table, nameof(i.Created), i.Created.ToString("yyyy-MMM-dd HH:mm:ss"));
+            AddRow(table, nameof(i.CarPlate), i.CarPlate);
+            AddRow(table, nameof(i.Latitude), i.Latitude.ToString());
+            AddRow(table, nameof(i.Longitude), i.Longitude.ToString());
+            AddRow(table, nameof(i.Priority), i.Priority);
+            AddRow(table, nameof(i.Type), i.Type);
+            document.Add(table);
+
+
 
         }
-
-        private void AddImages()
-        {
-               
-        }
-
 
         private void addEntryTable(Document document, EntryExitReport i)
         {
@@ -70,7 +119,6 @@ namespace CheckCars.Utilities
             AddRow(table, nameof(i.InteriorsState), i.InteriorsState);
             document.Add(table);
         }
-
         public async Task<byte[]> EntryExitReport(EntryExitReport i)
         {
             try
@@ -81,17 +129,16 @@ namespace CheckCars.Utilities
                     PdfDocument pdf = new PdfDocument(writer);
                     Document document = new Document(pdf);
 
-                    Paragraph header = new Paragraph($"Reporte Salida - {i.CarPlate} ") 
+                    Paragraph header = new Paragraph($"Reporte Salida - {i.CarPlate} ")
                         .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
                         .SetFontSize(20);
                     document.Add(header);
 
                     addEntryTable(document, i);
-                   
-                    if(i.Photos.Count> 0)
-                    {
-                        AddPhotos(document, i.Photos.ToList(),i.CarPlate, i.Created);
 
+                    if (i.Photos.Count > 0)
+                    {
+                        AddPhotos(document, i.Photos.ToList(), i.CarPlate, i.Created);
                     }
                     document.Close();
                     return ms.ToArray();
@@ -102,8 +149,7 @@ namespace CheckCars.Utilities
                 throw;
             }
         }
-
-        private void AddPhotos( Document document , List<Photo> Photos, string CarPlate, DateTime dateCreated)
+        private void AddPhotos(Document document, List<Photo> Photos, string CarPlate, DateTime dateCreated)
         {
             foreach (var ITEM in Photos)
             {
@@ -128,14 +174,12 @@ namespace CheckCars.Utilities
             }
 
         }
-
-
-          private void AddRow(Table table, string Title, string value)
+        private void AddRow(Table table, string Title, string value)
         {
             table.AddCell(Title).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
             table.AddCell(value);
         }
-      
+
     }
 }
 

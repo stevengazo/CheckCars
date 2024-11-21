@@ -12,6 +12,7 @@ namespace CheckCars.Data
 {
     public class ReportsDBContextSQLite : DbContext
     {
+       // public DbSet<CarModel> Cars { get; set; }
         public DbSet<CrashReport> CrashReports { get; set; }
         public DbSet<EntryExitReport> EntryExitReports { get; set; }
         public DbSet<IssueReport> IssueReports { get; set; }
