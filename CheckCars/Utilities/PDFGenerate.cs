@@ -22,11 +22,116 @@ namespace CheckCars.Utilities
 {
     public class PDFGenerate
     {
+        public async Task<byte[]> CrashReports(CrashReport crashReport)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    PdfWriter writer = new PdfWriter(ms);
+                    PdfDocument pdf = new PdfDocument(writer);
+                    Document document = new Document(pdf);
+
+                    Paragraph header = new Paragraph($"Accidente - {crashReport.CarPlate} ")
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    document.Add(header);
+
+                    addCrashTable(document, crashReport);
+
+
+
+                    Paragraph Title = new Paragraph($"Detalles")
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    document.Add(Title);
+
+                    Paragraph details = new Paragraph(crashReport.CrashDetails)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFontSize(15);
+                    document.Add(details);
+                    Paragraph Title2 = new Paragraph($"Partes Dañadas")
+                              .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                              .SetFontSize(20);
+                    document.Add(Title2);
+
+                    Paragraph details2 = new Paragraph(crashReport.CrashedParts)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFontSize(15);
+                    document.Add(details2);
+
+                    if (crashReport.Photos.Count > 0)
+                    {
+                        AddPhotos(document, crashReport.Photos.ToList(), crashReport.CarPlate, crashReport.Created);
+                    }
+                    document.Close();
+                    return ms.ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+        }
+
+        private void addCrashTable(Document document, CrashReport crashReport)
+        {
+            // Crear una tabla con 3 columnas
+            Table table = new Table(UnitValue.CreatePercentArray(2)).UseAllAvailableWidth();
+
+            // Agregar encabezados
+            table.AddHeaderCell("Categorias");
+            table.AddHeaderCell("Datos");
+
+            AddRow(table, nameof(crashReport.ReportId), crashReport.ReportId);
+            AddRow(table, nameof(crashReport.Author), crashReport.Author);
+            AddRow(table, nameof(crashReport.Created), crashReport.Created.ToString("yyyy-MMM-dd HH:mm:ss"));
+            AddRow(table, nameof(crashReport.CarPlate), crashReport.CarPlate);
+            AddRow(table, nameof(crashReport.Latitude), crashReport.Latitude.ToString());
+            AddRow(table, nameof(crashReport.Longitude), crashReport.Longitude.ToString());
+            AddRow(table, nameof(crashReport.Location), crashReport.Location);
+
+            document.Add(table);
+        }
+
+        public async Task<byte[]> EntryExitReport(EntryExitReport i)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    PdfWriter writer = new PdfWriter(ms);
+                    PdfDocument pdf = new PdfDocument(writer);
+                    Document document = new Document(pdf);
+
+                    Paragraph header = new Paragraph($"Reporte Salida - {i.CarPlate} ")
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    document.Add(header);
+
+                    addEntryTable(document, i);
+
+
+
+                    if (i.Photos.Count > 0)
+                    {
+                        AddPhotos(document, i.Photos.ToList(), i.CarPlate, i.Created);
+                    }
+                    document.Close();
+                    return ms.ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
         public async Task<byte[]> IssueReport(IssueReport issueReport)
         {
             try
             {
-                using(MemoryStream ms = new MemoryStream())
+                using (MemoryStream ms = new MemoryStream())
                 {
                     PdfWriter writer = new PdfWriter(ms);
                     PdfDocument pdf = new PdfDocument(writer);
@@ -46,7 +151,7 @@ namespace CheckCars.Utilities
                     Paragraph details = new Paragraph(issueReport.Details)
                         .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                         .SetFontSize(15);
-                   doc.Add(details);
+                    doc.Add(details);
 
 
 
@@ -67,7 +172,6 @@ namespace CheckCars.Utilities
                 throw;
             }
         }
-
         private void addIssueTable(Document document, IssueReport i)
         {
             // Crear una tabla con 3 columnas
@@ -90,7 +194,6 @@ namespace CheckCars.Utilities
 
 
         }
-
         private void addEntryTable(Document document, EntryExitReport i)
         {
             // Crear una tabla con 3 columnas
@@ -118,36 +221,6 @@ namespace CheckCars.Utilities
             AddRow(table, nameof(i.OilLevel), i.OilLevel);
             AddRow(table, nameof(i.InteriorsState), i.InteriorsState);
             document.Add(table);
-        }
-        public async Task<byte[]> EntryExitReport(EntryExitReport i)
-        {
-            try
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    PdfWriter writer = new PdfWriter(ms);
-                    PdfDocument pdf = new PdfDocument(writer);
-                    Document document = new Document(pdf);
-
-                    Paragraph header = new Paragraph($"Reporte Salida - {i.CarPlate} ")
-                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                        .SetFontSize(20);
-                    document.Add(header);
-
-                    addEntryTable(document, i);
-
-                    if (i.Photos.Count > 0)
-                    {
-                        AddPhotos(document, i.Photos.ToList(), i.CarPlate, i.Created);
-                    }
-                    document.Close();
-                    return ms.ToArray();
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
         }
         private void AddPhotos(Document document, List<Photo> Photos, string CarPlate, DateTime dateCreated)
         {
