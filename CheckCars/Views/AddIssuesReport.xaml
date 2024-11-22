@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              x:Class="CheckCars.Views.AddIssuesReport"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:Models="clr-namespace:CheckCars.Models"
              Title="Agregar Reporte">
     <ContentPage.BindingContext>
         <ViewModels:AddIssuesReportVM />
@@ -26,8 +27,9 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Grid HorizontalOptions="FillAndExpand"  Padding="5" RowSpacing="1">
+                    <Grid HorizontalOptions="FillAndExpand"  Padding="2" >
                         <Grid.RowDefinitions >
+                            <RowDefinition Height="40" />
                             <RowDefinition Height="40" />
                             <RowDefinition Height="40" />
                             <RowDefinition Height="40" />
@@ -38,10 +40,10 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha"  FontSize="Medium" />
-                        <DatePicker Grid.Row="0" Grid.Column="1" Date="{Binding newIssueReport.Created}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label  Grid.Row="1" Grid.Column="0"  Text="Vehiculo"  FontSize="Medium" />
-                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.CarPlate}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha"  VerticalOptions="Center" />
+                        <DatePicker Grid.Row="0" Grid.Column="1" Date="{Binding newIssueReport.Created}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label  Grid.Row="1" Grid.Column="0"  Text="Vehiculo" VerticalOptions="Center" />
+                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.CarPlate}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"   TextColor="{AppThemeBinding Light=Black, Dark=White}">
                             <!-- Opciones del ComboBox -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -53,8 +55,8 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
-                        <Label  Grid.Row="2" Grid.Column="0"  Text="Prioridad"  FontSize="Medium" />
-                        <Picker Grid.Row="2" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.Priority}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                        <Label  Grid.Row="2" Grid.Column="0"  Text="Prioridad" VerticalOptions="Center"  />
+                        <Picker Grid.Row="2" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.Priority}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>Urgente</x:String>
@@ -63,8 +65,8 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
-                        <Label  Grid.Row="3" Grid.Column="0"  Text="Tipo Problema"  FontSize="Medium"/>
-                        <Picker Grid.Row="3" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.Type}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                        <Label  Grid.Row="3" Grid.Column="0"  Text="Tipo Problema"  VerticalOptions="Center" />
+                        <Picker Grid.Row="3" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.Type}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>Mecanico</x:String>
@@ -76,8 +78,8 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
-                        <Label  Grid.Row="4" Grid.Column="0" Text="Descripcion"  FontSize="Medium" Padding="0" />
-                        <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,20,0,0" Padding="3,3,3,0">
+                        <Label  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Descripcion" Padding="0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,0" Padding="4,3,4,0">
                             <Editor  HeightRequest="120" Text="{Binding newIssueReport.Details}" />
                         </Frame>
                     </Grid>
@@ -107,11 +109,27 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Orientation="Vertical" Padding="5">
-                                    <Image 
-                     Source="{Binding FilePath}" 
-                     HorizontalOptions="CenterAndExpand"
-                     Aspect="AspectFill" />
-                                    <Button BackgroundColor="Red" TextColor="White" Padding="0" FontSize="Small" HeightRequest="40" WidthRequest="80" Text="Eliminar"></Button>
+                                    <Grid>
+                                        <!-- Imagen ocupando toda la vista -->
+                                        <Image 
+                                            Source="{Binding FilePath}" 
+                                            HorizontalOptions="CenterAndExpand"
+                                            Aspect="AspectFill" />
+                                                                    <!-- Botón sobre la esquina inferior derecha -->
+                                                                    <Button 
+                                            BackgroundColor="Red" 
+                                            TextColor="White" 
+                                            Padding="0" 
+                                            FontSize="Small" 
+                                            HeightRequest="15" 
+                                            WidthRequest="80" 
+                                            Text="Eliminar"
+                                            VerticalOptions="End" 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddIssuesReportVM}}, Path=DeletePhotoCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HorizontalOptions="End"
+                                            Margin="5"/>
+                                    </Grid>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

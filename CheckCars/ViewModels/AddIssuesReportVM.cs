@@ -29,6 +29,7 @@ namespace CheckCars.ViewModels
         private CheckCars.Utilities.SensorManager SensorManager = new();
         public AddIssuesReportVM()
         {
+            DeletePhotoCommand = new Command<Photo>(DeletePhoto);
         }
         private IssueReport _newIssueReport = new()
         {
@@ -59,6 +60,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+        public ICommand DeletePhotoCommand { get; }
         public ICommand TakePhotoCommand
         {
             get
@@ -93,8 +95,9 @@ namespace CheckCars.ViewModels
                     "Sí",
                     "No"
                 );
+                bool valid = await ValidateData();
 
-                if (answer)
+                if (answer && valid)
                 {
                     newIssueReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
@@ -113,6 +116,9 @@ namespace CheckCars.ViewModels
                         db.SaveChanges();
                         Close();
                     }
+                }else if(answer && !valid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Error", "Verifique la información", "ok");
                 }
             }
             catch (Exception rf)
@@ -124,6 +130,45 @@ namespace CheckCars.ViewModels
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
-        }     
+        }
+        private void DeletePhoto(Photo photo)
+        {
+            if (photo == null) return; // Evitar argumentos nulos
+
+            try
+            {
+                if (File.Exists(photo.FilePath))
+                {
+                    File.Delete(photo.FilePath);
+                }
+                ImgList.Remove(photo); // Eliminar de la lista
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción (por ejemplo, loguearla)
+                Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
+            }
+        }
+ 
+        private async Task<bool> ValidateData()
+        {
+           
+            if (string.IsNullOrEmpty(newIssueReport.CarPlate))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(newIssueReport.Details))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(newIssueReport.Type))
+            {
+                return false;
+            }
+            return true;
+
+        }
+
+
     }
 }

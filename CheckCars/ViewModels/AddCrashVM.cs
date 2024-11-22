@@ -24,8 +24,13 @@ namespace CheckCars.ViewModels
         }
 
         #endregion
+
         private CheckCars.Utilities.SensorManager SensorManager = new();
 
+        public AddCrashVM()
+        {
+            DeletePhotoCommand = new Command<Photo>(DeletePhoto);
+        }
         // Lista para almacenar las fotos capturadas
         private ObservableCollection<Photo> _imgs = new();
         // Propiedad para la lista de fotos
@@ -49,7 +54,6 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
-
         private async Task TakePhotos()
         {
             Photo photo = await SensorManager.TakePhoto();
@@ -58,7 +62,6 @@ namespace CheckCars.ViewModels
                 ImgList.Add(photo);
             }
         }
-
         private CrashReport _newCrashReport = new() { DateOfCrash = DateTime.Now,
         Created = DateTime.Now};
         public CrashReport newCrashReport
@@ -73,6 +76,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+        public ICommand DeletePhotoCommand { get; }
         public ICommand AddReport
         {
             get
@@ -92,7 +96,9 @@ namespace CheckCars.ViewModels
                     "No"
                 );
 
-                if (answer)
+                bool valid = await ValidateData();
+
+                if (answer && valid)
                 {
                     newCrashReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
@@ -111,6 +117,9 @@ namespace CheckCars.ViewModels
                         db.SaveChanges();
                         Close();
                     }
+                }else if (answer && !valid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Error", "Valide la información", "ok");
                 }
             }
             catch (Exception rf)
@@ -123,6 +132,50 @@ namespace CheckCars.ViewModels
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
+        }
+        private void DeletePhoto(Photo photo)
+        {
+            if (photo == null) return; // Evitar argumentos nulos
+
+            try
+            {
+                if (File.Exists(photo.FilePath))
+                {
+                    File.Delete(photo.FilePath);
+                }
+                ImgList.Remove(photo); // Eliminar de la lista
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción (por ejemplo, loguearla)
+                Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
+            }
+        }
+
+        private async Task<bool> ValidateData()
+        {
+
+            if (string.IsNullOrEmpty(newCrashReport.CarPlate))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(newCrashReport.Location))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(newCrashReport.CrashDetails))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(newCrashReport.CrashedParts))
+            {
+                return false;
+            }
+            return true;
+
         }
 
 

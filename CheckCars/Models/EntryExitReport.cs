@@ -58,6 +58,7 @@ namespace CheckCars.Models
         /// Estado de los interiores
         /// </summary>
         public string? InteriorsState { get; set; }
+        public bool InteriorIsClean { get; set; }
 
 
     }

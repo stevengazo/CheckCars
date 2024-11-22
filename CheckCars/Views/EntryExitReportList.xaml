@@ -5,7 +5,7 @@
              xmlns:Models="clr-namespace:CheckCars.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CheckCars.Views.EntryExitReportList"
-             Title="Reportes de Entradas y Salidas">
+             Title="Reportes Salidas">
 
     <ContentPage.BindingContext>
         <ViewModels:EntryExitReportsListVM />
@@ -33,7 +33,7 @@
         <CollectionView SelectionMode="Single" ItemsSource="{Binding EntryExitReports, Mode=OneWay}" Grid.Row="0">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Models:EntryExitReport">
-                    <Frame CornerRadius="10" Margin="5" HasShadow="True" Padding="10"
+                    <Frame CornerRadius="10" Margin="2" HasShadow="True" Padding="5"
                            BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" BorderColor="Gray">
                         <!-- TapGestureRecognizer en el Frame -->
                         <Frame.GestureRecognizers>
@@ -42,7 +42,7 @@
                                 CommandParameter="{Binding  ReportId}" />
                         </Frame.GestureRecognizers>
 
-                        <StackLayout Orientation="Vertical" Spacing="3">
+                        <StackLayout Orientation="Vertical" Spacing="1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -55,20 +55,19 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0"  Grid.Column="1" Text="{Binding CarPlate}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecanico" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding MecanicState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecanico" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding MecanicState}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                <Label Grid.Row="2" Grid.Column="0" Text="Estado Llantas" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding  TiresState}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="Estado Llantas" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding  TiresState}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label Grid.Row="3" Grid.Column="0" Text="Kilometraje" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="3" Grid.Column="1" Text="{Binding  mileage}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Grid>
                         </StackLayout>
-                        
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -82,11 +81,12 @@
                 BorderWidth="1"
                 Text="Agregar Registro"
                 Padding="0"
+                HeightRequest="15"
                 Margin="10"
                 WidthRequest="130"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                  Command="{Binding AddReport}"
+                Command="{Binding AddReport}"
                 Grid.Row="1" />
         </Grid>
     

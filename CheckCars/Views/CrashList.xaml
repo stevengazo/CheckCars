@@ -52,7 +52,7 @@
                                 <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding  CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="1" Grid.Column="0" Text="Fecha" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DateOfCrash}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DateOfCrash, StringFormat='{0:yyyy-MM-dd}'}"  FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Grid>
                         </StackLayout>
                     </Frame>

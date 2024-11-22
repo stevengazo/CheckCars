@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                      xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:Models="clr-namespace:CheckCars.Models"
              x:Class="CheckCars.Views.AddCrash"
-             Title="Nuevo Reporte Accidente">
+             Title="Nuevo Accidente">
     <ContentPage.BindingContext>
         <ViewModels:AddCrashVM />
     </ContentPage.BindingContext>
@@ -14,7 +15,6 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
-
             <StackLayout>
                 <Border   BackgroundColor="{AppThemeBinding Light=white, Dark=DarkGray}" Margin="10" Padding="3" VerticalOptions="Start" >
                     <Border.Shadow>
@@ -40,10 +40,28 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha"  FontSize="Medium" />
-                        <DatePicker Grid.Row="0" Grid.Column="1" Date="{Binding newCrashReport.Created}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label  Grid.Row="1" Grid.Column="0"  Text="Vehiculo"  FontSize="Medium" />
-                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                        <Label Grid.Row="0" 
+                               Grid.Column="0" 
+                               Text="Fecha" 
+                               VerticalOptions="Center"  />
+                        <DatePicker Grid.Row="0" 
+                                    Grid.Column="1" 
+                                    Date="{Binding newCrashReport.Created}"
+                                    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
+                                    Margin="2"  
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label  Grid.Row="1" 
+                                Grid.Column="0"  
+                                Text="Vehiculo" 
+                                VerticalOptions="Center"   />
+                        <Picker Grid.Row="1" 
+                                Grid.Column="1"
+                                VerticalOptions="Center"
+                                Title="Seleccione" 
+                                SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}" 
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
+                                Margin="2"  
+                                TextColor="{AppThemeBinding Light=Black, Dark=White}">
                             <!-- Opciones del ComboBox -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -55,14 +73,30 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
-                        <Label  Grid.Row="2" Grid.Column="0"  Text="Ubicacion"  FontSize="Medium" />
-                        <Entry Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Text="{Binding newCrashReport.Location}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label Grid.Row="3" Grid.Column="0" Text="Detalles"  FontSize="Medium" Padding="0" />
-                        <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  Padding="5" HeightRequest="110" >
-                            <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashDetails}" />
+                        <Label  
+                            Grid.Row="2"
+                            Grid.Column="0"  
+                            Text="Ubicacion" 
+                            VerticalOptions="Center" />
+                        <Entry Grid.Row="2" 
+                               Grid.Column="1"
+                               VerticalOptions="Center"
+                               BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
+                               Margin="2"  Text="{Binding newCrashReport.Location}" 
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label Grid.Row="3"
+                               VerticalOptions="Center"
+                               Grid.Column="0" 
+                               Text="Detalles"  />
+                        <Border Grid.Row="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2" 
+                                Padding="2"
+                                HeightRequest="110" >
+                            <Editor HeightRequest="110" Text="{Binding newCashReport.CrashDetails}" />
                         </Border>
-                        <Label  Grid.Row="5" Grid.Column="0" Text="Daños"  FontSize="Medium" Padding="0" />
-                        <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Padding="5" HeightRequest="110" >
+                        <Label  Grid.Row="5" Grid.Column="0" Text="Daños" VerticalOptions="Center" />
+                        <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Padding="2" HeightRequest="110" >
                             <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashedParts}" />
                         </Border>
                     </Grid>
@@ -92,11 +126,27 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Orientation="Vertical" Padding="5">
-                                    <Image 
-                                         Source="{Binding FilePath}" 
-                                         HorizontalOptions="CenterAndExpand"
-                                         Aspect="AspectFill" />
-                                    <Button BackgroundColor="Red" TextColor="White" Padding="0" FontSize="Small" HeightRequest="40" WidthRequest="80" Text="Eliminar"></Button>
+                                    <Grid>
+                                        <!-- Imagen ocupando toda la vista -->
+                                        <Image 
+                                            Source="{Binding FilePath}" 
+                                            HorizontalOptions="CenterAndExpand"
+                                            Aspect="AspectFill" />
+                                        <!-- Botón sobre la esquina inferior derecha -->
+                                        <Button 
+                                            BackgroundColor="Red" 
+                                            TextColor="White" 
+                                            Padding="0" 
+                                            FontSize="Small" 
+                                            HeightRequest="30" 
+                                            WidthRequest="60" 
+                                            Text="Eliminar"
+                                            VerticalOptions="End" 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddCrashVM}}, Path=DeletePhotoCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HorizontalOptions="End"
+                                            Margin="5"/>
+                                    </Grid>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

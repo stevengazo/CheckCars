@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             
              x:Class="CheckCars.MainPage">
 
     <Grid RowSpacing="10">
@@ -20,8 +19,8 @@
                       VerticalOptions="Start"
                       Grid.Row="0"
                       Grid.Column="0">
-            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Entradas y Salidas" />
-            <ImageButton Source="checklist.png" HeightRequest="250" BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
+            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Salidas" />
+            <ImageButton Source="checklist.png" HeightRequest="200" BackgroundColor="{StaticResource Primary}"  CornerRadius="5" 
                          Command="{Binding ViewEntryExitList}"  />
         </StackLayout>
         <StackLayout
@@ -30,7 +29,7 @@
                       Grid.Row="1"
                       Grid.Column="0">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Accidentes" />
-            <ImageButton Source="carcrash.png"  HeightRequest="250"  BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
+            <ImageButton Source="carcrash.png"  HeightRequest="200"  BackgroundColor="{StaticResource Primary}" BorderColor="{StaticResource Primary}" CornerRadius="5" 
                          Command="{Binding CrashList}"  />
         </StackLayout>
         <StackLayout
@@ -38,13 +37,9 @@
                         VerticalOptions="Start"                         
                         Grid.Row="0"
                         Grid.Column="1">
-            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Reportes Problemas" />
-            <ImageButton Source="caraccident.png"  HeightRequest="250"  BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
+            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Problemas" />
+            <ImageButton Source="caraccident.png"  HeightRequest="200"  BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
                          Command="{Binding IssuesList}"  />
         </StackLayout>
-
-
     </Grid>
-
-
 </ContentPage>

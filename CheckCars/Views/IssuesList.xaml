@@ -31,7 +31,7 @@
         <CollectionView SelectionMode="Single" ItemsSource="{Binding Issues, Mode=OneWay}" Grid.Row="0">
                 <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Models:IssueReport">
-                        <Frame CornerRadius="10" Margin="5" HasShadow="True" Padding="10"
+                        <Frame CornerRadius="10" Margin="5" HasShadow="True" Padding="5"
                      BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" BorderColor="Gray">
                             <!-- TapGestureRecognizer en el Frame -->
                         <Frame.GestureRecognizers>
@@ -51,12 +51,12 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="0" Text="Prioridad" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding  Priority}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="2" Grid.Column="0" Text="Tipo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Type}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Prioridad" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding  Priority}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="Tipo" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Type}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Grid>
                             </StackLayout>
 

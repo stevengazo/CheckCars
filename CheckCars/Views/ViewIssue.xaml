@@ -23,35 +23,35 @@
                                  Radius="40"
                                  Opacity="0.2" />
                     </Frame.Shadow>
-
-                    <Grid Padding="10" RowSpacing="5"  HorizontalOptions="Fill" Margin="5"   >
+                    <Grid Padding="2"   Margin="2"   >
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="60"/>
-
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- Fecha Registro -->
-                        <Label FontSize="Medium" Grid.Row="0" Grid.Column="0" Text="FÑÑÑÉÉcha de Registro:" VerticalOptions="Center" />
+                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1" FontSize="Small" Text="{Binding Report.Created}" VerticalOptions="Center" />
                         <!-- Vehiculo -->
-                        <Label FontSize="Medium" Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
                         <Label FontSize="Small" Grid.Row="1" Grid.Column="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
                         <!-- Notas -->
-                        <Label FontSize="Medium" Grid.Row="2" Grid.Column="0" Text="Prioridad" VerticalOptions="Center" />
-                        <Label FontSize="Small" Grid.Row="2" Grid.Column="1" Text="{Binding Report.Priority}" VerticalOptions="Center" />
+                        <Label Grid.Row="2" Grid.Column="0" Text="Prioridad" VerticalOptions="Center" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Priority}" VerticalOptions="Center" />
                         <!-- Kilometraje -->
-                        <Label FontSize="Medium" Grid.Row="3" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
-                        <Label FontSize="Small" Grid.Row="3" Grid.Column="1" Text="{Binding Report.Type}" VerticalOptions="Center" />
+                        <Label Grid.Row="3" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Report.Type}" VerticalOptions="Center" />
                         
-                        <Label FontSize="Medium" Grid.Row="4" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
-                        <Label FontSize="Small" Grid.Row="4" Grid.Column="1" LineBreakMode="WordWrap" LineHeight="20" Text="{Binding Report.Details}"  />
+                        <Label Grid.Row="4" Grid.Column="0" Text="Detalles" VerticalOptions="Center" />
+                        <Label Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" LineBreakMode="WordWrap"  LineHeight="20" HeightRequest="120" Text="{Binding Report.Details}"  />
 
                     </Grid>
                 </Frame>
@@ -81,7 +81,7 @@
         <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
             <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120" Command="{Binding DownloadReportCommand}"  />
             <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
-            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  Command="{Binding ISendReport}" />
+            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  Command="{Binding ISendReport}" IsVisible="False" />
         </HorizontalStackLayout>    
     </Grid>
 </ContentPage>

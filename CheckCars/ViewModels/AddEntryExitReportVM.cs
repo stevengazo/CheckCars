@@ -118,7 +118,9 @@ namespace CheckCars.ViewModels
                     "No"
                 );
 
-                if (answer)
+                var valid = await ValidateData();
+
+                if (answer && valid)
                 {
                     SensorManager._isCheckingLocation = true;
 
@@ -139,6 +141,10 @@ namespace CheckCars.ViewModels
                         Close();
                     }
                 }
+                else
+                {
+                    Application.Current.MainPage.DisplayAlert("Error", "Verifique los datos", "ok");
+                }
             }
             catch (Exception rf)
             {
@@ -153,7 +159,43 @@ namespace CheckCars.ViewModels
         }
         // Método para capturar y guardar la foto
   
+        private async Task<bool> ValidateData()
+        {
+            if( Report.mileage == 0)
+            {
+                return false;
+            }
+            if(string.IsNullOrEmpty(Report.Notes) )
+            {
+                return false;
+            }
+            if( string.IsNullOrWhiteSpace(Report.TiresState))
+            {
+                return false;
+            }
+            if( string.IsNullOrEmpty(Report.PaintState) )
+            {
+                return false;
+            }
+            if( string.IsNullOrEmpty(Report.MecanicState) )
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(Report.OilLevel))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(Report.InteriorsState))
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(Report.CarPlate))
+            {
+                return false;
+            }
+            return true;
 
+        }
    
 
 
