@@ -1,4 +1,4 @@
-﻿using CheckCars.Models;
+﻿using vehiculosmecsa.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,12 +6,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CheckCars.Models;
-using CheckCars.Views;
+using vehiculosmecsa.Models;
+using vehiculosmecsa.Views;
 using System.Windows.Input;
-using CheckCars.Data;
+using vehiculosmecsa.Data;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class CrashListVM : INotifyPropertyChangedAbst
     {

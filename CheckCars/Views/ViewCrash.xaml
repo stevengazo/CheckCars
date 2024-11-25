@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             xmlns:Models="clr-namespace:CheckCars.Models"
-             x:Class="CheckCars.Views.ViewCrash"
+             xmlns:ViewModels="clr-namespace:vehiculosmecsa.ViewModels"
+             xmlns:Models="clr-namespace:vehiculosmecsa.Models"
+             x:Class="vehiculosmecsa.Views.ViewCrash"
              Title="ViewCrash">
     <ContentPage.BindingContext>
         <ViewModels:ViewCrashVM/>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="CheckCars.AppShell"
+    x:Class="vehiculosmecsa.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:CheckCars"
-    xmlns:Views="clr-namespace:CheckCars.Views"
+    xmlns:local="clr-namespace:vehiculosmecsa"
+    xmlns:Views="clr-namespace:vehiculosmecsa.Views"
     Shell.FlyoutBehavior="Flyout"
     Shell.TabBarIsVisible="False"
     TitleColor="{AppThemeBinding Light=Black, Dark=White}"
     FlyoutBackgroundColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
     BackgroundColor="LightBlue"
-    Title="CheckCars">
+    Title="vehiculosmecsa">
     <Shell.FlyoutHeader>
         <Image Source="checkcar.png" WidthRequest="180" HorizontalOptions="Center" />
     </Shell.FlyoutHeader>

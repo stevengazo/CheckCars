@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CheckCars.Data;
-using CheckCars.Models;
+using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class AddCrashVM : INotifyPropertyChangedAbst
     {
@@ -25,7 +25,7 @@ namespace CheckCars.ViewModels
 
         #endregion
 
-        private CheckCars.Utilities.SensorManager SensorManager = new();
+        private vehiculosmecsa.Utilities.SensorManager SensorManager = new();
 
         public AddCrashVM()
         {

@@ -1,12 +1,12 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Utilities;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
+using vehiculosmecsa.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Windows.Input;
 using Newtonsoft.Json;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class ViewEntryExitVM : INotifyPropertyChangedAbst
     {

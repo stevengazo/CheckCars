@@ -1,5 +1,5 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class AccountVM : INotifyPropertyChangedAbst
     {

@@ -1,12 +1,12 @@
-﻿using CheckCars.Data;
-using CheckCars.Utilities;
-using CheckCars.ViewModels;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Utilities;
+using vehiculosmecsa.ViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 
 
-namespace CheckCars
+namespace vehiculosmecsa
 {
     public static class MauiProgram
     {

@@ -1,6 +1,6 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Views;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
+using vehiculosmecsa.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class EntryExitReportsListVM : INotifyPropertyChangedAbst
     {

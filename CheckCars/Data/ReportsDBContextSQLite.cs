@@ -1,4 +1,4 @@
-﻿using CheckCars.Models;
+﻿using vehiculosmecsa.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Devices;
 
-namespace CheckCars.Data
+namespace vehiculosmecsa.Data
 {
     public class ReportsDBContextSQLite : DbContext
     {

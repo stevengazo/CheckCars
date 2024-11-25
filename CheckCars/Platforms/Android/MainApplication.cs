@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace CheckCars
+namespace vehiculosmecsa
 {
     [Application]
     public class MainApplication : MauiApplication

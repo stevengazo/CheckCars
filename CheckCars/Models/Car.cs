@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckCars.Models
+namespace vehiculosmecsa.Models
 {
     public class CarModel
     {

@@ -1,5 +1,5 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using static Microsoft.Maui.ApplicationModel.Permissions;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class AddEntryExitReportVM : INotifyPropertyChangedAbst
     {
@@ -34,7 +34,7 @@ namespace CheckCars.ViewModels
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
         }
         #endregion
-        private CheckCars.Utilities.SensorManager SensorManager = new();
+        private vehiculosmecsa.Utilities.SensorManager SensorManager = new();
 
         private EntryExitReport _report = new();
         public EntryExitReport Report

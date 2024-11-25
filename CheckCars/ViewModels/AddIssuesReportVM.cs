@@ -1,6 +1,6 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Utilities;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
+using vehiculosmecsa.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class AddIssuesReportVM : INotifyPropertyChangedAbst
     {
@@ -26,7 +26,7 @@ namespace CheckCars.ViewModels
         }
 
         #endregion
-        private CheckCars.Utilities.SensorManager SensorManager = new();
+        private vehiculosmecsa.Utilities.SensorManager SensorManager = new();
         public AddIssuesReportVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);

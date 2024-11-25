@@ -1,4 +1,4 @@
-﻿using CheckCars.Models;
+﻿using vehiculosmecsa.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using Microsoft.Maui.Storage;
 using Microsoft.Maui.Media;
 using Microsoft.Maui.Devices.Sensors;
 
-namespace CheckCars.Utilities
+namespace vehiculosmecsa.Utilities
 {
    public class SensorManager
     {

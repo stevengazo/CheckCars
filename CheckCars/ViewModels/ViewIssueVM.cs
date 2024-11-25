@@ -1,6 +1,6 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Utilities;
+﻿using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
+using vehiculosmecsa.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class ViewIssueVM : INotifyPropertyChangedAbst
     {

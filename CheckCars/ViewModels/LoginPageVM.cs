@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
    public class LoginPageVM : INotifyPropertyChangedAbst
     {

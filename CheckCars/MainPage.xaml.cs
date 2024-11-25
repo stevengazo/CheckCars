@@ -1,10 +1,10 @@
-﻿using CheckCars.ViewModels;
+﻿using vehiculosmecsa.ViewModels;
 using Microsoft.Maui.ApplicationModel;
-using CheckCars.Data;
-using CheckCars.Models;
+using vehiculosmecsa.Data;
+using vehiculosmecsa.Models;
 using System.Net;
 
-namespace CheckCars
+namespace vehiculosmecsa
 {
     public partial class MainPage : ContentPage
     {

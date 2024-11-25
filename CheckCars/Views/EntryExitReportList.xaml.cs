@@ -1,6 +1,6 @@
-using CheckCars.ViewModels;
+using vehiculosmecsa.ViewModels;
 
-namespace CheckCars.Views;
+namespace vehiculosmecsa.Views;
 
 public partial class EntryExitReportList : ContentPage
 {

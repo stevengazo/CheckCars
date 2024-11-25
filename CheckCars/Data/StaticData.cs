@@ -1,11 +1,11 @@
-﻿using CheckCars.Models;
+﻿using vehiculosmecsa.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckCars.Data
+namespace vehiculosmecsa.Data
 {
     public static class StaticData
     {

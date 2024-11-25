@@ -1,4 +1,4 @@
-namespace CheckCars.Views;
+namespace vehiculosmecsa.Views;
 
 public partial class ViewCrash : ContentPage
 {

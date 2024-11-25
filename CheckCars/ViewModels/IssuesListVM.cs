@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using CheckCars.Views;
+using vehiculosmecsa.Views;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CheckCars.Models;
+using vehiculosmecsa.Models;
 using System.Collections.ObjectModel;
-using CheckCars.Data;
+using vehiculosmecsa.Data;
 
-namespace CheckCars.ViewModels
+namespace vehiculosmecsa.ViewModels
 {
     public class IssuesListVM : INotifyPropertyChangedAbst
     {
