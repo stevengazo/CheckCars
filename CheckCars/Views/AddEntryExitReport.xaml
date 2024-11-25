@@ -64,11 +64,18 @@
                             <!-- Opciones del ComboBox -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
-                                    <x:String>Nissan Frontier 2008</x:String>
-                                    <x:String>Terios Bego</x:String>
-                                    <x:String>JMC 1</x:String>
-                                    <x:String>Nissan Frontier 2024</x:String>
-                                    <x:String>Toyota Raize</x:String>
+                                    <x:String>Daihatsu Bego BKS-967</x:String>
+                                    <x:String>Suzuki APV CL342882</x:String>
+                                    <x:String>Suzuki Celerio BQW-213</x:String>
+                                    <x:String>Toyota Rush BYG-096</x:String>
+                                    <x:String>Toyota Raize BYG-089</x:String>
+                                    <x:String>JMC 1 CL329127</x:String>
+                                    <x:String>JMC 2 CL329127</x:String>
+                                    <x:String>Mitsubishi Fuso CL347751</x:String>
+                                    <x:String>Mitsubishi Fuso CL347703</x:String>
+                                    <x:String>Nissan Frontier 08 CL226304</x:String>
+                                    <x:String>Nissan Frontier 25 AGV 352</x:String>
+                                    <x:String>Nissan - CL212222</x:String>
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
