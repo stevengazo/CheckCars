@@ -51,7 +51,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehículo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="1" Grid.Column="0" Text="Prioridad" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding  Priority}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />

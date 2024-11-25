@@ -12,7 +12,7 @@ namespace vehiculosmecsa.Models
     {
      
         public DateTime DateOfCrash {  get; set; }
-        public string CrashDetails { get; set; }
+        public string Details { get; set; }
         public string Location { get; set; }
         public string CrashedParts { get; set; }
     }

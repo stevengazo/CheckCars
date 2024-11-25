@@ -46,7 +46,7 @@ namespace vehiculosmecsa.Utilities
                         .SetFontSize(20);
                     document.Add(Title);
 
-                    Paragraph details = new Paragraph(crashReport.CrashDetails)
+                    Paragraph details = new Paragraph(crashReport.Details)
                         .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                         .SetFontSize(15);
                     document.Add(details);

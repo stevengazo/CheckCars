@@ -45,14 +45,31 @@ namespace vehiculosmecsa.Utilities
             if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
                 _cancelTokenSource.Cancel();
         }
+        private async Task CheckPermissionsAsync()
+        {
+            // Verifica si el permiso de la cámara ha sido concedido
+            var status = await Permissions.RequestAsync<Permissions.Camera>();
 
-
+            // Si el permiso no ha sido concedido
+            if (status != PermissionStatus.Granted)
+            {
+                // Aquí puedes manejar el caso cuando no se haya concedido el permiso
+                // Por ejemplo, mostrar un mensaje al usuario indicando que el permiso es necesario
+                await Application.Current.MainPage.DisplayAlert("Permiso requerido", "Se necesita permiso para acceder a la cámara.", "OK");
+            }
+            else
+            {
+                // El permiso ha sido concedido
+                // Aquí puedes proceder con la lógica para acceder a la cámara
+            }
+        }
 
 
         public async Task<Photo> TakePhoto()
         {
             try
             {
+               await CheckPermissionsAsync();
                 // Verifica si la captura de fotos está soportada
                 if (MediaPicker.Default.IsCaptureSupported)
                 {

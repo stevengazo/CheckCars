@@ -62,8 +62,11 @@ namespace vehiculosmecsa.ViewModels
                 ImgList.Add(photo);
             }
         }
-        private CrashReport _newCrashReport = new() { DateOfCrash = DateTime.Now,
-        Created = DateTime.Now};
+        private CrashReport _newCrashReport = new() 
+        { 
+            DateOfCrash = DateTime.Now,
+            Created = DateTime.Now
+        };
         public CrashReport newCrashReport
         {
             get { return _newCrashReport; }
@@ -89,6 +92,8 @@ namespace vehiculosmecsa.ViewModels
         {
             try
             {
+                bool valid = await ValidateData();
+
                 bool answer = await Application.Current.MainPage.DisplayAlert(
                     "Confirmación",
                     "¿Deseas continuar?",
@@ -96,8 +101,7 @@ namespace vehiculosmecsa.ViewModels
                     "No"
                 );
 
-                bool valid = await ValidateData();
-
+              
                 if (answer && valid)
                 {
                     newCrashReport.Author = "Temporal";
@@ -112,7 +116,7 @@ namespace vehiculosmecsa.ViewModels
                             photo.PhotoId = 0;  // Reset para que se genere automáticamente
                             return photo;
                         }).ToList();
-
+                        valid = !valid;
                         db.CrashReports.Add(newCrashReport);
                         db.SaveChanges();
                         Close();
@@ -121,6 +125,7 @@ namespace vehiculosmecsa.ViewModels
                 {
                     Application.Current.MainPage.DisplayAlert("Error", "Valide la información", "ok");
                 }
+
             }
             catch (Exception rf)
             {
@@ -165,7 +170,7 @@ namespace vehiculosmecsa.ViewModels
                 return false;
             }
 
-            if (string.IsNullOrEmpty(newCrashReport.CrashDetails))
+            if (string.IsNullOrEmpty(newCrashReport.Details))
             {
                 return false;
             }

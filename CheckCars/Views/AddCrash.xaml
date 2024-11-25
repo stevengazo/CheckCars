@@ -100,11 +100,11 @@
                                 Grid.ColumnSpan="2" 
                                 Padding="2"
                                 HeightRequest="110" >
-                            <Editor HeightRequest="110" Text="{Binding newCashReport.CrashDetails}" />
+                            <Editor HeightRequest="110" Text="{Binding newCrashReport.Details, Mode=TwoWay}" />
                         </Border>
                         <Label  Grid.Row="5" Grid.Column="0" Text="Daños" VerticalOptions="Center" />
                         <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Padding="2" HeightRequest="110" >
-                            <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashedParts}" />
+                            <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashedParts, Mode=TwoWay}" />
                         </Border>
                     </Grid>
                 </Border>

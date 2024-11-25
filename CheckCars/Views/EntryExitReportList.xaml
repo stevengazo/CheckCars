@@ -55,10 +55,10 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehículo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="0"  Grid.Column="1" Text="{Binding CarPlate}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecanico" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecánico" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding MecanicState}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label Grid.Row="2" Grid.Column="0" Text="Estado Llantas" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />

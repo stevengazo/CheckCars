@@ -76,11 +76,11 @@
                         <Picker Grid.Row="3" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.Type}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"  TextColor="{AppThemeBinding Light=Black, Dark=White}">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
-                                    <x:String>Mecanico</x:String>
-                                    <x:String>Carroseria</x:String>
+                                    <x:String>Mecánico</x:String>
+                                    <x:String>Carrocería</x:String>
                                     <x:String>Chasis</x:String>
                                     <x:String>Interior</x:String>
-                                    <x:String>Electrico</x:String>
+                                    <x:String>Eléctrico</x:String>
                                     <x:String>No Establecido</x:String>
                                 </x:Array>
                             </Picker.ItemsSource>
