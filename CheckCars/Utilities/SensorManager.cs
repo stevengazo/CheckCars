@@ -41,6 +41,11 @@ namespace CheckCars.Utilities
                 await Application.Current.MainPage.DisplayAlert("Advertencia", "No es posible obtener la ubicación" + r.InnerException, "OK");
                 return null;
             }
+            catch(PermissionException e)
+            {
+                await Application.Current.MainPage.DisplayAlert("Advertencia", "No posee permisos de la cámara. " + e.InnerException, "OK");
+                return null;
+            }
             catch (Exception ex)
             {
                 // Unable to get location
@@ -67,47 +72,79 @@ namespace CheckCars.Utilities
                 // Verifica si la captura de fotos está soportada
                 if (MediaPicker.Default.IsCaptureSupported)
                 {
-                    // Captura la foto
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-                    photo.FileName = $"Img-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.jpeg";
-
-                    if (photo != null)
+                    try
                     {
+                        // Captura la foto
+                        FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+                        photo.FileName = $"Img-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.jpeg";
 
-                        Directory.CreateDirectory(FileSystem.AppDataDirectory + "/Photos");
-                        string filePath = Path.Combine(FileSystem.AppDataDirectory, "Photos", photo.FileName);
-
-                        // Guarda la foto en la ruta local
-                        using (var stream = await photo.OpenReadAsync())
-                        using (var fileStream = File.OpenWrite(filePath))
+                        if (photo != null)
                         {
-                            await stream.CopyToAsync(fileStream);
+                            Directory.CreateDirectory(Path.Combine(FileSystem.AppDataDirectory, "Photos"));
+                            string filePath = Path.Combine(FileSystem.AppDataDirectory, "Photos", photo.FileName);
+
+                            // Guarda la foto en la ruta local
+                            using (var stream = await photo.OpenReadAsync())
+                            using (var fileStream = File.OpenWrite(filePath))
+                            {
+                                await stream.CopyToAsync(fileStream);
+                            }
+
+                            // Crea un objeto Photo con la información de la imagen
+                            return new Photo
+                            {
+                                FileName = photo.FileName,
+                                FilePath = filePath,
+                                DateTaken = DateTime.Now
+                            };
                         }
 
-                        // Crea un objeto Photo con la información de la imagen
-                        var newPhoto = new Photo
-                        {
-                            FileName = photo.FileName,
-                            FilePath = filePath,
-                            DateTaken = DateTime.Now
-                        };
-
-                        return newPhoto;
+                        // Si no se captura ninguna foto, devuelve null
+                        return null;
                     }
-
-                    // Si no se captura ninguna foto, devuelve null
-                    return null;
+                    catch (OperationCanceledException)
+                    {
+                        Console.WriteLine("La captura de la foto fue cancelada por el usuario.");
+                        return null;
+                    }
+                    catch (IOException ex)
+                    {
+                        Console.WriteLine($"Error de almacenamiento: {ex.Message}");
+                        throw new Exception("Ocurrió un problema al guardar la foto. Por favor, libere espacio en su dispositivo.");
+                    }
+                    catch (UnauthorizedAccessException ex)
+                    {
+                        Console.WriteLine($"Permiso denegado: {ex.Message}");
+                        throw new Exception("No se pudo acceder a la cámara o almacenamiento. Por favor, revise los permisos.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error inesperado durante la captura: {ex.Message}");
+                        throw new Exception("Ocurrió un error inesperado al capturar la foto.");
+                    }
                 }
-
-                // Si la captura no está soportada, devuelve null
-                return null;
+                else
+                {
+                    Console.WriteLine("La captura de fotos no está soportada en este dispositivo.");
+                    throw new NotSupportedException("Captura de fotos no soportada en este dispositivo.");
+                }
+            }
+            catch (NotSupportedException ex)
+            {
+                Console.WriteLine($"Error de soporte: {ex.Message}");
+                throw;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Error de permisos: {ex.Message}");
+                throw;
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones, se puede mostrar un mensaje de error o loguear el error
-                Console.WriteLine($"Error al capturar y guardar la foto: {ex.Message}");
-                return null;
+                Console.WriteLine($"Error general: {ex.Message}");
+                throw;
             }
         }
+
     }
 }

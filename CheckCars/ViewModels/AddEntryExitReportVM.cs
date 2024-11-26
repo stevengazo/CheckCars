@@ -47,9 +47,9 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        // Lista para almacenar las fotos capturadas
+
         private ObservableCollection<Photo> _imgs = new();
-        // Propiedad para la lista de fotos
+
         public ObservableCollection<Photo> ImgList
         {
             get { return _imgs; }
@@ -65,6 +65,7 @@ namespace CheckCars.ViewModels
         public AddEntryExitReportVM()
         {
             CarsInfo = GetCarsInfo().Result;
+            DeletePhotoCommand = new Command<Photo>(DeletePhoto);
         }
         public ICommand TakePhotoCommand
         {
