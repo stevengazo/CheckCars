@@ -66,7 +66,7 @@
             VerticalOptions="Start">
 
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="Models:Photo">
                             <StackLayout Orientation="Vertical" Padding="5">
                                 <Image 
                                    Margin="5"

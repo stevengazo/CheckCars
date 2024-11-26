@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckCars.Views.AddEntryExitReport"
              xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-              xmlns:Models="clr-namespace:CheckCars.Models"
+             xmlns:Models="clr-namespace:CheckCars.Models"
+             x:DataType="ViewModels:AddEntryExitReportVM"
             Title="Nuevo Reporte">
     <ContentPage.BindingContext>
         <ViewModels:AddEntryExitReportVM />
@@ -173,7 +174,7 @@
                         VerticalOptions="Start">
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="Models:Photo">
                                 <StackLayout Orientation="Vertical" Padding="5">
                                     <Grid>
                                         <!-- Imagen ocupando toda la vista -->

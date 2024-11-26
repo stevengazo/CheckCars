@@ -4,6 +4,7 @@
              xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              xmlns:Models="clr-namespace:CheckCars.Models"
              x:Class="CheckCars.Views.AddCrash"
+             x:DataType="ViewModels:AddCrashVM"
              Title="Nuevo Accidente">
     <ContentPage.BindingContext>
         <ViewModels:AddCrashVM />
@@ -16,7 +17,7 @@
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
             <StackLayout>
-                <Border   BackgroundColor="{AppThemeBinding Light=white, Dark=DarkGray}" Margin="10" Padding="3" VerticalOptions="Start" >
+                <Border  BackgroundColor="{AppThemeBinding Light=white, Dark=DarkGray}" Margin="10" Padding="3" VerticalOptions="Start" >
                     <Border.Shadow>
                         <Shadow Brush="Black"
                 Offset="10,10"

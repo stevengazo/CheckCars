@@ -10,7 +10,7 @@ using Microsoft.Maui.Devices.Sensors;
 
 namespace CheckCars.Utilities
 {
-   public class SensorManager
+    public class SensorManager
     {
 
         public CancellationTokenSource _cancelTokenSource;
@@ -30,12 +30,15 @@ namespace CheckCars.Utilities
             //   FeatureNotSupportedException
             //   FeatureNotEnabledException
             //   PermissionException
-           catch( FeatureNotEnabledException r)
-
-
+            catch (FeatureNotEnabledException r)
             {
-                Application.Current.MainPage.DisplayPromptAsync("Advertencia", "No fue posible obtener la ubicación", "OK");
-
+                Console.WriteLine(r.Message);
+                await Application.Current.MainPage.DisplayAlert("Advertencia", "No fue posible obtener la ubicación", "OK");
+                return null;
+            }
+            catch (FeatureNotSupportedException r)
+            {
+                await Application.Current.MainPage.DisplayAlert("Advertencia", "No es posible obtener la ubicación" + r.InnerException, "OK");
                 return null;
             }
             catch (Exception ex)
@@ -70,7 +73,7 @@ namespace CheckCars.Utilities
 
                     if (photo != null)
                     {
-           
+
                         Directory.CreateDirectory(FileSystem.AppDataDirectory + "/Photos");
                         string filePath = Path.Combine(FileSystem.AppDataDirectory, "Photos", photo.FileName);
 
@@ -80,7 +83,7 @@ namespace CheckCars.Utilities
                         {
                             await stream.CopyToAsync(fileStream);
                         }
-                       
+
                         // Crea un objeto Photo con la información de la imagen
                         var newPhoto = new Photo
                         {

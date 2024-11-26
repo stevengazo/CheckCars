@@ -82,7 +82,7 @@ namespace CheckCars.ViewModels
                         db.IssueReports.RemoveRange(db.IssueReports.ToList());
                         db.CrashReports.RemoveRange(db.CrashReports.ToList());
                         db.SaveChanges();
-                        Application.Current.MainPage.DisplayAlert("Información", "Base de Datos Borrada", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Información", "Base de Datos Borrada", "Ok");
                     }
                 }
             }

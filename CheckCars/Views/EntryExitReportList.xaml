@@ -5,12 +5,11 @@
              xmlns:Models="clr-namespace:CheckCars.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CheckCars.Views.EntryExitReportList"
+             x:DataType="ViewModels:EntryExitReportsListVM"
              Title="Salidas">
-
     <ContentPage.BindingContext>
         <ViewModels:EntryExitReportsListVM />
     </ContentPage.BindingContext>
-
     <!-- Behaviors -->
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior 
@@ -18,17 +17,13 @@
              Command="{Binding UpdateReports ,Mode=OneWay}"
           />
     </ContentPage.Behaviors>
-
-
     <!-- Grid que ocupa toda la pantalla -->
     <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="4">
-
         <!-- Define dos filas -->
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-
         <!-- CollectionView para mostrar cada EntryExitReport en un card -->
         <CollectionView SelectionMode="Single" ItemsSource="{Binding EntryExitReports, Mode=OneWay}" Grid.Row="0">
             <CollectionView.ItemTemplate>

@@ -157,12 +157,12 @@ namespace CheckCars.ViewModels
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", "Verifique los datos", "ok");
+                  await Application.Current.MainPage.DisplayAlert("Error", "Verifique los datos", "ok");
                 }
             }
             catch (Exception rf)
             {
-                Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
+                await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
                 SensorManager.CancelRequest();
             }
         }

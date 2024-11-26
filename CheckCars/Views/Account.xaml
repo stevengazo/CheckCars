@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             x:DataType="ViewModels:AccountVM"
              x:Class="CheckCars.Views.Account"
              Title="Cuenta">
     <ContentPage.BindingContext>
@@ -10,7 +11,7 @@
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="2">
 
-            <Frame
+            <Border
                 Background="{AppThemeBinding Light=White, Dark=DarkGray}"
                 >
                 <!-- Sección: Cuenta -->
@@ -61,12 +62,12 @@
                           Command="{Binding UpdateUser}"/>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
      
 
             <!-- Sección: Configuración -->
-            <Frame
+            <Border
                  Background="{AppThemeBinding Light=White, Dark=DarkGray}"
                 >
                 <VerticalStackLayout Spacing="15">
@@ -109,7 +110,7 @@
 
                     </VerticalStackLayout>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
         </VerticalStackLayout>
     </ScrollView>

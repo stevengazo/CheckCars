@@ -19,7 +19,7 @@ namespace CheckCars.ViewModels
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
-            CarsInfo = GetCarsInfo().Result;
+            CarsInfo = GetCarsInfo();
         }
 
         private string[] _CarsInfo;
@@ -85,10 +85,11 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command(() => AddReportEntry());
+                return new Command( async () =>await AddReportEntry());
             }
             private set { }
         }
+
         private async Task AddReportEntry()
         {
             try
@@ -100,7 +101,7 @@ namespace CheckCars.ViewModels
                     "No"
                 );
 
-                bool valid = await ValidateData();
+                bool valid = ValidateData();
 
                 if (answer && valid)
                 {
@@ -134,12 +135,12 @@ namespace CheckCars.ViewModels
                     }
                 }else if (answer && !valid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", "Valide la información", "ok");
+                   await Application.Current.MainPage.DisplayAlert("Error", "Valide la información", "ok");
                 }
             }
             catch (Exception rf)
             {
-                Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
+               await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
                 SensorManager.CancelRequest();
             }
         }
@@ -167,7 +168,7 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private async Task<bool> ValidateData()
+        private bool ValidateData()
         {
 
             if (string.IsNullOrEmpty(newCrashReport.CarPlate))
@@ -192,7 +193,7 @@ namespace CheckCars.ViewModels
             return true;
 
         }
-        private async Task<string[]> GetCarsInfo()
+        private string[] GetCarsInfo()
         {
             using (var db = new ReportsDBContextSQLite())
             {

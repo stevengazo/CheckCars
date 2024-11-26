@@ -4,6 +4,7 @@
              x:Class="CheckCars.Views.AddIssuesReport"
              xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              xmlns:Models="clr-namespace:CheckCars.Models"
+             x:DataType="ViewModels:AddIssuesReportVM"
              Title="Agregar Avería">
     <ContentPage.BindingContext>
         <ViewModels:AddIssuesReportVM />
@@ -97,7 +98,7 @@
                          VerticalOptions="Start">
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="Models:Photo">
                                 <StackLayout Orientation="Vertical" Padding="5">
                                     <Grid>
                                         <!-- Imagen ocupando toda la vista -->

@@ -136,6 +136,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception rf)
             {
+                Console.WriteLine( rf.ToString() );
                 SensorManager.CancelRequest();
             }
         }
