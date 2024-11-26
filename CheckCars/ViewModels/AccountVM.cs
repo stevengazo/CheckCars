@@ -58,7 +58,7 @@ namespace CheckCars.ViewModels
         public AccountVM()
         {
             StaticData.User = new UserProfile();
-            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Default User");
+            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
             User.UserName = StaticData.User.UserName;       
         }
         private async Task DeleteReports()

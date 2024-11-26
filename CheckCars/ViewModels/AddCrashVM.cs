@@ -108,7 +108,7 @@ namespace CheckCars.ViewModels
                     using (var db = new ReportsDBContextSQLite())
                     {
                         double[] location = await SensorManager.GetCurrentLocation();
-                        newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? StaticData.User.UserName : "Default";
+                        newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
                         newCrashReport.Latitude = location[0];
                         newCrashReport.Longitude = location[1];
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
