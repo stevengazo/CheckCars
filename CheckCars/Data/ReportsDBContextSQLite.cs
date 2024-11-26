@@ -29,7 +29,7 @@ namespace CheckCars.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={GetPath("app.db3")}"); 
+            optionsBuilder.UseSqlite($"Filename={GetPath($"{nameof(ReportsDBContextSQLite)}.db3")}"); 
             SQLitePCL.Batteries_V2.Init();
             // https://sagbansal.medium.com/how-to-update-the-sqlite-database-after-each-app-release-using-entity-framework-xamarin-maui-7b582313f89
         
@@ -42,8 +42,7 @@ namespace CheckCars.Data
 
             if(DeviceInfo.Platform == DevicePlatform.Android)
             {
-                pathDbLite = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                pathDbLite = Path.Combine(pathDbLite, nameDB);  
+                pathDbLite = Path.Combine(FileSystem.AppDataDirectory, nameDB);  
             }else if(DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 pathDbLite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

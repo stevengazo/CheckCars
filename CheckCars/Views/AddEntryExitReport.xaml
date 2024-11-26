@@ -64,11 +64,7 @@
                             <!-- Opciones del ComboBox -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
-                                    <x:String>Nissan Frontier 2008</x:String>
-                                    <x:String>Terios Bego</x:String>
-                                    <x:String>JMC 1</x:String>
-                                    <x:String>Nissan Frontier 2024</x:String>
-                                    <x:String>Toyota Raize</x:String>
+                                    <x:String>Datos Vehículo</x:String>
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>

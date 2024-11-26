@@ -43,7 +43,7 @@
                         <Label Grid.Row="0" Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1"  Text="{Binding Report.Created}" VerticalOptions="Center" />
  
-                        <Label Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="Vehículo" VerticalOptions="Center" />
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
  
                         <Label Grid.Row="2" Grid.Column="0" Text="Ubicación" VerticalOptions="Center" />
@@ -52,7 +52,7 @@
                         <Label Grid.Row="3" Grid.Column="0" Text="Detalles del Choque" VerticalOptions="Center" />
                         <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="WordWrap" Text="{Binding Report.CrashDetails}"  />
 
-                        <Label Grid.Row="5" Grid.Column="0" Text="Dapos en vehiculo" VerticalOptions="Center" />
+                        <Label Grid.Row="5" Grid.Column="0" Text="Daños en vehículo" VerticalOptions="Center" />
                         <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="WordWrap"  Text="{Binding Report.CrashedParts}"   />
 
                     </Grid>

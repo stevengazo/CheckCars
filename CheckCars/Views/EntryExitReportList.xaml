@@ -5,7 +5,7 @@
              xmlns:Models="clr-namespace:CheckCars.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CheckCars.Views.EntryExitReportList"
-             Title="Reportes Salidas">
+             Title="Salidas">
 
     <ContentPage.BindingContext>
         <ViewModels:EntryExitReportsListVM />
@@ -55,10 +55,10 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Grid.Row="0" Grid.Column="0" Text="Vehiculo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehículo" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="0"  Grid.Column="1" Text="{Binding CarPlate}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecanico" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Estado Mecánico" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding MecanicState}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label Grid.Row="2" Grid.Column="0" Text="Estado Llantas" FontAttributes="Bold"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
@@ -75,8 +75,8 @@
 
         <!-- Botón para agregar un nuevo reporte -->
         <Button x:Name="btnAdd" 
-                BackgroundColor="white" 
-                TextColor="Green"
+                BackgroundColor="Green" 
+                TextColor="White"
                 BorderColor="Green"
                 BorderWidth="1"
                 Text="Agregar Registro"

@@ -52,7 +52,7 @@
                                     TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <Label  Grid.Row="1" 
                                 Grid.Column="0"  
-                                Text="Vehiculo" 
+                                Text="Vehículo" 
                                 VerticalOptions="Center"   />
                         <Picker Grid.Row="1" 
                                 Grid.Column="1"
@@ -65,18 +65,14 @@
                             <!-- Opciones del ComboBox -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
-                                    <x:String>Nissan Frontier 2008</x:String>
-                                    <x:String>Terios Bego</x:String>
-                                    <x:String>JMC 1</x:String>
-                                    <x:String>Nissan Frontier 2024</x:String>
-                                    <x:String>Toyota Raize</x:String>
+                                    <x:String>Datos Vehículo</x:String>
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
                         <Label  
                             Grid.Row="2"
                             Grid.Column="0"  
-                            Text="Ubicacion" 
+                            Text="Ubicación" 
                             VerticalOptions="Center" />
                         <Entry Grid.Row="2" 
                                Grid.Column="1"
@@ -103,7 +99,7 @@
                 </Border>
 
                 <VerticalStackLayout Margin="5"  Padding="4">
-                    <Label HorizontalOptions="Center" FontSize="Subtitle">Imagenes</Label>
+                    <Label HorizontalOptions="Center" FontSize="Subtitle">Imágenes</Label>
 
                     <!-- Botón para tomar foto -->
                     <Button 

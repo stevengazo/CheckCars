@@ -20,7 +20,7 @@
                       Grid.Row="0"
                       Grid.Column="0">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Salidas" />
-            <ImageButton Source="checklist.png" HeightRequest="200" BackgroundColor="{StaticResource Primary}"  CornerRadius="5" 
+            <ImageButton Source="checklist.png" HeightRequest="200" BackgroundColor="LightBlue"  CornerRadius="10" 
                          Command="{Binding ViewEntryExitList}"  />
         </StackLayout>
         <StackLayout
@@ -29,7 +29,7 @@
                       Grid.Row="1"
                       Grid.Column="0">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Accidentes" />
-            <ImageButton Source="carcrash.png"  HeightRequest="200"  BackgroundColor="{StaticResource Primary}" BorderColor="{StaticResource Primary}" CornerRadius="5" 
+            <ImageButton Source="carcrash.png"  HeightRequest="200"  BackgroundColor="LightBlue" CornerRadius="10" 
                          Command="{Binding CrashList}"  />
         </StackLayout>
         <StackLayout
@@ -38,7 +38,7 @@
                         Grid.Row="0"
                         Grid.Column="1">
             <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Problemas" />
-            <ImageButton Source="caraccident.png"  HeightRequest="200"  BackgroundColor="{StaticResource Primary}" CornerRadius="5" 
+            <ImageButton Source="caraccident.png"  HeightRequest="200"  BackgroundColor="LightBlue" CornerRadius="10" 
                          Command="{Binding IssuesList}"  />
         </StackLayout>
     </Grid>

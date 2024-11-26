@@ -49,28 +49,29 @@ namespace CheckCars
             if (READ_EXTERNAL_STORAGE != PermissionStatus.Granted)
             {
                 // Mostrar mensaje si el permiso no fue concedido
-                Console.WriteLine("Permiso de almacenamiento denegado.");
+                Console.WriteLine($"Permiso de {nameof(Permissions.StorageRead)} denegado.");
+            }
+
+            var write_EXTERNAL_STORAGE = await Permissions.RequestAsync<Permissions.StorageWrite>();
+            if (write_EXTERNAL_STORAGE != PermissionStatus.Granted)
+            {
+                // Mostrar mensaje si el permiso no fue concedido
+                Console.WriteLine($"Permiso de {nameof(Permissions.StorageWrite)} denegado.");
             }
 
             var MANAGE_EXTERNAL_STORAGE = await Permissions.RequestAsync<Permissions.Media>();
             if (MANAGE_EXTERNAL_STORAGE != PermissionStatus.Granted)
             {
                 // Mostrar mensaje si el permiso no fue concedido
-                Console.WriteLine("Permiso de Media denegado.");
+                Console.WriteLine($"Permiso de {nameof(Permissions.Media)} denegado.");
             }
 
             var photos = await Permissions.RequestAsync<Permissions.Photos>();
-            if (photos!= PermissionStatus.Granted)
+            if (photos != PermissionStatus.Granted)
             {
                 // Mostrar mensaje si el permiso no fue concedido
-                Console.WriteLine("Permiso de Photos denegado.");
+                Console.WriteLine($"Permiso de {nameof(Permissions.Media)} denegado.");
             }
-
-
-
         }
-
-
     }
-
 }

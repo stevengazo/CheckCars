@@ -52,7 +52,7 @@
                         <Label  Grid.Row="0"  Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Report.Created}" VerticalOptions="Center" />
                         <!-- Vehiculo -->
-                        <Label  Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
+                        <Label  Grid.Row="1" Grid.Column="0" Text="Vehículo" VerticalOptions="Center" />
                         <Label  Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
                         <!-- Notas -->
                         <Label  Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />
@@ -82,7 +82,7 @@
                         <Label  Grid.Row="10" Grid.Column="0"  Text="Estado Pintura" VerticalOptions="Center" />
                         <Label  Grid.Row="10" Grid.Column="1" Margin="1" Text="{Binding Report.PaintState}" VerticalOptions="Center" />
                         <!-- Estado Mecanico -->
-                        <Label  Grid.Row="11" Grid.Column="0"  Text="Estado Mecanico" VerticalOptions="Center" />
+                        <Label  Grid.Row="11" Grid.Column="0"  Text="Estado Mecánico" VerticalOptions="Center" />
                         <Label  Grid.Row="11" Grid.Column="1" Margin="1" Text="{Binding Report.MecanicState}" VerticalOptions="Center" />
                         <!-- Portacelular -->
                         <Label  Grid.Row="12" Grid.Column="0"  Text="Posee Portacelular" VerticalOptions="Center" />
