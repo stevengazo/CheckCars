@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Devices;
+using Microsoft.Data.Sqlite;
 
 namespace vehiculosmecsa.Data
 {
@@ -27,13 +28,29 @@ namespace vehiculosmecsa.Data
         {
                 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite($"Filename={GetPath("app.db3")}"); 
-            SQLitePCL.Batteries_V2.Init();
-            // https://sagbansal.medium.com/how-to-update-the-sqlite-database-after-each-app-release-using-entity-framework-xamarin-maui-7b582313f89
-        
-        } 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    // Obtén la ruta donde deseas almacenar la base de datos
+    string dbPath = GetPath($"{nameof(ReportsDBContextSQLite) }.db3");
+            
+    // Verifica si el archivo de la base de datos existe
+    if (!File.Exists(dbPath))
+    {
+        // Si no existe, crea el archivo (esto también puede inicializar la base de datos si se usa un ORM como EF Core)
+        // Aquí solo aseguramos que el archivo esté disponible.
+        var connection = new SqliteConnection($"Filename={dbPath}");
+        connection.Open();
+        connection.Close();
+    }
+
+    // Configura el DbContext para usar SQLite
+    optionsBuilder.UseSqlite($"Filename={dbPath}");
+
+    // Inicializa SQLite
+    SQLitePCL.Batteries_V2.Init();
+
+    // Aquí podrías agregar cualquier lógica adicional que necesites, como migraciones automáticas si es necesario.
+}
 
         public static string GetPath(string nameDB)
         {
@@ -42,8 +59,7 @@ namespace vehiculosmecsa.Data
 
             if(DeviceInfo.Platform == DevicePlatform.Android)
             {
-                pathDbLite = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                pathDbLite = Path.Combine(pathDbLite, nameDB);  
+                pathDbLite = Path.Combine(FileSystem.AppDataDirectory, nameDB);  
             }else if(DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 pathDbLite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
