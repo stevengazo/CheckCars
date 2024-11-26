@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckCars.Views.CarList"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
              Title="Vehículos">
+    <ContentPage.BindingContext>
+        <ViewModels:CarListVM />
+    </ContentPage.BindingContext>
     <Grid Padding="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -21,35 +25,48 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="Marca" ></Label>
-            <Entry HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Grid.Row="0" Grid.Column="1"></Entry>
+            <Entry HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  Grid.Row="0" Grid.Column="1" Text="{Binding CarBrand, Mode=TwoWay}"></Entry>
             <Label  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Text="Modelo" ></Label>
-            <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="1"></Entry>
+            <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="1" Text="{Binding CarModel, Mode=TwoWay}"></Entry>
             <Label  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="2" Grid.Column="0" Text="Placa" ></Label>
-            <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="2" Grid.Column="1"></Entry>
-            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="Blue" WidthRequest="120" Padding="0"  Text="Guardar" />
-        </Grid>
+            <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="2" Grid.Column="1" Text="{Binding CarPlate,Mode=TwoWay}"></Entry>
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="Blue" WidthRequest="120" Padding="0"  Text="Guardar"  Command="{Binding IAddCar}"/>
+         </Grid>
         <ScrollView Grid.Row="1" VerticalOptions="Start" >
-            <Frame CornerRadius="10" Padding="0" BackgroundColor="WhiteSmoke" BorderColor="LightGray" Margin="10" HasShadow="True" HeightRequest="50">
-                <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="10,0,0,0" >
-                    <!-- Información del contenido en formato horizontal -->
-                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
-                        <Label Text="Modelo: XYZ" FontAttributes="Bold" VerticalTextAlignment="Center" />
-                        <Label Text="Marca: ABC" VerticalTextAlignment="Center" />
-                        <Label Text="Placa: 123" VerticalTextAlignment="Center" />
-                    </HorizontalStackLayout>
-                    <!-- Botón de acción -->
-                    <ImageButton 
-                        Source="delete.png" 
-                        WidthRequest="25" 
-                        HeightRequest="25" 
-                        BackgroundColor="Red" 
-                        CornerRadius="5"
-                        Padding="5"  
-                        BorderColor="Red" 
-                        BorderWidth="1"
-                        HorizontalOptions="FillAndExpand"  />
-                </HorizontalStackLayout>
-            </Frame>
+            <CollectionView 
+               ItemsSource="{Binding Cars}" 
+               Margin="10, 5"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="Start">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="10" Padding="0" BackgroundColor="WhiteSmoke" BorderColor="LightGray" Margin="10" HasShadow="True" HeightRequest="50">
+                            <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="10,0,0,0" >
+                                <!-- Información del contenido en formato horizontal -->
+                                <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
+                                    <Label Text="{Binding Brand}" FontAttributes="Bold" VerticalTextAlignment="Center" />
+                                    <Label Text="{Binding Model}" VerticalTextAlignment="Center" />
+                                    <Label Text="{Binding Plate}" VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                                <!-- Botón de acción -->
+                                <ImageButton 
+                                    Source="delete.png" 
+                                    WidthRequest="25" 
+                                    HeightRequest="25" 
+                                    BackgroundColor="Red" 
+                                    CornerRadius="5"
+                                    Padding="5"  
+                                    BorderColor="Red" 
+                                    BorderWidth="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CarListVM}}, Path=IDeleteCar}"
+                                    CommandParameter="{Binding .}"
+                                    HorizontalOptions="FillAndExpand"  />
+                            </HorizontalStackLayout>
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </ScrollView>
     </Grid>
 </ContentPage>
