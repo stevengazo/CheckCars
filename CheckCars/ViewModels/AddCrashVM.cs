@@ -13,9 +13,7 @@ namespace CheckCars.ViewModels
 {
     public class AddCrashVM : INotifyPropertyChangedAbst
     {
-    
         private CheckCars.Utilities.SensorManager SensorManager = new();
-
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
