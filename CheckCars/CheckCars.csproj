@@ -87,6 +87,9 @@
     <MauiXaml Update="Views\AddIssuesReport.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\CarList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\CrashList.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckCars.Views.CarList"
+             Title="Vehículos">
+    <Grid Padding="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"  RowSpacing="0" Padding="6" Margin="10,0,10,0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="Marca" ></Label>
+            <Entry HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  Grid.Row="0" Grid.Column="1"></Entry>
+            <Label  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Text="Modelo" ></Label>
+            <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="1"></Entry>
+            <Label  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="2" Grid.Column="0" Text="Placa" ></Label>
+            <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="2" Grid.Column="1"></Entry>
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="Blue" WidthRequest="120" Padding="0"  Text="Guardar" />
+        </Grid>
+        <ScrollView Grid.Row="1" VerticalOptions="Start" >
+            <Frame CornerRadius="10" Padding="0" BackgroundColor="WhiteSmoke" BorderColor="LightGray" Margin="10" HasShadow="True" HeightRequest="50">
+                <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="10,0,0,0" >
+                    <!-- Información del contenido en formato horizontal -->
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
+                        <Label Text="Modelo: XYZ" FontAttributes="Bold" VerticalTextAlignment="Center" />
+                        <Label Text="Marca: ABC" VerticalTextAlignment="Center" />
+                        <Label Text="Placa: 123" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <!-- Botón de acción -->
+                    <ImageButton 
+                        Source="delete.png" 
+                        WidthRequest="25" 
+                        HeightRequest="25" 
+                        BackgroundColor="Red" 
+                        CornerRadius="5"
+                        Padding="5"  
+                        BorderColor="Red" 
+                        BorderWidth="1"
+                        HorizontalOptions="FillAndExpand"  />
+                </HorizontalStackLayout>
+            </Frame>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -24,6 +24,10 @@
             Title="Cuenta y Configuración"
             ContentTemplate="{DataTemplate Views:Account}"
             Route="Account" />
+        <ShellContent
+            Title="Vehículos"
+            ContentTemplate="{DataTemplate Views:CarList}"
+            Route="CarList" />
     </FlyoutItem>
     <Shell.FlyoutFooter>
         <Button IsVisible="False" Text="Cerrar Sesion" CornerRadius="0" />
