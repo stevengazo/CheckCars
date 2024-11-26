@@ -10,16 +10,6 @@ namespace CheckCars.ViewModels
 {
     public class ViewEntryExitVM : INotifyPropertyChangedAbst
     {
-        #region General
-        // Implementación de INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Método para notificar cambios en las propiedades
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
 
         private Thread reportThread = new Thread(() => { });
         private double _FuelLevel; 

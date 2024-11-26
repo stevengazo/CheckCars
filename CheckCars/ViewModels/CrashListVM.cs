@@ -17,17 +17,13 @@ namespace CheckCars.ViewModels
     {
         // Implementación de INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        
         // Método para notificar cambios en las propiedades
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
         public ICommand AddCrashReport { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddCrash()));
-
         private ObservableCollection<CrashReport> _crashReports = new();
-
         public ObservableCollection<CrashReport> CrashReports 
         { 
             get
@@ -43,7 +39,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         public ICommand ViewReport { get; } = new Command(async (e) =>
         {
             if (e is string reportId) // Cambia 'int' por el tipo adecuado si es necesario
@@ -52,8 +47,6 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.Navigation.PushAsync(new ViewCrash(), true);
             }
         });
-
-
         public ICommand Update => new Command(() => LoadData());
         public async Task LoadData()
         {

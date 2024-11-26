@@ -60,13 +60,8 @@
                         <DatePicker  VerticalOptions="Center" Grid.Row="0" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Date="{Binding Report.Created}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <!-- Vehiculo -->
                         <Label  Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
-                        <Picker Grid.Row="1" Grid.Column="1" VerticalOptions="Center" Title="Seleccione el vehiculo" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" SelectedItem="{Binding Report.CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}">
-                            <!-- Opciones del ComboBox -->
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>Datos Vehículo</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
+                        <Picker Grid.Row="1" Grid.Column="1" VerticalOptions="Center" Title="Seleccione el vehiculo" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" SelectedItem="{Binding Report.CarPlate}" TextColor="{AppThemeBinding Light=Black, Dark=White}" ItemsSource="{Binding CarsInfo}">
+                       
                         </Picker>
                         <!-- Notas -->
                         <Label  Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />

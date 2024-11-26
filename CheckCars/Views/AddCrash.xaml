@@ -61,13 +61,10 @@
                                 SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}" 
                                 BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
                                 Margin="2"  
-                                TextColor="{AppThemeBinding Light=Black, Dark=White}">
-                            <!-- Opciones del ComboBox -->
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>Datos Vehículo</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
+                                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                ItemsSource="{Binding CarsInfo}"
+                                >
+                       
                         </Picker>
                         <Label  
                             Grid.Row="2"

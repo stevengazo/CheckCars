@@ -14,20 +14,6 @@ namespace CheckCars.ViewModels
 {
    public class ViewCrashVM : INotifyPropertyChangedAbst
     {
-        #region General
-        // Implementación de INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Método para notificar cambios en las propiedades
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
-
-
         private CrashReport _Report = new();
         public CrashReport Report
         {
@@ -57,8 +43,6 @@ namespace CheckCars.ViewModels
         }
         public ICommand IDeleteReport { get; }
         public ICommand DownloadReportCommand { get; }
-
-
         private async Task DeletePhotos(List<string> paths)
         {
             foreach (var item in paths)
@@ -74,7 +58,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         private async Task DownloadReport()
         {
             Task.Run(async () =>
@@ -97,7 +80,6 @@ namespace CheckCars.ViewModels
                 }
             });
         }
-        // Método para compartir el archivo usando el sistema de compartición de MAUI
         private async Task ShareFile(string filePath)
         {
             var request = new ShareFileRequest
@@ -108,8 +90,6 @@ namespace CheckCars.ViewModels
 
             await Share.Default.RequestAsync(request);
         }
-
-
         public async Task DeleteReport()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert(

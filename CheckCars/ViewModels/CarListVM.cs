@@ -13,13 +13,6 @@ namespace CheckCars.ViewModels
 {
     public class CarListVM : INotifyPropertyChangedAbst
     {
-        #region General
-       
-
-       
-
-        #endregion
-
         public CarListVM()
         {
             IDeleteCar = new Command<CarModel>(DeleteCar);
@@ -64,8 +57,6 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(Car));
             }
         }
-
-
         private string _CarBrand ;
         public string CarBrand
         {
@@ -105,11 +96,6 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(CarPlate));
             }
         }
-
-
-
-
-
         public ICommand IAddCar
         {
             get
@@ -127,7 +113,6 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
-
         private void CleanProperties()
         {
             CarBrand = string.Empty;
@@ -135,7 +120,6 @@ namespace CheckCars.ViewModels
             CarPlate = string.Empty;
             Car = new();
         }
-
         private void AddCar()
         {
       

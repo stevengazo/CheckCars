@@ -43,13 +43,7 @@
                         <Label Grid.Row="0" Grid.Column="0" Text="Fecha"  VerticalOptions="Center" />
                         <DatePicker Grid.Row="0" Grid.Column="1" Date="{Binding newIssueReport.Created}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"  TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <Label  Grid.Row="1" Grid.Column="0"  Text="Vehículo" VerticalOptions="Center" />
-                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.CarPlate}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"   TextColor="{AppThemeBinding Light=Black, Dark=White}">
-                            <!-- Opciones del ComboBox -->
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>Datos Vehículo</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
+                        <Picker Grid.Row="1" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.CarPlate}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"   TextColor="{AppThemeBinding Light=Black, Dark=White}"  ItemsSource="{Binding CarsInfo}">
                         </Picker>
                         <Label  Grid.Row="2" Grid.Column="0"  Text="Prioridad" VerticalOptions="Center"  />
                         <Picker Grid.Row="2" Grid.Column="1" Title="Seleccione" SelectedItem="{Binding newIssueReport.Priority}" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"  TextColor="{AppThemeBinding Light=Black, Dark=White}">

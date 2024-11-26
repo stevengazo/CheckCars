@@ -14,22 +14,24 @@ namespace CheckCars.ViewModels
 {
     public class AddIssuesReportVM : INotifyPropertyChangedAbst
     {
-
-        #region General
-        // Implementación de INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Método para notificar cambios en las propiedades
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
         private CheckCars.Utilities.SensorManager SensorManager = new();
         public AddIssuesReportVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
+            CarsInfo = GetCarsInfo().Result;
+        }
+        private string[] _CarsInfo;
+        public string[] CarsInfo
+        {
+            get { return _CarsInfo; }
+            set
+            {
+                if (_CarsInfo != value)
+                {
+                    _CarsInfo = value;
+                    OnPropertyChanged(nameof(CarsInfo));
+                }
+            }
         }
         private IssueReport _newIssueReport = new()
         {
@@ -103,6 +105,7 @@ namespace CheckCars.ViewModels
                     using (var db = new ReportsDBContextSQLite())
                     {
                         double[] location = await SensorManager.GetCurrentLocation();
+                        newIssueReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? StaticData.User.UserName : "Default";
                         newIssueReport.Latitude = location[0];
                         newIssueReport.Longitude = location[1];
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
@@ -149,7 +152,6 @@ namespace CheckCars.ViewModels
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
             }
         }
- 
         private async Task<bool> ValidateData()
         {
            
@@ -168,7 +170,14 @@ namespace CheckCars.ViewModels
             return true;
 
         }
-
-
+        private async Task<string[]> GetCarsInfo()
+        {
+            using (var db = new ReportsDBContextSQLite())
+            {
+                return (from C in db.Cars
+                        select $"{C.Brand}-{C.Model}-{C.Plate}"
+                            ).ToArray();
+            }
+        }
     }
 }

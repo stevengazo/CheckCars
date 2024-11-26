@@ -13,23 +13,27 @@ namespace CheckCars.ViewModels
 {
     public class AddCrashVM : INotifyPropertyChangedAbst
     {
-        #region General
-        // Implementación de INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Método para notificar cambios en las propiedades
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
+    
         private CheckCars.Utilities.SensorManager SensorManager = new();
 
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
+            CarsInfo = GetCarsInfo().Result;
+        }
+
+        private string[] _CarsInfo;
+        public string[] CarsInfo
+        {
+            get { return _CarsInfo; }
+            set
+            {
+                if (_CarsInfo != value)
+                {
+                    _CarsInfo = value;
+                    OnPropertyChanged(nameof(CarsInfo));
+                }
+            }
         }
         // Lista para almacenar las fotos capturadas
         private ObservableCollection<Photo> _imgs = new();
@@ -104,6 +108,7 @@ namespace CheckCars.ViewModels
                     using (var db = new ReportsDBContextSQLite())
                     {
                         double[] location = await SensorManager.GetCurrentLocation();
+                        newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? StaticData.User.UserName : "Default";
                         newCrashReport.Latitude = location[0];
                         newCrashReport.Longitude = location[1];
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
@@ -176,6 +181,15 @@ namespace CheckCars.ViewModels
             }
             return true;
 
+        }
+        private async Task<string[]> GetCarsInfo()
+        {
+            using (var db = new ReportsDBContextSQLite())
+            {
+                return (from C in db.Cars
+                        select $"{C.Brand}-{C.Model}-{C.Plate}"
+                            ).ToArray();
+            }
         }
 
 

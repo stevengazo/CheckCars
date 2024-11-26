@@ -15,18 +15,8 @@ namespace CheckCars.ViewModels
 {
     public class EntryExitReportsListVM : INotifyPropertyChangedAbst
     {
-        // Implementación de INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Método para notificar cambios en las propiedades
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public ICommand AddReport { get; } = new Command(async () =>
         await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(), true));
-
         public ICommand ViewReport { get; } = new Command(async (e) =>
         {
             if (e is string reportId) // Cambia 'int' por el tipo adecuado si es necesario
@@ -35,16 +25,7 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.Navigation.PushAsync(new ViewEntryExit(), true);
             }
         });
-
-
-    
-
-
-
-
-
         public ObservableCollection<EntryExitReport> _EntryExitReports = new();
-
         public ObservableCollection<EntryExitReport> EntryExitReports
         {
             get { return _EntryExitReports; }
@@ -58,16 +39,13 @@ namespace CheckCars.ViewModels
 
             }
         }
-
         public EntryExitReportsListVM()
         {
            
           LoadReports();
 
         }
-
         public ICommand UpdateReports => new Command( () =>  LoadReports());
-
         public async Task LoadReports()
         {
             try
@@ -88,7 +66,5 @@ namespace CheckCars.ViewModels
                 Console.WriteLine(e.Message);
             }
         }
-
-
     }
 }

@@ -15,18 +15,6 @@ namespace CheckCars.ViewModels
 {
     public class ViewIssueVM : INotifyPropertyChangedAbst
     {
-
-        #region General
-        // Implementación de INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Método para notificar cambios en las propiedades
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
         private IssueReport _Report = new();
         public IssueReport Report
         {
@@ -154,7 +142,6 @@ namespace CheckCars.ViewModels
                 Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
             }
         }
-        // Método para compartir el archivo usando el sistema de compartición de MAUI
         private async Task ShareFile(string filePath)
         {
             var request = new ShareFileRequest

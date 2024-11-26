@@ -250,7 +250,16 @@ namespace CheckCars.Utilities
         private void AddRow(Table table, string Title, string value)
         {
             table.AddCell(Title).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-            table.AddCell(value);
+            if(string.IsNullOrWhiteSpace(value))
+            {
+
+                table.AddCell("");
+            }
+            else
+            {
+                table.AddCell(value);
+            }
+
         }
 
     }
