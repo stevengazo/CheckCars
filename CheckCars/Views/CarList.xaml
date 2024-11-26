@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="Marca" ></Label>
+            <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="Marca"  ></Label>
             <Entry HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  Grid.Row="0" Grid.Column="1" Text="{Binding CarBrand, Mode=TwoWay}"></Entry>
             <Label  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Text="Modelo" ></Label>
             <Entry  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="1" Grid.Column="1" Text="{Binding CarModel, Mode=TwoWay}"></Entry>
@@ -44,9 +44,9 @@
                             <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="10,0,0,0" >
                                 <!-- Información del contenido en formato horizontal -->
                                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
-                                    <Label Text="{Binding Brand}" FontAttributes="Bold" VerticalTextAlignment="Center" />
-                                    <Label Text="{Binding Model}" VerticalTextAlignment="Center" />
-                                    <Label Text="{Binding Plate}" VerticalTextAlignment="Center" />
+                                    <Label Text="{Binding Brand}" TextColor="Black" FontAttributes="Bold" VerticalTextAlignment="Center" />
+                                    <Label Text="{Binding Model}" TextColor="Black" VerticalTextAlignment="Center" />
+                                    <Label Text="{Binding Plate}" TextColor="Black" VerticalTextAlignment="Center" />
                                 </HorizontalStackLayout>
                                 <!-- Botón de acción -->
                                 <ImageButton 

@@ -30,6 +30,14 @@ namespace CheckCars.Utilities
             //   FeatureNotSupportedException
             //   FeatureNotEnabledException
             //   PermissionException
+           catch( FeatureNotEnabledException r)
+
+
+            {
+                Application.Current.MainPage.DisplayPromptAsync("Advertencia", "No fue posible obtener la ubicación", "OK");
+
+                return null;
+            }
             catch (Exception ex)
             {
                 // Unable to get location
