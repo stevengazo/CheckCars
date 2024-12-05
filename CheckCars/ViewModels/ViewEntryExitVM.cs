@@ -2,9 +2,8 @@
 using CheckCars.Models;
 using CheckCars.Utilities;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.Windows.Input;
 using Newtonsoft.Json;
+using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
@@ -12,7 +11,7 @@ namespace CheckCars.ViewModels
     {
 
         private Thread reportThread = new Thread(() => { });
-        private double _FuelLevel; 
+        private double _FuelLevel;
         public double FuelLevel
         {
             get { return _FuelLevel; }

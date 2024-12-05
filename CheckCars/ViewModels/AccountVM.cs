@@ -1,22 +1,24 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
     public class AccountVM : INotifyPropertyChangedAbst
     {
+        public AccountVM()
+        {
+            StaticData.User = new UserProfile();
+            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+            User.UserName = StaticData.User.UserName;
+        }
+
+        #region Commands
         public ICommand CleanReports
         {
             get
             {
-                return new Command(async() => await DeleteReports());
+                return new Command(async () => await DeleteReportsAsync());
             }
             private set { }
         }
@@ -24,7 +26,7 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command(async() => await DeletePdf());
+                return new Command(async () => await DeletePdfAsync());
             }
             private set { }
         }
@@ -32,16 +34,15 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command(async () => await UpdateUserProfile());
+                return new Command(async () => await UpdateUserProfileAsync());
             }
             private set { }
         }
-        private async Task UpdateUserProfile()
-        {
-            StaticData.User.UserName = User.UserName;
-            Preferences.Set(nameof(UserProfile.UserName), User.UserName);
-            Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
-        }
+
+        #endregion
+
+        #region Properties
+
         private UserProfile _User = new();
         public UserProfile User
         {
@@ -55,13 +56,10 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        public AccountVM()
-        {
-            StaticData.User = new UserProfile();
-            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
-            User.UserName = StaticData.User.UserName;       
-        }
-        private async Task DeleteReports()
+        #endregion
+
+        #region Methods
+        private async Task DeleteReportsAsync()
         {
             try
             {
@@ -71,12 +69,12 @@ namespace CheckCars.ViewModels
                   "Sí",
                   "No"
               );
-                if(answer)
+                if (answer)
                 {
                     using (var db = new ReportsDBContextSQLite())
                     {
-                        var photosPaths = db.Photos.Select(e=>e.FilePath).ToList();
-                        DeletePhotos(photosPaths);
+                        var photosPaths = db.Photos.Select(e => e.FilePath).ToList();
+                        DeletePhotosAsync(photosPaths);
                         db.Photos.RemoveRange(db.Photos.ToList());
                         db.Reports.RemoveRange(db.Reports.ToList());
                         db.IssueReports.RemoveRange(db.IssueReports.ToList());
@@ -86,21 +84,21 @@ namespace CheckCars.ViewModels
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-              
+
                 throw;
             }
 
         }
-        private async Task DeletePhotos(List<string> photos)
+        private async Task DeletePhotosAsync(List<string> photos)
         {
             foreach (var photo in photos)
             {
                 File.Delete(photo);
             }
         }
-        private async Task DeletePdf()
+        private async Task DeletePdfAsync()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert(
                   "Confirmación",
@@ -112,12 +110,21 @@ namespace CheckCars.ViewModels
             {
                 var path = FileSystem.CacheDirectory;
                 var files = Directory.GetFiles(path);
-                foreach ( var file in files )
+                foreach (var file in files)
                 {
-                    File.Delete( file );
+                    File.Delete(file);
                 }
                 Application.Current.MainPage.DisplayAlert("Información", "Cache Borrada", "Ok");
             }
         }
+
+        private async Task UpdateUserProfileAsync()
+        {
+            StaticData.User.UserName = User.UserName;
+            Preferences.Set(nameof(UserProfile.UserName), User.UserName);
+            Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
+        }
+
+        #endregion
     }
 }

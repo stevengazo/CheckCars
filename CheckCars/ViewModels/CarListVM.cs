@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CheckCars.Data;
+﻿using CheckCars.Data;
 using CheckCars.Models;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
@@ -22,6 +16,7 @@ namespace CheckCars.ViewModels
                 d.ForEach(car => { Cars.Add(car); });
             }
         }
+        #region Properties
         private ObservableCollection<CarModel> _Cars = new();
         public ObservableCollection<CarModel> Cars
         {
@@ -43,7 +38,7 @@ namespace CheckCars.ViewModels
             Id = Guid.NewGuid().ToString(),
             Model = "",
             Plate = "",
-            Brand =""
+            Brand = ""
         };
         public CarModel Car
         {
@@ -57,12 +52,12 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(Car));
             }
         }
-        private string _CarBrand ;
+        private string _CarBrand;
         public string CarBrand
         {
             get
             {
-                return _CarBrand ;
+                return _CarBrand;
             }
             set
             {
@@ -83,7 +78,7 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(CarModel));
             }
         }
-        private string _CarPlate ;
+        private string _CarPlate;
         public string CarPlate
         {
             get
@@ -96,6 +91,8 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(CarPlate));
             }
         }
+        #endregion
+        #region Commands
         public ICommand IAddCar
         {
             get
@@ -113,6 +110,9 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
+#endregion
+
+#region Methods
         private void CleanProperties()
         {
             CarBrand = string.Empty;
@@ -122,28 +122,23 @@ namespace CheckCars.ViewModels
         }
         private void AddCar()
         {
-      
 
-             try
-               {
-                   using (var db = new ReportsDBContextSQLite())
-                   {
-                       Car.Brand = CarBrand;
-                       Car.Model = CarModel;
-                       Car.Plate = CarPlate;
-                       db.Cars.Add(Car);
-                       db.SaveChanges();
-                       Cars.Add(Car);
-
-
-                   }
-                   CleanProperties();
-               }
-               catch (Exception e)
-               {
-
-                   throw;
-               }
+            try
+            {
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    Car.Brand = CarBrand;
+                    Car.Model = CarModel;
+                    Car.Plate = CarPlate;
+                    db.Cars.Add(Car);
+                    db.SaveChanges();
+                    Cars.Add(Car);                }
+                CleanProperties();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         private void DeleteCar(CarModel e)
         {
@@ -165,6 +160,6 @@ namespace CheckCars.ViewModels
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
             }
         }
-
+#endregion
     }
 }

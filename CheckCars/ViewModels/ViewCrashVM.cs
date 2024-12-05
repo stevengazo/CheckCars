@@ -2,17 +2,11 @@
 using CheckCars.Models;
 using CheckCars.Utilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
-   public class ViewCrashVM : INotifyPropertyChangedAbst
+    public class ViewCrashVM : INotifyPropertyChangedAbst
     {
         private CrashReport _Report = new();
         public CrashReport Report

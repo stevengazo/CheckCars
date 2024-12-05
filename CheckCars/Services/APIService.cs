@@ -1,25 +1,19 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace CheckCars.Services
 {
     public class APIService
     {
-        public string Toker {  get; set; }
+        public string Toker { get; set; }
         private readonly HttpClient _httpClient;
         public APIService()
         {
-             _httpClient = new HttpClient();
+            _httpClient = new HttpClient();
         }
         private void ConfigurarEncabezados()
         {
-            if(!string.IsNullOrEmpty(Toker))
+            if (!string.IsNullOrEmpty(Toker))
             {
                 if (_httpClient.DefaultRequestHeaders.Contains("Authorization"))
                     _httpClient.DefaultRequestHeaders.Remove("Authorization");
@@ -77,7 +71,7 @@ namespace CheckCars.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    if (string.IsNullOrEmpty(json)) 
+                    if (string.IsNullOrEmpty(json))
                     {
                         string jsonContent = await response.Content.ReadAsStringAsync();
                         return JsonConvert.DeserializeObject<T>(json);

@@ -1,21 +1,11 @@
 ﻿
 
 using CheckCars.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
+using iText.IO.Image;
 using iText.Kernel.Pdf;
-using iText.Commons.Actions.Processors;
 using iText.Layout;
 using iText.Layout.Element;
-using iText.IO.Image;
-using Cell = iText.Layout.Element.Cell;
 using iText.Layout.Properties;
-using System.Reflection;
-using iText.Kernel.Colors;
 
 
 namespace CheckCars.Utilities
@@ -68,7 +58,7 @@ namespace CheckCars.Utilities
                     return ms.ToArray();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -131,7 +121,7 @@ namespace CheckCars.Utilities
                     return ms.ToArray();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -175,7 +165,7 @@ namespace CheckCars.Utilities
 
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 throw;
@@ -259,7 +249,7 @@ namespace CheckCars.Utilities
         private void AddRow(Table table, string Title, string value)
         {
             table.AddCell(Title).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-            if(string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
 
                 table.AddCell("");

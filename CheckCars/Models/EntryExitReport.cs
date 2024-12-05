@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace CheckCars.Models
+﻿namespace CheckCars.Models
 {
     public class EntryExitReport : Report
     {
@@ -13,7 +6,7 @@ namespace CheckCars.Models
         /// <summary>
         /// Nivel de Aceite
         /// </summary>
-        public double  FuelLevel { get; set; }
+        public double FuelLevel { get; set; }
         /// <summary>
         ///  Notas
         /// </summary>
@@ -21,7 +14,7 @@ namespace CheckCars.Models
         /// <summary>
         /// Cargador USB
         /// </summary>
-        public bool HasChargerUSB {  get; set; }
+        public bool HasChargerUSB { get; set; }
         /// <summary>
         /// Tiene Quickpass
         /// </summary>

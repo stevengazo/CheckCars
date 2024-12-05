@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using CheckCars.Views;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using CheckCars.Data;
 using CheckCars.Models;
+using CheckCars.Views;
 using System.Collections.ObjectModel;
-using CheckCars.Data;
+using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {

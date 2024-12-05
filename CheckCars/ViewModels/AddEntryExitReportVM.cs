@@ -1,23 +1,25 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace CheckCars.ViewModels
 {
     public class AddEntryExitReportVM : INotifyPropertyChangedAbst
     {
-        private CheckCars.Utilities.SensorManager SensorManager = new();
 
+        public AddEntryExitReportVM()
+        {
+            CarsInfo = GetCarsInfoAsync().Result;
+            DeletePhotoCommand = new Command<Photo>(DeletePhotoAsync);
+            Task.Run(() => LoadUbicationAsync());
+        }
+
+        #region Properties
+        private CheckCars.Utilities.SensorManager SensorManager = new();
         private string[] _CarsInfo;
+        private EntryExitReport _report = new() { Created = DateTime.Now };
+        private ObservableCollection<Photo> _imgs = new();
         public string[] CarsInfo
         {
             get { return _CarsInfo; }
@@ -30,11 +32,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
-        private EntryExitReport _report = new()
-        {
-            Created = DateTime.Now
-        };
         public EntryExitReport Report
         {
             get { return _report; }
@@ -47,9 +44,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
-        private ObservableCollection<Photo> _imgs = new();
-
         public ObservableCollection<Photo> ImgList
         {
             get { return _imgs; }
@@ -62,16 +56,15 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        public AddEntryExitReportVM()
-        {
-            CarsInfo = GetCarsInfo().Result;
-            DeletePhotoCommand = new Command<Photo>(DeletePhoto);
-        }
+
+        #endregion
+
+        #region Commands
         public ICommand TakePhotoCommand
         {
             get
             {
-                return new Command(() => Task.Run(TakePhotos));
+                return new Command(() => Task.Run(TakePhotosAsync));
             }
             private set { }
         }
@@ -79,12 +72,15 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command(() => AddReportEntry());
+                return new Command(() => AddReportEntryAsync());
             }
             private set { }
         }
         public ICommand DeletePhotoCommand { get; }
-        private async Task TakePhotos()
+        #endregion
+
+        #region Methods
+        private async Task TakePhotosAsync()
         {
             Photo photo = await SensorManager.TakePhoto();
             if (photo != null)
@@ -92,7 +88,7 @@ namespace CheckCars.ViewModels
                 ImgList.Add(photo);
             }
         }
-        private void DeletePhoto(Photo photo)
+        private void DeletePhotoAsync(Photo photo)
         {
             if (photo == null) return; // Evitar argumentos nulos
 
@@ -110,7 +106,7 @@ namespace CheckCars.ViewModels
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
             }
         }
-        private async Task AddReportEntry()
+        private async Task AddReportEntryAsync()
         {
             try
             {
@@ -121,29 +117,18 @@ namespace CheckCars.ViewModels
                     "No"
                 );
 
-                var valid = await ValidateData();
+                var valid = await ValidateDataAsync();
 
                 if (answer && valid)
                 {
-                    SensorManager._isCheckingLocation = true;
+
 
                     using (var db = new ReportsDBContextSQLite())
                     {
-                        
-                        double[] location =await  SensorManager.GetCurrentLocation();
 
-                        if(location != null)
-                        {
-                            Report.Latitude = location[0];
-                            Report.Longitude = location[1];
-                        }
-                        else
-                        {
-                            Report.Latitude = 0;
-                            Report.Longitude = 0;
-                        }
+
                         Report.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
-                    
+
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         Report.Photos = ImgList.Select(photo =>
                         {
@@ -153,45 +138,45 @@ namespace CheckCars.ViewModels
 
                         db.EntryExitReports.Add(Report);
                         db.SaveChanges();
-                        Close();
+                        CloseAsync();
                     }
                 }
                 else
                 {
-                  await Application.Current.MainPage.DisplayAlert("Error", "Verifique los datos", "ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Verifique los datos", "ok");
                 }
             }
             catch (Exception rf)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
-                SensorManager.CancelRequest();
+
             }
         }
-        private async Task Close()
+        private async Task CloseAsync()
         {
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
         }
         // Método para capturar y guardar la foto
-        private async Task<bool> ValidateData()
+        private async Task<bool> ValidateDataAsync()
         {
-            if( Report.mileage == 0)
+            if (Report.mileage == 0)
             {
                 return false;
             }
-            if(string.IsNullOrEmpty(Report.Justify) )
+            if (string.IsNullOrEmpty(Report.Justify))
             {
                 return false;
             }
-            if( string.IsNullOrWhiteSpace(Report.TiresState))
+            if (string.IsNullOrWhiteSpace(Report.TiresState))
             {
                 return false;
             }
-            if( string.IsNullOrEmpty(Report.PaintState) )
+            if (string.IsNullOrEmpty(Report.PaintState))
             {
                 return false;
             }
-            if( string.IsNullOrEmpty(Report.MecanicState) )
+            if (string.IsNullOrEmpty(Report.MecanicState))
             {
                 return false;
             }
@@ -210,15 +195,39 @@ namespace CheckCars.ViewModels
             return true;
 
         }
-        private async Task<string[]> GetCarsInfo()
+        private async Task<string[]> GetCarsInfoAsync()
         {
             using (var db = new ReportsDBContextSQLite())
             {
                 return (from C in db.Cars
-                            select $"{C.Brand}-{C.Model}-{C.Plate}"
+                        select $"{C.Brand}-{C.Model}-{C.Plate}"
                             ).ToArray();
             }
         }
+        private async Task LoadUbicationAsync()
+        {
+            try
+            {
+                SensorManager._isCheckingLocation = true;
+                double[] location = await SensorManager.GetCurrentLocation();
 
+                if (location != null)
+                {
+                    Report.Latitude = location[0];
+                    Report.Longitude = location[1];
+                }
+                else
+                {
+                    Report.Latitude = 0;
+                    Report.Longitude = 0;
+                }
+            }
+            catch (Exception)
+            {
+                SensorManager.CancelRequest();
+
+            }
+        }
+        #endregion
     }
 }

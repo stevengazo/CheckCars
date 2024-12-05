@@ -1,12 +1,5 @@
 ﻿using CheckCars.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Devices;
 
 namespace CheckCars.Data
 {
@@ -19,20 +12,20 @@ namespace CheckCars.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Report> Reports { get; set; }
 
-        public ReportsDBContextSQLite(DbContextOptions<ReportsDBContextSQLite> contextOptions) 
+        public ReportsDBContextSQLite(DbContextOptions<ReportsDBContextSQLite> contextOptions)
         {
-            Database.EnsureCreated();   
+            Database.EnsureCreated();
         }
         public ReportsDBContextSQLite()
         {
-                
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={GetPath($"{nameof(ReportsDBContextSQLite)}.db3")}"); 
+            optionsBuilder.UseSqlite($"Filename={GetPath($"{nameof(ReportsDBContextSQLite)}.db3")}");
             SQLitePCL.Batteries_V2.Init();
             // https://sagbansal.medium.com/how-to-update-the-sqlite-database-after-each-app-release-using-entity-framework-xamarin-maui-7b582313f89
-        
+
         }
 
 
@@ -64,13 +57,14 @@ namespace CheckCars.Data
             string pathDbLite = string.Empty;
 
 
-            if(DeviceInfo.Platform == DevicePlatform.Android)
+            if (DeviceInfo.Platform == DevicePlatform.Android)
             {
-                pathDbLite = Path.Combine(FileSystem.AppDataDirectory, nameDB);  
-            }else if(DeviceInfo.Platform == DevicePlatform.iOS)
+                pathDbLite = Path.Combine(FileSystem.AppDataDirectory, nameDB);
+            }
+            else if (DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 pathDbLite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                pathDbLite = Path.Combine( pathDbLite, "..","Library",nameDB);
+                pathDbLite = Path.Combine(pathDbLite, "..", "Library", nameDB);
             }
             return pathDbLite;
         }

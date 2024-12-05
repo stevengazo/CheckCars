@@ -1,17 +1,15 @@
-﻿using CheckCars.Views;
-
-namespace CheckCars
+﻿namespace CheckCars
 {
     public partial class App : Application
     {
-       
+
         public App()
         {
             InitializeComponent();
 
             MainPage = new AppShell();
 
-           // MainPage =   new LoginPage();
+            // MainPage =   new LoginPage();
         }
     }
 }

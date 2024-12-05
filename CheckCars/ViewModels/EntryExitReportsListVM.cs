@@ -1,14 +1,7 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
 using CheckCars.Views;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CheckCars.ViewModels
@@ -41,11 +34,11 @@ namespace CheckCars.ViewModels
         }
         public EntryExitReportsListVM()
         {
-           
-          LoadReports();
+
+            LoadReports();
 
         }
-        public ICommand UpdateReports => new Command( () =>  LoadReports());
+        public ICommand UpdateReports => new Command(() => LoadReports());
         public async Task LoadReports()
         {
             try

@@ -1,11 +1,6 @@
 ﻿using CheckCars.Data;
 using CheckCars.Views;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CheckCars.ViewModels
@@ -20,7 +15,7 @@ namespace CheckCars.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(new EntryExitReportList(), true));
 
         public ICommand CrashList { get; } = new Command(async () =>
-        
+
         await Application.Current.MainPage.Navigation.PushAsync(new CrashList(), true));
         public ICommand IssuesList { get; } = new Command(async () =>
         await Application.Current.MainPage.Navigation.PushAsync(new IssuesList(), true));
@@ -42,7 +37,7 @@ namespace CheckCars.ViewModels
 
         private void test()
         {
-            var d = reportsDB.CrashReports.ToList();    
+            var d = reportsDB.CrashReports.ToList();
         }
 
 

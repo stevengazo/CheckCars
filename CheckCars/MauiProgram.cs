@@ -1,5 +1,4 @@
 ﻿using CheckCars.Data;
-using CheckCars.Utilities;
 using CheckCars.ViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
@@ -33,9 +32,9 @@ namespace CheckCars
             dbContext.Database.EnsureCreated();
             dbContext.Dispose();
 
-            #if DEBUG
+#if DEBUG
             builder.Logging.AddDebug();
-            #endif
+#endif
 
             return builder.Build();
         }

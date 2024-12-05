@@ -1,12 +1,4 @@
 ﻿using CheckCars.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.Storage;
-using Microsoft.Maui.Media;
-using Microsoft.Maui.Devices.Sensors;
 
 namespace CheckCars.Utilities
 {
@@ -41,12 +33,12 @@ namespace CheckCars.Utilities
                 await Application.Current.MainPage.DisplayAlert("Advertencia", "No es posible obtener la ubicación" + r.InnerException, "OK");
                 return null;
             }
-            catch(PermissionException e)
+            catch (PermissionException e)
             {
                 await Application.Current.MainPage.DisplayAlert("Advertencia", "No posee permisos de la cámara. " + e.InnerException, "OK");
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Unable to get location
                 return null;

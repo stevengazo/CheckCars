@@ -1,8 +1,6 @@
-﻿using CheckCars.ViewModels;
-using Microsoft.Maui.ApplicationModel;
-using CheckCars.Data;
+﻿using CheckCars.Data;
 using CheckCars.Models;
-using System.Net;
+using CheckCars.ViewModels;
 
 namespace CheckCars
 {
