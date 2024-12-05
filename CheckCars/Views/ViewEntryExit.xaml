@@ -56,7 +56,7 @@
                         <Label  Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
                         <!-- Notas -->
                         <Label  Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />
-                        <Label  Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding Report.Notes}" VerticalOptions="Center" />
+                        <Label  Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding Report.Justify}" VerticalOptions="Center" />
                         <!-- Kilometraje -->
                         <Label  Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
                         <Label  Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding Report.mileage}" VerticalOptions="Center" />

@@ -112,6 +112,15 @@ namespace CheckCars.Utilities
 
                     addEntryTable(document, i);
 
+                    Paragraph h = new Paragraph($"Motivo Uso")
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    document.Add(h);
+
+                    Paragraph just = new Paragraph(i.Justify)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFontSize(14);
+                    document.Add(just);
 
 
                     if (i.Photos.Count > 0)

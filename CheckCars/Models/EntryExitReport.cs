@@ -17,7 +17,7 @@ namespace CheckCars.Models
         /// <summary>
         ///  Notas
         /// </summary>
-        public string? Notes { get; set; }
+        public string? Justify { get; set; }
         /// <summary>
         /// Cargador USB
         /// </summary>

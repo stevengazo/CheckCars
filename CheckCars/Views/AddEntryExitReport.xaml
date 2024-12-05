@@ -65,8 +65,8 @@
                        
                         </Picker>
                         <!-- Notas -->
-                        <Label  Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />
-                        <Editor AutoSize="TextChanges" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Placeholder="Descripcion" Text="{Binding Report.Notes}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label  Grid.Row="2" Grid.Column="0" Text="Motivo Uso" VerticalOptions="Center" />
+                        <Editor AutoSize="TextChanges" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2"  Placeholder="Descripcion" Text="{Binding Report.Justify}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <!-- Kilometraje -->
                         <Label Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
                         <Entry Grid.Row="3" Grid.Column="1" BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" Margin="2" Placeholder="Kilometraje" Keyboard="Numeric" Text="{Binding Report.mileage}" TextColor="{AppThemeBinding Light=Black, Dark=White}" />

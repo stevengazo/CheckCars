@@ -179,7 +179,7 @@ namespace CheckCars.ViewModels
             {
                 return false;
             }
-            if(string.IsNullOrEmpty(Report.Notes) )
+            if(string.IsNullOrEmpty(Report.Justify) )
             {
                 return false;
             }
