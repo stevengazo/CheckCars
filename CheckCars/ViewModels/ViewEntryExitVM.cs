@@ -1,6 +1,8 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
+using CheckCars.Services;
 using CheckCars.Utilities;
+
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Windows.Input;
@@ -10,6 +12,7 @@ namespace CheckCars.ViewModels
     public class ViewEntryExitVM : INotifyPropertyChangedAbst
     {
 
+        private readonly APIService _apiService;
         private Thread reportThread = new Thread(() => { });
         private double _FuelLevel;
         public double FuelLevel
@@ -38,9 +41,13 @@ namespace CheckCars.ViewModels
             }
         }
         public ICommand DownloadReportCommand { get; }
+        public ICommand ISendReport { get; }
         public ICommand IDeleteReport { get; }
+        public ICommand ISendServerReport { get; }
+
         public ViewEntryExitVM()
         {
+            _apiService = new();
             var Id = Data.StaticData.ReportId;
 
             using (var dbo = new ReportsDBContextSQLite())
@@ -55,36 +62,40 @@ namespace CheckCars.ViewModels
             }
             DownloadReportCommand = new Command(() => DownloadReport());
             IDeleteReport = new Command(async () => await DeleteReport());
-            ISendReport = new Command(async () => await SendReport());
+            ISendReport = new Command(async () => await SendPDFReport());
+            ISendServerReport = new Command(async () => await SendServer());
 
         }
-        public ICommand ISendReport { get; }
-        public async Task SendReport()
+
+        #region Methods
+        public async Task SendServer()
         {
             try
             {
-                // 1. Serializar el objeto 'Report' a JSON
-                string jsonContent = JsonConvert.SerializeObject(Report, new JsonSerializerSettings
+                if (!Report.isUploaded)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
-                // 2. Generar un archivo y guardar el JSON en el almacenamiento local
-                string fileName = "reporte.json";
-                string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+                    var result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports", Report);
+                    if (result)
+                    {
+                        using (var db = new ReportsDBContextSQLite())
+                        {
+                            Report.isUploaded = true;
+                            db.EntryExitReports.Update(Report);
+                            db.SaveChanges();
+                        }
+                        Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
+                    }
+                }
+                else
+                {
 
-                // Guardar el JSON en el archivo
-                await File.WriteAllTextAsync(filePath, jsonContent);
-
-                // 3. Compartir el archivo (opcional)
-                await ShareFile(filePath);
+                }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // Manejo de errores
-                Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
+                Console.WriteLine(e.Message);
             }
         }
-        #region Methods
         public async Task DeleteReport()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert(
@@ -113,6 +124,31 @@ namespace CheckCars.ViewModels
                     var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
                     Application.Current.MainPage.Navigation.RemovePage(d);
                 }
+            }
+        }
+        public async Task SendPDFReport()
+        {
+            try
+            {
+                // 1. Serializar el objeto 'Report' a JSON
+                string jsonContent = JsonConvert.SerializeObject(Report, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+                // 2. Generar un archivo y guardar el JSON en el almacenamiento local
+                string fileName = "reporte.json";
+                string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+
+                // Guardar el JSON en el archivo
+                await File.WriteAllTextAsync(filePath, jsonContent);
+
+                // 3. Compartir el archivo (opcional)
+                await ShareFile(filePath);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
             }
         }
         private async Task DeletePhotos(List<string> paths)
