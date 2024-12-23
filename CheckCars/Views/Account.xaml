@@ -6,112 +6,125 @@
              x:Class="CheckCars.Views.Account"
              Title="Cuenta">
     <ContentPage.BindingContext>
-        <ViewModels:AccountVM />
+        <ViewModels:AccountVM/>
     </ContentPage.BindingContext>
     <ScrollView>
-        <VerticalStackLayout Padding="10" Spacing="2">
+        <StackLayout>
+            <Grid Margin="3"
+                  Padding="5"
+                  RowSpacing="2"
+                  ColumnSpacing="5"
+                  ColumnDefinitions="auto,auto"
+                  RowDefinitions="auto,auto,auto">
+                <Label Text="Usuario"
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       WidthRequest="80"
+                       VerticalOptions="Center"/>
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Keyboard="Text"
+                    WidthRequest="200"
+                    VerticalOptions="Center"
+                    Text="{Binding User.UserName}"/>
 
-            <Border
-                Background="{AppThemeBinding Light=White, Dark=DarkGray}"
-                >
-                <!-- Sección: Cuenta -->
-                <VerticalStackLayout>
-                    <Label FontSize="Title" 
-                       HorizontalOptions="Center" 
-                       Margin="10" 
-                       Text="Cuenta" />
+                <Button
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    BackgroundColor="Blue"
+                    WidthRequest="120"
+                    Padding="0"
+                    HeightRequest="10"
+                    FontSize="12"
+                    TextColor="White"
+                    Text="Actualizar"
+                    Command="{Binding UpdateUser}"/>
+            </Grid>
 
-                    <!-- Entrada de Usuario -->
-                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
-                        <Label Text="Usuario" 
-                           WidthRequest="80" 
-                           VerticalOptions="Center" />
-                        <Entry Keyboard="Text" 
-                           WidthRequest="200"   
-                           VerticalOptions="Center"
-                           Text="{Binding User.UserName}"
-                           />
-                    </HorizontalStackLayout>
+            <Grid
+                Margin="3"
+                Padding="5"
+                RowSpacing="2"
+                ColumnSpacing="5"
+                ColumnDefinitions="auto,auto"
+                RowDefinitions="auto,auto,auto">
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    FontSize="13"
+                    VerticalTextAlignment="Center"
+                    Text="Borrar los Reportes existentes"
+                    HorizontalTextAlignment="Start"></Label>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    VerticalTextAlignment="Center"
+                    FontSize="13"
+                    Text="Borrar los PDF existentes"
+                    HorizontalTextAlignment="Start"></Label>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    WidthRequest="120"
+                    Padding="0"
+                    HeightRequest="10"
+                    FontSize="12"
+                    Text="Borrar Reportes"
+                    Background="Red"
+                    Command="{Binding CleanReports}"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    WidthRequest="120"
+                    Padding="0"
+                    HeightRequest="10"
+                    FontSize="12"
+                    Background="Orange"
+                    Text="Borrar PDFs"
+                    Command="{Binding CleanPdfs}"/>
+            </Grid>
 
-                    <!-- Entrada de Correo -->
-                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10" IsVisible="False">
-                        <Label Text="Correo" 
-                           WidthRequest="80" 
-                           VerticalOptions="Center" />
-                        <Entry Keyboard="Email" 
-                           WidthRequest="200" 
-                           VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-
-                    <!-- Entrada de Cédula -->
-                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10" IsVisible="False">
-                        <Label Text="Cédula" 
-                           WidthRequest="80" 
-                           VerticalOptions="Center" />
-                        <Entry Keyboard="Text" 
-                           WidthRequest="200" 
-                           VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
-                        <Button
-                          BackgroundColor="Blue"
-                          WidthRequest="180" 
-                            TextColor="White"
-                          HeightRequest="30" 
-                          Text="Actualizar"
-                          Command="{Binding UpdateUser}"/>
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </Border>
-
-     
-
-            <!-- Sección: Configuración -->
-            <Border
-                 Background="{AppThemeBinding Light=White, Dark=DarkGray}"
-                >
-                <VerticalStackLayout Spacing="15">
-                    <Label FontSize="Title" 
-                           HorizontalOptions="Center" 
-                           Text="Configuración" />
-                    <Border>
-
-                    </Border>
-                    <!-- Botón y descripción para borrar reportes -->
-                    <VerticalStackLayout 
-                        Spacing="3"
-                        HorizontalOptions="CenterAndExpand" 
-                        VerticalOptions="CenterAndExpand">
-                        <Label Text="Borra los reportes existentes" 
-                            VerticalOptions="Center" 
-                            FontSize="Small"
-                            HorizontalOptions="CenterAndExpand"  />
-                        <Button WidthRequest="180" 
-                            HeightRequest="40" 
-                            Text="Borrar Reportes"
-                            Background="Red"
-                            Command="{Binding CleanReports}"/>
-
-                    </VerticalStackLayout>
-
-                    <!-- Botón y descripción para borrar PDFs -->
-                    <VerticalStackLayout 
-                           HorizontalOptions="CenterAndExpand" 
-                           VerticalOptions="Center">
-                        <Label Text="Borra los PDFs generados" 
-                 FontSize="Small"
-                 VerticalOptions="Center" 
-                 HorizontalOptions="Start" />
-                        <Button WidthRequest="180" 
-                HeightRequest="40" 
-                Background="Orange"
-                Text="Borrar PDFs"
-                Command="{Binding CleanPdfs}"/>
-
-                    </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Border>
-
-        </VerticalStackLayout>
+            <Grid
+                Margin="3"
+                Padding="5"
+                RowSpacing="2"
+                ColumnSpacing="5"
+                ColumnDefinitions="auto,auto"
+                RowDefinitions="auto,auto,auto">
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    VerticalTextAlignment="Center"
+                    FontSize="13"
+                    Text="Modo Sin Conexión"/>
+                <Switch
+                    Grid.Column="1"
+                    Grid.Row="0"/>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    VerticalTextAlignment="Center"
+                    FontSize="13"
+                    Text="Servidor"/>
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="1"
+                                        WidthRequest="160"
+                    />
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    VerticalTextAlignment="Center"
+                    FontSize="13"
+                    Text="Puerto"/>
+                <Entry
+                    Grid.Column="1"
+                    WidthRequest="160"
+                    Grid.Row="2"/>
+            </Grid>
+        </StackLayout>
     </ScrollView>
 </ContentPage>
