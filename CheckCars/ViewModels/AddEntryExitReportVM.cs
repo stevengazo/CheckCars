@@ -200,7 +200,7 @@ namespace CheckCars.ViewModels
             using (var db = new ReportsDBContextSQLite())
             {
                 return (from C in db.Cars
-                        select $"{C.Brand}-{C.Model}-{C.Plate}"
+                        select $"{C.Brand}_{C.Model}_{C.Plate}"
                             ).ToArray();
             }
         }
