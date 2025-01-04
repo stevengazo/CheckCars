@@ -103,6 +103,7 @@
                 <Switch
                     Grid.Column="1"
                     Grid.Row="0"
+                   
                     IsToggled="{Binding UseAPI}"
                     
                     />

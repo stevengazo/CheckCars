@@ -70,30 +70,42 @@ namespace CheckCars.ViewModels
         #region Methods
         public async Task SendServer()
         {
-            try
+            if (Data.StaticData.UseAPI)
             {
-                if (!Report.isUploaded)
+                try
                 {
-                    var result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports", Report);
-                    if (result)
+                    if (!Report.isUploaded)
                     {
-                        using (var db = new ReportsDBContextSQLite())
+                        var result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports", Report);
+                        if (result)
                         {
-                            Report.isUploaded = true;
-                            db.EntryExitReports.Update(Report);
-                            db.SaveChanges();
+                            using (var db = new ReportsDBContextSQLite())
+                            {
+                                Report.isUploaded = true;
+                                db.EntryExitReports.Update(Report);
+                                db.SaveChanges();
+                            }
+                            Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
                         }
-                        Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
+                        else
+                        {
+                            Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos", "Ok");
+
+                        }
+                    }
+                    else
+                    {
+
                     }
                 }
-                else
+                catch (Exception e)
                 {
-
+                    Console.WriteLine(e.Message);
                 }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                Application.Current.MainPage.DisplayAlert("Información", "El envio de datos esta deshabilitado", "Ok");
             }
         }
         public async Task DeleteReport()

@@ -44,6 +44,9 @@ namespace CheckCars.ViewModels
             private set { }
         }
 
+
+        public ICommand IOnChangeUseAPI;
+
         #endregion
 
         #region Properties
@@ -52,7 +55,15 @@ namespace CheckCars.ViewModels
         public bool UseAPI
         {
             get { return _UseAPI; }
-            set { _UseAPI = value; }
+            set
+            {
+                if (_UseAPI != value)
+                {
+                    _UseAPI = value;
+                    StaticData.UseAPI = value;
+                    OnPropertyChanged(nameof(UseAPI));
+                }
+            }
         }
 
 
@@ -62,8 +73,12 @@ namespace CheckCars.ViewModels
         public string URL
         {
             get { return _url; }
-            set { if(_url != value){
+            set
+            {
+                if (_url != value)
+                {
                     _url = value;
+                    StaticData.URL = value;
                     OnPropertyChanged(nameof(URL));
                 }
             }
@@ -78,6 +93,7 @@ namespace CheckCars.ViewModels
                 if (_Port != value)
                 {
                     _Port = value;
+                    StaticData.Port = value;
                     OnPropertyChanged(nameof(Port));
                 }
             }
