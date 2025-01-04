@@ -6,11 +6,16 @@ namespace CheckCars.ViewModels
 {
     public class AccountVM : INotifyPropertyChangedAbst
     {
+
+
         public AccountVM()
         {
             StaticData.User = new UserProfile();
             StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+            UseAPI = StaticData.UseAPI;
             User.UserName = StaticData.User.UserName;
+            URL = StaticData.URL;
+            Port = StaticData.Port;
         }
 
         #region Commands
@@ -42,6 +47,44 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Properties
+        private bool _UseAPI;
+
+        public bool UseAPI
+        {
+            get { return _UseAPI; }
+            set { _UseAPI = value; }
+        }
+
+
+
+        private string _url;
+
+        public string URL
+        {
+            get { return _url; }
+            set { if(_url != value){
+                    _url = value;
+                    OnPropertyChanged(nameof(URL));
+                }
+            }
+        }
+        private string _Port;
+
+        public string Port
+        {
+            get { return _Port; }
+            set
+            {
+                if (_Port != value)
+                {
+                    _Port = value;
+                    OnPropertyChanged(nameof(Port));
+                }
+            }
+        }
+
+
+
 
         private UserProfile _User = new();
         public UserProfile User

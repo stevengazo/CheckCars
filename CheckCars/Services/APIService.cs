@@ -11,7 +11,7 @@ namespace CheckCars.Services
         {
             _httpClient = new HttpClient()
             {
-                BaseAddress = new Uri("http://38.87.253.134:4005/")
+                BaseAddress = new Uri($"{CheckCars.Data.StaticData.URL}:{CheckCars.Data.StaticData.Port}/")
             };
         }
 
