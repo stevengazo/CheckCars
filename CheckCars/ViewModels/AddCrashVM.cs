@@ -110,7 +110,7 @@ namespace CheckCars.ViewModels
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newCrashReport.Photos = ImgList.Select(photo =>
                         {
-                            photo.PhotoId = 0;  // Reset para que se genere automáticamente
+                            photo.PhotoId = Guid.NewGuid().ToString();  // Reset para que se genere automáticamente
                             return photo;
                         }).ToList();
 

@@ -208,8 +208,8 @@ namespace CheckCars.ViewModels
         {
             try
             {
-                var carAdded = await _apiService.PostAsync("api/Cars", car);
-
+                TimeSpan tmp = new TimeSpan(40);
+                var carAdded = await _apiService.PostAsync("api/Cars", car, tmp );
             }
             catch (Exception e)
             {

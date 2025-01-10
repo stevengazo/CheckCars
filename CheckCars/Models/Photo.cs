@@ -6,8 +6,8 @@ namespace CheckCars.Models
     public class Photo
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PhotoId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string PhotoId { get; set; } = Guid.NewGuid().ToString();
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public DateTime DateTaken { get; set; }

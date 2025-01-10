@@ -68,6 +68,10 @@ namespace CheckCars.ViewModels
         }
 
         #region Methods
+        /// <summary>
+        /// This Method get the data and send to the server 
+        /// </summary>
+        /// <returns></returns>
         public async Task SendServer()
         {
             if (Data.StaticData.UseAPI)
@@ -76,7 +80,20 @@ namespace CheckCars.ViewModels
                 {
                     if (!Report.isUploaded)
                     {
-                        var result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports", Report);
+                    
+                        TimeSpan tp = new TimeSpan();
+                        tp = TimeSpan.FromSeconds(100);
+                        var result = false;
+                        if (Report.Photos.Count> 0)
+                        {
+                            var photos = Report.Photos.Select(e => e.FilePath).ToList();    
+                            result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/form", Report, photos, tp);
+                        }
+                        else
+                        {
+                            result= await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/json", Report, tp);
+
+                        }
                         if (result)
                         {
                             using (var db = new ReportsDBContextSQLite())
