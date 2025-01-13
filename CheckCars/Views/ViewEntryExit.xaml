@@ -127,6 +127,30 @@
             <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
             <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120" Command="{Binding ISendServerReport}"  />
         </HorizontalStackLayout>
+        <!--  Modal  -->
+        <ContentView
+       Grid.RowSpan="3"
+       BackgroundColor="#80000000"
+       HorizontalOptions="FillAndExpand"
+       IsVisible="{Binding SendingDataCheck}"
+       VerticalOptions="FillAndExpand">
+            <StackLayout
+           Padding="20"
+           BackgroundColor="White"
+           HeightRequest="150"
+           HorizontalOptions="Center"
+           Spacing="10"
+           VerticalOptions="Center"
+           WidthRequest="200">
+                <ActivityIndicator IsRunning="True" Color="Blue" />
+                <Label
+               FontSize="Medium"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               Text="Enviando información"
+               TextColor="Black" />
+            </StackLayout>
+        </ContentView>
     </Grid>
 
 </ContentPage>

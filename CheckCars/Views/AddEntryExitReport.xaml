@@ -408,5 +408,30 @@
                 WidthRequest="150" />
 
         </HorizontalStackLayout>
+
+        <!--  Modal  -->
+        <ContentView
+            Grid.RowSpan="3"
+            BackgroundColor="#80000000"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding SendingData}"
+            VerticalOptions="FillAndExpand">
+            <StackLayout
+                Padding="20"
+                BackgroundColor="White"
+                HeightRequest="150"
+                HorizontalOptions="Center"
+                Spacing="10"
+                VerticalOptions="Center"
+                WidthRequest="200">
+                <ActivityIndicator IsRunning="True" Color="Blue" />
+                <Label
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="Enviando información"
+                    TextColor="Black" />
+            </StackLayout>
+        </ContentView>
     </Grid>
 </ContentPage>

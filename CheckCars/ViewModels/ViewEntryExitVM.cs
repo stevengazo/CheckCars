@@ -14,6 +14,20 @@ namespace CheckCars.ViewModels
 
         private readonly APIService _apiService;
         private Thread reportThread = new Thread(() => { });
+
+        private bool _SendingData = false;
+        public bool SendingData
+        {
+            get { return _SendingData; }
+            set
+            {
+                if (_SendingData != value)
+                {
+                    _SendingData = value;
+                    OnPropertyChanged(nameof(SendingData));
+                }
+            }
+        }
         private double _FuelLevel;
         public double FuelLevel
         {
@@ -45,6 +59,23 @@ namespace CheckCars.ViewModels
         public ICommand IDeleteReport { get; }
         public ICommand ISendServerReport { get; }
 
+        private bool _SendingDataCheck;
+
+        public bool SendingDataCheck
+        {
+            get { return _SendingDataCheck; }
+            set
+            {
+                if (_SendingDataCheck != value)
+                {
+                    _SendingDataCheck = value;
+                    OnPropertyChanged(nameof(SendingDataCheck));
+                }
+            }
+        }
+
+
+
         public ViewEntryExitVM()
         {
             _apiService = new();
@@ -74,55 +105,52 @@ namespace CheckCars.ViewModels
         /// <returns></returns>
         public async Task SendServer()
         {
-            if (Data.StaticData.UseAPI)
+            try
             {
-                try
+                SendingDataCheck = true;    
+                if (Data.StaticData.UseAPI)
                 {
-                    if (!Report.isUploaded)
+                    if (!Report.isUploaded && !SendingData)
                     {
-                    
                         TimeSpan tp = new TimeSpan();
                         tp = TimeSpan.FromSeconds(100);
                         var result = false;
-                        if (Report.Photos.Count> 0)
+                        if (Report.Photos.Count > 0)
                         {
-                            var photos = Report.Photos.Select(e => e.FilePath).ToList();    
+                            var photos = Report.Photos.Select(e => e.FilePath).ToList();
                             result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/form", Report, photos, tp);
                         }
                         else
                         {
-                            result= await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/json", Report, tp);
-
+                            result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/json", Report, tp);
                         }
                         if (result)
                         {
-                            using (var db = new ReportsDBContextSQLite())
-                            {
-                                Report.isUploaded = true;
-                                db.EntryExitReports.Update(Report);
-                                db.SaveChanges();
-                            }
+                            UpdateReport(true);
                             Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
                         }
                         else
                         {
                             Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos", "Ok");
-
                         }
                     }
-                    else
-                    {
-
-                    }
                 }
-                catch (Exception e)
+                else if (Report.isUploaded && !SendingData)
                 {
-                    Console.WriteLine(e.Message);
+                    Application.Current.MainPage.DisplayAlert("Información", "Este reporte ya fue enviado", "Ok");
+                }
+                else if (SendingData)
+                {
+                    Application.Current.MainPage.DisplayAlert("Información", "Ya se está enviando un reporte", "Ok");
                 }
             }
-            else
+            catch (System.Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Información", "El envio de datos esta deshabilitado", "Ok");
+                throw;
+            }
+            finally
+            {
+                SendingDataCheck = false;
             }
         }
         public async Task DeleteReport()
@@ -234,6 +262,17 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
             }
         }
+
+        private async Task UpdateReport(bool state)
+        {
+            using (var db = new ReportsDBContextSQLite())
+            {
+                Report.isUploaded = state;
+                db.EntryExitReports.Update(Report);
+                db.SaveChanges();
+            }
+        }
+
         #endregion
 
     }

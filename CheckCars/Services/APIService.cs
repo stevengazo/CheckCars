@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Maui.Networking;
 
 namespace CheckCars.Services
 {
@@ -62,38 +63,46 @@ namespace CheckCars.Services
         {
             try
             {
+                if(!await CheckConnection())
+                {
+                    Application.Current.MainPage.DisplayAlert("Información", "El dispositivo no posee internet", "ok");
+                    return false;
+                }
+
                 var cts = timeout.HasValue ? new CancellationTokenSource(timeout.Value) : null;
-                
-                    using (MultipartFormDataContent Form = new())
+
+                using (MultipartFormDataContent Form = new())
+                {
+                    // Proccess the images
+                    foreach (var file in files)
                     {
-                        // Proccess the images
-                        foreach (var file in files)
-                        {
-                            var fileContent = new ByteArrayContent(File.ReadAllBytes(file));
-                            var extension = Path.GetExtension(file).TrimStart('.'); 
-                            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue($"image/{extension}"); // Construye correctamente el tipo MIME
-                            Form.Add(fileContent, "file", Path.GetFileName(file));
-                        }
-                        // Convert the Objetc to JSON
-                       JsonSerializerSettings? options = new JsonSerializerSettings(){
-                           ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                         
-                        };
-                        string? JsonObj = JsonConvert.SerializeObject(data, options);
-                        var jsonContent = new StringContent(JsonObj, Encoding.UTF8, "application/json");
-                        Form.Add(jsonContent, "EntryExitReport");
-                        // Send the request
-                        HttpResponseMessage? response = await _httpClient.PostAsync(endpoint, Form, cts?.Token ?? CancellationToken.None);
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error al enviar la información. " + response.StatusCode);
-                            return false;
-                        }
-                    }   
+                        var fileContent = new ByteArrayContent(File.ReadAllBytes(file));
+                        var extension = Path.GetExtension(file).TrimStart('.');
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue($"image/{extension}"); // Construye correctamente el tipo MIME
+                        Form.Add(fileContent, "file", Path.GetFileName(file));
+                    }
+                    // Convert the Objetc to JSON
+                    JsonSerializerSettings? options = new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+
+                    };
+                    string? JsonObj = JsonConvert.SerializeObject(data, options);
+                    var jsonContent = new StringContent(JsonObj, Encoding.UTF8, "application/json");
+                    Form.Add(jsonContent, "EntryExitReport");
+                    // Send the request
+                    HttpResponseMessage? response = await _httpClient.PostAsync(endpoint, Form, cts?.Token ?? CancellationToken.None);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error al enviar la información. " + response.StatusCode);
+                        Application.Current.MainPage.DisplayAlert("Error", "Error al enviar la información. " + response.StatusCode, "Ok"); 
+                        return false;
+                    }
+                }
             }
             catch (Exception r)
             {
@@ -101,8 +110,20 @@ namespace CheckCars.Services
             }
         }
 
-
-
+        private async Task<bool> CheckConnection()
+        {
+            try
+            {
+                var currenT = Connectivity.Current;
+                var networkAccess = currenT.NetworkAccess;  
+                return networkAccess == NetworkAccess.Internet;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
     }
 
 }
