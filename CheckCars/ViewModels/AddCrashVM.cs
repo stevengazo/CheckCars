@@ -1,5 +1,6 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
+using CheckCars.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -16,10 +17,24 @@ namespace CheckCars.ViewModels
         }
 
         #region Properties
-
+        private readonly APIService _apiService = new APIService();
         private CheckCars.Utilities.SensorManager SensorManager = new();
         private ObservableCollection<Photo> _imgs = new();
         private CrashReport _newCrashReport = new() { DateOfCrash = DateTime.Now, Created = DateTime.Now };
+
+        private bool _SendingData;
+        public bool SendingData
+        {
+            get { return _SendingData; }
+            set
+            {
+                if (_SendingData != value)
+                {
+                    _SendingData = value;
+                    OnPropertyChanged(nameof(SendingData));
+                }
+            }
+        }
 
         private string[] _CarsInfo;
         public string[] CarsInfo
@@ -116,6 +131,7 @@ namespace CheckCars.ViewModels
 
                         db.CrashReports.Add(newCrashReport);
                         db.SaveChanges();
+                        await SendingDataAsync(newCrashReport);
                         CloseAsync();
                     }
                 }
@@ -217,7 +233,49 @@ namespace CheckCars.ViewModels
                 SensorManager.CancelRequest();
             }
         }
+        private async Task SendingDataAsync(CrashReport crashReport)
+        {
+            try
+            {
+                SendingData = true;
+                TimeSpan tp;
 
+                // Tiempo base: 30 segundos para datos sin fotos
+                const int baseTime = 30;
+
+                // Incremento: 10 segundos por cada foto
+                const int timePerPhoto = 10;
+
+                if (crashReport.Photos?.Count > 0)
+                {
+                    // Calcula el tiempo dinámicamente
+                    int totalTime = baseTime + (crashReport.Photos.Count * timePerPhoto);
+                    tp = TimeSpan.FromSeconds(totalTime);
+
+                    // Envía los datos con las fotos
+                    var photos = crashReport.Photos.Select(e => e.FilePath).ToList();
+                    await _apiService.PostAsync<CrashReport>("api/CrashReports/form", crashReport, photos, tp);
+                }
+                else
+                {
+                    // Tiempo para envío sin fotos
+                    tp = TimeSpan.FromSeconds(baseTime);
+
+                    // Envía los datos sin fotos
+                    await _apiService.PostAsync<CrashReport>("api/CrashReports/json", crashReport, tp);
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            finally
+            {
+                SendingData = false;
+            }
+        }
         #endregion
 
     }

@@ -50,12 +50,12 @@ namespace CheckCars.Services
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(endpoint, content, cts?.Token ?? CancellationToken.None);
-                response.StatusCode = System.Net.HttpStatusCode.Conflict;
                 switch (response.StatusCode)
                 {
                     case System.Net.HttpStatusCode.RequestTimeout:
                         Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
                         break;
+
                     case System.Net.HttpStatusCode.Conflict:
                         Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
                         break;

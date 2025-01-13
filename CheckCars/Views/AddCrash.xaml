@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             xmlns:Models="clr-namespace:CheckCars.Models"
-             x:Class="CheckCars.Views.AddCrash"
-             x:DataType="ViewModels:AddCrashVM"
-             Title="Nuevo Accidente">
+<ContentPage
+    x:Class="CheckCars.Views.AddCrash"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:CheckCars.Models"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    Title="Nuevo Accidente"
+    x:DataType="ViewModels:AddCrashVM">
     <ContentPage.BindingContext>
         <ViewModels:AddCrashVM />
     </ContentPage.BindingContext>
 
-    <Grid HorizontalOptions="Fill" VerticalOptions="Fill" >
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0">
             <StackLayout>
-                <Border  BackgroundColor="{AppThemeBinding Light=white, Dark=DarkGray}" Margin="10" Padding="3" VerticalOptions="Start" >
+                <Border
+                    Margin="10"
+                    Padding="3"
+                    BackgroundColor="{AppThemeBinding Light=white,
+                                                      Dark=DarkGray}"
+                    VerticalOptions="Start">
                     <Border.Shadow>
-                        <Shadow Brush="Black"
-                Offset="10,10"
-                Radius="40"
-                Opacity="0.3" />
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.3"
+                            Radius="40"
+                            Offset="10,10" />
                     </Border.Shadow>
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Grid HorizontalOptions="FillAndExpand"  Padding="5" RowSpacing="0">
-                        <Grid.RowDefinitions >
+                    <Grid
+                        Padding="5"
+                        HorizontalOptions="FillAndExpand"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
@@ -41,105 +51,125 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" 
-                               Grid.Column="0" 
-                               Text="Fecha" 
-                               VerticalOptions="Center"  />
-                        <DatePicker Grid.Row="0" 
-                                    Grid.Column="1" 
-                                    Date="{Binding newCrashReport.Created}"
-                                    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
-                                    Margin="2"  
-                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label  Grid.Row="1" 
-                                Grid.Column="0"  
-                                Text="Vehículo" 
-                                VerticalOptions="Center"   />
-                        <Picker Grid.Row="1" 
-                                Grid.Column="1"
-                                VerticalOptions="Center"
-                                Title="Seleccione" 
-                                SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}" 
-                                BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
-                                Margin="2"  
-                                TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                ItemsSource="{Binding CarsInfo}"
-                                >
-                       
-                        </Picker>
-                        <Label  
-                            Grid.Row="2"
-                            Grid.Column="0"  
-                            Text="Ubicación" 
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Fecha"
                             VerticalOptions="Center" />
-                        <Entry Grid.Row="2" 
-                               Grid.Column="1"
-                               VerticalOptions="Center"
-                               BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}" 
-                               Margin="2"  Text="{Binding newCrashReport.Location, Mode=TwoWay}" 
-                               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        <Label Grid.Row="3"
-                               VerticalOptions="Center"
-                               Grid.Column="0" 
-                               Text="Detalles"  />
-                        <Border Grid.Row="4"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2" 
-                                Padding="2"
-                                HeightRequest="110" >
+                        <DatePicker
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="2"
+                            BackgroundColor="{AppThemeBinding Light=White,
+                                                              Dark=Gray}"
+                            Date="{Binding newCrashReport.Created}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=White}" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Vehículo"
+                            VerticalOptions="Center" />
+                        <Picker
+                            Title="Seleccione"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="2"
+                            BackgroundColor="{AppThemeBinding Light=White,
+                                                              Dark=Gray}"
+                            ItemsSource="{Binding CarsInfo}"
+                            SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=White}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Ubicación"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="2"
+                            BackgroundColor="{AppThemeBinding Light=White,
+                                                              Dark=Gray}"
+                            Text="{Binding newCrashReport.Location, Mode=TwoWay}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=White}"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Detalles"
+                            VerticalOptions="Center" />
+                        <Border
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Padding="2"
+                            HeightRequest="110">
                             <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashDetails, Mode=TwoWay}" />
                         </Border>
-                        <Label  Grid.Row="5" Grid.Column="0" Text="Daños" VerticalOptions="Center" />
-                        <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Padding="2" HeightRequest="110" >
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Text="Daños"
+                            VerticalOptions="Center" />
+                        <Border
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Padding="2"
+                            HeightRequest="110">
                             <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashedParts, Mode=TwoWay}" />
                         </Border>
                     </Grid>
                 </Border>
 
-                <VerticalStackLayout Margin="5"  Padding="4">
-                    <Label HorizontalOptions="Center" FontSize="Subtitle">Imágenes</Label>
+                <VerticalStackLayout Margin="5" Padding="4">
+                    <Label FontSize="Subtitle" HorizontalOptions="Center">Imágenes</Label>
 
-                    <!-- Botón para tomar foto -->
-                    <Button 
-                         Text="Agregar Foto" 
-                         FontSize="Small" 
-                         TextColor="Blue" 
-                         BackgroundColor="White" 
-                         BorderColor="Blue" 
-                         BorderWidth="1" 
-                         Margin="2"  
-                         Command="{Binding TakePhotoCommand}" />
+                    <!--  Botón para tomar foto  -->
+                    <Button
+                        Margin="2"
+                        BackgroundColor="White"
+                        BorderColor="Blue"
+                        BorderWidth="1"
+                        Command="{Binding TakePhotoCommand}"
+                        FontSize="Small"
+                        Text="Agregar Foto"
+                        TextColor="Blue" />
 
-                    <!-- CollectionView para mostrar las imágenes -->
-                    <CollectionView 
-                         ItemsSource="{Binding ImgList}" 
-                         Margin="10, 5"
-                         HorizontalOptions="FillAndExpand"
-                         VerticalOptions="Start">
+                    <!--  CollectionView para mostrar las imágenes  -->
+                    <CollectionView
+                        Margin="10,5"
+                        HorizontalOptions="FillAndExpand"
+                        ItemsSource="{Binding ImgList}"
+                        VerticalOptions="Start">
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate  x:DataType="Models:Photo">
-                                <StackLayout Orientation="Vertical" Padding="5">
+                            <DataTemplate x:DataType="Models:Photo">
+                                <StackLayout Padding="5" Orientation="Vertical">
                                     <Grid>
-                                        <!-- Imagen ocupando toda la vista -->
-                                        <Image 
-                                            Source="{Binding FilePath}" 
+                                        <!--  Imagen ocupando toda la vista  -->
+                                        <Image
+                                            Aspect="AspectFill"
                                             HorizontalOptions="CenterAndExpand"
-                                            Aspect="AspectFill" />
-                                        <!-- Botón sobre la esquina inferior derecha -->
-                                        <Button 
-                                            BackgroundColor="Red" 
-                                            TextColor="White" 
-                                            Padding="0" 
-                                            FontSize="Small" 
-                                            HeightRequest="30" 
-                                            WidthRequest="60" 
-                                            Text="Eliminar"
-                                            VerticalOptions="End" 
+                                            Source="{Binding FilePath}" />
+                                        <!--  Botón sobre la esquina inferior derecha  -->
+                                        <Button
+                                            Margin="5"
+                                            Padding="0"
+                                            BackgroundColor="Red"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddCrashVM}}, Path=DeletePhotoCommand}"
                                             CommandParameter="{Binding .}"
+                                            FontSize="Small"
+                                            HeightRequest="30"
                                             HorizontalOptions="End"
-                                            Margin="5"/>
+                                            Text="Eliminar"
+                                            TextColor="White"
+                                            VerticalOptions="End"
+                                            WidthRequest="60" />
                                     </Grid>
                                 </StackLayout>
                             </DataTemplate>
@@ -149,10 +179,46 @@
             </StackLayout>
         </ScrollView>
 
-        <!-- Botón de Agregar Reporte -->
-        <HorizontalStackLayout  Grid.Row="1" Padding="5" HorizontalOptions="Center" >
-            <Button Text="Agregar Reporte" WidthRequest="150" HeightRequest="40" BackgroundColor="White" BorderWidth="1" TextColor="Green" BorderColor="Green" Command="{Binding AddReport}"/>
+        <!--  Botón de Agregar Reporte  -->
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Padding="5"
+            HorizontalOptions="Center">
+            <Button
+                BackgroundColor="White"
+                BorderColor="Green"
+                BorderWidth="1"
+                Command="{Binding AddReport}"
+                HeightRequest="40"
+                Text="Agregar Reporte"
+                TextColor="Green"
+                WidthRequest="150" />
         </HorizontalStackLayout>
+
+        <!--  Modal  -->
+        <ContentView
+         Grid.RowSpan="3"
+         BackgroundColor="#80000000"
+         HorizontalOptions="FillAndExpand"
+         IsVisible="{Binding SendingData}"
+         VerticalOptions="FillAndExpand">
+            <StackLayout
+             Padding="20"
+             BackgroundColor="White"
+             HeightRequest="150"
+             HorizontalOptions="Center"
+             Spacing="10"
+             VerticalOptions="Center"
+             WidthRequest="200">
+                <ActivityIndicator IsRunning="True" Color="Blue" />
+                <Label
+                 FontSize="Medium"
+                 HorizontalOptions="Center"
+                 HorizontalTextAlignment="Center"
+                 Text="Enviando información"
+                 TextColor="Black" />
+            </StackLayout>
+        </ContentView>
     </Grid>
 
 </ContentPage>
