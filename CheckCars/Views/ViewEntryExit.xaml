@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             x:Class="CheckCars.Views.ViewEntryExit"
-             Title="Información del Registro">
+<ContentPage
+    x:Class="CheckCars.Views.ViewEntryExit"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    Title="Información del Registro">
     <ContentPage.BindingContext>
         <ViewModels:ViewEntryExitVM />
     </ContentPage.BindingContext>
@@ -12,143 +13,326 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <ScrollView Margin="5" Grid.Row="0">
+        <ScrollView Grid.Row="0" Margin="5">
             <VerticalStackLayout HorizontalOptions="CenterAndExpand">
-                <Frame BorderColor="Gray"  
-                      BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
-                       CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                <Frame
+                    Margin="10,0,10,0"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
+                    BorderColor="Gray"
+                    CornerRadius="10"
+                    HasShadow="True">
                     <Frame.Shadow>
-                        <Shadow Brush="Black"
-               Offset="10,10"
-               Radius="40"
-               Opacity="0.2" />
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.2"
+                            Radius="40"
+                            Offset="10,10" />
                     </Frame.Shadow>
 
-                    <Grid Padding="5" RowSpacing="2"  ColumnSpacing="2" VerticalOptions="Fill" HorizontalOptions="Fill" Margin="2"  >
+                    <Grid
+                        Margin="2"
+                        Padding="5"
+                        ColumnSpacing="2"
+                        HorizontalOptions="Fill"
+                        RowSpacing="2"
+                        VerticalOptions="Fill">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.99*"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.99*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Fecha Registro -->
-                        <Label  Grid.Row="0"  Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
-                        <Label Grid.Row="0" Grid.Column="1" Margin="1" Text="{Binding Report.Created}" VerticalOptions="Center" />
-                        <!-- Vehiculo -->
-                        <Label  Grid.Row="1" Grid.Column="0" Text="Vehículo" VerticalOptions="Center" />
-                        <Label  Grid.Row="1" Grid.Column="1" Margin="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
-                        <!-- Notas -->
-                        <Label  Grid.Row="2" Grid.Column="0" Text="Notas" VerticalOptions="Center" />
-                        <Label  Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding Report.Justify}" VerticalOptions="Center" />
-                        <!-- Kilometraje -->
-                        <Label  Grid.Row="3" Grid.Column="0" Text="Kilometraje" VerticalOptions="Center" />
-                        <Label  Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding Report.mileage}" VerticalOptions="Center" />
-                        <!-- Nivel de Combustuble -->
-                        <Label  Grid.Row="4" Grid.Column="0" Text="Combustible" VerticalOptions="Center" />
-                        <ProgressBar Progress="{Binding FuelLevel}" Margin="1" Grid.Row="4" Grid.Column="1"  ProgressColor="Orange" />
-                        <!-- Author -->
-                        <Label  Grid.Row="5" Grid.Column="0"  Text="Autor" VerticalOptions="Center" />
-                        <Label  Grid.Row="5" Grid.Column="1" Margin="1" Text="{Binding Report.Author}" VerticalOptions="Center" />
-                        <!-- Quick pass -->
-                        <Label  Grid.Row="6" Grid.Column="0" Text="Quick Pass" VerticalOptions="Center" />
-                        <Label  Grid.Row="6" Grid.Column="1" Margin="1" Text="{Binding Report.HasQuickPass}" VerticalOptions="Center" />
-                        <!-- Estado de las llantas -->
-                        <Label  Grid.Row="7" Grid.Column="0" Text="Estado de las llantas" VerticalOptions="Center" />
-                        <Label  Grid.Row="7" Grid.Column="1" Margin="1" Text="{Binding Report.TiresState}" VerticalOptions="Center" />
-                        <!-- Llanta de repuesto -->
-                        <Label  Grid.Row="8" Grid.Column="0" Text="Llanta de Repuesto" VerticalOptions="Center" />
-                        <Label  Grid.Row="8" Grid.Column="1" Margin="1" Text="{Binding Report.HasSpareTire}" VerticalOptions="Center" />
-                        <!-- Kit Emergencias -->
-                        <Label  Grid.Row="9" Grid.Column="0"  Text="Kit de Emergencias" VerticalOptions="Center" />
-                        <Label  Grid.Row="9" Grid.Column="1" Margin="1" Text="{Binding Report.HasEmergencyKit}" VerticalOptions="Center" />
-                        <!-- Estado Pintura -->
-                        <Label  Grid.Row="10" Grid.Column="0"  Text="Estado Pintura" VerticalOptions="Center" />
-                        <Label  Grid.Row="10" Grid.Column="1" Margin="1" Text="{Binding Report.PaintState}" VerticalOptions="Center" />
-                        <!-- Estado Mecanico -->
-                        <Label  Grid.Row="11" Grid.Column="0"  Text="Estado Mecánico" VerticalOptions="Center" />
-                        <Label  Grid.Row="11" Grid.Column="1" Margin="1" Text="{Binding Report.MecanicState}" VerticalOptions="Center" />
-                        <!-- Portacelular -->
-                        <Label  Grid.Row="12" Grid.Column="0"  Text="Posee Portacelular" VerticalOptions="Center" />
-                        <Label  Grid.Row="12" Grid.Column="1" Margin="1" Text="{Binding Report.HasPhoneSupport}" VerticalOptions="Center" />
-                        <!-- Estado Interiores -->
-                        <Label  Grid.Row="13" Grid.Column="0"  Text="Estado Interiores" VerticalOptions="Center" />
-                        <Label  Grid.Row="13" Grid.Column="1" Margin="1" Text="{Binding Report.InteriorsState}" VerticalOptions="Center" />
-                        <!-- Nivel Aceite -->
-                        <Label  Grid.Row="14" Grid.Column="0"  Text="Nivel de Aceite" VerticalOptions="Center" />
-                        <Label  Grid.Row="14" Grid.Column="1" Margin="1" Text="{Binding Report.OilLevel}" VerticalOptions="Center" />
-                        <!-- Clean -->
-                        <Label  Grid.Row="15" Grid.Column="0"  Text="Interior Limpio" VerticalOptions="Center" />
-                        <Label  Grid.Row="15" Grid.Column="1" Margin="1" Text="{Binding Report.InteriorIsClean}" VerticalOptions="Center" />
+                        <!--  Fecha Registro  -->
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Fecha"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.Created}"
+                            VerticalOptions="Center" />
+                        <!--  Vehiculo  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Vehículo"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.CarPlate}"
+                            VerticalOptions="Center" />
+                        <!--  Notas  -->
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Notas"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.Justify}"
+                            VerticalOptions="Center" />
+                        <!--  Kilometraje  -->
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Kilometraje"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.mileage}"
+                            VerticalOptions="Center" />
+                        <!--  Nivel de Combustuble  -->
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Text="Combustible"
+                            VerticalOptions="Center" />
+                        <ProgressBar
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Margin="1"
+                            Progress="{Binding FuelLevel}"
+                            ProgressColor="Orange" />
+                        <!--  Author  -->
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Text="Autor"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.Author}"
+                            VerticalOptions="Center" />
+                        <!--  Quick pass  -->
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Text="Quick Pass"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.HasQuickPass}"
+                            VerticalOptions="Center" />
+                        <!--  Estado de las llantas  -->
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Text="Estado de las llantas"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.TiresState}"
+                            VerticalOptions="Center" />
+                        <!--  Llanta de repuesto  -->
+                        <Label
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Text="Llanta de Repuesto"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.HasSpareTire}"
+                            VerticalOptions="Center" />
+                        <!--  Kit Emergencias  -->
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Text="Kit de Emergencias"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.HasEmergencyKit}"
+                            VerticalOptions="Center" />
+                        <!--  Estado Pintura  -->
+                        <Label
+                            Grid.Row="10"
+                            Grid.Column="0"
+                            Text="Estado Pintura"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="10"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.PaintState}"
+                            VerticalOptions="Center" />
+                        <!--  Estado Mecanico  -->
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Text="Estado Mecánico"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.MecanicState}"
+                            VerticalOptions="Center" />
+                        <!--  Portacelular  -->
+                        <Label
+                            Grid.Row="12"
+                            Grid.Column="0"
+                            Text="Posee Portacelular"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="12"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.HasPhoneSupport}"
+                            VerticalOptions="Center" />
+                        <!--  Estado Interiores  -->
+                        <Label
+                            Grid.Row="13"
+                            Grid.Column="0"
+                            Text="Estado Interiores"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="13"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.InteriorsState}"
+                            VerticalOptions="Center" />
+                        <!--  Nivel Aceite  -->
+                        <Label
+                            Grid.Row="14"
+                            Grid.Column="0"
+                            Text="Nivel de Aceite"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="14"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.OilLevel}"
+                            VerticalOptions="Center" />
+                        <!--  Clean  -->
+                        <Label
+                            Grid.Row="15"
+                            Grid.Column="0"
+                            Text="Interior Limpio"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="15"
+                            Grid.Column="1"
+                            Margin="1"
+                            Text="{Binding Report.InteriorIsClean}"
+                            VerticalOptions="Center" />
 
                     </Grid>
                 </Frame>
-                <!-- CollectionView para mostrar las imágenes -->
+                <!--  CollectionView para mostrar las imágenes  -->
 
-                <CollectionView 
-              ItemsSource="{Binding Report.Photos}" 
-              Margin="10, 5"
-              HorizontalOptions="FillAndExpand"
-              VerticalOptions="Start">
+                <CollectionView
+                    Margin="10,5"
+                    HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding Report.Photos}"
+                    VerticalOptions="Start">
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Orientation="Vertical" Padding="5">
-                                <Image 
-                                     Margin="5"
-                                     Source="{Binding FilePath}" 
-                                     HorizontalOptions="CenterAndExpand"
-                                     Aspect="AspectFill" />
+                            <StackLayout Padding="5" Orientation="Vertical">
+                                <Image
+                                    Margin="5"
+                                    Aspect="AspectFill"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Source="{Binding FilePath}" />
 
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
-        </ScrollView >
-        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
-            <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120" Command="{Binding DownloadReportCommand}"  />
-            <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
-            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120" Command="{Binding ISendServerReport}"  />
+        </ScrollView>
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Padding="10,0,10,0"
+            HorizontalOptions="Center"
+            Spacing="4">
+            <Button
+                BackgroundColor="White"
+                BorderColor="Orange"
+                BorderWidth="1"
+                Command="{Binding DownloadReportCommand}"
+                HeightRequest="40"
+                Text="Descargar"
+                TextColor="Orange"
+                WidthRequest="120" />
+            <Button
+                BackgroundColor="White"
+                BorderColor="red"
+                BorderWidth="1"
+                Command="{Binding IDeleteReport}"
+                HeightRequest="40"
+                Text="Eliminar"
+                TextColor="red"
+                WidthRequest="120" />
+            <Button
+                BackgroundColor="White"
+                BorderColor="Green"
+                BorderWidth="1"
+                Command="{Binding ISendServerReport}"
+                HeightRequest="40"
+                Text="Enviar"
+                TextColor="Green"
+                WidthRequest="120" />
         </HorizontalStackLayout>
         <!--  Modal  -->
         <ContentView
-       Grid.RowSpan="3"
-       BackgroundColor="#80000000"
-       HorizontalOptions="FillAndExpand"
-       IsVisible="{Binding SendingDataCheck}"
-       VerticalOptions="FillAndExpand">
+            Grid.RowSpan="3"
+            BackgroundColor="#80000000"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding SendingDataCheck}"
+            VerticalOptions="FillAndExpand">
             <StackLayout
-           Padding="20"
-           BackgroundColor="White"
-           HeightRequest="150"
-           HorizontalOptions="Center"
-           Spacing="10"
-           VerticalOptions="Center"
-           WidthRequest="200">
+                Padding="20"
+                BackgroundColor="White"
+                HeightRequest="150"
+                HorizontalOptions="Center"
+                Spacing="10"
+                VerticalOptions="Center"
+                WidthRequest="200">
                 <ActivityIndicator IsRunning="True" Color="Blue" />
                 <Label
-               FontSize="Medium"
-               HorizontalOptions="Center"
-               HorizontalTextAlignment="Center"
-               Text="Enviando información"
-               TextColor="Black" />
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="Enviando información"
+                    TextColor="Black" />
             </StackLayout>
         </ContentView>
     </Grid>

@@ -1,89 +1,168 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             xmlns:Models="clr-namespace:CheckCars.Models"
-             x:Class="CheckCars.Views.ViewCrash"
-             Title="ViewCrash">
+<ContentPage
+    x:Class="CheckCars.Views.ViewCrash"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:CheckCars.Models"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    Title="ViewCrash">
     <ContentPage.BindingContext>
-        <ViewModels:ViewCrashVM/>
+        <ViewModels:ViewCrashVM />
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <ScrollView Margin="5" Grid.Row="0">
+        <ScrollView Grid.Row="0" Margin="5">
             <VerticalStackLayout HorizontalOptions="CenterAndExpand">
-                <Frame  BorderColor="Gray"  
-                    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
-                    CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                <Frame
+                    Margin="10,0,10,0"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
+                    BorderColor="Gray"
+                    CornerRadius="10"
+                    HasShadow="True">
                     <Frame.Shadow>
-                        <Shadow  Brush="Black"
-                             Offset="10,10"
-                             Radius="40"
-                             Opacity="0.2" />
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.2"
+                            Radius="40"
+                            Offset="10,10" />
                     </Frame.Shadow>
 
-                    <Grid Padding="2" HorizontalOptions="Fill" Margin="2"   >
+                    <Grid
+                        Margin="2"
+                        Padding="2"
+                        HorizontalOptions="Fill">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="0.98*"/>
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="0.98*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
-                        <Label Grid.Row="0" Grid.Column="1"  Text="{Binding Report.Created}" VerticalOptions="Center" />
- 
-                        <Label Grid.Row="1" Grid.Column="0" Text="Vehículo" VerticalOptions="Center" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
- 
-                        <Label Grid.Row="2" Grid.Column="0" Text="Ubicación" VerticalOptions="Center" />
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Location}" VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Fecha"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding Report.Created}"
+                            VerticalOptions="Center" />
 
-                        <Label Grid.Row="3" Grid.Column="0" Text="Detalles del Choque" VerticalOptions="Center" />
-                        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="WordWrap" Text="{Binding Report.CrashDetails}"  />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Vehículo"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Report.CarPlate}"
+                            VerticalOptions="Center" />
 
-                        <Label Grid.Row="5" Grid.Column="0" Text="Daños en vehículo" VerticalOptions="Center" />
-                        <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="WordWrap"  Text="{Binding Report.CrashedParts}"   />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Ubicación"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding Report.Location}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Detalles del Choque"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding Report.CrashDetails}" />
+
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Text="Daños en vehículo"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding Report.CrashedParts}" />
 
                     </Grid>
                 </Frame>
-                <!-- CollectionView para mostrar las imágenes -->
+                <!--  CollectionView para mostrar las imágenes  -->
 
-                <CollectionView 
-            ItemsSource="{Binding Report.Photos}" 
-            Margin="10, 5"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="Start">
+                <CollectionView
+                    Margin="10,5"
+                    HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding Report.Photos}"
+                    VerticalOptions="Start">
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Photo">
-                            <StackLayout Orientation="Vertical" Padding="5">
-                                <Image 
-                                   Margin="5"
-                                   Source="{Binding FilePath}" 
-                                   HorizontalOptions="CenterAndExpand"
-                                   Aspect="AspectFill" />
+                            <StackLayout Padding="5" Orientation="Vertical">
+                                <Image
+                                    Margin="5"
+                                    Aspect="AspectFill"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Source="{Binding FilePath}" />
 
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
-        </ScrollView >
-        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
-            <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120" Command="{Binding DownloadReportCommand}"  />
-            <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
-            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120" IsVisible="False" />
+        </ScrollView>
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Padding="10,0,10,0"
+            HorizontalOptions="Center"
+            Spacing="4">
+            <Button
+                BackgroundColor="White"
+                BorderColor="Orange"
+                BorderWidth="1"
+                Command="{Binding DownloadReportCommand}"
+                HeightRequest="40"
+                Text="Descargar"
+                TextColor="Orange"
+                WidthRequest="120" />
+            <Button
+                BackgroundColor="White"
+                BorderColor="red"
+                BorderWidth="1"
+                Command="{Binding IDeleteReport}"
+                HeightRequest="40"
+                Text="Eliminar"
+                TextColor="red"
+                WidthRequest="120" />
+            <Button
+                BackgroundColor="White"
+                BorderColor="Green"
+                BorderWidth="1"
+                Command="{Binding ISendReportCommand}"
+                HeightRequest="40"
+                Text="Enviar"
+                TextColor="Green"
+                WidthRequest="120" />
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>

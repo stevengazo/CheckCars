@@ -53,7 +53,6 @@
         public string? InteriorsState { get; set; }
         public bool InteriorIsClean { get; set; }
 
-        public bool isUploaded { get; set; } = false;
 
 
     }

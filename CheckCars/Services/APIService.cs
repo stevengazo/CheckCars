@@ -50,6 +50,19 @@ namespace CheckCars.Services
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(endpoint, content, cts?.Token ?? CancellationToken.None);
+                response.StatusCode = System.Net.HttpStatusCode.Conflict;
+                switch (response.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.RequestTimeout:
+                        Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
+                        break;
+                    case System.Net.HttpStatusCode.Conflict:
+                        Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
+                        break;
+                    default:
+                        break;
+                }
+
                 return response.IsSuccessStatusCode;
             }
             catch (Exception r)
@@ -63,7 +76,7 @@ namespace CheckCars.Services
         {
             try
             {
-                if(!await CheckConnection())
+                if (!await CheckConnection())
                 {
                     Application.Current.MainPage.DisplayAlert("Información", "El dispositivo no posee internet", "ok");
                     return false;
@@ -89,19 +102,30 @@ namespace CheckCars.Services
                     };
                     string? JsonObj = JsonConvert.SerializeObject(data, options);
                     var jsonContent = new StringContent(JsonObj, Encoding.UTF8, "application/json");
-                    Form.Add(jsonContent, "EntryExitReport");
+                    var type = data.GetType().ToString().Split('.').LastOrDefault();
+                    Form.Add(jsonContent, type);
                     // Send the request
                     HttpResponseMessage? response = await _httpClient.PostAsync(endpoint, Form, cts?.Token ?? CancellationToken.None);
+
+                    switch (response.StatusCode)    
+                    {
+                        case System.Net.HttpStatusCode.RequestTimeout:
+                            Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
+                            break;
+                        case System.Net.HttpStatusCode.Conflict:
+                            Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
+                            break;
+                       
+                        default:
+
+                            break;
+                    }
+
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
                     }
-                    else
-                    {
-                        Console.WriteLine("Error al enviar la información. " + response.StatusCode);
-                        Application.Current.MainPage.DisplayAlert("Error", "Error al enviar la información. " + response.StatusCode, "Ok"); 
-                        return false;
-                    }
+                    return false;
                 }
             }
             catch (Exception r)
@@ -115,7 +139,7 @@ namespace CheckCars.Services
             try
             {
                 var currenT = Connectivity.Current;
-                var networkAccess = currenT.NetworkAccess;  
+                var networkAccess = currenT.NetworkAccess;
                 return networkAccess == NetworkAccess.Internet;
             }
             catch (Exception e)

@@ -1,5 +1,6 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
+using CheckCars.Services;
 using CheckCars.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
@@ -8,6 +9,8 @@ namespace CheckCars.ViewModels
 {
     public class ViewCrashVM : INotifyPropertyChangedAbst
     {
+        #region Properties
+        private readonly APIService _apiService = new APIService();
         private CrashReport _Report = new();
         public CrashReport Report
         {
@@ -21,22 +24,73 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        private bool _SendingDataF = false;
+        public bool SendingDataF
+        {
+            get { return _SendingDataF; }
+            set
+            {
+                if (_SendingDataF != value)
+                {
+                    _SendingDataF = value;
+                    OnPropertyChanged(nameof(SendingDataF));
+                }
+            }
+        }
+        #endregion
         public ViewCrashVM()
         {
             var Id = Data.StaticData.ReportId;
 
             IDeleteReport = new Command(async () => await DeleteReport());
             DownloadReportCommand = new Command(async () => await DownloadReport());
+            ISendReportCommand = new Command(async () => await SendDataAsync());
 
             using (var dbo = new ReportsDBContextSQLite())
             {
                 Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
 
             }
-
         }
+        #region Commands   
         public ICommand IDeleteReport { get; }
         public ICommand DownloadReportCommand { get; }
+        public ICommand ISendReportCommand { get; }
+        #endregion
+        #region Methods
+        public async Task DeleteReport()
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert(
+                   "Confirmación",
+                   "¿Deseas borrar este reporte?",
+                   "Sí",
+                   "No"
+               );
+
+            if (answer)
+            {
+
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    db.Photos.RemoveRange(Report.Photos);
+                    db.SaveChanges();
+                    db.CrashReports.Remove(Report);
+                    db.SaveChanges();
+
+                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+
+                    var paths = Report.Photos.Select(e => e.FilePath).ToList();
+                    if (paths.Any())
+                    {
+                        // Ejecuta la eliminación de fotos en un hilo aparte
+                        new Thread(() => DeletePhotos(paths)).Start();
+                    }
+                    Application.Current.MainPage.Navigation.RemovePage(d);
+
+                }
+            }
+        }
         private async Task DeletePhotos(List<string> paths)
         {
             foreach (var item in paths)
@@ -84,37 +138,57 @@ namespace CheckCars.ViewModels
 
             await Share.Default.RequestAsync(request);
         }
-        public async Task DeleteReport()
+        private async Task SendDataAsync()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert(
-                   "Confirmación",
-                   "¿Deseas borrar este reporte?",
-                   "Sí",
-                   "No"
-               );
-
-            if (answer)
+            try
             {
-
-                using (var db = new ReportsDBContextSQLite())
+                SendingDataF = true;
+                if (Data.StaticData.UseAPI)
                 {
-                    db.Photos.RemoveRange(Report.Photos);
-                    db.SaveChanges();
-                    db.CrashReports.Remove(Report);
-                    db.SaveChanges();
-
-                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-
-                    var paths = Report.Photos.Select(e => e.FilePath).ToList();
-                    if (paths.Any())
+                    TimeSpan time = TimeSpan.FromSeconds(30);
+                    bool result;
+                    if (Report.Photos.Count > 0)
                     {
-                        // Ejecuta la eliminación de fotos en un hilo aparte
-                        new Thread(() => DeletePhotos(paths)).Start();
+                        List<string> paths = Report.Photos.Select(e => e.FilePath).ToList();
+                        result = await _apiService.PostAsync("api/CrashReports/form", Report, paths, time);
                     }
-                    Application.Current.MainPage.Navigation.RemovePage(d);
-
+                    else
+                    {
+                        result = await _apiService.PostAsync("api/CrashReports/json", Report, time);
+                    }
+                    if (result)
+                    {
+                        Application.Current?.MainPage.DisplayAlert("Información", "Reporte enviado correctamente", "Ok");
+                        await UpdateReport(result);
+                    }
                 }
+                else if (!Data.StaticData.UseAPI)
+                {
+                    Application.Current?.MainPage.DisplayAlert("Error", "No se ha configurado el envío de datos", "Ok");
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                //throw;
+            }
+            finally
+            {
+                SendingDataF = false;
             }
         }
+
+        private async Task UpdateReport(bool e)
+        {
+            using (var db = new ReportsDBContextSQLite())
+            {
+                Report.isUploaded = e;
+                db.CrashReports.Update(Report);
+                db.SaveChanges();
+            }
+        }
+        #endregion
+
     }
 }

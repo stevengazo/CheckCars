@@ -9,7 +9,6 @@ namespace CheckCars.ViewModels
 {
     public class AddEntryExitReportVM : INotifyPropertyChangedAbst
     {
-
         public AddEntryExitReportVM()
         {
             CarsInfo = GetCarsInfoAsync().Result;

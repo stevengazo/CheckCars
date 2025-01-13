@@ -158,7 +158,7 @@ namespace CheckCars.ViewModels
             bool answer = await Application.Current.MainPage.DisplayAlert(
                    "Confirmación",
                    "¿Deseas borrar este reporte?",
-                   "Sí",
+                   "Sí",    
                    "No"
                );
 
