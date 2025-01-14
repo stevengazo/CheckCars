@@ -46,13 +46,13 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="0.5*" />
+                                    <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Text="Vehículo" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding  CarPlate}" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="0" Text="Fecha" FontAttributes="Bold" FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DateOfCrash, StringFormat='{0:yyyy-MM-dd}'}"  FontSize="Small" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Vehículo" FontAttributes="Bold" FontSize="Micro" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding  CarPlate}" FontSize="Micro" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Fecha" FontAttributes="Bold" FontSize="Micro" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DateOfCrash, StringFormat='{0:yyyy-MM-dd}'}"  FontSize="Micro" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Grid>
                         </StackLayout>
                     </Frame>
@@ -65,7 +65,7 @@
                 BackgroundColor="Green" 
                 Text="Agregar Registro"
                 Padding="0"
-                WidthRequest="130"
+                WidthRequest="150"
                 Margin="10"
                 HorizontalOptions="Center"          
                 VerticalOptions="Center"

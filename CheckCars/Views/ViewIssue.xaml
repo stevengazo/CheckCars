@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             x:Class="CheckCars.Views.ViewIssue"
-             Title="Información">
+<ContentPage
+    x:Class="CheckCars.Views.ViewIssue"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    Title="Información">
     <ContentPage.BindingContext>
         <ViewModels:ViewIssueVM />
     </ContentPage.BindingContext>
@@ -12,76 +13,159 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <ScrollView Margin="5" Grid.Row="0">
+        <ScrollView Grid.Row="0" Margin="5">
             <VerticalStackLayout HorizontalOptions="CenterAndExpand">
-                <Frame  BorderColor="Gray"  
-                        BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
-                        CornerRadius="10" Margin="10,0,10,0"  HasShadow="True">
+                <Frame
+                    Margin="10,0,10,0"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
+                    BorderColor="Gray"
+                    CornerRadius="10"
+                    HasShadow="True">
                     <Frame.Shadow>
-                        <Shadow  Brush="Black"
-                                 Offset="10,10"
-                                 Radius="40"
-                                 Opacity="0.2" />
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.2"
+                            Radius="40"
+                            Offset="10,10" />
                     </Frame.Shadow>
-                    <Grid Padding="2"   Margin="2"   >
+                    <Grid Margin="2" Padding="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Fecha Registro -->
-                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
-                        <Label Grid.Row="0" Grid.Column="1" FontSize="Small" Text="{Binding Report.Created}" VerticalOptions="Center" />
-                        <!-- Vehiculo -->
-                        <Label Grid.Row="1" Grid.Column="0" Text="Vehiculo" VerticalOptions="Center" />
-                        <Label FontSize="Small" Grid.Row="1" Grid.Column="1" Text="{Binding Report.CarPlate}" VerticalOptions="Center" />
-                        <!-- Notas -->
-                        <Label Grid.Row="2" Grid.Column="0" Text="Prioridad" VerticalOptions="Center" />
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Report.Priority}" VerticalOptions="Center" />
-                        <!-- Kilometraje -->
-                        <Label Grid.Row="3" Grid.Column="0" Text="Tipo" VerticalOptions="Center" />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Report.Type}" VerticalOptions="Center" />
-                        
-                        <Label Grid.Row="4" Grid.Column="0" Text="Detalles" VerticalOptions="Center" />
-                        <Label Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" LineBreakMode="WordWrap"  LineHeight="20" HeightRequest="120" Text="{Binding Report.Details}"  />
+                        <!--  Fecha Registro  -->
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Fecha"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            Text="{Binding Report.Created}"
+                            VerticalOptions="Center" />
+                        <!--  Vehiculo  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Vehiculo"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            Text="{Binding Report.CarPlate}"
+                            VerticalOptions="Center" />
+                        <!--  Notas  -->
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Prioridad"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding Report.Priority}"
+                            VerticalOptions="Center" />
+                        <!--  Kilometraje  -->
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Tipo"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Text="{Binding Report.Type}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Detalles"
+                            VerticalOptions="Center" />
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            HeightRequest="120"
+                            LineBreakMode="WordWrap"
+                            LineHeight="20"
+                            Text="{Binding Report.Details}" />
 
                     </Grid>
                 </Frame>
-                <!-- CollectionView para mostrar las imágenes -->
+                <!--  CollectionView para mostrar las imágenes  -->
 
-                <CollectionView 
-                ItemsSource="{Binding Report.Photos}" 
-                Margin="10, 5"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="Start">
+                <CollectionView
+                    Margin="10,5"
+                    HorizontalOptions="FillAndExpand"
+                    ItemsSource="{Binding Report.Photos}"
+                    VerticalOptions="Start">
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout Orientation="Vertical" Padding="5">
-                                    <Image 
-                                       Margin="5"
-                                       Source="{Binding FilePath}" 
-                                       HorizontalOptions="CenterAndExpand"
-                                       Aspect="AspectFill" />
-
-                                </StackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </ScrollView >
-        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Padding="10,0,10,0" Spacing="4">
-            <Button Text="Descargar" BackgroundColor="White" BorderColor="Orange" BorderWidth="1" TextColor="Orange" HeightRequest="40" WidthRequest="120" Command="{Binding DownloadReportCommand}"  />
-            <Button Text="Eliminar" BackgroundColor="White" BorderColor="red" BorderWidth="1" TextColor="red" HeightRequest="40" WidthRequest="120"  Command="{Binding IDeleteReport}" />
-            <Button Text="Enviar" BackgroundColor="White" BorderColor="Green" BorderWidth="1" TextColor="Green" HeightRequest="40" WidthRequest="120"  Command="{Binding ISendReport}" IsVisible="False" />
-        </HorizontalStackLayout>    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="5" Orientation="Vertical">
+                                <Image
+                                    Margin="5"
+                                    Aspect="AspectFill"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Source="{Binding FilePath}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Padding="10,0,10,0"
+            HorizontalOptions="Center"
+            Spacing="4">
+            <Button
+                BackgroundColor="White"
+                BorderColor="Orange"
+                BorderWidth="1"
+                Command="{Binding DownloadReportCommand}"
+                HeightRequest="40"
+                Text="Descargar"
+                TextColor="Orange"
+                WidthRequest="120" />
+            <Button
+                BackgroundColor="White"
+                BorderColor="red"
+                BorderWidth="1"
+                Command="{Binding IDeleteReport}"
+                HeightRequest="40"
+                Text="Eliminar"
+                TextColor="red"
+                WidthRequest="120" />
+            <Button
+                BackgroundColor="White"
+                BorderColor="Green"
+                BorderWidth="1"
+                Command="{Binding ISendReport}"
+                HeightRequest="40"
+                IsVisible="False"
+                Text="Enviar"
+                TextColor="Green"
+                WidthRequest="120" />
+        </HorizontalStackLayout>
     </Grid>
 </ContentPage>

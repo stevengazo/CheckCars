@@ -32,10 +32,10 @@
 
                     <Grid
                         Margin="2"
-                        Padding="5"
-                        ColumnSpacing="2"
+                        Padding="0"
+                        ColumnSpacing="1"
                         HorizontalOptions="Fill"
-                        RowSpacing="2"
+                        RowSpacing="1"
                         VerticalOptions="Fill">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -64,54 +64,68 @@
                         <Label
                             Grid.Row="0"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Fecha"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.Created}"
                             VerticalOptions="Center" />
                         <!--  Vehiculo  -->
                         <Label
                             Grid.Row="1"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Vehículo"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.CarPlate}"
                             VerticalOptions="Center" />
                         <!--  Notas  -->
                         <Label
                             Grid.Row="2"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Notas"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="2"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.Justify}"
                             VerticalOptions="Center" />
                         <!--  Kilometraje  -->
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Kilometraje"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.mileage}"
                             VerticalOptions="Center" />
                         <!--  Nivel de Combustuble  -->
                         <Label
                             Grid.Row="4"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Combustible"
                             VerticalOptions="Center" />
                         <ProgressBar
@@ -124,132 +138,165 @@
                         <Label
                             Grid.Row="5"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Autor"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="5"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.Author}"
                             VerticalOptions="Center" />
                         <!--  Quick pass  -->
                         <Label
                             Grid.Row="6"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Quick Pass"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="6"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.HasQuickPass}"
                             VerticalOptions="Center" />
                         <!--  Estado de las llantas  -->
                         <Label
                             Grid.Row="7"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Estado de las llantas"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="7"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.TiresState}"
                             VerticalOptions="Center" />
                         <!--  Llanta de repuesto  -->
                         <Label
                             Grid.Row="8"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Llanta de Repuesto"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="8"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.HasSpareTire}"
                             VerticalOptions="Center" />
                         <!--  Kit Emergencias  -->
                         <Label
                             Grid.Row="9"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Kit de Emergencias"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="9"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.HasEmergencyKit}"
                             VerticalOptions="Center" />
                         <!--  Estado Pintura  -->
                         <Label
                             Grid.Row="10"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Estado Pintura"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="10"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.PaintState}"
                             VerticalOptions="Center" />
                         <!--  Estado Mecanico  -->
                         <Label
                             Grid.Row="11"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Estado Mecánico"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="11"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.MecanicState}"
                             VerticalOptions="Center" />
                         <!--  Portacelular  -->
                         <Label
                             Grid.Row="12"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Posee Portacelular"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="12"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.HasPhoneSupport}"
                             VerticalOptions="Center" />
                         <!--  Estado Interiores  -->
                         <Label
                             Grid.Row="13"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Estado Interiores"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="13"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.InteriorsState}"
                             VerticalOptions="Center" />
                         <!--  Nivel Aceite  -->
                         <Label
                             Grid.Row="14"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Nivel de Aceite"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="14"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.OilLevel}"
                             VerticalOptions="Center" />
                         <!--  Clean  -->
                         <Label
                             Grid.Row="15"
                             Grid.Column="0"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
                             Text="Interior Limpio"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="15"
                             Grid.Column="1"
                             Margin="1"
+                            FontSize="Micro"
                             Text="{Binding Report.InteriorIsClean}"
                             VerticalOptions="Center" />
 
