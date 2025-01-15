@@ -27,7 +27,7 @@
                     Keyboard="Text"
                     WidthRequest="200"
                     VerticalOptions="Center"
-                    Text="{Binding User.UserName}"/>
+                    Text="{Binding  LocalUser.UserName, Mode=TwoWay}"/>
 
                 <Button
                     Grid.ColumnSpan="2"

@@ -67,6 +67,7 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -123,7 +124,7 @@
                             BackgroundColor="{AppThemeBinding Light=White,
                                                               Dark=Gray}"
                             Placeholder="Descripcion"
-                            Text="{Binding Report.Justify}"
+                            Text="{Binding Report.Notes}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
                             VerticalOptions="Center" />
@@ -348,22 +349,47 @@
                                 </x:Array>
                             </Picker.ItemsSource>
                         </Picker>
+                        <!--  Nivel autor  -->
+                        <Label
+                            Grid.Row="15"
+                            Grid.Column="0"
+                            Text="Autor"
+                            VerticalOptions="Center" />
+                        <Editor
+                            Grid.Row="15"
+                            Grid.Column="1"
+                            Margin="2"
+                            AutoSize="TextChanges"
+                            BackgroundColor="{AppThemeBinding Light=White,
+                                                              Dark=Gray}"
+                            Placeholder="Descripcion"
+                            IsReadOnly="True"
+                            Text="{Binding Report.Author}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=White}"
+                            VerticalOptions="Center" />
+
                     </Grid>
                 </Frame>
                 <VerticalStackLayout Margin="5" Padding="4">
-                    <Label FontSize="Subtitle" HorizontalOptions="Center" FontAttributes="Bold">Imagenes</Label>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Subtitle"
+                        HorizontalOptions="Center">
+                        Imagenes
+                    </Label>
 
                     <!--  Botón para tomar foto  -->
                     <Button
                         Margin="2"
                         BackgroundColor="White"
                         BorderColor="Blue"
-                        WidthRequest="130"
                         BorderWidth="1"
                         Command="{Binding TakePhotoCommand}"
                         FontSize="Small"
                         Text="Agregar Foto"
-                        TextColor="Blue" />
+                        TextColor="Blue"
+                        WidthRequest="130" />
 
                     <!--  CollectionView para mostrar las imágenes  -->
                     <CollectionView

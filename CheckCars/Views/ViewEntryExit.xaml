@@ -103,7 +103,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontSize="Micro"
-                            Text="{Binding Report.Justify}"
+                            Text="{Binding Report.Notes}"
                             VerticalOptions="Center" />
                         <!--  Kilometraje  -->
                         <Label

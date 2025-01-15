@@ -10,7 +10,7 @@
         /// <summary>
         ///  Notas
         /// </summary>
-        public string? Justify { get; set; }
+        public string? Notes { get; set; }
         /// <summary>
         /// Cargador USB
         /// </summary>

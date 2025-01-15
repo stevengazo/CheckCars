@@ -52,6 +52,7 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -119,6 +120,22 @@
                                     Grid.Column="1"
                                     FontSize="Micro"
                                     Text="{Binding mileage}"
+                                    TextColor="{AppThemeBinding Light=Black,
+                                                                Dark=White}" />
+
+                                <Label
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    FontSize="Micro"
+                                    Text="Fecha"
+                                    TextColor="{AppThemeBinding Light=Black,
+                                                                Dark=White}" />
+                                <Label
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    FontSize="Micro"
+                                    Text="{Binding Created}"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
                             </Grid>

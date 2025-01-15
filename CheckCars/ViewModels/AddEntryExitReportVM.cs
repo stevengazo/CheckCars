@@ -13,6 +13,8 @@ namespace CheckCars.ViewModels
             CarsInfo = GetCarsInfoAsync().Result;
             DeletePhotoCommand = new Command<Photo>(DeletePhotoAsync);
             Task.Run(() => LoadUbicationAsync());
+            
+            Report.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
 
         #region Properties
@@ -223,7 +225,7 @@ namespace CheckCars.ViewModels
             {
                 return false;
             }
-            if (string.IsNullOrEmpty(Report.Justify))
+            if (string.IsNullOrEmpty(Report.Notes))
             {
                 return false;
             }

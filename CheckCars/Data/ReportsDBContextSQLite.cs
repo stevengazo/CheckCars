@@ -35,7 +35,7 @@ namespace CheckCars.Data
 
             modelBuilder.Entity<CarModel>().HasData(new List<CarModel>()
     {
-        new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "Daihatsu", Model = "Bego", Plate = "BKS-967" },
+      /*  new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "Daihatsu", Model = "Bego", Plate = "BKS-967" },
         new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "SUZUKI", Model = "APV", Plate = "CL342882" },
         new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "SUZUKI", Model = "CELERIO", Plate = "BQW-213" },
         new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "TOYOTA", Model = "Raize", Plate = "BYG-089" },
@@ -47,7 +47,7 @@ namespace CheckCars.Data
         new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "Mitsubishi", Model = "Fuso Asfaltos #2", Plate = "CL347703" },
         new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "NISSAN", Model = "Frontier 4x4 #1 2008", Plate = "CL226304" },
         new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "NISSAN", Model = "Frontier 4x4 #2 2025", Plate = "AGV 352" },
-        new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "NISSAN", Model = "Frontier 4x2 #3 2008", Plate = "CL212222" },
+        new CarModel() { Id = Guid.NewGuid().ToString(), Brand = "NISSAN", Model = "Frontier 4x2 #3 2008", Plate = "CL212222" },*/
     });
         }
 

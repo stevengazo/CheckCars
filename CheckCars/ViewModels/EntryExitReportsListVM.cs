@@ -46,7 +46,7 @@ namespace CheckCars.ViewModels
                 using (var db = new ReportsDBContextSQLite())
                 {
                     EntryExitReports.Clear();
-                    var data = db.EntryExitReports.ToList();
+                    var data = db.EntryExitReports.OrderByDescending(e=>e.Created).ToList();
                     foreach (var entry in data)
                     {
                         EntryExitReports.Add(entry);

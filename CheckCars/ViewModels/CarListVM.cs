@@ -220,6 +220,10 @@ namespace CheckCars.ViewModels
                 {
                     Application.Current.MainPage.DisplayAlert("Información", "Vehículo Agregado en el servidor", "OK");
                 }
+                else
+                {
+                    Application.Current.MainPage.DisplayAlert("Información", "El vehículo no envidado al servidor", "OK");
+                }
             }
             catch (Exception )
             {

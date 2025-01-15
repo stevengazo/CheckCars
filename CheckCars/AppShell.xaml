@@ -3,33 +3,41 @@
     x:Class="CheckCars.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:CheckCars"
     xmlns:Views="clr-namespace:CheckCars.Views"
+    xmlns:local="clr-namespace:CheckCars"
+    Title="CheckCars"
+    BackgroundColor="LightBlue"
+    FlyoutBackgroundColor="{AppThemeBinding Light=LightGray,
+                                            Dark=DarkGray}"
     Shell.FlyoutBehavior="Flyout"
     Shell.TabBarIsVisible="False"
-    TitleColor="{AppThemeBinding Light=Black, Dark=White}"
-    FlyoutBackgroundColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
-    BackgroundColor="LightBlue"
-    Title="CheckCars">
+    TitleColor="{AppThemeBinding Light=Black,
+                                 Dark=White}">
     <Shell.FlyoutHeader>
-        <Image Source="checkcar.png" WidthRequest="180" HorizontalOptions="Center" />
+        <Image
+            HorizontalOptions="Center"
+            Source="checkcar.png"
+            WidthRequest="180" />
     </Shell.FlyoutHeader>
-    
-    <FlyoutItem Title="Option" FlyoutDisplayOptions="AsMultipleItems" >
+
+    <FlyoutItem Title="Option" FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-            Title="Reportes Vehiculares"
+            Title="Reportes"
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="MainPage" />
-        <ShellContent
-            Title="Cuenta y Configuración"
-            ContentTemplate="{DataTemplate Views:Account}"
-            Route="Account" />
         <ShellContent
             Title="Vehículos"
             ContentTemplate="{DataTemplate Views:CarList}"
             Route="CarList" />
+        <ShellContent
+            Title="Configuración"
+            ContentTemplate="{DataTemplate Views:Account}"
+            Route="Account" />
     </FlyoutItem>
     <Shell.FlyoutFooter>
-        <Button IsVisible="False" Text="Cerrar Sesion" CornerRadius="0" />
+        <Button
+            CornerRadius="0"
+            IsVisible="False"
+            Text="Cerrar Sesion" />
     </Shell.FlyoutFooter>
 </Shell>

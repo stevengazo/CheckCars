@@ -42,7 +42,7 @@ namespace CheckCars.ViewModels
                 using (var db = new ReportsDBContextSQLite())
                 {
                     Issues.Clear();
-                    var data = db.IssueReports.ToList();
+                    var data = db.IssueReports.OrderByDescending(e=>e.Created).ToList();
                     foreach (var entry in data)
                     {
                         Issues.Add(entry);

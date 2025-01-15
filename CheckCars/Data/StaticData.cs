@@ -21,14 +21,14 @@ public static class StaticData
     // Métodos para URL
     public static string URL
     {
-        get => Preferences.Get(URLKey, "http://38.87.253.134"); // Valor predeterminado
+        get => Preferences.Get(URLKey, "http://mecsacars.digitops.co.cr"); // Valor predeterminado
         set => Preferences.Set(URLKey, value);
     }
 
     // Métodos para Port
     public static string Port
     {
-        get => Preferences.Get(PortKey, "4005"); // Valor predeterminado
+        get => Preferences.Get(PortKey, ""); // Valor predeterminado
         set => Preferences.Set(PortKey, value);
     }
 

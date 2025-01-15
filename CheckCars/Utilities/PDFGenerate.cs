@@ -107,7 +107,7 @@ namespace CheckCars.Utilities
                         .SetFontSize(20);
                     document.Add(h);
 
-                    Paragraph just = new Paragraph(i.Justify)
+                    Paragraph just = new Paragraph(i.Notes)
                         .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                         .SetFontSize(14);
                     document.Add(just);

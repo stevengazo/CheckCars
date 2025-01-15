@@ -11,9 +11,9 @@ namespace CheckCars.ViewModels
         public AccountVM()
         {
             StaticData.User = new UserProfile();
-            StaticData.User.UserName = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+            var name = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
             UseAPI = StaticData.UseAPI;
-            User.UserName = StaticData.User.UserName;
+            LocalUser.UserName = name;
             URL = StaticData.URL;
             Port = StaticData.Port;
         }
@@ -103,7 +103,7 @@ namespace CheckCars.ViewModels
 
 
         private UserProfile _User = new();
-        public UserProfile User
+        public UserProfile LocalUser
         {
             get { return _User; }
             set
@@ -111,7 +111,7 @@ namespace CheckCars.ViewModels
                 if (_User != value)
                 {
                     _User = value;
-                    OnPropertyChanged(nameof(User));  // Notificamos el cambio de lista
+                    OnPropertyChanged(nameof(LocalUser));  // Notificamos el cambio de lista
                 }
             }
         }
@@ -179,8 +179,8 @@ namespace CheckCars.ViewModels
 
         private async Task UpdateUserProfileAsync()
         {
-            StaticData.User.UserName = User.UserName;
-            Preferences.Set(nameof(UserProfile.UserName), User.UserName);
+            Preferences.Set(nameof(UserProfile.UserName), LocalUser.UserName);
+            StaticData.User.UserName = LocalUser.UserName;
             Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
         }
 
