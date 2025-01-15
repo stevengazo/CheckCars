@@ -2,7 +2,6 @@
 using CheckCars.Models;
 using CheckCars.Views;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace CheckCars.ViewModels

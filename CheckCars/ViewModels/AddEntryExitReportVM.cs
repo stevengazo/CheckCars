@@ -3,7 +3,6 @@ using CheckCars.Models;
 using CheckCars.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using static SQLite.SQLite3;
 
 namespace CheckCars.ViewModels
 {
@@ -181,13 +180,12 @@ namespace CheckCars.ViewModels
 
                 if (answer && valid)
                 {
-
-
                     using (var db = new ReportsDBContextSQLite())
                     {
 
                         Report.Created = DateTime.Now;
                         Report.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
+                        Report.CarPlate = Report.CarPlate.Split(' ').First();
 
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         Report.Photos = ImgList.Select(photo =>
@@ -261,7 +259,7 @@ namespace CheckCars.ViewModels
             using (var db = new ReportsDBContextSQLite())
             {
                 return (from C in db.Cars
-                        select $"{C.Brand}_{C.Model}_{C.Plate}"
+                        select $"{C.Plate} {C.Model}"
                             ).ToArray();
             }
         }

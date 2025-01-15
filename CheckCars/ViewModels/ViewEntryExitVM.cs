@@ -107,7 +107,7 @@ namespace CheckCars.ViewModels
         {
             try
             {
-                SendingDataCheck = true;    
+                SendingDataCheck = true;
                 if (Data.StaticData.UseAPI)
                 {
                     if (!Report.isUploaded && !SendingData)
@@ -144,7 +144,7 @@ namespace CheckCars.ViewModels
                     Application.Current.MainPage.DisplayAlert("Información", "Ya se está enviando un reporte", "Ok");
                 }
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 throw;
             }
@@ -158,7 +158,7 @@ namespace CheckCars.ViewModels
             bool answer = await Application.Current.MainPage.DisplayAlert(
                    "Confirmación",
                    "¿Deseas borrar este reporte?",
-                   "Sí",    
+                   "Sí",
                    "No"
                );
 

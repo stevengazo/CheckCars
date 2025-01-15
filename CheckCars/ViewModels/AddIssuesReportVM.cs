@@ -125,7 +125,7 @@ namespace CheckCars.ViewModels
                     using (var db = new ReportsDBContextSQLite())
                     {
                         newIssueReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
-
+                        newIssueReport.CarPlate = newIssueReport.CarPlate.Split(' ').First();
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newIssueReport.Photos = ImgList.Select(photo =>
                         {
@@ -196,7 +196,7 @@ namespace CheckCars.ViewModels
             using (var db = new ReportsDBContextSQLite())
             {
                 return (from C in db.Cars
-                        select $"{C.Brand}-{C.Model}-{C.Plate}"
+                        select $"{C.Plate} {C.Model}"
                             ).ToArray();
             }
         }
@@ -256,7 +256,7 @@ namespace CheckCars.ViewModels
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 throw;

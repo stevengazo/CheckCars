@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System.Net.Http;
 using System.Text;
-using System.Text.Json;
-using Microsoft.Maui.Networking;
 
 namespace CheckCars.Services
 {
@@ -65,7 +62,7 @@ namespace CheckCars.Services
 
                 return response.IsSuccessStatusCode;
             }
-            catch (Exception r)
+            catch (Exception)
             {
                 return false;
             }
@@ -107,7 +104,7 @@ namespace CheckCars.Services
                     // Send the request
                     HttpResponseMessage? response = await _httpClient.PostAsync(endpoint, Form, cts?.Token ?? CancellationToken.None);
 
-                    switch (response.StatusCode)    
+                    switch (response.StatusCode)
                     {
                         case System.Net.HttpStatusCode.RequestTimeout:
                             Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
@@ -115,7 +112,7 @@ namespace CheckCars.Services
                         case System.Net.HttpStatusCode.Conflict:
                             Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
                             break;
-                       
+
                         default:
 
                             break;
@@ -128,7 +125,7 @@ namespace CheckCars.Services
                     return false;
                 }
             }
-            catch (Exception r)
+            catch (Exception)
             {
                 return false;
             }

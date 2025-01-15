@@ -2,7 +2,6 @@
 using CheckCars.Data;
 using CheckCars.Models;
 using CheckCars.Services;
-using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -31,7 +30,7 @@ namespace CheckCars.ViewModels
             }
         }
 
-    
+
         #region Properties
         private ObservableCollection<CarModel> _Cars = new();
         public ObservableCollection<CarModel> Cars
@@ -145,7 +144,7 @@ namespace CheckCars.ViewModels
                 var CarFromServer = await _apiService.GetAsync<List<CarModel>>("api/Cars");
                 using (var db = new ReportsDBContextSQLite())
                 {
-                 
+
                     foreach (var item in CarFromServer)
                     {
                         var Exist = (from C in db.Cars
@@ -159,7 +158,6 @@ namespace CheckCars.ViewModels
                     }
                     db.SaveChanges();
                 }
-
             }
             catch (Exception e)
             {
@@ -176,8 +174,10 @@ namespace CheckCars.ViewModels
 
             try
             {
-
-                if( !CarBrand.Contains(' ') && !CarModel.Contains(' ') &&!CarPlate.Contains(' '))
+                Car.Brand = Car.Brand.Trim();
+                Car.Plate = Car.Plate.Trim();
+                Car.Model = Car.Model.Trim();
+                if (!CarBrand.Contains(' ') && !CarModel.Contains(' ') && !CarPlate.Contains(' ') || !CarBrand.Contains('_') && !CarModel.Contains('_') && !CarPlate.Contains('_'))
                 {
                     using (var db = new ReportsDBContextSQLite())
                     {
@@ -193,7 +193,7 @@ namespace CheckCars.ViewModels
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Información", "Los datos no pueden contener espacios", "OK");
+                    Application.Current.MainPage.DisplayAlert("Información", "Los datos no pueden contener espacios, ni guión bajo", "OK");
                 }
                 CleanProperties();
             }
@@ -204,14 +204,14 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private async Task SendInfo( CarModel car)
+        private async Task SendInfo(CarModel car)
         {
             try
             {
                 TimeSpan tmp = new TimeSpan(40);
-                var carAdded = await _apiService.PostAsync("api/Cars", car, tmp );
+                var carAdded = await _apiService.PostAsync("api/Cars", car, tmp);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Application.Current.MainPage.DisplayAlert("Información", "Error al enviar al servidor\n Borre el vehículo e intentelo de nuevo", "OK");
             }

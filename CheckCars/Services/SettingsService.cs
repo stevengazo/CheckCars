@@ -1,4 +1,3 @@
-using System;
 using CheckCars.Interfaces;
 
 namespace CheckCars.Services;
