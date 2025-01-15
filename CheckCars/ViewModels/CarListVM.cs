@@ -21,7 +21,7 @@ namespace CheckCars.ViewModels
             _apiService = new APIService();
 
             IDeleteCar = new Command<CarModel>(DeleteCar);
-            testServer();
+            RequestCars();
 
             using (var db = new ReportsDBContextSQLite())
             {
@@ -136,15 +136,18 @@ namespace CheckCars.ViewModels
             Car = new();
         }
 
-        private async Task testServer()
+        private async Task RequestCars()
         {
             try
             {
                 IsLoading = true;
-                var CarFromServer = await _apiService.GetAsync<List<CarModel>>("api/Cars");
+                var CarFromServer = await _apiService.GetAsync<List<CarModel>>("api/Cars", TimeSpan.FromSeconds(5));
+                if(CarFromServer == null)
+                {
+                    throw new NullReferenceException("No fue posible obtener vehículos desde el servidor");
+                }
                 using (var db = new ReportsDBContextSQLite())
                 {
-
                     foreach (var item in CarFromServer)
                     {
                         var Exist = (from C in db.Cars
@@ -159,9 +162,13 @@ namespace CheckCars.ViewModels
                     db.SaveChanges();
                 }
             }
+            catch (NullReferenceException ef)
+            {
+                Application.Current.MainPage.DisplayAlert("Advertencia", ef.Message, "OK");
+            }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se cargaron los vehículos desde el servidor", "OK");
+                Application.Current.MainPage.DisplayAlert("Error", "Error de la aplicación, vuelva a intentarlo", "OK");
                 Console.WriteLine(e.Message);
             }
             finally
@@ -169,9 +176,9 @@ namespace CheckCars.ViewModels
                 IsLoading = false;
             }
         }
+
         private async void AddCar()
         {
-
             try
             {
                 Car.Brand = Car.Brand.Trim();
@@ -187,9 +194,8 @@ namespace CheckCars.ViewModels
                         db.Cars.Add(Car);
                         db.SaveChanges();
                         Cars.Add(Car);
-                        SendInfo(Car);
+                        UploadCar(Car);
                     }
-
                 }
                 else
                 {
@@ -204,29 +210,38 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private async Task SendInfo(CarModel car)
+        private async Task UploadCar(CarModel car)
         {
             try
             {
-                TimeSpan tmp = new TimeSpan(40);
-                var carAdded = await _apiService.PostAsync("api/Cars", car, tmp);
+              
+                var carAdded = await _apiService.PostAsync("api/Cars", car, TimeSpan.FromSeconds(5));
+                if (carAdded)
+                {
+                    Application.Current.MainPage.DisplayAlert("Información", "Vehículo Agregado en el servidor", "OK");
+                }
             }
-            catch (Exception)
+            catch (Exception )
             {
                 Application.Current.MainPage.DisplayAlert("Información", "Error al enviar al servidor\n Borre el vehículo e intentelo de nuevo", "OK");
             }
         }
-        private void DeleteCar(CarModel e)
+
+        /// <summary>
+        /// Delete an existing car 
+        /// </summary>
+        /// <param name="Car"></param>
+        private void DeleteCar(CarModel Car)
         {
-            if (e == null) return; // Evitar argumentos nulos
+            if (Car == null) return; // Evitar argumentos nulos
 
             try
             {
                 using (var db = new ReportsDBContextSQLite())
                 {
-                    db.Cars.Remove(e);
+                    db.Cars.Remove(Car);
                     db.SaveChanges();
-                    Cars.Remove(e);
+                    Cars.Remove(Car);
                 }
 
             }

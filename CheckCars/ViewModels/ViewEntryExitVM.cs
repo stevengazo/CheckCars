@@ -58,9 +58,7 @@ namespace CheckCars.ViewModels
         public ICommand ISendReport { get; }
         public ICommand IDeleteReport { get; }
         public ICommand ISendServerReport { get; }
-
         private bool _SendingDataCheck;
-
         public bool SendingDataCheck
         {
             get { return _SendingDataCheck; }
@@ -73,8 +71,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
-
 
         public ViewEntryExitVM()
         {
@@ -89,8 +85,8 @@ namespace CheckCars.ViewModels
             if (Report != null)
             {
                 FuelLevel = Report.FuelLevel / 100;
-
             }
+
             DownloadReportCommand = new Command(() => DownloadReport());
             IDeleteReport = new Command(async () => await DeleteReport());
             ISendReport = new Command(async () => await SendPDFReport());

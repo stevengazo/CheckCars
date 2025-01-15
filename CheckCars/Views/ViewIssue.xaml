@@ -3,6 +3,7 @@
     x:Class="CheckCars.Views.ViewIssue"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:CheckCars.Shared.Controls"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     Title="Información">
     <ContentPage.BindingContext>
@@ -162,10 +163,10 @@
                 BorderWidth="1"
                 Command="{Binding ISendReport}"
                 HeightRequest="40"
-                IsVisible="False"
                 Text="Enviar"
                 TextColor="Green"
                 WidthRequest="120" />
         </HorizontalStackLayout>
+        <Controls:LoaderModal IsVisible="{Binding SendingData}" Message="Enviando Datos" />
     </Grid>
 </ContentPage>

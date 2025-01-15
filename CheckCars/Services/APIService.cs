@@ -62,7 +62,7 @@ namespace CheckCars.Services
 
                 return response.IsSuccessStatusCode;
             }
-            catch (Exception)
+            catch (Exception r)
             {
                 return false;
             }

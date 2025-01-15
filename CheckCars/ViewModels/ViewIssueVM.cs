@@ -1,5 +1,6 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
+using CheckCars.Services;
 using CheckCars.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -9,6 +10,21 @@ namespace CheckCars.ViewModels
 {
     public class ViewIssueVM : INotifyPropertyChangedAbst
     {
+        private readonly APIService _apiService;
+        private bool _SendingData = false;
+        public bool SendingData
+        {
+            get { return _SendingData; }
+            set
+            {
+                if (_SendingData != value)
+                {
+                    _SendingData = value;
+                    OnPropertyChanged(nameof(SendingData));
+                }
+            }
+        }
+
         private IssueReport _Report = new();
         public IssueReport Report
         {
@@ -25,6 +41,7 @@ namespace CheckCars.ViewModels
         public ViewIssueVM()
         {
             var Id = Data.StaticData.ReportId;
+            _apiService = new APIService(); 
 
             IDeleteReport = new Command(async () => await DeleteReport());
             ISendReport = new Command(async () => await SendReport());
@@ -115,25 +132,38 @@ namespace CheckCars.ViewModels
         {
             try
             {
-                // 1. Serializar el objeto 'Report' a JSON
-                string jsonContent = JsonConvert.SerializeObject(Report, new JsonSerializerSettings
+                SendingData = true;
+                if(Data.StaticData.UseAPI)
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
-                // 2. Generar un archivo y guardar el JSON en el almacenamiento local
-                string fileName = "reporte.json";
-                string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+                    var result = false;
+                    if(Report.Photos.Count>0)
+                    {
+                        var photosPaths = Report.Photos.Select(e=> e.FilePath).ToList();
+                        result = await _apiService.PostAsync<IssueReport>("api/IssueReports/form", Report,photosPaths, TimeSpan.FromSeconds(10));
+                    }
+                    else
+                    {
+                        result = await _apiService.PostAsync<IssueReport>("api/IssueReports/json", Report, TimeSpan.FromSeconds(5)); 
+                    }
+                    if (result)
+                    {
+                        Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
+                    }
+                    else
+                    {
+                        Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos\nIntentelo más tarde", "Ok");
+                    }
 
-                // Guardar el JSON en el archivo
-                await File.WriteAllTextAsync(filePath, jsonContent);
-
-                // 3. Compartir el archivo (opcional)
-                await ShareFile(filePath);
+                }
             }
             catch (Exception ex)
             {
                 // Manejo de errores
                 Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
+            }
+            finally
+            {
+                SendingData = false;
             }
         }
         private async Task ShareFile(string filePath)
