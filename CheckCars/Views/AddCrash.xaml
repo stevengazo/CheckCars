@@ -134,9 +134,9 @@
                             Grid.Row="7"
                             Grid.Column="1"
                             Margin="2"
-                            IsEnabled="False"
                             BackgroundColor="{AppThemeBinding Light=White,
                                                               Dark=Gray}"
+                            IsEnabled="False"
                             Text="{Binding newCrashReport.Author, Mode=TwoWay}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"

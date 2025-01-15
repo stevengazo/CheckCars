@@ -91,6 +91,8 @@ namespace CheckCars.Utilities
                             };
                         }
 
+                       await ImageCompressor.CompressImageAsync(photo.FullPath, 30);
+
                         // Si no se captura ninguna foto, devuelve null
                         return null;
                     }

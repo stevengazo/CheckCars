@@ -154,9 +154,9 @@
                             Grid.Row="6"
                             Grid.Column="1"
                             Margin="2"
-                            IsEnabled="False"
                             BackgroundColor="{AppThemeBinding Light=White,
                                                               Dark=Gray}"
+                            IsEnabled="False"
                             Text="{Binding newIssueReport.Author, Mode=TwoWay}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
