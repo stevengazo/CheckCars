@@ -10,11 +10,19 @@ namespace CheckCars.Services
 
         public APIService(TimeSpan? timeout = null)
         {
-            _httpClient = new HttpClient()
+            try
             {
-                BaseAddress = new Uri($"{CheckCars.Data.StaticData.URL}:{CheckCars.Data.StaticData.Port}/"),
-                Timeout = timeout ?? TimeSpan.FromSeconds(100) // Configuración predeterminada de tiempo de espera
-            };
+                _httpClient = new HttpClient()
+                {
+                    BaseAddress = new Uri($"{CheckCars.Data.StaticData.URL}:{CheckCars.Data.StaticData.Port}/"),
+                    Timeout = timeout ?? TimeSpan.FromSeconds(100) // Configuración predeterminada de tiempo de espera
+                };
+            }
+            catch (Exception we)
+            {
+
+                throw;
+            }
         }
 
         public async Task<T?> GetAsync<T>(string endpoint, TimeSpan? timeout = null)
@@ -31,13 +39,11 @@ namespace CheckCars.Services
                 }
                 return default;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return default;
             }
         }
-
-
 
         public async Task<bool> PostAsync<T>(string endpoint, T data, TimeSpan? timeout = null)
         {
@@ -125,7 +131,7 @@ namespace CheckCars.Services
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception w)
             {
                 return false;
             }

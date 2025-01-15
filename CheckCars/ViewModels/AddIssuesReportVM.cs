@@ -234,7 +234,7 @@ namespace CheckCars.ViewModels
                 const int baseTime = 30;
 
                 // Incremento: 10 segundos por cada foto
-                const int timePerPhoto = 5;
+                const int timePerPhoto = 10;
 
                 if (report.Photos?.Count > 0)
                 {
@@ -256,7 +256,7 @@ namespace CheckCars.ViewModels
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;
