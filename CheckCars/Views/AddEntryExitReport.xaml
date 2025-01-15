@@ -362,8 +362,8 @@
                             AutoSize="TextChanges"
                             BackgroundColor="{AppThemeBinding Light=White,
                                                               Dark=Gray}"
-                            Placeholder="Descripcion"
                             IsReadOnly="True"
+                            Placeholder="Descripcion"
                             Text="{Binding Report.Author}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"

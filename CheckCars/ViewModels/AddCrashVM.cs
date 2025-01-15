@@ -14,6 +14,7 @@ namespace CheckCars.ViewModels
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
             CarsInfo = GetCarsInfo();
             Task.Run(() => LoadUbicationAsync());
+            newCrashReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
 
         #region Properties

@@ -13,7 +13,6 @@ namespace CheckCars.ViewModels
             CarsInfo = GetCarsInfoAsync().Result;
             DeletePhotoCommand = new Command<Photo>(DeletePhotoAsync);
             Task.Run(() => LoadUbicationAsync());
-            
             Report.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
 

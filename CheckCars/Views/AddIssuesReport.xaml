@@ -43,6 +43,7 @@
                             <RowDefinition Height="40" />
                             <RowDefinition Height="40" />
                             <RowDefinition Height="2*" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -144,6 +145,23 @@
                             Padding="4,3,4,0">
                             <Editor HeightRequest="120" Text="{Binding newIssueReport.Details}" />
                         </Frame>
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Text="Autor"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Margin="2"
+                            IsEnabled="False"
+                            BackgroundColor="{AppThemeBinding Light=White,
+                                                              Dark=Gray}"
+                            Text="{Binding newIssueReport.Author, Mode=TwoWay}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=White}"
+                            VerticalOptions="Center" />
+
                     </Grid>
                 </Border>
 

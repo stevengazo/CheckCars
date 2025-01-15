@@ -46,6 +46,7 @@
                             <RowDefinition Height="3*" />
                             <RowDefinition Height="45" />
                             <RowDefinition Height="3*" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -123,6 +124,23 @@
                             HeightRequest="110">
                             <Editor HeightRequest="110" Text="{Binding newCrashReport.CrashedParts, Mode=TwoWay}" />
                         </Border>
+
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Text="Autor"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Margin="2"
+                            IsEnabled="False"
+                            BackgroundColor="{AppThemeBinding Light=White,
+                                                              Dark=Gray}"
+                            Text="{Binding newCrashReport.Author, Mode=TwoWay}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=White}"
+                            VerticalOptions="Center" />
                     </Grid>
                 </Border>
 
@@ -197,26 +215,26 @@
 
         <!--  Modal  -->
         <ContentView
-         Grid.RowSpan="3"
-         BackgroundColor="#80000000"
-         HorizontalOptions="FillAndExpand"
-         IsVisible="{Binding SendingData}"
-         VerticalOptions="FillAndExpand">
+            Grid.RowSpan="3"
+            BackgroundColor="#80000000"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding SendingData}"
+            VerticalOptions="FillAndExpand">
             <StackLayout
-             Padding="20"
-             BackgroundColor="White"
-             HeightRequest="150"
-             HorizontalOptions="Center"
-             Spacing="10"
-             VerticalOptions="Center"
-             WidthRequest="200">
+                Padding="20"
+                BackgroundColor="White"
+                HeightRequest="150"
+                HorizontalOptions="Center"
+                Spacing="10"
+                VerticalOptions="Center"
+                WidthRequest="200">
                 <ActivityIndicator IsRunning="True" Color="Blue" />
                 <Label
-                 FontSize="Medium"
-                 HorizontalOptions="Center"
-                 HorizontalTextAlignment="Center"
-                 Text="Enviando información"
-                 TextColor="Black" />
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="Enviando información"
+                    TextColor="Black" />
             </StackLayout>
         </ContentView>
     </Grid>
