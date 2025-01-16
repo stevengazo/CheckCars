@@ -18,10 +18,6 @@ namespace CheckCars.Utilities
                 Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
                 return new double[] { location.Latitude, location.Longitude };
             }
-            // Catch one of the following exceptions:
-            //   FeatureNotSupportedException
-            //   FeatureNotEnabledException
-            //   PermissionException
             catch (FeatureNotEnabledException r)
             {
                 Console.WriteLine(r.Message);
@@ -82,7 +78,11 @@ namespace CheckCars.Utilities
                                 await stream.CopyToAsync(fileStream);
                             }
 
-                            // Crea un objeto Photo con la información de la imagen
+                            ImageCompressor compressor = new();
+                            compressor.CompressJpeg(filePath, 40);
+                           
+                           var size = new FileInfo(photo.FullPath).Length;
+                           
                             return new Photo
                             {
                                 FileName = photo.FileName,
@@ -90,8 +90,7 @@ namespace CheckCars.Utilities
                                 DateTaken = DateTime.Now
                             };
                         }
-
-                       await ImageCompressor.CompressImageAsync(photo.FullPath, 30);
+          
 
                         // Si no se captura ninguna foto, devuelve null
                         return null;

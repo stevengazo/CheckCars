@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using iText.Forms.Fields.Merging;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace CheckCars.Services
@@ -7,7 +8,6 @@ namespace CheckCars.Services
     {
         public string Token { get; set; }
         private readonly HttpClient _httpClient;
-
         public APIService(TimeSpan? timeout = null)
         {
             try
@@ -24,7 +24,6 @@ namespace CheckCars.Services
                 throw;
             }
         }
-
         public async Task<T?> GetAsync<T>(string endpoint, TimeSpan? timeout = null)
         {
             try
@@ -44,7 +43,6 @@ namespace CheckCars.Services
                 return default;
             }
         }
-
         public async Task<bool> PostAsync<T>(string endpoint, T data, TimeSpan? timeout = null)
         {
             try
@@ -74,12 +72,11 @@ namespace CheckCars.Services
             }
 
         }
-
         public async Task<bool> PostAsync<T>(string endpoint, T data, List<string> files = null, TimeSpan? timeout = null)
         {
             try
             {
-                if (!await CheckConnection())
+                if (!await CheckConnectionAsync())
                 {
                     Application.Current.MainPage.DisplayAlert("Información", "El dispositivo no posee internet", "ok");
                     return false;
@@ -97,33 +94,20 @@ namespace CheckCars.Services
                         fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue($"image/{extension}"); // Construye correctamente el tipo MIME
                         Form.Add(fileContent, "file", Path.GetFileName(file));
                     }
+                   
                     // Convert the Objetc to JSON
                     JsonSerializerSettings? options = new JsonSerializerSettings()
                     {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-
                     };
                     string? JsonObj = JsonConvert.SerializeObject(data, options);
                     var jsonContent = new StringContent(JsonObj, Encoding.UTF8, "application/json");
                     var type = data.GetType().ToString().Split('.').LastOrDefault();
+                    
                     Form.Add(jsonContent, type);
                     // Send the request
                     HttpResponseMessage? response = await _httpClient.PostAsync(endpoint, Form, cts?.Token ?? CancellationToken.None);
-
-                    switch (response.StatusCode)
-                    {
-                        case System.Net.HttpStatusCode.RequestTimeout:
-                            Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
-                            break;
-                        case System.Net.HttpStatusCode.Conflict:
-                            Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
-                            break;
-
-                        default:
-
-                            break;
-                    }
-
+                    ShowStatusAsync(response);
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
@@ -136,8 +120,7 @@ namespace CheckCars.Services
                 return false;
             }
         }
-
-        private async Task<bool> CheckConnection()
+        private async Task<bool> CheckConnectionAsync()
         {
             try
             {
@@ -149,6 +132,22 @@ namespace CheckCars.Services
             {
                 Console.WriteLine(e.Message);
                 throw;
+            }
+        }
+        private async Task ShowStatusAsync(HttpResponseMessage response)
+        {
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.RequestTimeout:
+                    Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
+                    break;
+                case System.Net.HttpStatusCode.Conflict:
+                    Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
+                    break;
+
+                default:
+
+                    break;
             }
         }
     }
