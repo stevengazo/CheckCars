@@ -428,7 +428,7 @@
                                             BackgroundColor="Red"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddEntryExitReportVM}}, Path=DeletePhotoCommand}"
                                             CommandParameter="{Binding .}"
-                                            FontSize="Micro"
+                                            FontSize="Small"
                                             HorizontalOptions="End"
                                             Text="Eliminar"
                                             TextColor="White"

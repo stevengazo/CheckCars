@@ -63,14 +63,14 @@
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="Vehículo"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="{Binding CarPlate}"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
@@ -79,14 +79,14 @@
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="Estado Mecánico"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="{Binding MecanicState}"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
@@ -95,14 +95,14 @@
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="Estado Llantas"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
                                 <Label
                                     Grid.Row="2"
                                     Grid.Column="1"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="{Binding TiresState}"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
@@ -111,14 +111,14 @@
                                     Grid.Row="3"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="Kilometraje"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
                                 <Label
                                     Grid.Row="3"
                                     Grid.Column="1"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="{Binding mileage}"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
@@ -127,14 +127,14 @@
                                     Grid.Row="4"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="Fecha"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
                                 <Label
                                     Grid.Row="4"
                                     Grid.Column="1"
-                                    FontSize="Micro"
+                                    FontSize="Small"
                                     Text="{Binding Created}"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />

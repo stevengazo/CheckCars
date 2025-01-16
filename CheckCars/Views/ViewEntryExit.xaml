@@ -65,7 +65,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Fecha"
                             VerticalOptions="Center" />
                         <Label
@@ -73,7 +73,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.Created}"
                             VerticalOptions="Center" />
                         <!--  Vehiculo  -->
@@ -81,7 +81,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Vehículo"
                             VerticalOptions="Center" />
                         <Label
@@ -89,7 +89,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.CarPlate}"
                             VerticalOptions="Center" />
                         <!--  Notas  -->
@@ -97,7 +97,7 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Notas"
                             VerticalOptions="Center" />
                         <Label
@@ -105,7 +105,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.Notes}"
                             VerticalOptions="Center" />
                         <!--  Kilometraje  -->
@@ -113,7 +113,7 @@
                             Grid.Row="3"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Kilometraje"
                             VerticalOptions="Center" />
                         <Label
@@ -121,7 +121,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.mileage}"
                             VerticalOptions="Center" />
                         <!--  Nivel de Combustuble  -->
@@ -129,7 +129,7 @@
                             Grid.Row="4"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Combustible"
                             VerticalOptions="Center" />
                         <ProgressBar
@@ -143,7 +143,7 @@
                             Grid.Row="5"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Autor"
                             VerticalOptions="Center" />
                         <Label
@@ -151,7 +151,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.Author}"
                             VerticalOptions="Center" />
                         <!--  Quick pass  -->
@@ -159,7 +159,7 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Quick Pass"
                             VerticalOptions="Center" />
                         <Label
@@ -167,7 +167,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.HasQuickPass}"
                             VerticalOptions="Center" />
                         <!--  Estado de las llantas  -->
@@ -175,7 +175,7 @@
                             Grid.Row="7"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Estado de las llantas"
                             VerticalOptions="Center" />
                         <Label
@@ -183,7 +183,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.TiresState}"
                             VerticalOptions="Center" />
                         <!--  Llanta de repuesto  -->
@@ -191,7 +191,7 @@
                             Grid.Row="8"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Llanta de Repuesto"
                             VerticalOptions="Center" />
                         <Label
@@ -199,7 +199,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.HasSpareTire}"
                             VerticalOptions="Center" />
                         <!--  Kit Emergencias  -->
@@ -207,7 +207,7 @@
                             Grid.Row="9"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Kit de Emergencias"
                             VerticalOptions="Center" />
                         <Label
@@ -215,7 +215,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.HasEmergencyKit}"
                             VerticalOptions="Center" />
                         <!--  Estado Pintura  -->
@@ -223,7 +223,7 @@
                             Grid.Row="10"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Estado Pintura"
                             VerticalOptions="Center" />
                         <Label
@@ -231,7 +231,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.PaintState}"
                             VerticalOptions="Center" />
                         <!--  Estado Mecanico  -->
@@ -239,7 +239,7 @@
                             Grid.Row="11"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Estado Mecánico"
                             VerticalOptions="Center" />
                         <Label
@@ -247,7 +247,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.MecanicState}"
                             VerticalOptions="Center" />
                         <!--  Portacelular  -->
@@ -255,7 +255,7 @@
                             Grid.Row="12"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Posee Portacelular"
                             VerticalOptions="Center" />
                         <Label
@@ -263,7 +263,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.HasPhoneSupport}"
                             VerticalOptions="Center" />
                         <!--  Estado Interiores  -->
@@ -271,7 +271,7 @@
                             Grid.Row="13"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Estado Interiores"
                             VerticalOptions="Center" />
                         <Label
@@ -279,7 +279,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.InteriorsState}"
                             VerticalOptions="Center" />
                         <!--  Nivel Aceite  -->
@@ -287,7 +287,7 @@
                             Grid.Row="14"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Nivel de Aceite"
                             VerticalOptions="Center" />
                         <Label
@@ -295,7 +295,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.OilLevel}"
                             VerticalOptions="Center" />
                         <!--  Clean  -->
@@ -303,7 +303,7 @@
                             Grid.Row="15"
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="Interior Limpio"
                             VerticalOptions="Center" />
                         <Label
@@ -311,7 +311,7 @@
                             Grid.Column="1"
                             Margin="1"
                             FontAttributes="Italic"
-                            FontSize="Micro"
+                            FontSize="Small"
                             Text="{Binding Report.InteriorIsClean}"
                             VerticalOptions="Center" />
 

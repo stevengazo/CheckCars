@@ -186,7 +186,7 @@
                                             BackgroundColor="Red"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddCrashVM}}, Path=DeletePhotoCommand}"
                                             CommandParameter="{Binding .}"
-                                            FontSize="Micro"
+                                            FontSize="Small"
                                             HeightRequest="25"
                                             HorizontalOptions="End"
                                             Text="Eliminar"

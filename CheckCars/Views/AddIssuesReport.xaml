@@ -183,7 +183,7 @@
                         BorderColor="Blue"
                         BorderWidth="1"
                         Command="{Binding TakePhotoCommand}"
-                        FontSize="Micro"
+                        FontSize="Small"
                         Text="Agregar Foto"
                         TextColor="Blue"
                         WidthRequest="120" />
@@ -211,7 +211,7 @@
                                             BackgroundColor="Red"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddIssuesReportVM}}, Path=DeletePhotoCommand}"
                                             CommandParameter="{Binding .}"
-                                            FontSize="Micro"
+                                            FontSize="Small"
                                             HeightRequest="13"
                                             HorizontalOptions="End"
                                             Text="Eliminar"

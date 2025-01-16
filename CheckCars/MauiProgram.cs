@@ -14,7 +14,6 @@ namespace CheckCars
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-           
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
