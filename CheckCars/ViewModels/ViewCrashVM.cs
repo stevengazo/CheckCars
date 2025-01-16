@@ -46,6 +46,7 @@ namespace CheckCars.ViewModels
             IDeleteReport = new Command(async () => await DeleteReport());
             DownloadReportCommand = new Command(async () => await DownloadReport());
             ISendReportCommand = new Command(async () => await SendDataAsync());
+            IShareImage = new Command<string>(SharePhotoAsync);
 
             using (var dbo = new ReportsDBContextSQLite())
             {
@@ -53,10 +54,12 @@ namespace CheckCars.ViewModels
 
             }
         }
+
         #region Commands   
         public ICommand IDeleteReport { get; }
         public ICommand DownloadReportCommand { get; }
         public ICommand ISendReportCommand { get; }
+        public ICommand IShareImage { get; }
         #endregion
         #region Methods
         public async Task DeleteReport()
@@ -138,6 +141,11 @@ namespace CheckCars.ViewModels
 
             await Share.Default.RequestAsync(request);
         }
+        private void SharePhotoAsync(string obj)
+        {
+            ShareFile(obj);
+        }
+
         private async Task SendDataAsync()
         {
             try
@@ -178,7 +186,6 @@ namespace CheckCars.ViewModels
                 SendingDataF = false;
             }
         }
-
         private async Task UpdateReport(bool e)
         {
             using (var db = new ReportsDBContextSQLite())

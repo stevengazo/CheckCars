@@ -10,6 +10,25 @@ namespace CheckCars.ViewModels
 {
     public class ViewIssueVM : INotifyPropertyChangedAbst
     {
+        public ViewIssueVM()
+        {
+            var Id = Data.StaticData.ReportId;
+            _apiService = new APIService();
+
+            IDeleteReport = new Command(async () => await DeleteReport());
+            ISendReport = new Command(async () => await SendReport());
+            IShareImage = new Command<string>(SharePhotoAsync);
+
+            DownloadReportCommand = new Command(async () => await DownloadReport());
+
+            using (var dbo = new ReportsDBContextSQLite())
+            {
+                Report = dbo.IssueReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
+
+            }
+        }
+
+        #region Properties
         private readonly APIService _apiService;
         private bool _SendingData = false;
         public bool SendingData
@@ -38,22 +57,16 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        public ViewIssueVM()
-        {
-            var Id = Data.StaticData.ReportId;
-            _apiService = new APIService(); 
+        #endregion
 
-            IDeleteReport = new Command(async () => await DeleteReport());
-            ISendReport = new Command(async () => await SendReport());
+        #region Commands
+        public ICommand DownloadReportCommand { get; }
+        public ICommand IDeleteReport { get; }
+        public ICommand ISendReport { get; }
+        public ICommand IShareImage { get; }
+        #endregion
 
-            DownloadReportCommand = new Command(async () => await DownloadReport());
-
-            using (var dbo = new ReportsDBContextSQLite())
-            {
-                Report = dbo.IssueReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
-
-            }
-        }
+        #region Methods
         private async Task DeletePhotos(List<string> paths)
         {
             foreach (var item in paths)
@@ -69,9 +82,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        public ICommand DownloadReportCommand { get; }
-        public ICommand IDeleteReport { get; }
-        public ICommand ISendReport { get; }
         public async Task DeleteReport()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert(
@@ -176,6 +186,10 @@ namespace CheckCars.ViewModels
 
             await Share.Default.RequestAsync(request);
         }
-
+        private void SharePhotoAsync(string obj)
+        {
+            ShareFile(obj);
+        }
+        #endregion
     }
 }

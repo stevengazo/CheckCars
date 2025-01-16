@@ -18,7 +18,8 @@
             <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                 <Frame
                     Margin="10,0,10,0"
-                    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
                     BorderColor="Gray"
                     CornerRadius="10"
                     HasShadow="True">
@@ -53,8 +54,8 @@
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
-                            FontSize="Small"
                             FontAttributes="Italic"
+                            FontSize="Small"
                             Text="{Binding Report.Created}"
                             VerticalOptions="Center" />
                         <!--  Vehiculo  -->
@@ -67,8 +68,8 @@
                         <Label
                             Grid.Row="1"
                             Grid.Column="1"
-                            FontSize="Small"
                             FontAttributes="Italic"
+                            FontSize="Small"
                             Text="{Binding Report.CarPlate}"
                             VerticalOptions="Center" />
                         <!--  Notas  -->
@@ -110,8 +111,8 @@
                             Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            HeightRequest="120"
                             FontAttributes="Italic"
+                            HeightRequest="120"
                             LineBreakMode="WordWrap"
                             LineHeight="20"
                             Text="{Binding Report.Details}" />
@@ -129,11 +130,25 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Padding="5" Orientation="Vertical">
-                                <Image
-                                    Margin="5"
-                                    Aspect="AspectFill"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Source="{Binding FilePath}" />
+                                <Grid>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Source="{Binding FilePath}" />
+                                    <ImageButton
+                                        Margin="5"
+                                        Padding="6"
+                                        BackgroundColor="blue"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ViewIssueVM}}, Path=IShareImage}"
+                                        CommandParameter="{Binding FilePath}"
+                                        CornerRadius="50"
+                                        HeightRequest="50"
+                                        HorizontalOptions="End"
+                                        Source="share.png"
+                                        VerticalOptions="End"
+                                        WidthRequest="50" />
+                                </Grid>
+
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

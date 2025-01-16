@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             x:Class="CheckCars.MainPage">
+<ContentPage
+    x:Class="CheckCars.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels">
 
     <Grid RowSpacing="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"  />
+            <RowDefinition Height="*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -15,31 +16,52 @@
         </Grid.ColumnDefinitions>
 
         <StackLayout
-                      Margin="20"
-                      VerticalOptions="Start"
-                      Grid.Row="0"
-                      Grid.Column="0">
-            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Salidas" />
-            <ImageButton Source="checklist.png" HeightRequest="200" BackgroundColor="LightBlue"  CornerRadius="10" 
-                         Command="{Binding ViewEntryExitList}"  />
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="20"
+            VerticalOptions="Start">
+            <Label
+                HorizontalOptions="Center"
+                Text="Salidas"
+                VerticalOptions="Start" />
+            <ImageButton
+                BackgroundColor="LightBlue"
+                Command="{Binding ViewEntryExitList}"
+                CornerRadius="10"
+                HeightRequest="200"
+                Source="checklist.png" />
         </StackLayout>
         <StackLayout
-                      Margin="20"
-                      VerticalOptions="Start"                         
-                      Grid.Row="1"
-                      Grid.Column="0">
-            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Accidentes" />
-            <ImageButton Source="carcrash.png"  HeightRequest="200"  BackgroundColor="LightBlue" CornerRadius="10" 
-                         Command="{Binding CrashList}"  />
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="20"
+            VerticalOptions="Start">
+            <Label
+                HorizontalOptions="Center"
+                Text="Accidentes"
+                VerticalOptions="Start" />
+            <ImageButton
+                BackgroundColor="LightBlue"
+                Command="{Binding CrashList}"
+                CornerRadius="10"
+                HeightRequest="200"
+                Source="carcrash.png" />
         </StackLayout>
         <StackLayout
-                        Margin="20"
-                        VerticalOptions="Start"                         
-                        Grid.Row="0"
-                        Grid.Column="1">
-            <Label HorizontalOptions="Center" VerticalOptions="Start" Text="Problemas" />
-            <ImageButton Source="caraccident.png"  HeightRequest="200"  BackgroundColor="LightBlue" CornerRadius="10" 
-                         Command="{Binding IssuesList}"  />
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="20"
+            VerticalOptions="Start">
+            <Label
+                HorizontalOptions="Center"
+                Text="Problemas"
+                VerticalOptions="Start" />
+            <ImageButton
+                BackgroundColor="LightBlue"
+                Command="{Binding IssuesList}"
+                CornerRadius="10"
+                HeightRequest="200"
+                Source="caraccident.png" />
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -140,11 +140,25 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Photo">
                             <StackLayout Padding="5" Orientation="Vertical">
-                                <Image
-                                    Margin="5"
-                                    Aspect="AspectFill"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Source="{Binding FilePath}" />
+                                <Grid>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Source="{Binding FilePath}" />
+                                    <ImageButton
+                                        Margin="5"
+                                        Padding="6"
+                                        BackgroundColor="blue"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ViewCrashVM}}, Path=IShareImage}"
+                                        CommandParameter="{Binding FilePath}"
+                                        CornerRadius="50"
+                                        HeightRequest="50"
+                                        HorizontalOptions="End"
+                                        Source="share.png"
+                                        VerticalOptions="End"
+                                        WidthRequest="50" />
+                                </Grid>
+
 
                             </StackLayout>
                         </DataTemplate>

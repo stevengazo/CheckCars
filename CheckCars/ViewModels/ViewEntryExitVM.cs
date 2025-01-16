@@ -57,7 +57,9 @@ namespace CheckCars.ViewModels
         public ICommand DownloadReportCommand { get; }
         public ICommand ISendReport { get; }
         public ICommand IDeleteReport { get; }
+        public ICommand IShareImage { get; }
         public ICommand ISendServerReport { get; }
+       
         private bool _SendingDataCheck;
         public bool SendingDataCheck
         {
@@ -91,8 +93,11 @@ namespace CheckCars.ViewModels
             IDeleteReport = new Command(async () => await DeleteReport());
             ISendReport = new Command(async () => await SendPDFReport());
             ISendServerReport = new Command(async () => await SendServer());
+            IShareImage = new Command<string>(SharePhotoAsync);
 
         }
+
+
 
         #region Methods
         /// <summary>
@@ -196,7 +201,7 @@ namespace CheckCars.ViewModels
                 await File.WriteAllTextAsync(filePath, jsonContent);
 
                 // 3. Compartir el archivo (opcional)
-                await ShareFile(filePath);
+                await ShareFile(filePath, "Compartir Reporte de Entrada y Salida");
             }
             catch (Exception ex)
             {
@@ -231,7 +236,7 @@ namespace CheckCars.ViewModels
                         byte[] pdfBytes = await d.EntryExitReport(Report); // Asegúrate de usar 'await' con métodos async.
                         var filePath = Path.Combine(FileSystem.CacheDirectory, $"Reporte Entrada {Report.CarPlate} {DateTime.Now:yy-MM-dd hh-mm-ss}.pdf");
                         File.WriteAllBytes(filePath, pdfBytes);
-                        ShareFile(filePath);
+                        ShareFile(filePath, "Compartir Reporte de Entrada y Salida");
                     }
                 }
                 catch (Exception e)
@@ -241,14 +246,14 @@ namespace CheckCars.ViewModels
                 }
             });
         }
-        private async Task ShareFile(string filePath)
+        private async Task ShareFile(string filePath, string title)
         {
             try
             {
                 // Compartir el archivo PDF usando el servicio de MAUI
                 await Share.RequestAsync(new ShareFileRequest
                 {
-                    Title = "Compartir Reporte de Entrada y Salida",
+                    Title = title,
                     File = new ShareFile(filePath) // Usar "File" en lugar de "Files"
                 });
             }
@@ -257,6 +262,11 @@ namespace CheckCars.ViewModels
                 // Manejo de errores en caso de que no se pueda compartir el archivo
                 await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
             }
+        }
+
+        private void SharePhotoAsync(string obj)
+        {
+            ShareFile(obj, "Imagen");
         }
 
         private async Task UpdateReport(bool state)
