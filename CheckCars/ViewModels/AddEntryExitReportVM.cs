@@ -214,6 +214,7 @@ namespace CheckCars.ViewModels
         }
         private async Task CloseAsync()
         {
+            
             var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
             Application.Current.MainPage.Navigation.RemovePage(d);
         }

@@ -263,12 +263,10 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
             }
         }
-
         private void SharePhotoAsync(string obj)
         {
             ShareFile(obj, "Imagen");
         }
-
         private async Task UpdateReport(bool state)
         {
             using (var db = new ReportsDBContextSQLite())

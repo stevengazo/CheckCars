@@ -106,8 +106,8 @@ namespace CheckCars.Utilities
                         .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
                         .SetFontSize(20);
                     document.Add(h);
-
-                    Paragraph just = new Paragraph(i.Notes)
+                    var text = string.IsNullOrEmpty(i.Notes) ? "" : i.Notes;
+                    Paragraph just = new Paragraph( text)
                         .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                         .SetFontSize(14);
                     document.Add(just);
@@ -121,7 +121,7 @@ namespace CheckCars.Utilities
                     return ms.ToArray();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
