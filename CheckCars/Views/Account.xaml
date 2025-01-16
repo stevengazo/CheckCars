@@ -29,6 +29,7 @@
                     Grid.Column="1"
                     Keyboard="Text"
                     Text="{Binding LocalUser.UserName, Mode=TwoWay}"
+                   Placeholder="Nombre de Usuario"
                     VerticalOptions="Center"
                     WidthRequest="200" />
 

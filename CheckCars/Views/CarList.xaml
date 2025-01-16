@@ -46,6 +46,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     HorizontalTextAlignment="Center"
+                    Placeholder="Toyota"
                     Text="{Binding CarBrand, Mode=TwoWay}"
                     VerticalTextAlignment="Center" />
                 <Label
@@ -53,10 +54,12 @@
                     Grid.Column="0"
                     HorizontalTextAlignment="Center"
                     Text="Adquisición"
+                  
                     VerticalTextAlignment="Center" />
                 <DatePicker
                     Grid.Row="1"
                     Grid.Column="1"
+                  HorizontalOptions="Center"
                     Date="{Binding Car.AdquisitionDate, Mode=TwoWay}"
                     />
                 <Label
@@ -68,6 +71,7 @@
                 <Entry
                     Grid.Row="2"
                     Grid.Column="1"
+                    Placeholder="Modelo"
                     HorizontalTextAlignment="Center"
                     Text="{Binding CarModel, Mode=TwoWay}"
                     VerticalTextAlignment="Center" />
@@ -80,6 +84,7 @@
                 <Entry
                     Grid.Row="3"
                     Grid.Column="1"
+                    Placeholder=" EEEE-888"
                     HorizontalTextAlignment="Center"
                     Text="{Binding CarPlate, Mode=TwoWay}"
                     VerticalTextAlignment="Center" />
