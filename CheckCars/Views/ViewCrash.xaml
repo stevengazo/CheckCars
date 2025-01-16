@@ -11,7 +11,7 @@
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="1*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <ScrollView Grid.Row="0" Margin="5">
@@ -34,15 +34,16 @@
                     <Grid
                         Margin="2"
                         Padding="2"
+                        HeightRequest="350"
                         HorizontalOptions="Fill">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" />
                             <RowDefinition Height="20" />
                             <RowDefinition Height="20" />
                             <RowDefinition Height="20" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="6*" />
                             <RowDefinition Height="20" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="6*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*" />
@@ -52,59 +53,79 @@
                         <Label
                             Grid.Row="0"
                             Grid.Column="0"
+                            FontAttributes="Bold"
                             Text="Fecha"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
+                            FontAttributes="Italic"
                             Text="{Binding Report.Created}"
                             VerticalOptions="Center" />
 
                         <Label
                             Grid.Row="1"
                             Grid.Column="0"
+                            FontAttributes="Bold"
                             Text="Vehículo"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="1"
+                            FontAttributes="Italic"
                             Text="{Binding Report.CarPlate}"
                             VerticalOptions="Center" />
 
                         <Label
                             Grid.Row="2"
                             Grid.Column="0"
+                            FontAttributes="Bold"
                             Text="Ubicación"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="2"
                             Grid.Column="1"
+                            FontAttributes="Italic"
                             Text="{Binding Report.Location}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=WhiteSmoke}"
                             VerticalOptions="Center" />
 
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
                             Text="Detalles del Choque"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="4"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
+                            FontAttributes="Italic"
                             LineBreakMode="WordWrap"
-                            Text="{Binding Report.CrashDetails}" />
+                            Text="{Binding Report.CrashDetails}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=WhiteSmoke}" />
 
                         <Label
                             Grid.Row="5"
                             Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
                             Text="Daños en vehículo"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="6"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
+                            FontAttributes="Italic"
                             LineBreakMode="WordWrap"
-                            Text="{Binding Report.CrashedParts}" />
+                            Text="{Binding Report.CrashedParts}"
+                            TextColor="{AppThemeBinding Light=Black,
+                                                        Dark=WhiteSmoke}" />
 
                     </Grid>
                 </Frame>

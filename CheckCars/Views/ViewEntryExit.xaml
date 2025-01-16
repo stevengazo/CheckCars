@@ -72,6 +72,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.Created}"
                             VerticalOptions="Center" />
@@ -87,6 +88,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.CarPlate}"
                             VerticalOptions="Center" />
@@ -102,6 +104,7 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.Notes}"
                             VerticalOptions="Center" />
@@ -117,6 +120,7 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.mileage}"
                             VerticalOptions="Center" />
@@ -146,6 +150,7 @@
                             Grid.Row="5"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.Author}"
                             VerticalOptions="Center" />
@@ -161,6 +166,7 @@
                             Grid.Row="6"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.HasQuickPass}"
                             VerticalOptions="Center" />
@@ -176,6 +182,7 @@
                             Grid.Row="7"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.TiresState}"
                             VerticalOptions="Center" />
@@ -191,6 +198,7 @@
                             Grid.Row="8"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.HasSpareTire}"
                             VerticalOptions="Center" />
@@ -206,6 +214,7 @@
                             Grid.Row="9"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.HasEmergencyKit}"
                             VerticalOptions="Center" />
@@ -221,6 +230,7 @@
                             Grid.Row="10"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.PaintState}"
                             VerticalOptions="Center" />
@@ -236,6 +246,7 @@
                             Grid.Row="11"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.MecanicState}"
                             VerticalOptions="Center" />
@@ -251,6 +262,7 @@
                             Grid.Row="12"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.HasPhoneSupport}"
                             VerticalOptions="Center" />
@@ -266,6 +278,7 @@
                             Grid.Row="13"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.InteriorsState}"
                             VerticalOptions="Center" />
@@ -281,6 +294,7 @@
                             Grid.Row="14"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.OilLevel}"
                             VerticalOptions="Center" />
@@ -296,6 +310,7 @@
                             Grid.Row="15"
                             Grid.Column="1"
                             Margin="1"
+                            FontAttributes="Italic"
                             FontSize="Micro"
                             Text="{Binding Report.InteriorIsClean}"
                             VerticalOptions="Center" />

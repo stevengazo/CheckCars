@@ -59,7 +59,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=darkgray}"
                             Date="{Binding newIssueReport.Created}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}" />
@@ -74,7 +74,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             ItemsSource="{Binding CarsInfo}"
                             SelectedItem="{Binding newIssueReport.CarPlate}"
                             TextColor="{AppThemeBinding Light=Black,
@@ -90,7 +90,7 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             SelectedItem="{Binding newIssueReport.Priority}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}">
@@ -113,7 +113,7 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             SelectedItem="{Binding newIssueReport.Type}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}">
@@ -143,7 +143,10 @@
                             Grid.ColumnSpan="2"
                             Margin="0,0,0,0"
                             Padding="4,3,4,0">
-                            <Editor HeightRequest="120" Text="{Binding newIssueReport.Details}" />
+                            <Editor
+                                HeightRequest="120"
+                                Text="{Binding newIssueReport.Details}"
+                                TextColor="Black" />
                         </Frame>
                         <Label
                             Grid.Row="6"
@@ -155,7 +158,7 @@
                             Grid.Column="1"
                             Margin="2"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             IsEnabled="False"
                             Text="{Binding newIssueReport.Author, Mode=TwoWay}"
                             TextColor="{AppThemeBinding Light=Black,

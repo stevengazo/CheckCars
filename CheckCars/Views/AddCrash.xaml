@@ -62,7 +62,7 @@
                             Grid.Column="1"
                             Margin="2"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             Date="{Binding newCrashReport.Created}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}" />
@@ -77,11 +77,13 @@
                             Grid.Column="1"
                             Margin="2"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             ItemsSource="{Binding CarsInfo}"
                             SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}"
                             VerticalOptions="Center" />
                         <Label
                             Grid.Row="2"
@@ -93,7 +95,10 @@
                             Grid.Column="1"
                             Margin="2"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
+                            Placeholder="Ubicación"
+                            PlaceholderColor="{AppThemeBinding Light=Gray,
+                                                               Dark=WhiteSmoke}"
                             Text="{Binding newCrashReport.Location, Mode=TwoWay}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
@@ -135,7 +140,7 @@
                             Grid.Column="1"
                             Margin="2"
                             BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=Gray}"
+                                                              Dark=DarkGray}"
                             IsEnabled="False"
                             Text="{Binding newCrashReport.Author, Mode=TwoWay}"
                             TextColor="{AppThemeBinding Light=Black,
@@ -176,18 +181,18 @@
                                             Source="{Binding FilePath}" />
                                         <!--  Botón sobre la esquina inferior derecha  -->
                                         <Button
-                                            Margin="5"
+                                            Margin="3"
                                             Padding="0"
                                             BackgroundColor="Red"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddCrashVM}}, Path=DeletePhotoCommand}"
                                             CommandParameter="{Binding .}"
-                                            FontSize="Small"
-                                            HeightRequest="30"
+                                            FontSize="Micro"
+                                            HeightRequest="25"
                                             HorizontalOptions="End"
                                             Text="Eliminar"
                                             TextColor="White"
                                             VerticalOptions="End"
-                                            WidthRequest="60" />
+                                            WidthRequest="65" />
                                     </Grid>
                                 </StackLayout>
                             </DataTemplate>

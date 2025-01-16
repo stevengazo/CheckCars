@@ -108,6 +108,8 @@
                             SelectedItem="{Binding Report.CarPlate}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}"
                             VerticalOptions="Center" />
                         <!--  Notas  -->
                         <Label
@@ -124,6 +126,8 @@
                             BackgroundColor="{AppThemeBinding Light=White,
                                                               Dark=Gray}"
                             Placeholder="Descripcion"
+                            PlaceholderColor="{AppThemeBinding Light=Gray,
+                                                               Dark=WhiteSmoke}"
                             Text="{Binding Report.Notes}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
@@ -201,6 +205,8 @@
                             SelectedItem="{Binding Report.TiresState}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}"
                             VerticalOptions="Center">
                             <!--  Opciones del ComboBox  -->
                             <Picker.ItemsSource>
@@ -250,6 +256,8 @@
                             SelectedItem="{Binding Report.PaintState}"
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}"
                             VerticalOptions="Center">
                             <!--  Opciones del ComboBox  -->
                             <Picker.ItemsSource>
@@ -277,7 +285,9 @@
                                                               Dark=Gray}"
                             SelectedItem="{Binding Report.MecanicState}"
                             TextColor="{AppThemeBinding Light=Black,
-                                                        Dark=White}">
+                                                        Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}">
                             <!--  Opciones del ComboBox  -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -313,7 +323,9 @@
                                                               Dark=Gray}"
                             SelectedItem="{Binding Report.InteriorsState}"
                             TextColor="{AppThemeBinding Light=Black,
-                                                        Dark=White}">
+                                                        Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}">
                             <!--  Opciones del ComboBox  -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -339,7 +351,9 @@
                                                               Dark=Gray}"
                             SelectedItem="{Binding Report.OilLevel}"
                             TextColor="{AppThemeBinding Light=Black,
-                                                        Dark=White}">
+                                                        Dark=White}"
+                            TitleColor="{AppThemeBinding Light=Gray,
+                                                         Dark=WhiteSmoke}">
                             <!--  Opciones del ComboBox  -->
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
@@ -414,13 +428,12 @@
                                             BackgroundColor="Red"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddEntryExitReportVM}}, Path=DeletePhotoCommand}"
                                             CommandParameter="{Binding .}"
-                                            FontSize="Small"
-                                            HeightRequest="30"
+                                            FontSize="Micro"     
                                             HorizontalOptions="End"
                                             Text="Eliminar"
                                             TextColor="White"
                                             VerticalOptions="End"
-                                            WidthRequest="60" />
+                                            WidthRequest="65" />
                                     </Grid>
                                 </StackLayout>
                             </DataTemplate>
