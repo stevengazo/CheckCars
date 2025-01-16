@@ -164,7 +164,6 @@
                             TextColor="{AppThemeBinding Light=Black,
                                                         Dark=White}"
                             VerticalOptions="Center" />
-
                     </Grid>
                 </Border>
 
@@ -201,7 +200,7 @@
                                     <Grid>
                                         <!--  Imagen ocupando toda la vista  -->
                                         <Image
-                                            Aspect="AspectFill"
+                                            Aspect="AspectFit"
                                             HorizontalOptions="CenterAndExpand"
                                             Source="{Binding FilePath}" />
                                         <!--  Botón sobre la esquina inferior derecha  -->

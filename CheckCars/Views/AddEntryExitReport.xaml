@@ -418,7 +418,7 @@
                                     <Grid>
                                         <!--  Imagen ocupando toda la vista  -->
                                         <Image
-                                            Aspect="AspectFill"
+                                            Aspect="AspectFit"
                                             HorizontalOptions="CenterAndExpand"
                                             Source="{Binding FilePath}" />
                                         <!--  Botón sobre la esquina inferior derecha  -->
@@ -439,10 +439,7 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-
-
                 </VerticalStackLayout>
-
             </StackLayout>
         </ScrollView>
 

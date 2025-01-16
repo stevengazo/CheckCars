@@ -132,7 +132,8 @@
                             <StackLayout Padding="5" Orientation="Vertical">
                                 <Grid>
                                     <Image
-                                        Aspect="AspectFill"
+                     
+                                        Aspect="AspectFit"
                                         HorizontalOptions="CenterAndExpand"
                                         Source="{Binding FilePath}" />
                                     <ImageButton

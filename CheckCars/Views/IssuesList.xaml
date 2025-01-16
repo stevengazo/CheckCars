@@ -47,11 +47,7 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:IssuesListVM}}, Path=ViewIssue}" CommandParameter="{Binding ReportId}" />
                         </Frame.GestureRecognizers>
-                        <StackLayout
-                            Padding="5,0,5,0"
-                            
-                            Orientation="Vertical"
-                            >
+                        <StackLayout Padding="5,0,5,0" Orientation="Vertical">
                             <Grid ColumnSpacing="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -96,8 +92,8 @@
                                 <Label
                                     Grid.Row="2"
                                     Grid.Column="0"
-                                    FontSize="Small"
                                     FontAttributes="Bold"
+                                    FontSize="Small"
                                     Text="Tipo"
                                     TextColor="{AppThemeBinding Light=Black,
                                                                 Dark=White}" />
