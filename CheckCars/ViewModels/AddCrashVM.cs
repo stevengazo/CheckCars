@@ -117,11 +117,11 @@ namespace CheckCars.ViewModels
 
                 if (answer && valid)
                 {
-                    newCrashReport.Author = "Temporal";
+                   // newCrashReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
 
-                        newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
+                      //  newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
                         newCrashReport.CarPlate = newCrashReport.CarPlate.Split(' ').First();
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newCrashReport.Photos = ImgList.Select(photo =>

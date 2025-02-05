@@ -59,7 +59,7 @@ namespace CheckCars.ViewModels
         public ICommand IDeleteReport { get; }
         public ICommand IShareImage { get; }
         public ICommand ISendServerReport { get; }
-       
+
         private bool _SendingDataCheck;
         public bool SendingDataCheck
         {
@@ -109,33 +109,32 @@ namespace CheckCars.ViewModels
             try
             {
                 SendingDataCheck = true;
-                if (Data.StaticData.UseAPI)
+
+                if (!Report.isUploaded && !SendingData)
                 {
-                    if (!Report.isUploaded && !SendingData)
+                    TimeSpan tp = new TimeSpan();
+                    tp = TimeSpan.FromSeconds(100);
+                    var result = false;
+                    if (Report.Photos.Count > 0)
                     {
-                        TimeSpan tp = new TimeSpan();
-                        tp = TimeSpan.FromSeconds(100);
-                        var result = false;
-                        if (Report.Photos.Count > 0)
-                        {
-                            var photos = Report.Photos.Select(e => e.FilePath).ToList();
-                            result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/form", Report, photos, tp);
-                        }
-                        else
-                        {
-                            result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/json", Report, tp);
-                        }
-                        if (result)
-                        {
-                            UpdateReport(true);
-                            Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
-                        }
-                        else
-                        {
-                            Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos", "Ok");
-                        }
+                        var photos = Report.Photos.Select(e => e.FilePath).ToList();
+                        result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/form", Report, photos, tp);
+                    }
+                    else
+                    {
+                        result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/json", Report, tp);
+                    }
+                    if (result)
+                    {
+                        UpdateReport(true);
+                        Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
+                    }
+                    else
+                    {
+                        Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos", "Ok");
                     }
                 }
+
                 else if (Report.isUploaded && !SendingData)
                 {
                     Application.Current.MainPage.DisplayAlert("Información", "Este reporte ya fue enviado", "Ok");

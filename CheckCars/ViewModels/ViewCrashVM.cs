@@ -151,30 +151,23 @@ namespace CheckCars.ViewModels
             try
             {
                 SendingDataF = true;
-                if (Data.StaticData.UseAPI)
-                {
-                    TimeSpan time = TimeSpan.FromSeconds(30);
-                    bool result;
-                    if (Report.Photos.Count > 0)
-                    {
-                        List<string> paths = Report.Photos.Select(e => e.FilePath).ToList();
-                        result = await _apiService.PostAsync("api/CrashReports/form", Report, paths, time);
-                    }
-                    else
-                    {
-                        result = await _apiService.PostAsync("api/CrashReports/json", Report, time);
-                    }
-                    if (result)
-                    {
-                        Application.Current?.MainPage.DisplayAlert("Información", "Reporte enviado correctamente", "Ok");
-                        await UpdateReport(result);
-                    }
-                }
-                else if (!Data.StaticData.UseAPI)
-                {
-                    Application.Current?.MainPage.DisplayAlert("Error", "No se ha configurado el envío de datos", "Ok");
-                }
 
+                TimeSpan time = TimeSpan.FromSeconds(30);
+                bool result;
+                if (Report.Photos.Count > 0)
+                {
+                    List<string> paths = Report.Photos.Select(e => e.FilePath).ToList();
+                    result = await _apiService.PostAsync("api/CrashReports/form", Report, paths, time);
+                }
+                else
+                {
+                    result = await _apiService.PostAsync("api/CrashReports/json", Report, time);
+                }
+                if (result)
+                {
+                    Application.Current?.MainPage.DisplayAlert("Información", "Reporte enviado correctamente", "Ok");
+                    await UpdateReport(result);
+                }
             }
             catch (Exception e)
             {

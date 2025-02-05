@@ -28,8 +28,8 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Keyboard="Text"
+                    Placeholder="Nombre de Usuario"
                     Text="{Binding LocalUser.UserName, Mode=TwoWay}"
-                   Placeholder="Nombre de Usuario"
                     VerticalOptions="Center"
                     WidthRequest="200" />
 
@@ -98,16 +98,7 @@
                 ColumnSpacing="5"
                 RowDefinitions="auto,auto,auto"
                 RowSpacing="2">
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontSize="13"
-                    Text="Modo Sin Conexión"
-                    VerticalTextAlignment="Center" />
-                <Switch
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    IsToggled="{Binding UseAPI}" />
+
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"

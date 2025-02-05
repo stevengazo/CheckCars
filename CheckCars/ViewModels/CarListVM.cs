@@ -141,7 +141,7 @@ namespace CheckCars.ViewModels
             try
             {
                 IsLoading = true;
-                var CarFromServer = await _apiService.GetAsync<List<CarModel>>("api/Cars", TimeSpan.FromSeconds(10));
+                var CarFromServer = await _apiService.GetAsync<List<CarModel>>("api/Cars", TimeSpan.FromSeconds(15));
                 if(CarFromServer == null)
                 {
                     throw new NullReferenceException("No fue posible obtener vehículos desde el servidor");

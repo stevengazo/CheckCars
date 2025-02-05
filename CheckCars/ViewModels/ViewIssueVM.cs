@@ -143,27 +143,24 @@ namespace CheckCars.ViewModels
             try
             {
                 SendingData = true;
-                if(Data.StaticData.UseAPI)
-                {
-                    var result = false;
-                    if(Report.Photos.Count>0)
-                    {
-                        var photosPaths = Report.Photos.Select(e=> e.FilePath).ToList();
-                        result = await _apiService.PostAsync<IssueReport>("api/IssueReports/form", Report,photosPaths, TimeSpan.FromSeconds(10));
-                    }
-                    else
-                    {
-                        result = await _apiService.PostAsync<IssueReport>("api/IssueReports/json", Report, TimeSpan.FromSeconds(5)); 
-                    }
-                    if (result)
-                    {
-                        Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
-                    }
-                    else
-                    {
-                        Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos\nIntentelo más tarde", "Ok");
-                    }
 
+                var result = false;
+                if (Report.Photos.Count > 0)
+                {
+                    var photosPaths = Report.Photos.Select(e => e.FilePath).ToList();
+                    result = await _apiService.PostAsync<IssueReport>("api/IssueReports/form", Report, photosPaths, TimeSpan.FromSeconds(10));
+                }
+                else
+                {
+                    result = await _apiService.PostAsync<IssueReport>("api/IssueReports/json", Report, TimeSpan.FromSeconds(5));
+                }
+                if (result)
+                {
+                    Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
+                }
+                else
+                {
+                    Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos\nIntentelo más tarde", "Ok");
                 }
             }
             catch (Exception ex)

@@ -21,7 +21,7 @@ public static class StaticData
     // Métodos para URL
     public static string URL
     {
-        get => Preferences.Get(URLKey, "http://mecsacars.digitops.co.cr"); // Valor predeterminado
+        get => Preferences.Get(URLKey, "https://mecsacars.stevengazo.co.cr/"); // Valor predeterminado
         set => Preferences.Set(URLKey, value);
     }
 
@@ -33,7 +33,7 @@ public static class StaticData
     }
 
     // Métodos para UseAPI
-    public static bool UseAPI
+    public static bool UseA
     {
         get => Preferences.Get(UseAPIKey, true); // Valor predeterminado: true
         set => Preferences.Set(UseAPIKey, value);

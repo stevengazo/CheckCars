@@ -185,7 +185,7 @@ namespace CheckCars.ViewModels
                     {
 
                         Report.Created = DateTime.Now;
-                        Report.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
+                        //Report.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
                         Report.CarPlate = Report.CarPlate.Split(' ').First();
 
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos

@@ -12,7 +12,7 @@ namespace CheckCars.ViewModels
         {
             StaticData.User = new UserProfile();
             var name = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
-            UseAPI = StaticData.UseAPI;
+           
             LocalUser.UserName = name;
             URL = StaticData.URL;
             Port = StaticData.Port;
@@ -50,22 +50,7 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Properties
-        private bool _UseAPI;
-
-        public bool UseAPI
-        {
-            get { return _UseAPI; }
-            set
-            {
-                if (_UseAPI != value)
-                {
-                    _UseAPI = value;
-                    StaticData.UseAPI = value;
-                    OnPropertyChanged(nameof(UseAPI));
-                }
-            }
-        }
-
+    
 
 
         private string _url;
@@ -77,8 +62,10 @@ namespace CheckCars.ViewModels
             {
                 if (_url != value)
                 {
-                    _url = value;
-                    StaticData.URL = value;
+
+                    _url = value.TrimEnd('/');
+                    
+                            StaticData.URL = value;
                     OnPropertyChanged(nameof(URL));
                 }
             }
