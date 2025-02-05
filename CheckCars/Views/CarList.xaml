@@ -11,7 +11,10 @@
     <ContentPage.BindingContext>
         <ViewModels:CarListVM />
     </ContentPage.BindingContext>
-    <Grid RowDefinitions="auto,auto" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+    <Grid
+        HorizontalOptions="FillAndExpand"
+        RowDefinitions="auto,auto"
+        VerticalOptions="FillAndExpand">
         <Grid
             Padding="2"
             HorizontalOptions="FillAndExpand"
@@ -54,14 +57,12 @@
                     Grid.Column="0"
                     HorizontalTextAlignment="Center"
                     Text="Adquisición"
-                  
                     VerticalTextAlignment="Center" />
                 <DatePicker
                     Grid.Row="1"
                     Grid.Column="1"
-                  HorizontalOptions="Center"
                     Date="{Binding Car.AdquisitionDate, Mode=TwoWay}"
-                    />
+                    HorizontalOptions="Center" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
@@ -71,8 +72,8 @@
                 <Entry
                     Grid.Row="2"
                     Grid.Column="1"
-                    Placeholder="Modelo"
                     HorizontalTextAlignment="Center"
+                    Placeholder="Modelo"
                     Text="{Binding CarModel, Mode=TwoWay}"
                     VerticalTextAlignment="Center" />
                 <Label
@@ -84,8 +85,8 @@
                 <Entry
                     Grid.Row="3"
                     Grid.Column="1"
-                    Placeholder=" EEEE-888"
                     HorizontalTextAlignment="Center"
+                    Placeholder=" EEEE-888"
                     Text="{Binding CarPlate, Mode=TwoWay}"
                     VerticalTextAlignment="Center" />
                 <Button
@@ -98,13 +99,16 @@
                     Text="Guardar"
                     WidthRequest="120" />
             </Grid>
-            <ScrollView Grid.Row="1" VerticalOptions="Start">
+
+            <ScrollView Grid.Row="6" HeightRequest="500">
                 <CollectionView
                     Margin="10,5"
                     HorizontalOptions="FillAndExpand"
                     ItemsSource="{Binding Cars}"
                     VerticalOptions="Start">
                     <CollectionView.ItemTemplate>
+
+
                         <DataTemplate x:DataType="Models:CarModel">
                             <Frame
                                 Margin="10"
@@ -114,11 +118,14 @@
                                 CornerRadius="10"
                                 HasShadow="True"
                                 HeightRequest="50">
+
                                 <Grid Padding="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1.5*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
+
+                                    <!--  Contenedor de etiquetas (Marca, Modelo, Matrícula)  -->
                                     <HorizontalStackLayout
                                         Grid.Column="0"
                                         Margin="5,0,0,0"
@@ -129,15 +136,20 @@
                                             Text="{Binding Brand}"
                                             TextColor="Black"
                                             VerticalTextAlignment="Center" />
-                                        <Label
+                                        <VerticalStackLayout>
+                                            <Label
                                             Text="{Binding Model}"
                                             TextColor="Black"
                                             VerticalTextAlignment="Center" />
-                                        <Label
+                                            <Label
                                             Text="{Binding Plate}"
                                             TextColor="Black"
                                             VerticalTextAlignment="Center" />
+                                        </VerticalStackLayout>
+
                                     </HorizontalStackLayout>
+
+                                    <!--  Botón de eliminar  -->
                                     <ImageButton
                                         Grid.Column="1"
                                         Padding="5"
@@ -153,12 +165,20 @@
                                         WidthRequest="25" />
                                 </Grid>
                             </Frame>
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </ScrollView>
+
+
+
         </Grid>
-        <Controls:LoaderModal HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="{Binding IsLoading}" Message="Obteniendo Datos" />
+        <Controls:LoaderModal
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding IsLoading}"
+            Message="Obteniendo Datos"
+            VerticalOptions="FillAndExpand" />
     </Grid>
 
 </ContentPage>
