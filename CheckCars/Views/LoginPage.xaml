@@ -14,6 +14,23 @@
              HorizontalOptions="Center"
              VerticalOptions="Center"
              Spacing="10">
+        <!-- Servidor -->
+        <Label Text="Servidor" 
+            VerticalTextAlignment="Center" 
+            HorizontalTextAlignment="Center"
+            FontSize="Subtitle"  
+            HorizontalOptions="Center" 
+            WidthRequest="200" />
+
+        <!-- Servidor -->
+        <Entry 
+            Placeholder="www.ejemplo.com" 
+            VerticalTextAlignment="Center" 
+            HorizontalTextAlignment="Center"
+            FontSize="Header"
+            Text="{Binding Server}"
+            HorizontalOptions="Center" 
+            WidthRequest="200"  />
         <!-- Label de Usuario -->
         <Label Text="Usuario" 
             VerticalTextAlignment="Center" 
@@ -27,7 +44,9 @@
             Placeholder="Ingresa tu usuario" 
             VerticalTextAlignment="Center" 
             HorizontalTextAlignment="Center"
-            FontSize="Header"
+            Text="{Binding UserName}"
+        
+               FontSize="Header"
             HorizontalOptions="Center" 
             WidthRequest="200"  />
 
@@ -44,6 +63,8 @@
            Placeholder="Ingresa tu contraseña" 
            IsPassword="True"  
             WidthRequest="200"
+                   Text="{Binding Password}"
+        
                HorizontalTextAlignment="Center"
            HorizontalOptions="Center" />
 

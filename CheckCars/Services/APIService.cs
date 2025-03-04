@@ -72,6 +72,8 @@ namespace CheckCars.Services
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(endpoint, content, cts?.Token ?? CancellationToken.None);
+                var conten1t = response.Content;
+                var x = await conten1t.ReadAsStringAsync();
                 switch (response.StatusCode)
                 {
                     case System.Net.HttpStatusCode.RequestTimeout:
@@ -84,14 +86,12 @@ namespace CheckCars.Services
                     default:
                         break;
                 }
-
                 return response.IsSuccessStatusCode;
             }
             catch (Exception r)
             {
                 return false;
             }
-
         }
         public async Task<bool> PostAsync<T>(string endpoint, T data, List<string> files = null, TimeSpan? timeout = null)
         {
