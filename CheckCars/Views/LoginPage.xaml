@@ -1,78 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CheckCars.Views.LoginPage"
-             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-             xmlns:Models="clr-namespace:CheckCars.Models"
-             >
+<ContentPage
+    x:Class="CheckCars.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:CheckCars.Models"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels">
     <ContentPage.BindingContext>
-        <ViewModels:LoginPageVM/>
+        <ViewModels:LoginPageVM />
     </ContentPage.BindingContext>
     <StackLayout
-        Padding="10" 
+        Padding="10"
         BackgroundColor="WhiteSmoke"
-             HorizontalOptions="Center"
-             VerticalOptions="Center"
-             Spacing="10">
-        <!-- Servidor -->
-        <Label Text="Servidor" 
-            VerticalTextAlignment="Center" 
-            HorizontalTextAlignment="Center"
-            FontSize="Subtitle"  
-            HorizontalOptions="Center" 
-            WidthRequest="200" />
-
-        <!-- Servidor -->
-        <Entry 
-            Placeholder="www.ejemplo.com" 
-            VerticalTextAlignment="Center" 
-            HorizontalTextAlignment="Center"
-            FontSize="Header"
-            Text="{Binding Server}"
-            HorizontalOptions="Center" 
-            WidthRequest="200"  />
-        <!-- Label de Usuario -->
-        <Label Text="Usuario" 
-            VerticalTextAlignment="Center" 
-            HorizontalTextAlignment="Center"
+        HorizontalOptions="Center"
+        Spacing="10"
+        VerticalOptions="Center">
+        <!--  Servidor  -->
+        <Label
             FontSize="Subtitle"
-            HorizontalOptions="Center" 
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Servidor"
+            VerticalTextAlignment="Center"
             WidthRequest="200" />
 
-        <!-- Entrada de Usuario -->
-        <Entry x:Name="UsernameEntry" 
-            Placeholder="Ingresa tu usuario" 
-            VerticalTextAlignment="Center" 
+        <!--  Servidor  -->
+        <Entry
+            FontSize="Header"
+            HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
+            Placeholder="www.ejemplo.com"
+            Text="{Binding Server}"
+            VerticalTextAlignment="Center"
+            WidthRequest="200" />
+        <!--  Label de Usuario  -->
+        <Label
+            FontSize="Subtitle"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Usuario"
+            VerticalTextAlignment="Center"
+            WidthRequest="200" />
+
+        <!--  Entrada de Usuario  -->
+        <Entry
+            x:Name="UsernameEntry"
+            FontSize="Header"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Placeholder="Ingresa tu usuario"
             Text="{Binding UserName}"
-        
-               FontSize="Header"
-            HorizontalOptions="Center" 
-            WidthRequest="200"  />
+            VerticalTextAlignment="Center"
+            WidthRequest="200" />
 
-        <!-- Label de Contraseña -->
-        <Label Text="Contraseña" 
-                VerticalTextAlignment="Center" 
-                HorizontalTextAlignment="Center"
-                FontSize="Subtitle"
-                HorizontalOptions="Center" 
-                WidthRequest="200"  />
+        <!--  Label de Contraseña  -->
+        <Label
+            FontSize="Subtitle"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Contraseña"
+            VerticalTextAlignment="Center"
+            WidthRequest="200" />
 
-        <!-- Entrada de Contraseña -->
-        <Entry x:Name="PasswordEntry" 
-           Placeholder="Ingresa tu contraseña" 
-           IsPassword="True"  
-            WidthRequest="200"
-                   Text="{Binding Password}"
-        
-               HorizontalTextAlignment="Center"
-           HorizontalOptions="Center" />
+        <!--  Entrada de Contraseña  -->
+        <Entry
+            x:Name="PasswordEntry"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            IsPassword="True"
+            Placeholder="Ingresa tu contraseña"
+            Text="{Binding Password}"
+            WidthRequest="200" />
 
-        <!-- Botón de Iniciar sesión -->
-        <Button Text="Iniciar sesión" 
-            Command="{Binding Login}" 
-            WidthRequest="120"
-            HorizontalOptions="Center" />
+        <!--  Botón de Iniciar sesión  -->
+        <Button
+            Command="{Binding Login}"
+            HorizontalOptions="Center"
+            Text="Iniciar sesión"
+            WidthRequest="120" />
     </StackLayout>
 
 </ContentPage>

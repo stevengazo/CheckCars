@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Windows.Input;
 using CheckCars.Services;
 using CommunityToolkit.Maui;
@@ -16,7 +17,6 @@ namespace CheckCars.ViewModels
         private string _UserName;
         private string _Password;
         private string _Server;
-
         public string UserName
         {
             get { return _UserName; }
@@ -29,7 +29,6 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         public string Password
         {
             get { return _Password; }
@@ -61,10 +60,14 @@ namespace CheckCars.ViewModels
         public LoginPageVM()
         {
                 Login = new Command(async () => await SignInAsync());
+                LoadToken();
         }
 
+        #region Commands
         public ICommand Login { get; set; }
+        #endregion
 
+        #region Methods
         public async Task SignInAsync()
         {
             try
@@ -78,11 +81,14 @@ namespace CheckCars.ViewModels
                 dynamic jSonData = JsonConvert.DeserializeObject(respon.response);
 
                 // Access the "token" property directly
-                var token = jSonData.token;
+                string token = jSonData.token;
+
 
 
                 if (respon.sucess)
                 {
+                    
+                    await SecureStorage.SetAsync("token", token);
                     Application.Current.MainPage = new AppShell();
                 }
                 else
@@ -140,11 +146,47 @@ namespace CheckCars.ViewModels
             }
         }
 
+        private async Task LoadToken()
+        {
+          var token = await SecureStorage.GetAsync("token");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                var isTokenValid = IsTokenValid(token);
+                if (isTokenValid)
+                {
+                    Application.Current.MainPage = new AppShell();
+                } 
+            } 
+        }
+
+        private bool IsTokenValid(string token)
+        {
+            try
+            {
+                var jwtHandler = new JwtSecurityTokenHandler();
+                var jwtToken = jwtHandler.ReadToken(token) as JwtSecurityToken;
+
+                if (jwtToken != null)
+                {
+                    var expiration = jwtToken.ValidTo;
+                    return expiration > DateTime.UtcNow;
+                }
+            }
+            catch (Exception)
+            {
+                // Si ocurre un error al procesar el token, lo tratamos como inválido
+                return false;
+            }
+
+            return false;
+        }
 
         public class DataSignIn
         {
             public string email { get; set; }
             public string password { get; set; }
         }
+        #endregion
     }
 }
