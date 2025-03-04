@@ -1,4 +1,6 @@
-﻿namespace CheckCars
+﻿using CheckCars.Views;
+
+namespace CheckCars
 {
     public partial class App : Application
     {
@@ -7,9 +9,9 @@
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            //MainPage = new AppShell();
 
-            // MainPage =   new LoginPage();
+             MainPage =   new LoginPage();
         }
     }
 }
