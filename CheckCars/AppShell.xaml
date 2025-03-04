@@ -3,6 +3,7 @@
     x:Class="CheckCars.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:VM="clr-namespace:CheckCars.ViewModels"
     xmlns:Views="clr-namespace:CheckCars.Views"
     xmlns:local="clr-namespace:CheckCars"
     Title="CheckCars"
@@ -13,6 +14,11 @@
     Shell.TabBarIsVisible="False"
     TitleColor="{AppThemeBinding Light=Black,
                                  Dark=White}">
+
+    <Shell.BindingContext>
+        <VM:AppShellVM />
+    </Shell.BindingContext>
+
     <Shell.FlyoutHeader>
         <Image
             HorizontalOptions="Center"
@@ -37,7 +43,8 @@
     <Shell.FlyoutFooter>
         <Button
             CornerRadius="0"
-            IsVisible="False"
+            IsVisible="True"
+            Command="{Binding CerrarSesionCommand}"
             Text="Cerrar Sesion" />
     </Shell.FlyoutFooter>
 </Shell>
