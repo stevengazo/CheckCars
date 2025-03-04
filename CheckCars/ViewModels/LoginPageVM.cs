@@ -1,6 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Windows.Input;
+using CheckCars.Data;
+using CheckCars.Models;
 using CheckCars.Services;
 using CommunityToolkit.Maui;
 using Newtonsoft.Json;
@@ -100,6 +102,10 @@ namespace CheckCars.ViewModels
         {
                 Login = new Command(async () => await SignInAsync());
                 LoadToken();
+                if (!string.IsNullOrEmpty(StaticData.URL))
+                {
+                Server = StaticData.URL;
+                }
         }
 
         #region Commands
@@ -123,12 +129,14 @@ namespace CheckCars.ViewModels
                 // Access the "token" property directly
                 string token = jSonData.token;
 
-
-
                 if (respon.sucess)
                 {
                     IsErrorVisible = false;
-                    SecureStorage.Remove("token");  
+                    SecureStorage.Remove("token");
+
+                    StaticData.User = new UserProfile();
+                    Preferences.Set(nameof(UserProfile.UserName), UserName );
+                    StaticData.User.UserName= UserName;
                     await SecureStorage.SetAsync("token", token);
                     Application.Current.MainPage = new AppShell();
                 }
