@@ -100,12 +100,12 @@ namespace CheckCars.ViewModels
 
         public LoginPageVM()
         {
-                Login = new Command(async () => await SignInAsync());
-                LoadToken();
-                if (!string.IsNullOrEmpty(StaticData.URL))
-                {
+            Login = new Command(async () => await SignInAsync());
+            LoadToken();
+            if (!string.IsNullOrEmpty(StaticData.URL))
+            {
                 Server = StaticData.URL;
-                }
+            }
         }
 
         #region Commands
@@ -117,11 +117,18 @@ namespace CheckCars.ViewModels
         {
             try
             {
-                IsBusy = true;
-                var data = new  DataSignIn{ email = UserName, password = Password };
-               ValidateAndAssignServerUrl();
+                var isConected = EstaConectado();
+                if (!isConected)
+                {
+                    throw new HttpRequestException("No hay conexión a internet");
+                }
 
-                (bool sucess, string response) respon =  await _apiService.PostAsync<DataSignIn>("api/Account/login", data  );
+
+                IsBusy = true;
+                var data = new DataSignIn { email = UserName, password = Password };
+                ValidateAndAssignServerUrl();
+
+                (bool sucess, string response) respon = await _apiService.PostAsync<DataSignIn>("api/Account/login", data);
 
                 // Deserialize the response to a dynamic object
                 dynamic jSonData = JsonConvert.DeserializeObject(respon.response);
@@ -135,22 +142,22 @@ namespace CheckCars.ViewModels
                     SecureStorage.Remove("token");
 
                     StaticData.User = new UserProfile();
-                    Preferences.Set(nameof(UserProfile.UserName), UserName );
-                    StaticData.User.UserName= UserName;
+                    Preferences.Set(nameof(UserProfile.UserName), UserName);
+                    StaticData.User.UserName = UserName;
                     await SecureStorage.SetAsync("token", token);
                     Application.Current.MainPage = new AppShell();
                 }
                 else
                 {
-                    IsErrorVisible = true;  
+                    IsErrorVisible = true;
                     ErrorMessage = "Usuario o contraseña incorrectos";
-                //    Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos", "Aceptar");  
-                }         
+                    //    Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos", "Aceptar");  
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw;
+                Application.Current.MainPage.DisplayAlert("Error", e.Message, "Aceptar");
             }
             finally
             {
@@ -172,8 +179,8 @@ namespace CheckCars.ViewModels
                 {
                     // Asignar URL y puerto de la URI
                     url = serverUri.Host; // Esto toma la parte del dominio o IP
-                  
-                    
+
+
                 }
                 else
                 {
@@ -204,7 +211,7 @@ namespace CheckCars.ViewModels
 
         private async Task LoadToken()
         {
-          var token = await SecureStorage.GetAsync("token");
+            var token = await SecureStorage.GetAsync("token");
 
             if (!string.IsNullOrEmpty(token))
             {
@@ -212,8 +219,8 @@ namespace CheckCars.ViewModels
                 if (isTokenValid)
                 {
                     Application.Current.MainPage = new AppShell();
-                } 
-            } 
+                }
+            }
         }
 
         private bool IsTokenValid(string token)
@@ -238,6 +245,10 @@ namespace CheckCars.ViewModels
             return false;
         }
 
+        public bool EstaConectado()
+        {
+            return Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+        }
         public class DataSignIn
         {
             public string email { get; set; }
