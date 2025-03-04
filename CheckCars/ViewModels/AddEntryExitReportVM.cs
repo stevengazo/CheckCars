@@ -178,8 +178,9 @@ namespace CheckCars.ViewModels
                 );
 
                 var valid = await ValidateDataAsync();
+                var validPhotos = ImgList.Count > 0;
 
-                if (answer && valid)
+                if (answer && valid && validPhotos)
                 {
                     using (var db = new ReportsDBContextSQLite())
                     {
@@ -201,9 +202,12 @@ namespace CheckCars.ViewModels
                         CloseAsync();
                     }
                 }
-                else
+                else if (!validPhotos)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Verifique los datos", "ok");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Añada Imágenes del Vehículo.", "Ok");
+                }
+                else {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Verifique los Datos, faltan realizar algunas verificaciones.", "Ok");
                 }
             }
             catch (Exception rf)

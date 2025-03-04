@@ -60,14 +60,14 @@
                     Grid.Column="0"
                     FontSize="13"
                     HorizontalTextAlignment="Start"
-                    Text="Borrar los Reportes existentes"
+                    Text="Borrar Reportes existentes"
                     VerticalTextAlignment="Center" />
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
                     FontSize="13"
                     HorizontalTextAlignment="Start"
-                    Text="Borrar los PDF existentes"
+                    Text="Borrar PDFs existentes"
                     VerticalTextAlignment="Center" />
                 <Button
                     Grid.Row="0"

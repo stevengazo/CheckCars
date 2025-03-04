@@ -42,9 +42,9 @@
     </FlyoutItem>
     <Shell.FlyoutFooter>
         <Button
+            Command="{Binding CerrarSesionCommand}"
             CornerRadius="0"
             IsVisible="True"
-            Command="{Binding CerrarSesionCommand}"
             Text="Cerrar Sesion" />
     </Shell.FlyoutFooter>
 </Shell>

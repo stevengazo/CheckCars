@@ -8,12 +8,17 @@
     <ContentPage.BindingContext>
         <ViewModels:LoginPageVM />
     </ContentPage.BindingContext>
+
+
+
     <StackLayout
         Padding="10"
         BackgroundColor="WhiteSmoke"
         HorizontalOptions="Center"
         Spacing="10"
         VerticalOptions="Center">
+        <Image Source="appiconfg.png" />
+
         <!--  Servidor  -->
         <Label
             FontSize="Subtitle"
