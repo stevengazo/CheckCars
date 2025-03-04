@@ -220,6 +220,11 @@ namespace CheckCars.ViewModels
                 {
                     Application.Current.MainPage = new AppShell();
                 }
+                else
+                {
+                    ErrorMessage = "Sesión expirada, vuelva a iniciar sesión";
+                    IsErrorVisible = true;
+                }
             }
         }
 
