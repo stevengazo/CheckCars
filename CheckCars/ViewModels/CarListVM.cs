@@ -25,7 +25,7 @@ namespace CheckCars.ViewModels
 
             using (var db = new ReportsDBContextSQLite())
             {
-                var d = db.Cars.ToList();
+                var d = db.Cars.OrderBy(e=>e.Brand).OrderBy(e=>e.Model).ToList();
                 d.ForEach(car => { Cars.Add(car); });
             }
         }

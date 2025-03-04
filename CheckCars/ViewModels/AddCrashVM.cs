@@ -175,6 +175,7 @@ namespace CheckCars.ViewModels
             using (var db = new ReportsDBContextSQLite())
             {
                 return (from C in db.Cars
+                        orderby C.Plate ascending
                         select $"{C.Plate} {C.Model}"
                             ).ToArray();
             }

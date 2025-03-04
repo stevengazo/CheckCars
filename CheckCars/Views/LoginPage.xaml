@@ -8,80 +8,101 @@
     <ContentPage.BindingContext>
         <ViewModels:LoginPageVM />
     </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <StackLayout Margin="5" Padding="5">
+            <Image Source="checkcar.png" WidthRequest="100" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalOptions="Center"
+                Text="CheckCars"
+                TextColor="Black" />
+            <Label
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Text="Inicio de Sesión"
+                TextColor="Black" />
+        </StackLayout>
 
-
-
-    <StackLayout
-        Padding="10"
-        BackgroundColor="WhiteSmoke"
-        HorizontalOptions="Center"
-        Spacing="10"
-        VerticalOptions="Center">
-        <Image Source="appiconfg.png" />
-
-        <!--  Servidor  -->
-        <Label
-            FontSize="Subtitle"
+        <StackLayout
+            Padding="20"
+            BackgroundColor="WhiteSmoke"
             HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="Servidor"
-            VerticalTextAlignment="Center"
-            WidthRequest="200" />
+            Spacing="15"
+            VerticalOptions="Center">
 
-        <!--  Servidor  -->
-        <Entry
-            FontSize="Header"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Placeholder="www.ejemplo.com"
-            Text="{Binding Server}"
-            VerticalTextAlignment="Center"
-            WidthRequest="200" />
-        <!--  Label de Usuario  -->
-        <Label
-            FontSize="Subtitle"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="Usuario"
-            VerticalTextAlignment="Center"
-            WidthRequest="200" />
+            <!--  Servidor  -->
+            <Label
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Text="Servidor"
+                TextColor="Black" />
+            <Entry
+                FontSize="Medium"
+                HorizontalTextAlignment="Center"
+                Keyboard="Url"
+                Placeholder="www.ejemplo.com"
+                PlaceholderColor="Gray"
+                Text="{Binding Server}"
+                WidthRequest="250" />
 
-        <!--  Entrada de Usuario  -->
-        <Entry
-            x:Name="UsernameEntry"
-            FontSize="Header"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Placeholder="Ingresa tu usuario"
-            Text="{Binding UserName}"
-            VerticalTextAlignment="Center"
-            WidthRequest="200" />
+            <!--  Usuario  -->
+            <Label
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Text="Usuario"
+                TextColor="Black" />
+            <Entry
+                x:Name="UsernameEntry"
+                FontSize="Medium"
+                HorizontalTextAlignment="Center"
+                Keyboard="Email"
+                Placeholder="Ingresa tu usuario"
+                PlaceholderColor="Gray"
+                Text="{Binding UserName}"
+                WidthRequest="250" />
 
-        <!--  Label de Contraseña  -->
-        <Label
-            FontSize="Subtitle"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="Contraseña"
-            VerticalTextAlignment="Center"
-            WidthRequest="200" />
+            <!--  Contraseña  -->
+            <Label
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Text="Contraseña"
+                TextColor="Black" />
+            <Entry
+                x:Name="PasswordEntry"
+                FontSize="Medium"
+                HorizontalTextAlignment="Center"
+                IsPassword="True"
+                Keyboard="Text"
+                Placeholder="Ingresa tu contraseña"
+                PlaceholderColor="Gray"
+                Text="{Binding Password}"
+                WidthRequest="250" />
 
-        <!--  Entrada de Contraseña  -->
-        <Entry
-            x:Name="PasswordEntry"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            IsPassword="True"
-            Placeholder="Ingresa tu contraseña"
-            Text="{Binding Password}"
-            WidthRequest="200" />
+            <!--  Mensaje de error  -->
+            <Label
+                FontSize="Small"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsErrorVisible}"
+                Text="{Binding ErrorMessage}"
+                TextColor="Red" />
 
-        <!--  Botón de Iniciar sesión  -->
-        <Button
-            Command="{Binding Login}"
-            HorizontalOptions="Center"
-            Text="Iniciar sesión"
-            WidthRequest="120" />
-    </StackLayout>
+            <!--  Cargando  -->
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="Black" />
 
+            <!--  Botón de Iniciar sesión  -->
+            <Button
+                BackgroundColor="Black"
+                Command="{Binding Login}"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                Text="Iniciar sesión"
+                TextColor="White"
+                WidthRequest="200" />
+        </StackLayout>
+    </VerticalStackLayout>
 </ContentPage>

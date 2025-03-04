@@ -17,6 +17,9 @@ namespace CheckCars.ViewModels
         private string _UserName;
         private string _Password;
         private string _Server;
+        private string _ErrorMessage;
+        private bool _IsBusy = false;
+        private bool _IsErrorVisible = false;
         public string UserName
         {
             get { return _UserName; }
@@ -54,6 +57,42 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+        public string ErrorMessage
+        {
+            get { return _ErrorMessage; }
+            set
+            {
+                if (_ErrorMessage != value)
+                {
+                    _ErrorMessage = value;
+                    OnPropertyChanged(nameof(ErrorMessage));
+                }
+            }
+        }
+        public bool IsBusy
+        {
+            get { return _IsBusy; }
+            set
+            {
+                if (_IsBusy != value)
+                {
+                    _IsBusy = value;
+                    OnPropertyChanged(nameof(IsBusy));
+                }
+            }
+        }
+        public bool IsErrorVisible
+        {
+            get { return _IsErrorVisible; }
+            set
+            {
+                if (_IsErrorVisible != value)
+                {
+                    _IsErrorVisible = value;
+                    OnPropertyChanged(nameof(IsErrorVisible));
+                }
+            }
+        }
 
         #endregion
 
@@ -72,7 +111,8 @@ namespace CheckCars.ViewModels
         {
             try
             {
-               var data = new  DataSignIn{ email = UserName, password = Password };
+                IsBusy = true;
+                var data = new  DataSignIn{ email = UserName, password = Password };
                ValidateAndAssignServerUrl();
 
                 (bool sucess, string response) respon =  await _apiService.PostAsync<DataSignIn>("api/Account/login", data  );
@@ -87,13 +127,16 @@ namespace CheckCars.ViewModels
 
                 if (respon.sucess)
                 {
-                    
+                    IsErrorVisible = false;
+                    SecureStorage.Remove("token");  
                     await SecureStorage.SetAsync("token", token);
                     Application.Current.MainPage = new AppShell();
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos", "Aceptar");  
+                    IsErrorVisible = true;  
+                    ErrorMessage = "Usuario o contraseña incorrectos";
+                //    Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos", "Aceptar");  
                 }         
             }
             catch (Exception e)
@@ -101,7 +144,11 @@ namespace CheckCars.ViewModels
                 Console.WriteLine(e.Message);
                 throw;
             }
-       }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
 
         private async Task ValidateAndAssignServerUrl()
         {
@@ -136,6 +183,7 @@ namespace CheckCars.ViewModels
                 }
                 // Asignar los valores a las variables globales o estáticas
                 CheckCars.Data.StaticData.URL = Server;
+                CheckCars.Data.StaticData.Port = "";
             }
             catch (Exception ex)
             {

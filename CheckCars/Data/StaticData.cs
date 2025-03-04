@@ -21,7 +21,7 @@ public static class StaticData
     // Métodos para URL
     public static string URL
     {
-        get => Preferences.Get(URLKey, "https://mecsacars.stevengazo.co.cr/"); // Valor predeterminado
+        get => Preferences.Get(URLKey, ""); // Valor predeterminado
         set => Preferences.Set(URLKey, value);
     }
 

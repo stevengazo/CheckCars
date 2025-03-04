@@ -4,126 +4,132 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
-    Title="Cuenta"
+    Title="Configuración"
     x:DataType="ViewModels:AccountVM">
+
     <ContentPage.BindingContext>
         <ViewModels:AccountVM />
     </ContentPage.BindingContext>
+
     <ScrollView>
-        <StackLayout>
-            <Grid
-                Margin="3"
+        <StackLayout Padding="15" Spacing="10">
+            <!--  Sección Usuario  -->
+            <Frame
                 Padding="5"
-                ColumnDefinitions="auto,auto"
-                ColumnSpacing="5"
-                RowDefinitions="auto,auto,auto"
-                RowSpacing="2">
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Usuario"
-                    VerticalOptions="Center"
-                    WidthRequest="80" />
-                <Entry
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Keyboard="Text"
-                    Placeholder="Nombre de Usuario"
-                    Text="{Binding LocalUser.UserName, Mode=TwoWay}"
-                    VerticalOptions="Center"
-                    WidthRequest="200" />
+                BackgroundColor="#f5f5f5"
+                CornerRadius="10">
+                <Grid ColumnDefinitions="auto, *, auto" ColumnSpacing="10">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="Usuario"
+                        VerticalOptions="Center" />
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="14"
+                        HeightRequest="40"
+                        Placeholder="Nombre de Usuario"
+                        Text="{Binding LocalUser.UserName, Mode=TwoWay}" />
 
-                <Button
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Padding="0"
-                    BackgroundColor="Blue"
-                    Command="{Binding UpdateUser}"
-                    FontSize="12"
-                    HeightRequest="10"
-                    HorizontalOptions="Center"
-                    Text="Actualizar"
-                    TextColor="White"
-                    WidthRequest="120" />
-            </Grid>
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="#007AFF"
+                        Command="{Binding UpdateUser}"
+                        CornerRadius="8"
+                        FontSize="11"
+                        HorizontalOptions="Center"
+                        Text="Actualizar"
+                        TextColor="White" />
+                </Grid>
+            </Frame>
+            <!--  Sección de Borrado  -->
+            <Frame
+                Padding="10"
+                BackgroundColor="#f5f5f5"
+                CornerRadius="10">
+                <Grid
+                    ColumnDefinitions="*, auto, auto"
+                    RowDefinitions="auto,auto"
+                    RowSpacing="10">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="Borrar Reportes existentes"
+                        VerticalTextAlignment="Center" />
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        BackgroundColor="#D32F2F"
+                        Command="{Binding CleanReports}"
+                        CornerRadius="8"
+                        FontSize="Small"
+                        Text="Borrar"
+                        TextColor="White" />
 
-            <Grid
-                Margin="3"
-                Padding="5"
-                ColumnDefinitions="auto,auto"
-                ColumnSpacing="5"
-                RowDefinitions="auto,auto,auto"
-                RowSpacing="2">
-                <Label
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    FontSize="13"
-                    HorizontalTextAlignment="Start"
-                    Text="Borrar Reportes existentes"
-                    VerticalTextAlignment="Center" />
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    FontSize="13"
-                    HorizontalTextAlignment="Start"
-                    Text="Borrar PDFs existentes"
-                    VerticalTextAlignment="Center" />
-                <Button
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Padding="0"
-                    Background="Red"
-                    Command="{Binding CleanReports}"
-                    FontSize="12"
-                    HeightRequest="10"
-                    Text="Borrar Reportes"
-                    WidthRequest="120" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Padding="0"
-                    Background="Orange"
-                    Command="{Binding CleanPdfs}"
-                    FontSize="12"
-                    HeightRequest="10"
-                    Text="Borrar PDFs"
-                    WidthRequest="120" />
-            </Grid>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontSize="14"
+                        Text="Borrar PDFs existentes"
+                        VerticalTextAlignment="Center" />
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="#FF9800"
+                        Command="{Binding CleanPdfs}"
+                        CornerRadius="8"
+                        FontSize="Small"
+                        Text="Borrar"
+                        TextColor="White" />
+                </Grid>
+            </Frame>
+            <!--  Sección de Configuración del Servidor  -->
+            <Frame
+                Padding="10"
+                BackgroundColor="#f5f5f5"
+                CornerRadius="10">
+                <Grid
+                    ColumnDefinitions="auto, *"
+                    RowDefinitions="auto,auto"
+                    RowSpacing="10">
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Servidor"
+                        VerticalTextAlignment="Center" />
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="14"
+                        HeightRequest="40"
+                        Placeholder="http://8.8.8.8"
+                        Text="{Binding URL}" />
 
-            <Grid
-                Margin="3"
-                Padding="5"
-                ColumnDefinitions="auto,auto"
-                ColumnSpacing="5"
-                RowDefinitions="auto,auto,auto"
-                RowSpacing="2">
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Puerto"
+                        VerticalTextAlignment="Center" />
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontSize="14"
+                        HeightRequest="40"
+                        Placeholder="8080"
+                        Text="{Binding Port}" />
+                </Grid>
+            </Frame>
 
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    FontSize="13"
-                    Text="Servidor"
-                    VerticalTextAlignment="Center" />
-                <Entry
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Placeholder="http://8.8.8.8"
-                    Text="{Binding URL}"
-                    WidthRequest="160" />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    FontSize="13"
-                    Text="Puerto"
-                    VerticalTextAlignment="Center" />
-                <Entry
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Placeholder="8080"
-                    Text="{Binding Port}"
-                    WidthRequest="160" />
-            </Grid>
         </StackLayout>
     </ScrollView>
+
 </ContentPage>
