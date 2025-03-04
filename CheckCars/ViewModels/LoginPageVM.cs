@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using CheckCars.Services;
 using CommunityToolkit.Maui;
+using Newtonsoft.Json;
 
 namespace CheckCars.ViewModels
 {
@@ -71,9 +72,16 @@ namespace CheckCars.ViewModels
                var data = new  DataSignIn{ email = UserName, password = Password };
                ValidateAndAssignServerUrl();
 
-               bool response =  await _apiService.PostAsync<DataSignIn>("api/Account/login", data , TimeSpan.FromSeconds(15) );
-               
-                if (response)
+                (bool sucess, string response) respon =  await _apiService.PostAsync<DataSignIn>("api/Account/login", data  );
+
+                // Deserialize the response to a dynamic object
+                dynamic jSonData = JsonConvert.DeserializeObject(respon.response);
+
+                // Access the "token" property directly
+                var token = jSonData.token;
+
+
+                if (respon.sucess)
                 {
                     Application.Current.MainPage = new AppShell();
                 }
@@ -103,16 +111,8 @@ namespace CheckCars.ViewModels
                 {
                     // Asignar URL y puerto de la URI
                     url = serverUri.Host; // Esto toma la parte del dominio o IP
-                    port = serverUri.Port; // Toma el puerto si está presente
-
-                    // Si no se proporciona puerto, asignar uno predeterminado (80 por HTTP o 443 por HTTPS)
-                    if (port == -1)
-                    {
-                        if (serverUri.Scheme == Uri.UriSchemeHttps)
-                            port = 443;
-                        else
-                            port = 80;
-                    }
+                  
+                    
                 }
                 else
                 {
@@ -130,7 +130,6 @@ namespace CheckCars.ViewModels
                 }
                 // Asignar los valores a las variables globales o estáticas
                 CheckCars.Data.StaticData.URL = Server;
-                CheckCars.Data.StaticData.Port = port.ToString();
             }
             catch (Exception ex)
             {

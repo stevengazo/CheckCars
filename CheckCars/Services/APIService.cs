@@ -64,6 +64,34 @@ namespace CheckCars.Services
                 return default;
             }
         }
+        public async Task<(bool sucess, string response)> PostAsync<T>(string endpoint, T data )
+        {
+            try
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(endpoint, content, cts?.Token ?? CancellationToken.None);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                switch (response.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.RequestTimeout:
+                        Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
+                        break;
+
+                    case System.Net.HttpStatusCode.Conflict:
+                        Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
+                        break;
+                    default:
+                        break;
+                }
+                return (response.IsSuccessStatusCode, responseContent);
+            }
+            catch (Exception r)
+            {
+                return (false, r.Message);
+            }
+        }
         public async Task<bool> PostAsync<T>(string endpoint, T data, TimeSpan? timeout = null)
         {
             try
@@ -72,8 +100,6 @@ namespace CheckCars.Services
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(endpoint, content, cts?.Token ?? CancellationToken.None);
-                var conten1t = response.Content;
-                var x = await conten1t.ReadAsStringAsync();
                 switch (response.StatusCode)
                 {
                     case System.Net.HttpStatusCode.RequestTimeout:
@@ -172,5 +198,4 @@ namespace CheckCars.Services
             }
         }
     }
-
 }
