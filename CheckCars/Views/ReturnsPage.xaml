@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckCars.Views.ReturnsPage"
+             xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+             Title="Retorno de Vehículos">
+
+
+    <ContentPage.BindingContext>
+        <ViewModels:ReturnsPageVM />
+    </ContentPage.BindingContext>
+    
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Button 
+            Grid.Row="1"
+            Margin="10"
+            Padding="0"
+            BackgroundColor="Green"
+            HeightRequest="15"
+            Text="Agregar Entrega"
+            Command="{Binding ViewAddReturn}"
+            />
+    </Grid>
+    
+</ContentPage>

@@ -101,7 +101,7 @@ namespace CheckCars.ViewModels
         public LoginPageVM()
         {
             Login = new Command(async () => await SignInAsync());
-//LoadToken();
+LoadToken();
             if (!string.IsNullOrEmpty(StaticData.URL))
             {
                 Server = StaticData.URL;
@@ -211,20 +211,29 @@ namespace CheckCars.ViewModels
 
         private async Task LoadToken()
         {
-            var token = await SecureStorage.GetAsync("token");
-
-            if (!string.IsNullOrEmpty(token))
+            try
             {
-                var isTokenValid = IsTokenValid(token);
-                if (isTokenValid)
+                var token = await SecureStorage.GetAsync("token");
+
+                if (!string.IsNullOrEmpty(token))
                 {
-                    Application.Current.MainPage = new AppShell();
+                    var isTokenValid = IsTokenValid(token);
+                    if (isTokenValid)
+                    {
+                        Application.Current.MainPage = new AppShell();
+                    }
+                    else
+                    {
+                        ErrorMessage = "Sesión expirada, vuelva a iniciar sesión";
+                        IsErrorVisible = true;
+                    }
                 }
-                else
-                {
-                    ErrorMessage = "Sesión expirada, vuelva a iniciar sesión";
-                    IsErrorVisible = true;
-                }
+            }
+            catch (Exception ec)
+            {
+                Application.Current.MainPage.DisplayAlert("Info", ec.Message, "ok");
+                Console.WriteLine(ec.Message + ec.InnerException);
+                throw;
             }
         }
 

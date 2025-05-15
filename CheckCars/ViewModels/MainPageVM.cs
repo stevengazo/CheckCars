@@ -20,6 +20,9 @@ namespace CheckCars.ViewModels
         public ICommand IssuesList { get; } = new Command(async () =>
         await Application.Current.MainPage.Navigation.PushAsync(new IssuesList(), true));
 
+        public ICommand ReturnList { get; } = new Command(async () =>
+        await Application.Current.MainPage.Navigation.PushAsync(new ReturnsPage(), true));
+
         public ICommand TestCommand { get; }
 
 
