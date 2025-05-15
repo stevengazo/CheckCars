@@ -1,6 +1,7 @@
 ﻿using iText.Forms.Fields.Merging;
 using Newtonsoft.Json;
 using System.Text;
+using System.Threading;
 
 namespace CheckCars.Services
 {
@@ -8,7 +9,7 @@ namespace CheckCars.Services
     {
         #region Properties
         public string Token { get; set; }
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
         #endregion
 
         #region Constructor
@@ -20,9 +21,10 @@ namespace CheckCars.Services
 
                 if (string.IsNullOrEmpty(CheckCars.Data.StaticData.Port))
                 {
+                    var url = CheckCars.Data.StaticData.URL;
                     _httpClient = new HttpClient()
                     {
-                        BaseAddress = new Uri($"{CheckCars.Data.StaticData.URL}"),
+                        BaseAddress = new Uri($"{url}"),
                         Timeout = timeout ?? TimeSpan.FromSeconds(100) // Configuración predeterminada de tiempo de espera
                     };
                 }
@@ -37,12 +39,30 @@ namespace CheckCars.Services
             }
             catch (Exception we)
             {
-                throw;
+          //     throw;
             }
         }
         #endregion
 
-        #region Methods   
+        #region Methods  
+        
+        public async Task UpdateUrl(string url)
+        {
+            try
+            {
+                _httpClient = new HttpClient()
+                {
+                    BaseAddress = new Uri($"{url}"),
+                    Timeout = TimeSpan.FromSeconds(100) // Configuración predeterminada de tiempo de espera
+                };
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
 
         public async Task<T?> GetAsync<T>(string endpoint, TimeSpan? timeout = null)
         {

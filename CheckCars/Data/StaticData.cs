@@ -10,6 +10,14 @@ public static class StaticData
     private const string URLKey = "URL";
     private const string PortKey = "Port";
     private const string UseAPIKey = "UseAPI";
+    private const string _CarId = "";
+    
+    // Métodos para CarId
+    public static string CarId
+    {
+        get => Preferences.Get(_CarId, string.Empty);
+        set => Preferences.Set(_CarId, value);
+    }
 
     // Métodos para ReportId
     public static string ReportId

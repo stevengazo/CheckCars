@@ -2,6 +2,7 @@
 using CheckCars.Data;
 using CheckCars.Models;
 using CheckCars.Services;
+using CheckCars.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -58,7 +59,7 @@ namespace CheckCars.ViewModels
     
         private CarModel _Car = new()
         {
-            Id = Guid.NewGuid().ToString(),
+            CarId = Guid.NewGuid().ToString(),
             Model = "",
             Plate = "",
             Brand = ""
@@ -137,6 +138,16 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
+
+        public ICommand IViewIssue { get; } = new Command( async (id) =>
+        {
+            if( id is string CarId)
+            {
+                Data.StaticData.CarId = CarId;
+                await Application.Current.MainPage.Navigation.PushAsync( new ViewCar() , true);
+            }
+        } 
+        );
         #endregion
 
         #region Methods

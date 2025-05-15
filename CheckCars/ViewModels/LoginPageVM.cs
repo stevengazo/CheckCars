@@ -100,11 +100,18 @@ namespace CheckCars.ViewModels
 
         public LoginPageVM()
         {
-            Login = new Command(async () => await SignInAsync());
-LoadToken();
-            if (!string.IsNullOrEmpty(StaticData.URL))
+          try
             {
-                Server = StaticData.URL;
+                Login = new Command(async () => await SignInAsync());
+                LoadToken();
+                if (!string.IsNullOrEmpty(StaticData.URL))
+                {
+                    Server = StaticData.URL;
+                }
+            }
+            catch (Exception d)
+            {
+
             }
         }
 
@@ -117,6 +124,7 @@ LoadToken();
         {
             try
             {
+             await   _apiService.UpdateUrl(Server);
                 var isConected = EstaConectado();
                 if (!isConected)
                 {
@@ -179,8 +187,6 @@ LoadToken();
                 {
                     // Asignar URL y puerto de la URI
                     url = serverUri.Host; // Esto toma la parte del dominio o IP
-
-
                 }
                 else
                 {
@@ -233,7 +239,7 @@ LoadToken();
             {
                 Application.Current.MainPage.DisplayAlert("Info", ec.Message, "ok");
                 Console.WriteLine(ec.Message + ec.InnerException);
-                throw;
+                //throw;
             }
         }
 
