@@ -8,201 +8,156 @@
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     Title="Vehículos"
     x:DataType="ViewModels:CarListVM">
+
     <ContentPage.BindingContext>
         <ViewModels:CarListVM />
     </ContentPage.BindingContext>
-    <Grid
-        HorizontalOptions="FillAndExpand"
-        RowDefinitions="auto,auto"
-        VerticalOptions="FillAndExpand">
-        <Grid
-            Padding="2"
-            HorizontalOptions="FillAndExpand"
-            RowDefinitions="auto,auto"
-            VerticalOptions="FillAndExpand">
-            <Frame
-                Margin="5"
-                BackgroundColor="{AppThemeBinding Light=White,
-                                                  Dark=Gray}"
-                CornerRadius="10">
-                <Grid
-                    Grid.Row="0"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
+    <Grid RowDefinitions="Auto, *"
+          VerticalOptions="FillAndExpand"
+          HorizontalOptions="FillAndExpand">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+        <!-- Formulario -->
+        <Frame
+            Margin="5"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
+            CornerRadius="10"
+            Padding="10"
+            Grid.Row="0">
 
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        HorizontalTextAlignment="Center"
-                        Text="Marca"
-                        VerticalTextAlignment="Center" />
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                  VerticalOptions="FillAndExpand">
 
-                    <Entry
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalTextAlignment="Center"
-                        Placeholder="Toyota"
-                        Text="{Binding CarBrand, Mode=TwoWay}"
-                        VerticalTextAlignment="Center" />
+                <Label Text="Marca"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
 
-                    <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        HorizontalTextAlignment="Center"
-                        Text="Adquisición"
-                        VerticalTextAlignment="Center" />
+                <Entry Text="{Binding CarBrand, Mode=TwoWay}"
+                       Placeholder="Toyota"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
 
-                    <DatePicker
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Date="{Binding Car.AdquisitionDate, Mode=TwoWay}"
-                        HorizontalOptions="Center" />
+                <Label Text="Adquisición"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
 
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        HorizontalTextAlignment="Center"
-                        Text="Modelo"
-                        VerticalTextAlignment="Center" />
+                <DatePicker Date="{Binding Car.AdquisitionDate, Mode=TwoWay}"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalOptions="Center" />
 
-                    <Entry
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        HorizontalTextAlignment="Center"
-                        Placeholder="Modelo"
-                        Text="{Binding CarModel, Mode=TwoWay}"
-                        VerticalTextAlignment="Center" />
+                <Label Text="Modelo"
+                       Grid.Row="2"
+                       Grid.Column="0"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
 
-                    <Label
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        HorizontalTextAlignment="Center"
-                        Text="Placa"
-                        VerticalTextAlignment="Center" />
+                <Entry Text="{Binding CarModel, Mode=TwoWay}"
+                       Placeholder="Modelo"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
 
-                    <Entry
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        HorizontalTextAlignment="Center"
-                        Placeholder="EEEE-888"
-                        Text="{Binding CarPlate, Mode=TwoWay}"
-                        VerticalTextAlignment="Center" />
+                <Label Text="Placa"
+                       Grid.Row="3"
+                       Grid.Column="0"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
 
-                    <Button
+                <Entry Text="{Binding CarPlate, Mode=TwoWay}"
+                       Placeholder="EEEE-888"
+                       Grid.Row="3"
+                       Grid.Column="1"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
+
+                <Button Text="Guardar"
                         Grid.Row="4"
-                        Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Padding="0"
-                        BackgroundColor="Blue"
                         Command="{Binding IAddCar}"
+                        BackgroundColor="Blue"
+                        TextColor="White"
                         FontSize="Small"
                         HeightRequest="30"
-                        Text="Guardar" />
-                </Grid>
-            </Frame>
+                        Padding="0" />
+            </Grid>
+        </Frame>
 
+        <!-- Lista scrollable -->
+        <CollectionView
+            Grid.Row="1"
+            Margin="10,5"
+            ItemsSource="{Binding Cars}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand">
 
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:CarModel">
+                    <Frame
+                        Margin="2"
+                        Padding="0"
+                        BackgroundColor="WhiteSmoke"
+                        BorderColor="LightGray"
+                        CornerRadius="10"
+                        HasShadow="True"
+                        HeightRequest="50">
 
-            <ScrollView Grid.Row="6" HeightRequest="450">
-                <CollectionView
-                    Margin="10,5"
-                    HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding Cars}"
-                    VerticalOptions="Start">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="Models:CarModel">
-                            <Frame
-                                Margin="2"
-                                Padding="0"
-                                BackgroundColor="WhiteSmoke"
-                                BorderColor="LightGray"
-                                CornerRadius="10"
-                                HasShadow="True"
-                                HeightRequest="50">
-
-                                <Grid Padding="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid Grid.Column="0" Margin="5,0,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="1*" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label
-                                            Grid.Column="0"
-                                            FontAttributes="Bold"
-                                            HorizontalOptions="Center"
-                                            Text="{Binding Brand}"
-                                            TextColor="Black"
-                                            VerticalTextAlignment="Center" />
-
-                                        <Grid Grid.Column="1" VerticalOptions="Center">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-
-                                            <Label
-                                                Grid.Row="0"
-                                                Text="{Binding Model}"
-                                                TextColor="Black"
-                                                VerticalTextAlignment="Center" />
-
-                                            <Label
-                                                Grid.Row="1"
-                                                Text="{Binding Plate}"
-                                                TextColor="Black"
-                                                VerticalTextAlignment="Center" />
-                                        </Grid>
-                                    </Grid>
-
-                                    <!--  Botón de eliminar  -->
-                                    <ImageButton
-                                        Grid.Column="1"
-                                        Padding="5"
-                                        BackgroundColor="Red"
-                                        BorderColor="Red"
-                                        BorderWidth="1"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CarListVM}}, Path=IDeleteCar}"
-                                        CommandParameter="{Binding .}"
-                                        CornerRadius="5"
-                                        HeightRequest="25"
-                                        HorizontalOptions="FillAndExpand"
-                                        Source="delete.png"
-                                        WidthRequest="25" />
+                        <Grid Padding="2"
+                              ColumnDefinitions="*,Auto">
+                            <Grid Grid.Column="0"
+                                  Margin="5,0,0,0"
+                                  ColumnDefinitions="*,*">
+                                <Label Grid.Column="0"
+                                       Text="{Binding Brand}"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="Center" />
+                                <Grid Grid.Column="1"
+                                      RowDefinitions="Auto,Auto"
+                                      VerticalOptions="Center">
+                                    <Label Grid.Row="0"
+                                           Text="{Binding Model}"
+                                           TextColor="Black"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Grid.Row="1"
+                                           Text="{Binding Plate}"
+                                           TextColor="Black"
+                                           VerticalTextAlignment="Center" />
                                 </Grid>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ScrollView>
+                            </Grid>
 
+                            <ImageButton
+                                Grid.Column="1"
+                                Source="delete.png"
+                                WidthRequest="25"
+                                HeightRequest="25"
+                                BackgroundColor="Red"
+                                BorderColor="Red"
+                                BorderWidth="1"
+                                CornerRadius="5"
+                                Padding="5"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CarListVM}}, Path=IDeleteCar}"
+                                CommandParameter="{Binding .}" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-
-        </Grid>
+        <!-- Loader -->
         <Controls:LoaderModal
             HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
             IsVisible="{Binding IsLoading}"
-            Message="Obteniendo Datos"
-            VerticalOptions="FillAndExpand" />
+            Message="Obteniendo Datos" />
     </Grid>
-
 </ContentPage>

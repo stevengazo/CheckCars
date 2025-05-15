@@ -9,13 +9,9 @@ namespace CheckCars.ViewModels
 {
     public class CarListVM : INotifyPropertyChangedAbst
     {
-        private readonly APIService _apiService;
-        private bool _isLoading;
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set { _isLoading = value; OnPropertyChanged(); }
-        }
+        
+        #region Constructor
+     
         public CarListVM()
         {
             _apiService = new APIService();
@@ -30,8 +26,19 @@ namespace CheckCars.ViewModels
             }
         }
 
+        #endregion
 
         #region Properties
+
+        private readonly APIService _apiService;
+      
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set { _isLoading = value; OnPropertyChanged(); }
+        }
+       
         private ObservableCollection<CarModel> _Cars = new();
         public ObservableCollection<CarModel> Cars
         {
@@ -48,6 +55,7 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+    
         private CarModel _Car = new()
         {
             Id = Guid.NewGuid().ToString(),
@@ -67,6 +75,7 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(Car));
             }
         }
+   
         private string _CarBrand;
         public string CarBrand
         {
@@ -93,6 +102,7 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(CarModel));
             }
         }
+     
         private string _CarPlate;
         public string CarPlate
         {
@@ -106,7 +116,9 @@ namespace CheckCars.ViewModels
                 OnPropertyChanged(nameof(CarPlate));
             }
         }
+     
         #endregion
+        
         #region Commands
         public ICommand IAddCar
         {
@@ -135,7 +147,6 @@ namespace CheckCars.ViewModels
             CarPlate = string.Empty;
             Car = new();
         }
-
         private async Task RequestCars()
         {
             try
@@ -176,7 +187,6 @@ namespace CheckCars.ViewModels
                 IsLoading = false;
             }
         }
-
         private async void AddCar()
         {
             try
@@ -209,7 +219,6 @@ namespace CheckCars.ViewModels
                 throw;
             }
         }
-
         private async Task UploadCar(CarModel car)
         {
             try
@@ -230,11 +239,6 @@ namespace CheckCars.ViewModels
                 Application.Current.MainPage.DisplayAlert("Información", "Error al enviar al servidor\n Borre el vehículo e intentelo de nuevo", "OK");
             }
         }
-
-        /// <summary>
-        /// Delete an existing car 
-        /// </summary>
-        /// <param name="Car"></param>
         private void DeleteCar(CarModel Car)
         {
             if (Car == null) return; // Evitar argumentos nulos

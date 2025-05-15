@@ -131,6 +131,9 @@
     <MauiXaml Update="Views\ReturnsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\ViewCar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\ViewCrash.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
