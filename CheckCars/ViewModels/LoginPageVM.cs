@@ -101,7 +101,7 @@ namespace CheckCars.ViewModels
         public LoginPageVM()
         {
             Login = new Command(async () => await SignInAsync());
-            LoadToken();
+//LoadToken();
             if (!string.IsNullOrEmpty(StaticData.URL))
             {
                 Server = StaticData.URL;

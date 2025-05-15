@@ -67,6 +67,10 @@ namespace CheckCars.Services
                     var json = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<T>(json);
                 }
+                else if( response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Application.Current.MainPage.DisplayAlert("Información","No posee autorización","Ok");
+                }
                 return default;
             }
             catch (Exception e)
@@ -81,7 +85,7 @@ namespace CheckCars.Services
         {
             try
             {
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
                 var json = JsonConvert.SerializeObject(data);
 
                 Token = await GetJwtTokenAsync();
