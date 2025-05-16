@@ -5,72 +5,121 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Title="ViewReturn">
+    Title="Información Entrega">
 
     <ContentPage.BindingContext>
         <ViewModels:ViewReturnsVM />
     </ContentPage.BindingContext>
 
+
     <VerticalStackLayout>
+        <!--  Datos del reporte  -->
+        <Grid
+            Padding="10"
+            ColumnSpacing="10"
+            RowSpacing="6">
 
-        <!-- Datos del reporte -->
-        <Grid Padding="10" RowSpacing="6" ColumnSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <!-- Fecha -->
-            <Label 
-                Grid.Row="0" Grid.Column="0"
-                FontAttributes="Bold"
-                FontSize="Small"
-                Text="Fecha"
-                VerticalOptions="Center" />
+            <!--  Vehículo  -->
+            <Frame
+                Grid.Row="0"
+                Padding="8"
+                BorderColor="LightGray">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Vehículo" />
+                    <Label FontSize="Small" Text="{Binding Report.CarPlate}" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <Label 
-                Grid.Row="0" Grid.Column="1"
-                Margin="1"
-                FontAttributes="Italic"
-                FontSize="Small"
-                Text="{Binding Report.Created}"
-                VerticalOptions="Center" />
+            <!--  Fecha  -->
+            <Frame
+                Grid.Row="1"
+                Padding="8"
+                BorderColor="LightGray">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Fecha" />
+                    <Label FontSize="Small" Text="{Binding Report.Created}" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <!-- Vehículo -->
-            <Label 
-                Grid.Row="1" Grid.Column="0"
-                FontAttributes="Bold"
-                FontSize="Small"
-                Text="Vehículo"
-                VerticalOptions="Center" />
+            <!--  Autor  -->
+            <Frame
+                Grid.Row="2"
+                Padding="8"
+                BorderColor="LightGray">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Autor" />
+                    <Label FontSize="Small" Text="{Binding Report.Author}" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <Label 
-                Grid.Row="1" Grid.Column="1"
-                Margin="1"
-                FontAttributes="Italic"
-                FontSize="Small"
-                Text="{Binding Report.CarPlate}"
-                VerticalOptions="Center" />
+            <!--  Latitud  -->
+            <Frame
+                Grid.Row="3"
+                Padding="8"
+                BorderColor="LightGray">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Latitud" />
+                    <Label FontSize="Small" Text="{Binding Report.Latitude}" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <!-- Kilometraje -->
-            <Label 
-                Grid.Row="2" Grid.Column="0"
-                FontAttributes="Bold"
-                FontSize="Small"
-                Text="Kilometraje"
-                VerticalOptions="Center" />
+            <!--  Longitud  -->
+            <Frame
+                Grid.Row="4"
+                Padding="8"
+                BorderColor="LightGray">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Longitud" />
+                    <Label FontSize="Small" Text="{Binding Report.Longitude}" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <Label 
-                Grid.Row="2" Grid.Column="1"
-                Margin="1"
-                FontAttributes="Italic"
-                FontSize="Small"
-                Text="{Binding Report.mileage, StringFormat='{0:N0} km'}"
-                VerticalOptions="Center" />
+            <!--  Kilometraje  -->
+            <Frame
+                Grid.Row="5"
+                Padding="8"
+                BorderColor="LightGray">
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Text="Kilometraje" />
+                    <Label FontSize="Small" Text="{Binding Report.mileage, StringFormat='{0:N0} km'}" />
+                </VerticalStackLayout>
+            </Frame>
+
         </Grid>
 
-        <!-- Imágenes del reporte -->
+        <!--  Imágenes del reporte  -->
         <CollectionView
             Margin="10,15,10,5"
             HorizontalOptions="FillAndExpand"
-            VerticalOptions="Start"
-            ItemsSource="{Binding Report.Photos}">
+            ItemsSource="{Binding Report.Photos}"
+            VerticalOptions="Start">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -81,20 +130,20 @@
                                 Margin="5"
                                 Aspect="AspectFit"
                                 HorizontalOptions="CenterAndExpand"
-                                VerticalOptions="Center"
-                                Source="{Binding FilePath}" />
+                                Source="{Binding FilePath}"
+                                VerticalOptions="Center" />
 
                             <ImageButton
                                 Margin="5"
                                 Padding="6"
                                 BackgroundColor="blue"
+                                CommandParameter="{Binding FilePath}"
                                 CornerRadius="50"
                                 HeightRequest="50"
-                                WidthRequest="50"
                                 HorizontalOptions="End"
-                                VerticalOptions="End"
                                 Source="share.png"
-                                CommandParameter="{Binding FilePath}" />
+                                VerticalOptions="End"
+                                WidthRequest="50" />
                         </Grid>
                     </StackLayout>
                 </DataTemplate>
@@ -102,4 +151,9 @@
         </CollectionView>
 
     </VerticalStackLayout>
+
+
+
+
+
 </ContentPage>
