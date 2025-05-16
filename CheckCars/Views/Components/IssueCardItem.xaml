@@ -6,42 +6,42 @@
     Padding="10">
 
     <Frame
+        Padding="10"
+        BackgroundColor="White"
         BorderColor="LightGray"
         CornerRadius="8"
-        HasShadow="True"
-        BackgroundColor="White"
-        Padding="10">
+        HasShadow="True">
 
         <VerticalStackLayout Spacing="8">
             <Label
-                Text="Issue Details"
                 FontAttributes="Bold"
                 FontSize="18"
+                Text="Issue Details"
                 TextColor="#333" />
 
             <Label
+                FontSize="14"
                 Text="{Binding Details}"
-                FontSize="14"
                 TextColor="#666" />
 
             <Label
+                FontAttributes="Bold"
+                FontSize="14"
                 Text="Priority:"
-                FontAttributes="Bold"
-                FontSize="14"
                 TextColor="#333" />
             <Label
-                Text="{Binding Priority}"
                 FontSize="14"
+                Text="{Binding Priority}"
                 TextColor="#666" />
 
             <Label
-                Text="Created:"
                 FontAttributes="Bold"
                 FontSize="14"
+                Text="Created:"
                 TextColor="#333" />
             <Label
-                Text="{Binding Created}"
                 FontSize="14"
+                Text="{Binding Created}"
                 TextColor="#666" />
         </VerticalStackLayout>
     </Frame>

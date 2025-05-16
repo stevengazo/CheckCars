@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CheckCars.Views.BookingList"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:CheckCars.Models"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+    Title="BookingList">
+    <ContentPage.BindingContext>
+        <ViewModels:BookingVM />
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Label
+            HorizontalOptions="Center"
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" />
+        <Frame Background="LightGray" Margin="5" Padding="0 ">
+            <cal:Calendar Events="{Binding Events}" EventsScrollViewVisible="True" SelectedDayBackgroundColor="Red"
+                  CalendarLayout="Month">
+                <cal:Calendar.EventTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" Padding="20">
+
+                            <!-- Título principal -->
+                            <Label Text="{Binding Reason}" FontSize="25" FontAttributes="Bold" />
+
+                            <!-- Fila: Car ID -->
+                            <HorizontalStackLayout>
+                                <Label Text="Car ID:" FontAttributes="Bold" WidthRequest="100"/>
+                                <Label Text="{Binding CarId}" />
+                            </HorizontalStackLayout>
+
+                            <!-- Fila: Fecha Reserva -->
+                            <HorizontalStackLayout>
+                                <Label Text="Fecha Reserva:" FontAttributes="Bold" WidthRequest="100"/>
+                                <Label Text="{Binding Startdate}" />
+                            </HorizontalStackLayout>
+
+                            <!-- Fila: End Date -->
+                            <HorizontalStackLayout>
+                                <Label Text="End Date:" FontAttributes="Bold" WidthRequest="100"/>
+                                <Label Text="{Binding EndDate}" />
+                            </HorizontalStackLayout>
+
+                            <!-- Fila: Status -->
+                            <HorizontalStackLayout>
+                                <Label Text="Status:" FontAttributes="Bold" WidthRequest="100"/>
+                                <Label Text="{Binding Status}" />
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+
+
+                    </DataTemplate>
+                </cal:Calendar.EventTemplate>
+            </cal:Calendar>
+        </Frame>
+        <Button Text="Agregar Reserva" Background="Blue" WidthRequest="250" />
+
+
+    </VerticalStackLayout>
+</ContentPage>

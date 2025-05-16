@@ -111,6 +111,7 @@ namespace CheckCars.ViewModels
                 {
                     foreach (var i in info)
                     {
+                        i.Photos = await GetPhotos(i.ReportId);
                         ExistsReports.Add(i);
                     }
                 }
@@ -120,6 +121,7 @@ namespace CheckCars.ViewModels
                if(dV != null)
                 {
                     foreach(var i in dV){
+                        i.Photos = await GetPhotos(i.ReportId);
                         ExistsReports.Add(i);
                     }
                 }                
@@ -144,6 +146,7 @@ namespace CheckCars.ViewModels
                 {
                     foreach (var i in info)
                     {
+                        i.Photos = await GetPhotos(i.ReportId);
                         IssuesReports.Add(i);
                     }
                 }
@@ -154,6 +157,7 @@ namespace CheckCars.ViewModels
                 {
                     foreach (var i in dV)
                     {
+                        i.Photos = await GetPhotos(i.ReportId);
                         IssuesReports.Add(i);
                     }
                 }
@@ -162,6 +166,19 @@ namespace CheckCars.ViewModels
             {
 
                 throw;
+            }
+        }
+
+        private async Task< List<CheckCars.Models.Photo>> GetPhotos( string id)
+        {
+            var info = await _apiService.GetAsync<List<CheckCars.Models.Photo>>($"api/Photos/report/{id}", TimeSpan.FromSeconds(30));
+            if(info == null)
+            {
+                return new();
+            }
+            else
+            {
+                return info.ToList();
             }
         }
 
