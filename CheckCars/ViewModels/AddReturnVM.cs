@@ -20,6 +20,7 @@ namespace CheckCars.ViewModels
 
         public AddReturnVM()
         {
+            CarsInfo = GetCarsInfoAsync().Result;
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
             Task.Run(async () => LoadUbicationAsync());
             VehicleReturn.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre Usuario");
@@ -63,7 +64,7 @@ namespace CheckCars.ViewModels
         }
 
         private VehicleReturn _VehicleReturn { get; set; } = new VehicleReturn();
-
+        private string[] _CarsInfo;
         public VehicleReturn VehicleReturn
         {
             get { return _VehicleReturn; }
@@ -76,7 +77,18 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
+        public string[] CarsInfo
+        {
+            get { return _CarsInfo; }
+            set
+            {
+                if (_CarsInfo != value)
+                {
+                    _CarsInfo = value;
+                    OnPropertyChanged(nameof(CarsInfo));
+                }
+            }
+        }
 
         #endregion
 
@@ -105,6 +117,17 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Methods
+        private async Task<string[]> GetCarsInfoAsync()
+        {
+            using (var db = new ReportsDBContextSQLite())
+            {
+                return (from C in db.Cars
+                        orderby C.Plate ascending
+                        select $"{C.Plate} {C.Model}"
+
+                            ).ToArray();
+            }
+        }
 
         private async Task TakePhotoAsync()
         {
@@ -138,6 +161,7 @@ namespace CheckCars.ViewModels
                 {
                     using (var db = new ReportsDBContextSQLite())
                     {
+                        VehicleReturn.Created = DateTime.Now;
                         VehicleReturn.CarPlate = VehicleReturn.CarPlate.Split(' ').First();
                         VehicleReturn.Photos = Photos.Select(p =>
                         {

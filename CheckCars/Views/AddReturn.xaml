@@ -38,7 +38,20 @@
                     FontSize="Medium"
                     Text="Vehículo"
                     TextColor="Black" />
-                <Picker Title="Seleccione el vehículo" />
+                <Picker
+                    Title="Seleccione el vehiculo"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
+                    ItemsSource="{Binding CarsInfo}"
+                    SelectedItem="{Binding VehicleReturn.CarPlate}"
+                    TextColor="{AppThemeBinding Light=Black,
+                                                Dark=White}"
+                    TitleColor="{AppThemeBinding Light=Gray,
+                                                 Dark=WhiteSmoke}"
+                    VerticalOptions="Center" />
 
                 <!--  Kilometraje  -->
                 <Label
@@ -46,12 +59,14 @@
                     Text="Kilometraje"
                     TextColor="Black" />
                 <Entry
-                    Margin="0,0,0,10"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="2"
                     BackgroundColor="{AppThemeBinding Light=White,
                                                       Dark=Gray}"
                     Keyboard="Numeric"
-                    Placeholder="Ingrese el kilometraje"
-                    
+                    Placeholder="Kilometraje"
+                    Text="{Binding VehicleReturn.mileage}"
                     TextColor="{AppThemeBinding Light=Black,
                                                 Dark=White}" />
 
@@ -62,12 +77,11 @@
                     TextColor="Black" />
                 <Button
                     BackgroundColor="LightGray"
+                    Command="{Binding TakePhotoCommand}"
                     CornerRadius="8"
                     HeightRequest="40"
                     Text="Agregar Imágenes"
-                    TextColor="Black"
-                    Command="{Binding TakePhotoCommand}"
-                    />
+                    TextColor="Black" />
 
                 <!--  Vista de imágenes  -->
                 <CollectionView
@@ -116,11 +130,11 @@
             <Button
                 Grid.Column="0"
                 BackgroundColor="SeaGreen"
+                Command="{Binding AddReportCommand}"
                 CornerRadius="10"
                 FontAttributes="Bold"
                 HeightRequest="45"
                 Text="Agregar"
-                Command="{Binding AddReportCommand}"
                 TextColor="White" />
 
             <Button

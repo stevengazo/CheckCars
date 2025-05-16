@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Frame
         Margin="8"
-        
         Padding="12"
         BackgroundColor="White"
         BorderColor="LightGray"
@@ -84,9 +83,12 @@
                     ProgressColor="Green" />
 
             </Grid>
-            <Label FontAttributes="Bold"
-FontSize="14"
-TextColor="Gray">Notas</Label>
+            <Label
+                FontAttributes="Bold"
+                FontSize="14"
+                TextColor="Gray">
+                Notas
+            </Label>
             <!--  Notas  -->
             <Label
                 Margin="0,4,0,0"

@@ -266,8 +266,8 @@
                 </toolkit:Expander.Header>
                 <toolkit:Expander.Content>
                     <CollectionView
-                        Background="Green"
                         Margin="0,10,0,0"
+                        Background="Green"
                         ItemsSource="{Binding ExistsReports}"
                         SelectionMode="Single">
                         <CollectionView.ItemTemplate>

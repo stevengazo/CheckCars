@@ -47,6 +47,7 @@ namespace CheckCars.ViewModels
                 {
                     EntryExitReports.Clear();
                     var data = db.EntryExitReports.OrderByDescending(e=>e.Created).ToList();
+                   
                     foreach (var entry in data)
                     {
                         EntryExitReports.Add(entry);
