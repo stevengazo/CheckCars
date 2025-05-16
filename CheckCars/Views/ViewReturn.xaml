@@ -3,11 +3,103 @@
     x:Class="CheckCars.Views.ViewReturn"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="ViewReturn">
+
+    <ContentPage.BindingContext>
+        <ViewModels:ViewReturnsVM />
+    </ContentPage.BindingContext>
+
     <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
+
+        <!-- Datos del reporte -->
+        <Grid Padding="10" RowSpacing="6" ColumnSpacing="10">
+
+            <!-- Fecha -->
+            <Label 
+                Grid.Row="0" Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="Small"
+                Text="Fecha"
+                VerticalOptions="Center" />
+
+            <Label 
+                Grid.Row="0" Grid.Column="1"
+                Margin="1"
+                FontAttributes="Italic"
+                FontSize="Small"
+                Text="{Binding Report.Created}"
+                VerticalOptions="Center" />
+
+            <!-- Vehículo -->
+            <Label 
+                Grid.Row="1" Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="Small"
+                Text="Vehículo"
+                VerticalOptions="Center" />
+
+            <Label 
+                Grid.Row="1" Grid.Column="1"
+                Margin="1"
+                FontAttributes="Italic"
+                FontSize="Small"
+                Text="{Binding Report.CarPlate}"
+                VerticalOptions="Center" />
+
+            <!-- Kilometraje -->
+            <Label 
+                Grid.Row="2" Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="Small"
+                Text="Kilometraje"
+                VerticalOptions="Center" />
+
+            <Label 
+                Grid.Row="2" Grid.Column="1"
+                Margin="1"
+                FontAttributes="Italic"
+                FontSize="Small"
+                Text="{Binding Report.mileage, StringFormat='{0:N0} km'}"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Imágenes del reporte -->
+        <CollectionView
+            Margin="10,15,10,5"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Start"
+            ItemsSource="{Binding Report.Photos}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="5" Orientation="Vertical">
+                        <Grid>
+
+                            <Image
+                                Margin="5"
+                                Aspect="AspectFit"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="Center"
+                                Source="{Binding FilePath}" />
+
+                            <ImageButton
+                                Margin="5"
+                                Padding="6"
+                                BackgroundColor="blue"
+                                CornerRadius="50"
+                                HeightRequest="50"
+                                WidthRequest="50"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"
+                                Source="share.png"
+                                CommandParameter="{Binding FilePath}" />
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
 </ContentPage>
