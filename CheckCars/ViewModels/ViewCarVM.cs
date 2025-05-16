@@ -25,11 +25,14 @@ namespace CheckCars.ViewModels
             }
 
             RequestExists();
+            IssuesExists();
+            ReturnsExists();
 
 
         }
 
-       
+
+        #region Properties
 
         private CarModel _Vehicle;
 
@@ -60,9 +63,41 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-     
+
+        private ObservableCollection<IssueReport> _IssuesReports = new();
+
+        public ObservableCollection<IssueReport> IssuesReports
+        {
+            get { return _IssuesReports; }
+            set
+            {
+                if (_IssuesReports != value)
+                {
+                    _IssuesReports = value;
+                    OnPropertyChanged(nameof(IssuesReports));
+                }
+            }
+        }
+
+        private ObservableCollection<VehicleReturn> _ReturnReports = new();
+
+        public ObservableCollection<VehicleReturn> ReturnReports
+        {
+            get { return _ReturnReports; }
+            set
+            {
+                if (_ReturnReports != value)
+                {
+                    _ReturnReports = value;
+                    OnPropertyChanged(nameof(ReturnReports));
+                }
+            }
+        }
 
 
+        #endregion
+
+        #region Methods
         private async void RequestExists()
         {
 
@@ -96,6 +131,75 @@ namespace CheckCars.ViewModels
             }
         }
 
+        private async void IssuesExists()
+        {
 
+            try
+            {
+                IssuesReports.Clear();
+
+                // Today
+                var info = await _apiService.GetAsync<List<IssueReport>>($"api/IssueReports/search?date={DateTime.Today.ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
+                if (info != null)
+                {
+                    foreach (var i in info)
+                    {
+                        IssuesReports.Add(i);
+                    }
+                }
+
+                // Yesterday
+                var dV = await _apiService.GetAsync<List<IssueReport>>($"api/IssueReports/search?date={DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
+                if (dV != null)
+                {
+                    foreach (var i in dV)
+                    {
+                        IssuesReports.Add(i);
+                    }
+                }
+            }
+            catch (Exception ef)
+            {
+
+                throw;
+            }
+        }
+
+
+        private async void ReturnsExists()
+        {
+
+            try
+            {
+                ReturnReports.Clear();
+
+                // Today
+                var info = await _apiService.GetAsync<List<VehicleReturn>>($"api/VehicleReturns/search?date={DateTime.Today.ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
+                if (info != null)
+                {
+                    foreach (var i in info)
+                    {
+                        ReturnReports.Add(i);
+                    }
+                }
+
+                // Yesterday
+                var dV = await _apiService.GetAsync<List<VehicleReturn>>($"api/VehicleReturns/search?date={DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
+                if (dV != null)
+                {
+                    foreach (var i in dV)
+                    {
+                       ReturnReports.Add(i);
+                    }
+                }
+            }
+            catch (Exception ef)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
     }
 }
