@@ -3,352 +3,306 @@
     x:Class="CheckCars.Views.ViewCar"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Components="clr-namespace:CheckCars.Views.Components"
     xmlns:Models="clr-namespace:CheckCars.Models"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Información de Vehículo">
 
     <ContentPage.BindingContext>
         <ViewModels:ViewCarVM />
     </ContentPage.BindingContext>
 
-    <Grid Padding="10" RowSpacing="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <ScrollView>
+        <VerticalStackLayout Padding="15" Spacing="20">
 
-        <!--  Información del vehículo  -->
-        <Frame
-            Grid.Row="0"
-            Margin="10"
-            Padding="15"
-            BackgroundColor="{AppThemeBinding Light='White',
-                                              Dark='#2C2C2E'}"
-            BorderColor="Gray"
-            CornerRadius="12"
-            HasShadow="True">
+            <!--  Información del Vehículo: siempre visible  -->
+            <!--  Información del vehículo  -->
+            <Frame
+                Grid.Row="0"
+                Margin="10"
+                Padding="15"
+                BackgroundColor="{AppThemeBinding Light='White',
+                                                  Dark='#2C2C2E'}"
+                BorderColor="Gray"
+                CornerRadius="12"
+                HasShadow="True">
 
-            <StackLayout Spacing="8">
-
-                <!--  Marca  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Marca:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Brand}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Modelo  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Modelo:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Model}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Color  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Color:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Color}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Tipo de combustible  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Tipo de combustible:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.FuelType}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Placa  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Placa:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Plate}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Año  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Año:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Year}" />
-                    </Grid>
-                </Frame>
-
-                <!--  VIN  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="VIN:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.VIN}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Longitud  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Longitud:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Lenght}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Altura  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Altura:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Height}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Tipo  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Tipo:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.Type}" />
-                    </Grid>
-                </Frame>
-
-                <!--  Fecha de adquisición  -->
-                <Frame
-                    Padding="5"
-                    BackgroundColor="{AppThemeBinding Light='#F0F0F0',
-                                                      Dark='#3A3A3C'}"
-                    BorderColor="LightGray"
-                    CornerRadius="8"
-                    HasShadow="False">
-                    <Grid ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label FontAttributes="Bold" Text="Fecha de adquisición:" />
-                        <Label Grid.Column="1" Text="{Binding Vehicle.AdquisitionDate}" />
-                    </Grid>
-                </Frame>
-
-            </StackLayout>
-        </Frame>
-
-
-        <!--  Lista de reportes  -->
-        <Label   Grid.Row="1" Text="Lista de Salidas" />
-        <CollectionView
-            Grid.Row="2"
-            ItemsSource="{Binding ExistsReports, Mode=OneWay}"
-            SelectionMode="Single">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Models:EntryExitReport">
-                    <Frame
-                        Margin="2"
-                        Padding="5"
-                        BackgroundColor="{AppThemeBinding Light=White,
-                                                          Dark=Gray}"
-                        BorderColor="Gray"
-                        CornerRadius="10"
-                        HasShadow="True">
-
-
-                        <StackLayout Orientation="Vertical">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Vehículo"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding CarPlate}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Estado Mecánico"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding MecanicState}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <Label
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Estado Llantas"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-                                <Label
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding TiresState}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <Label
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Kilometraje"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-                                <Label
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding mileage}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <Label
-                                    Grid.Row="4"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Fecha"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-                                <Label
-                                    Grid.Row="4"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding Created}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-                            </Grid>
-                        </StackLayout>
+                <StackLayout Spacing="8">
+                    <Frame BorderColor="White">
+                        <Label
+                            Grid.Row="1"
+                            FontSize="Title"
+                            HorizontalOptions="Center"
+                            Text="Información del Vehículo" />
                     </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+                    <!--  Marca  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Marca:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Brand}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Modelo  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Modelo:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Model}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Color  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Color:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Color}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Tipo de combustible  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Tipo de combustible:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.FuelType}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Placa  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Placa:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Plate}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Año  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Año:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Year}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  VIN  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="VIN:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.VIN}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Longitud  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Longitud:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Lenght}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Altura  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Altura:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Height}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Tipo  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Tipo:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.Type}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Fecha de adquisición  -->
+                    <Frame
+                        Padding="5"
+                        BackgroundColor="{AppThemeBinding Light='#F0F0F0',
+                                                          Dark='#3A3A3C'}"
+                        BorderColor="LightGray"
+                        CornerRadius="8"
+                        HasShadow="False">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label FontAttributes="Bold" Text="Fecha de adquisición:" />
+                            <Label Grid.Column="1" Text="{Binding Vehicle.AdquisitionDate}" />
+                        </Grid>
+                    </Frame>
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BorderColor="White">
+                        <Button
+                            Background="Red"
+                            Text="Eliminar"
+                            WidthRequest="120" />
+                    </Frame>
+                </StackLayout>
+            </Frame>
+
+
+            <!--  Accordion: Lista de Salidas  -->
+            <toolkit:Expander>
+                <toolkit:Expander.Header>
+                    <Frame
+                        Padding="10"
+                        BackgroundColor="#28A745"
+                        BorderColor="#1E7E34"
+                        CornerRadius="10"
+                        HasShadow="True"
+                        HorizontalOptions="FillAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            Text="Ultimas Salidas"
+                            TextColor="White" />
+                    </Frame>
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>
+                    <CollectionView
+                        Background="Green"
+                        Margin="0,10,0,0"
+                        ItemsSource="{Binding ExistsReports}"
+                        SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="Models:EntryExitReport">
+                                <Components:ExitCardItem />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+
+            <!--  Accordion: Lista de Problemas  -->
+            <toolkit:Expander>
+                <toolkit:Expander.Header>
+                    <Frame
+                        Padding="10"
+                        BackgroundColor="#DC3545"
+                        BorderColor="#A71D2A"
+                        CornerRadius="10"
+                        HasShadow="True"
+                        HorizontalOptions="FillAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            Text="Lista de Problemas"
+                            TextColor="White" />
+                    </Frame>
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>
+                    <Label>Info</Label>
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

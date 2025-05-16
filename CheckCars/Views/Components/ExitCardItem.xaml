@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CheckCars.Views.Components.ExitCardItem"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Frame
+        Margin="8"
+        
+        Padding="12"
+        BackgroundColor="White"
+        BorderColor="LightGray"
+        CornerRadius="10">
+
+        <VerticalStackLayout Spacing="12">
+
+            <!--  Sección: Estado del Vehículo  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="14"
+                Text="Estado del Vehículo"
+                TextColor="Gray" />
+
+            <Grid
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="10"
+                RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="6">
+                <Label FontAttributes="Bold" Text="Pintura:" />
+                <Label Grid.Column="1" Text="{Binding PaintState}" />
+
+                <Label
+                    Grid.Row="1"
+                    FontAttributes="Bold"
+                    Text="Interiores:" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding InteriorsState}" />
+
+                <Label
+                    Grid.Row="2"
+                    FontAttributes="Bold"
+                    Text="Llantas:" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding TiresState}" />
+            </Grid>
+
+            <!--  Sección: Detalles Adicionales  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="14"
+                Text="Detalles Adicionales"
+                TextColor="Gray" />
+
+            <Grid
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="10"
+                RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="6">
+                <Label FontAttributes="Bold" Text="Compass:" />
+                <Label Grid.Column="1" Text="{Binding HasQuickPass}" />
+
+                <Label
+                    Grid.Row="1"
+                    FontAttributes="Bold"
+                    Text="Kilometraje:" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding mileage, StringFormat='{}{0:N0}'}" />
+
+
+                <Label
+                    Grid.Row="2"
+                    FontAttributes="Bold"
+                    Text="Combustible:" />
+                <ProgressBar
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HeightRequest="20"
+                    Progress="{Binding FuelLevel}"
+                    ProgressColor="Green" />
+
+            </Grid>
+            <Label FontAttributes="Bold"
+FontSize="14"
+TextColor="Gray">Notas</Label>
+            <!--  Notas  -->
+            <Label
+                Margin="0,4,0,0"
+                FontSize="12"
+                Text="{Binding Notes}"
+                TextColor="Gray" />
+        </VerticalStackLayout>
+    </Frame>
+
+
+</ContentView>

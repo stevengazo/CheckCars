@@ -116,6 +116,9 @@
     <MauiXaml Update="Views\CarList.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\Components\ExitCardItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\CrashList.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
