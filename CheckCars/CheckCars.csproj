@@ -102,6 +102,9 @@
     <MauiXaml Update="Views\Account.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\AddBooking.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\AddCrash.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

@@ -163,9 +163,12 @@
 
         <!--  Loader  -->
         <Controls:LoaderModal
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
             HorizontalOptions="FillAndExpand"
             IsVisible="{Binding IsLoading}"
             Message="Obteniendo Datos"
-            VerticalOptions="FillAndExpand" />
+            VerticalOptions="FillAndExpand"
+            ZIndex="99" />
     </Grid>
 </ContentPage>

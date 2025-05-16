@@ -4,30 +4,62 @@ using Plugin.Maui.Calendar.Models;
 using CheckCars.Models;
 using System.ComponentModel;
 using System.Collections;
+using CheckCars.Views;
+using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
     public class BookingVM : INotifyPropertyChangedAbst
     {
+
+        #region Properties
         public EventCollection Events { get; set; } = new EventCollection();
 
+        private DateTime _SelectedDate;
+
+        public DateTime SelectedDat
+        {
+            get { return _SelectedDate; }
+            set
+            {
+                if (_SelectedDate != value)
+                {
+                    _SelectedDate = value;
+                    UpdateBookings(value);
+                    OnPropertyChanged(nameof(SelectedDat));
+                }
+            }
+        }
+        #endregion
+
+
+        #region Commands
+
+        public ICommand AddBooking { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(  new AddBooking(),true ) );
+
+        #endregion
+
+        #region Methods
 
         private EventCollection Bookings()
         {
-            var dates = GetSampleBookings().Select(e=>e.Startdate).ToList();
+            var dates = GetSampleBookings().Select(e => e.Startdate).ToList();
 
-            var eventos = new EventCollection();    
+            var eventos = new EventCollection();
 
-            foreach (var date in dates)
+            var bookingsByDate = GetSampleBookings()
+                .GroupBy(b => b.Startdate.Date);
+
+            foreach (var group in bookingsByDate)
             {
-                eventos.Add(date, GetSampleBookings().Where(e=>e.Startdate.Date == date.Date).ToList()); 
+                eventos.Add(group.Key, group.ToList());
             }
 
-
             return eventos;
+
         }
 
-        public  List<Booking> GetSampleBookings()
+        public List<Booking> GetSampleBookings()
         {
             return new List<Booking>
         {
@@ -41,74 +73,89 @@ namespace CheckCars.ViewModels
                 UserId = "user123",
                 Deleted = false,
                 CarId = 101
-            },
-            new Booking
+            },          new Booking
             {
                 BookingId = 2,
-                Startdate = DateTime.Now.AddDays(3),
-                EndDate = DateTime.Now.AddDays(5),
-                Reason = "Vacation",
-                Status = "Pending",
-                UserId = "user456",
+                Startdate = DateTime.Now.AddDays(3).AddHours(3),
+                EndDate = DateTime.Now.AddDays(2),
+                Reason = "Business Trip",
+                Status = "Confirmed",
+                UserId = "user123",
                 Deleted = false,
-                CarId = 102
-            },
-            new Booking
+                CarId = 101
+            },            new Booking
             {
                 BookingId = 3,
-                Startdate = DateTime.Now.AddDays(-1),
-                EndDate = DateTime.Now.AddDays(1),
-                Reason = "Conference",
-                Status = "Cancelled",
-                UserId = "user789",
-                Deleted = true,
-                CarId = 103,
-            }
+                Startdate = DateTime.Now.AddDays(3).AddHours(6),
+                Reason = "Business Trip",
+                Status = "Confirmed",
+                UserId = "user123",
+                Deleted = false,
+                CarId = 101
+            },          new Booking
+            {
+                BookingId = 4,
+                Startdate = DateTime.Now.AddDays(3).AddHours(2),
+                EndDate = DateTime.Now.AddDays(2),
+                Reason = "Business Trip",
+                Status = "Confirmed",
+                UserId = "user123",
+                Deleted = false,
+                CarId = 101
+            },        new Booking
+            {
+                BookingId = 4,
+                Startdate = DateTime.Now.AddDays(3).AddHours(2),
+                EndDate = DateTime.Now.AddDays(2),
+                Reason = "Business Trip",
+                Status = "Confirmed",
+                UserId = "user123",
+                Deleted = false,
+                CarId = 101
+            },        new Booking
+            {
+                BookingId = 4,
+                Startdate = DateTime.Now.AddDays(3).AddHours(2),
+                EndDate = DateTime.Now.AddDays(2),
+                Reason = "Business Trip",
+                Status = "Confirmed",
+                UserId = "user123",
+                Deleted = false,
+                CarId = 101
+            },
+
         };
         }
 
 
+        public async Task UpdateBookings(DateTime d)
+        {
+            // Update the list of bookings by the month and year
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Constructor
         public BookingVM()
         {
+            try
+            {
 
-            /* Events = new EventCollection
-             {
-                 [DateTime.Now] = new List<EventModel>
-                 {
-                     new EventModel { Name = "Cool event1", Description = "This is Cool event1's description!" },
-                     new EventModel { Name = "Cool event2", Description = "This is Cool event2's description!" }
-                 },
-                 // 5 days from today
-                 [DateTime.Now.AddDays(5)] = new List<EventModel>
-                 {
-                     new EventModel { Name = "Cool event3", Description = "This is Cool event3's description!" },
-                     new EventModel { Name = "Cool event4", Description = "This is Cool event4's description!" }
-                 },
-                 // 3 days ago
-                 [DateTime.Now.AddDays(-3)] = new List<EventModel>
-                 {
-                     new EventModel { Name = "Cool event5", Description = "This is Cool event5's description!" }
-                 },
-                 // custom date
-                 [new DateTime(2020, 3, 16)] = new List<EventModel>
-                 {
-                     new EventModel { Name = "Cool event6", Description = "This is Cool event6's description!" }
-                 }
-             };*/
+                Events = Bookings();
+            }
+            catch (Exception gt)
+            {
 
-            Events = Bookings();
+                throw;
+            }
+
+
 
         }
+
+        #endregion
+
     }
-
-
-
-
-
-
-    internal class EventModel
-    {
-        public string Name { get; set; }    
-        public string Description { get; set; }
-    }
+ 
 }

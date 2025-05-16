@@ -6,58 +6,83 @@
     xmlns:Models="clr-namespace:CheckCars.Models"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
-    Title="BookingList">
+    Title="Calendario de Reservas">
     <ContentPage.BindingContext>
         <ViewModels:BookingVM />
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
-        <Frame Background="LightGray" Margin="5" Padding="0 ">
-            <cal:Calendar Events="{Binding Events}" EventsScrollViewVisible="True" SelectedDayBackgroundColor="Red"
-                  CalendarLayout="Month">
+    <Grid RowDefinitions="*,auto">
+
+
+        <ScrollView Grid.Row="0" VerticalOptions="StartAndExpand" Padding="5,0,5,0
+                    ">
+            <cal:Calendar
+                CalendarLayout="Month"
+                SelectedDate="{Binding SelectedDat}"
+               Margin="5,0,5,0"
+                Events="{Binding Events}"
+                EventsScrollViewVisible="True"
+                SelectedDayBackgroundColor="Red">
                 <cal:Calendar.EventTemplate>
                     <DataTemplate>
-                        <VerticalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" Padding="20">
+                        <Frame Margin="0,2,0,2">
+                            <VerticalStackLayout HorizontalOptions="FillAndExpand" Spacing="2">
+                                <!--  Título principal  -->
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="25"
+                                    Text="{Binding Reason}" />
 
-                            <!-- Título principal -->
-                            <Label Text="{Binding Reason}" FontSize="25" FontAttributes="Bold" />
+                                <!--  Fila: Car ID  -->
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="Car ID:"
+                                        WidthRequest="100" />
+                                    <Label Text="{Binding CarId}" />
+                                </HorizontalStackLayout>
 
-                            <!-- Fila: Car ID -->
-                            <HorizontalStackLayout>
-                                <Label Text="Car ID:" FontAttributes="Bold" WidthRequest="100"/>
-                                <Label Text="{Binding CarId}" />
-                            </HorizontalStackLayout>
+                                <!--  Fila: Fecha Reserva  -->
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="Fecha Reserva:"
+                                        WidthRequest="100" />
+                                    <Label Text="{Binding Startdate}" />
+                                </HorizontalStackLayout>
 
-                            <!-- Fila: Fecha Reserva -->
-                            <HorizontalStackLayout>
-                                <Label Text="Fecha Reserva:" FontAttributes="Bold" WidthRequest="100"/>
-                                <Label Text="{Binding Startdate}" />
-                            </HorizontalStackLayout>
+                                <!--  Fila: End Date  -->
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="Fecha Devolución:"
+                                        WidthRequest="100" />
+                                    <Label Text="{Binding EndDate}" />
+                                </HorizontalStackLayout>
 
-                            <!-- Fila: End Date -->
-                            <HorizontalStackLayout>
-                                <Label Text="End Date:" FontAttributes="Bold" WidthRequest="100"/>
-                                <Label Text="{Binding EndDate}" />
-                            </HorizontalStackLayout>
+                                <!--  Fila: Status  -->
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Text="Estado:"
+                                        WidthRequest="100" />
+                                    <Label Text="{Binding Status}" />
+                                </HorizontalStackLayout>
 
-                            <!-- Fila: Status -->
-                            <HorizontalStackLayout>
-                                <Label Text="Status:" FontAttributes="Bold" WidthRequest="100"/>
-                                <Label Text="{Binding Status}" />
-                            </HorizontalStackLayout>
-
-                        </VerticalStackLayout>
-
-
+                            </VerticalStackLayout>
+                        </Frame>
                     </DataTemplate>
                 </cal:Calendar.EventTemplate>
             </cal:Calendar>
-        </Frame>
-        <Button Text="Agregar Reserva" Background="Blue" WidthRequest="250" />
+        </ScrollView>
 
 
-    </VerticalStackLayout>
+        <Button
+            Grid.Row="1"
+            Margin="10"
+            Background="Blue"
+            Command="{Binding AddBooking}"
+            Text="Agregar Reserva"
+            WidthRequest="250" />
+    </Grid>
+
 </ContentPage>
