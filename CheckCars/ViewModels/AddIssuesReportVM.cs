@@ -9,6 +9,7 @@ namespace CheckCars.ViewModels
 {
     public class AddIssuesReportVM : INotifyPropertyChangedAbst
     {
+        #region Constructor
         public AddIssuesReportVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
@@ -16,6 +17,7 @@ namespace CheckCars.ViewModels
             Task.Run(() => LoadUbicationAsync());
             newIssueReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
+        #endregion
 
         #region Properties
         private readonly APIService _apiService = new();
@@ -103,10 +105,18 @@ namespace CheckCars.ViewModels
         #region Methods
         private async Task TakePhotosAsync()
         {
-            Photo photo = await SensorManager.TakePhoto();
-            if (photo != null)
+            try
             {
-                ImgList.Add(photo);
+                Photo photo = await SensorManager.TakePhoto();
+                if (photo != null)
+                {
+                    ImgList.Add(photo);
+                }
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo tomar la foto", "ok");
+                Console.WriteLine(e.Message.ToString());
             }
         }
         private async Task AddReportEntryAsync()
@@ -125,7 +135,7 @@ namespace CheckCars.ViewModels
                 {
                     using (var db = new ReportsDBContextSQLite())
                     {
-                       // newIssueReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
+                        // newIssueReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
                         newIssueReport.CarPlate = newIssueReport.CarPlate.Split(' ').First();
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newIssueReport.Photos = ImgList.Select(photo =>
@@ -147,14 +157,24 @@ namespace CheckCars.ViewModels
             }
             catch (Exception rf)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo guardar el reporte. Error: " + rf.Message, "ok");
                 Console.WriteLine(rf.ToString());
+                CloseAsync();
 
             }
         }
         private async Task CloseAsync()
         {
-            var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-            Application.Current.MainPage.Navigation.RemovePage(d);
+            try
+            {
+                var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                Application.Current.MainPage.Navigation.RemovePage(d);
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cerrar la página", "ok");
+                throw e;
+            }
         }
         private void DeletePhoto(Photo photo)
         {
@@ -170,8 +190,8 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ex)
             {
-                // Manejar la excepción (por ejemplo, loguearla)
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
+                Application.Current.MainPage.DisplayActionSheet("Error", "ok", null, "No se pudo eliminar la foto");
             }
         }
         private async Task<bool> ValidateDataAsync()
@@ -194,13 +214,23 @@ namespace CheckCars.ViewModels
         }
         private async Task<string[]> GetCarsInfoAsync()
         {
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                return (from C in db.Cars
-                        orderby C.Plate ascending
-                        select $"{C.Plate} {C.Model}"
-                            ).ToArray();
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    return (from C in db.Cars
+                            orderby C.Plate ascending
+                            select $"{C.Plate} {C.Model}"
+                                ).ToArray();
+                }
             }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayActionSheet("Error", "ok", null, "No se pudo cargar la información de los autos");
+                CloseAsync();
+                return null;
+            }
+
         }
         private async Task LoadUbicationAsync()
         {
@@ -219,9 +249,10 @@ namespace CheckCars.ViewModels
                     newIssueReport.Longitude = 0;
                 }
             }
-            catch (Exception)
+            catch (Exception d)
             {
                 SensorManager.CancelRequest();
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener la ubicación", "ok");    
 
             }
         }
@@ -260,8 +291,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-
-                throw;
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo enviar el reporte. Error: " + e.Message, "ok");
             }
             finally
             {

@@ -8,16 +8,17 @@ namespace CheckCars.ViewModels
 {
     public class EntryExitReportsListVM : INotifyPropertyChangedAbst
     {
-        public ICommand AddReport { get; } = new Command(async () =>
-        await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(), true));
-        public ICommand ViewReport { get; } = new Command(async (e) =>
+        #region Constructor
+        public EntryExitReportsListVM()
         {
-            if (e is string reportId) // Cambia 'int' por el tipo adecuado si es necesario
-            {
-                Data.StaticData.ReportId = reportId;
-                await Application.Current.MainPage.Navigation.PushAsync(new ViewEntryExit(), true);
-            }
-        });
+
+            LoadReports();
+
+        }
+        #endregion
+
+        #region Properties
+
         public ObservableCollection<EntryExitReport> _EntryExitReports = new();
         public ObservableCollection<EntryExitReport> EntryExitReports
         {
@@ -32,13 +33,25 @@ namespace CheckCars.ViewModels
 
             }
         }
-        public EntryExitReportsListVM()
+
+        #endregion
+
+        #region Commands
+        public ICommand AddReport { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(), true));
+        public ICommand ViewReport { get; } = new Command(async (e) =>
         {
+            if (e is string reportId) // Cambia 'int' por el tipo adecuado si es necesario
+            {
+                Data.StaticData.ReportId = reportId;
+                await Application.Current.MainPage.Navigation.PushAsync(new ViewEntryExit(), true);
+            }
+        });
 
-            LoadReports();
-
-        }
         public ICommand UpdateReports => new Command(() => LoadReports());
+
+        #endregion
+
+        #region Methods
         public async Task LoadReports()
         {
             try
@@ -46,8 +59,8 @@ namespace CheckCars.ViewModels
                 using (var db = new ReportsDBContextSQLite())
                 {
                     EntryExitReports.Clear();
-                    var data = db.EntryExitReports.OrderByDescending(e=>e.Created).ToList();
-                   
+                    var data = db.EntryExitReports.OrderByDescending(e => e.Created).ToList();
+
                     foreach (var entry in data)
                     {
                         EntryExitReports.Add(entry);
@@ -56,9 +69,11 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-                // Puedes registrar o manejar la excepción aquí si es necesario
+                Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes", "OK");
                 Console.WriteLine(e.Message);
             }
         }
+        #endregion
+
     }
 }

@@ -98,7 +98,7 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command( async ()=> await AddVehicleReturnAsync() );
+                return new Command(async () => await AddVehicleReturnAsync());
             }
             private set { }
         }
@@ -109,7 +109,7 @@ namespace CheckCars.ViewModels
         {
             get
             {
-                return new Command( async () => await TakePhotoAsync());
+                return new Command(async () => await TakePhotoAsync());
             }
             private set { }
         }
@@ -119,14 +119,23 @@ namespace CheckCars.ViewModels
         #region Methods
         private async Task<string[]> GetCarsInfoAsync()
         {
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                return (from C in db.Cars
-                        orderby C.Plate ascending
-                        select $"{C.Plate} {C.Model}"
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    return (from C in db.Cars
+                            orderby C.Plate ascending
+                            select $"{C.Plate} {C.Model}"
 
-                            ).ToArray();
+                                ).ToArray();
+                }
             }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "Error: " + d.Message, "Ok");
+                return null;
+            }
+
         }
 
         private async Task TakePhotoAsync()
@@ -141,8 +150,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error interno", "Ok");
-                //throw;
+                Application.Current.MainPage.DisplayAlert("Error", "Error interno al tomar la foto", "Ok");
             }
         }
 
@@ -152,7 +160,7 @@ namespace CheckCars.ViewModels
             {
                 bool answer = await Application.Current.MainPage.DisplayAlert(
                  "Confirmación",
-                 "¿Deseas continuar?",
+                 "¿Deseas agregar una entrega?",
                  "Sí",
                  "No"
              );
@@ -182,16 +190,22 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error: " + e.Message, "Ok");
-
-                //        throw;
+                Application.Current.MainPage.DisplayAlert("Error", "Interno al agregar un vehiculo: Error: " + e.Message, "Ok");
             }
         }
 
         private async Task CloseAsync()
         {
-            var ThisPage = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-            Application.Current.MainPage.Navigation.RemovePage(ThisPage);
+            try
+            {
+                var ThisPage = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                Application.Current.MainPage.Navigation.RemovePage(ThisPage);
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "No se logró cerrar la página: " + d.Message, "Ok");
+                throw d;
+            }
         }
 
         private void DeletePhoto(Photo photo)
@@ -200,7 +214,7 @@ namespace CheckCars.ViewModels
 
             try
             {
-                if(File.Exists(photo.FilePath))
+                if (File.Exists(photo.FilePath))
                 {
                     File.Delete(photo.FilePath);
                 }
@@ -229,24 +243,31 @@ namespace CheckCars.ViewModels
                     VehicleReturn.Longitude = 0;
                 }
             }
-            catch (Exception)
+            catch (Exception c)
             {
                 _sensorManager.CancelRequest();
+                Console.WriteLine("Error al obtener la ubicación " + c.Message );
             }
         }
 
         private async Task<bool> PromptPhotosAsync()
         {
-            if (Photos.Count > 0)
+            try
             {
-                return true;
+                if (Photos.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    Application.Current.MainPage.DisplayAlert("Advertencia", "No se pueden agregar registros sin fotos", "Ok");
+                    return false;
+                }
             }
-            else
+            catch (Exception vd)
             {
-                Application.Current.MainPage.DisplayAlert("Advertencia", "No se pueden agregar registros sin fotos", "Ok");
                 return false;
             }
-
         }
 
         private async Task SendDataAsync(VehicleReturn vehicleReturn)
@@ -258,13 +279,13 @@ namespace CheckCars.ViewModels
 
                 const int baseTime = 30;
                 const int TimePerPhoto = 20;
-                
-                if(vehicleReturn.Photos?.Count > 0)
+
+                if (vehicleReturn.Photos?.Count > 0)
                 {
-                    int totalTime = baseTime + ( vehicleReturn.Photos.Count * TimePerPhoto);
+                    int totalTime = baseTime + (vehicleReturn.Photos.Count * TimePerPhoto);
                     tp = TimeSpan.FromSeconds(totalTime);
 
-                    var photos = vehicleReturn.Photos.Select(e=> e.FilePath).ToList();
+                    var photos = vehicleReturn.Photos.Select(e => e.FilePath).ToList();
                     await _apiService.PostAsync<VehicleReturn>("api/VehicleReturns/form", vehicleReturn, photos, tp);
                 }
                 else
@@ -276,16 +297,14 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ef)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo enviar el reporte. Error: " + ef.Message, "ok");
                 Console.WriteLine(ef.Message);
-
-                //throw;
             }
             finally
-            { 
-                loading = false; 
-            }    
+            {
+                loading = false;
+            }
         }
-
 
         #endregion
 

@@ -98,9 +98,10 @@ namespace CheckCars.ViewModels
 
         #endregion
 
+        #region Constructor
         public LoginPageVM()
         {
-          try
+            try
             {
                 Login = new Command(async () => await SignInAsync());
                 LoadToken();
@@ -111,9 +112,13 @@ namespace CheckCars.ViewModels
             }
             catch (Exception d)
             {
-
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Aceptar");
+                Console.WriteLine(d.Message);
             }
         }
+
+        #endregion
+
 
         #region Commands
         public ICommand Login { get; set; }
@@ -124,7 +129,7 @@ namespace CheckCars.ViewModels
         {
             try
             {
-             await   _apiService.UpdateUrl(Server);
+                await _apiService.UpdateUrl(Server);
                 var isConected = EstaConectado();
                 if (!isConected)
                 {
@@ -209,6 +214,7 @@ namespace CheckCars.ViewModels
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al validar la URL del servidor: {ex.Message}");
+                Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar"); 
                 // Manejo de errores o valores por defecto si es necesario
                 CheckCars.Data.StaticData.URL = "localhost";
                 CheckCars.Data.StaticData.Port = 8080.ToString();
@@ -256,12 +262,12 @@ namespace CheckCars.ViewModels
                     return expiration > DateTime.UtcNow;
                 }
             }
-            catch (Exception)
+            catch (Exception ed)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "Token inválido +" + ed.Message , "Aceptar");
                 // Si ocurre un error al procesar el token, lo tratamos como inválido
                 return false;
             }
-
             return false;
         }
 
@@ -269,11 +275,13 @@ namespace CheckCars.ViewModels
         {
             return Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
         }
+
+        #endregion
+
         public class DataSignIn
         {
             public string email { get; set; }
             public string password { get; set; }
         }
-        #endregion
     }
 }

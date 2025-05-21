@@ -57,6 +57,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la lista de informes de accidentes.", "OK");
                 // Puedes registrar o manejar la excepción aquí si es necesario
                 Console.WriteLine(e.Message);
             }

@@ -28,7 +28,6 @@ namespace CheckCars.ViewModels
         }
         #endregion
 
-
         #region Properties
         private readonly APIService _apiService;
 

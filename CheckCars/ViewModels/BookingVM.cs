@@ -32,9 +32,7 @@ namespace CheckCars.ViewModels
         }
         #endregion
 
-
         #region Commands
-
         public ICommand AddBooking { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(  new AddBooking(),true ) );
 
         #endregion
@@ -127,7 +125,6 @@ namespace CheckCars.ViewModels
         };
         }
 
-
         public async Task UpdateBookings(DateTime d)
         {
             // Update the list of bookings by the month and year
@@ -141,17 +138,13 @@ namespace CheckCars.ViewModels
         {
             try
             {
-
                 Events = Bookings();
             }
             catch (Exception gt)
             {
-
+                Application.Current.MainPage.DisplayAlert("Error", gt.Message, "OK");
                 throw;
             }
-
-
-
         }
 
         #endregion

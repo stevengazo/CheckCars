@@ -226,8 +226,9 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "Error de la aplicación, vuelva a intentarlo màs tarde", "OK");
                 Console.WriteLine(e.Message);
-                throw;
+//                throw;
             }
         }
         private async Task UploadCar(CarModel car)
@@ -245,7 +246,7 @@ namespace CheckCars.ViewModels
                     Application.Current.MainPage.DisplayAlert("Información", "El vehículo no envidado al servidor", "OK");
                 }
             }
-            catch (Exception )
+            catch (Exception  e)
             {
                 Application.Current.MainPage.DisplayAlert("Información", "Error al enviar al servidor\n Borre el vehículo e intentelo de nuevo", "OK");
             }
@@ -266,6 +267,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ex)
             {
+                Application.Current.MainPage.DisplayAlert(CarPlate, "Error al eliminar el vehículo", "OK");
                 // Manejar la excepción (por ejemplo, loguearla)
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
             }

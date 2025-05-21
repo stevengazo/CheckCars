@@ -6,7 +6,7 @@ namespace CheckCars.ViewModels
 {
     public class AccountVM : INotifyPropertyChangedAbst
     {
-
+        #region Constructor 
 
         public AccountVM()
         {
@@ -17,6 +17,7 @@ namespace CheckCars.ViewModels
             URL = StaticData.URL;
             Port = StaticData.Port;
         }
+        #endregion
 
         #region Commands
         public ICommand CleanReports
@@ -130,45 +131,64 @@ namespace CheckCars.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ec)
             {
-
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al borrar la base de datos", "Ok");
+                Console.Write(ec.Message);
             }
-
         }
         private async Task DeletePhotosAsync(List<string> photos)
         {
-            foreach (var photo in photos)
+            try
             {
-                File.Delete(photo);
+                foreach (var photo in photos)
+                {
+                    File.Delete(photo);
+                }
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "Error al borrar las fotos", "Ok");  
             }
         }
         private async Task DeletePdfAsync()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert(
+            try
+            {
+                bool answer = await Application.Current.MainPage.DisplayAlert(
                   "Confirmación",
                   "¿Deseas limpiar cache?",
                   "Sí",
                   "No"
               );
-            if (answer)
-            {
-                var path = FileSystem.CacheDirectory;
-                var files = Directory.GetFiles(path);
-                foreach (var file in files)
+                if (answer)
                 {
-                    File.Delete(file);
+                    var path = FileSystem.CacheDirectory;
+                    var files = Directory.GetFiles(path);
+                    foreach (var file in files)
+                    {
+                        File.Delete(file);
+                    }
+                    Application.Current.MainPage.DisplayAlert("Información", "Cache Borrada", "Ok");
                 }
-                Application.Current.MainPage.DisplayAlert("Información", "Cache Borrada", "Ok");
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "Error al borrar el cache", "Ok");
             }
         }
-
         private async Task UpdateUserProfileAsync()
         {
-            Preferences.Set(nameof(UserProfile.UserName), LocalUser.UserName);
-            StaticData.User.UserName = LocalUser.UserName;
-            Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
+            try
+            {
+                Preferences.Set(nameof(UserProfile.UserName), LocalUser.UserName);
+                StaticData.User.UserName = LocalUser.UserName;
+                Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
+            }
+            catch (Exception ed)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al actualizar el usuario", "Ok");
+            }
         }
 
         #endregion

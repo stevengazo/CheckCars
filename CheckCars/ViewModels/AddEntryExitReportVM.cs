@@ -8,6 +8,7 @@ namespace CheckCars.ViewModels
 {
     public class AddEntryExitReportVM : INotifyPropertyChangedAbst
     {
+        #region Constructor 
         public AddEntryExitReportVM()
         {
             CarsInfo = GetCarsInfoAsync().Result;
@@ -15,7 +16,8 @@ namespace CheckCars.ViewModels
             Task.Run(() => LoadUbicationAsync());
             Report.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
-
+        #endregion
+      
         #region Properties
         private readonly APIService _apiService = new APIService();
         private CheckCars.Utilities.SensorManager SensorManager = new();
@@ -132,6 +134,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "Error al enviar los datos: " + e.Message, "OK");
                 Console.Write(e.Message);
                 throw;
             }
@@ -142,10 +145,17 @@ namespace CheckCars.ViewModels
         }
         private async Task TakePhotosAsync()
         {
-            Photo photo = await SensorManager.TakePhoto();
-            if (photo != null)
+            try
             {
-                ImgList.Add(photo);
+                Photo photo = await SensorManager.TakePhoto();
+                if (photo != null)
+                {
+                    ImgList.Add(photo);
+                }
+            }
+            catch (Exception e) 
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "Error al tomar la foto: " + e.Message, "OK");
             }
         }
         private void DeletePhotoAsync(Photo photo)
@@ -163,6 +173,7 @@ namespace CheckCars.ViewModels
             catch (Exception ex)
             {
                 // Manejar la excepción (por ejemplo, loguearla)
+                Application.Current.MainPage.DisplayAlert("Error", "Error al eliminar la foto: " + ex.Message, "OK");
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
             }
         }
@@ -213,14 +224,21 @@ namespace CheckCars.ViewModels
             catch (Exception rf)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
-
+                CloseAsync();
             }
         }
         private async Task CloseAsync()
         {
-            
-            var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-            Application.Current.MainPage.Navigation.RemovePage(d);
+            try
+            {
+                var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                Application.Current.MainPage.Navigation.RemovePage(d);
+
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "Error al cerrar la página: " + e.Message, "OK");
+            }
         }
         // Método para capturar y guardar la foto
         private async Task<bool> ValidateDataAsync()
@@ -262,13 +280,22 @@ namespace CheckCars.ViewModels
         }
         private async Task<string[]> GetCarsInfoAsync()
         {
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                return (from C in db.Cars
-                        orderby C.Plate ascending
-                        select $"{C.Plate} {C.Model}"
-                        
-                            ).ToArray();
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    return (from C in db.Cars
+                            orderby C.Plate ascending
+                            select $"{C.Plate} {C.Model}"
+
+                                ).ToArray();
+                }
+            }
+            catch (Exception d)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los vehículos: " + d.Message, "OK");
+                CloseAsync();
+                return null;
             }
         }
         private async Task LoadUbicationAsync()
@@ -289,10 +316,10 @@ namespace CheckCars.ViewModels
                     Report.Longitude = 0;
                 }
             }
-            catch (Exception)
+            catch (Exception r)
             {
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar la ubicación: " + r.Message, "OK");
                 SensorManager.CancelRequest();
-
             }
         }
         #endregion

@@ -8,7 +8,7 @@ namespace CheckCars.ViewModels
 {
     public class AddCrashVM : INotifyPropertyChangedAbst
     {
-
+        #region Constructor
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
@@ -16,6 +16,7 @@ namespace CheckCars.ViewModels
             Task.Run(() => LoadUbicationAsync());
             newCrashReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
+        #endregion
 
         #region Properties
         private readonly APIService _apiService = new APIService();
@@ -117,11 +118,11 @@ namespace CheckCars.ViewModels
 
                 if (answer && valid)
                 {
-                   // newCrashReport.Author = "Temporal";
+                    // newCrashReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
 
-                      //  newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
+                        //  newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
                         newCrashReport.CarPlate = newCrashReport.CarPlate.Split(' ').First();
                         // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newCrashReport.Photos = ImgList.Select(photo =>
@@ -144,13 +145,24 @@ namespace CheckCars.ViewModels
             catch (Exception rf)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
-
             }
         }
         private async Task CloseAsync()
         {
-            var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-            Application.Current.MainPage.Navigation.RemovePage(d);
+            try
+            {
+                var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                Application.Current.MainPage.Navigation.RemovePage(d);
+
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "ok");
+            }
+            finally
+            {
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
         }
         private void DeletePhoto(Photo photo)
         {
@@ -172,20 +184,36 @@ namespace CheckCars.ViewModels
         }
         private string[] GetCarsInfo()
         {
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                return (from C in db.Cars
-                        orderby C.Plate ascending
-                        select $"{C.Plate} {C.Model}"
-                            ).ToArray();
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    return (from C in db.Cars
+                            orderby C.Plate ascending
+                            select $"{C.Plate} {C.Model}"
+                                ).ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                CloseAsync();
+                return null;
             }
         }
         private async Task TakePhotosAsync()
         {
-            Photo photo = await SensorManager.TakePhoto();
-            if (photo != null)
+            try
             {
-                ImgList.Add(photo);
+                Photo photo = await SensorManager.TakePhoto();
+                if (photo != null)
+                {
+                    ImgList.Add(photo);
+                }
+            }
+            catch (Exception e)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
             }
         }
         private bool ValidateData()
@@ -230,8 +258,9 @@ namespace CheckCars.ViewModels
                     newCrashReport.Longitude = 0;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
                 SensorManager.CancelRequest();
             }
         }
@@ -266,11 +295,10 @@ namespace CheckCars.ViewModels
                     // Envía los datos sin fotos
                     await _apiService.PostAsync<CrashReport>("api/CrashReports/json", crashReport, tp);
                 }
-
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
                 throw;
             }
             finally

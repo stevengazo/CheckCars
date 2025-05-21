@@ -12,8 +12,13 @@ namespace CheckCars.ViewModels
 {
     public class ViewCarVM : INotifyPropertyChangedAbst
     {
+
+        #region Properties  
         private readonly APIService _apiService = new();
 
+        #endregion
+
+        #region Constructor
         public ViewCarVM() 
         {
 
@@ -30,7 +35,7 @@ namespace CheckCars.ViewModels
 
 
         }
-
+        #endregion
 
         #region Properties
 
@@ -128,7 +133,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ef)
             {
-
+                Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de entrada/salida", "OK");
                 throw;
             }
         }
@@ -150,7 +155,6 @@ namespace CheckCars.ViewModels
                         IssuesReports.Add(i);
                     }
                 }
-
                 // Yesterday
                 var dV = await _apiService.GetAsync<List<IssueReport>>($"api/IssueReports/search?date={DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
                 if (dV != null)
@@ -164,7 +168,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ef)
             {
-
+                Application.Current.MainPage.DisplayAlert("error", "Error al cargar los reportes de problemas. " + ef.Message, "OK");  
                 throw;
             }
         }
@@ -181,7 +185,6 @@ namespace CheckCars.ViewModels
                 return info.ToList();
             }
         }
-
 
         private async void ReturnsExists()
         {
@@ -212,6 +215,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ef)
             {
+                Application.Current.MainPage.DisplayAlert("error", "Error al cargar los reportes de devoluciones. " + ef.Message, "OK");
 
                 throw;
             }

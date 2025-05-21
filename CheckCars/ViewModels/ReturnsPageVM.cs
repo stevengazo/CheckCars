@@ -78,6 +78,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la información", "OK");
                 // Puedes registrar o manejar la excepción aquí si es necesario
                 Console.WriteLine(e.Message);
             }
@@ -108,7 +109,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception we)
             {
-
+                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la información", "OK");
                 throw;
             }
         }

@@ -10,41 +10,69 @@
         <ScrollView Grid.Row="0">
             <StackLayout Padding="20" Spacing="25">
 
-                <!-- Start Date and Time -->
-                <Label Text="Start Date" FontAttributes="Bold" FontSize="Medium" />
+                <!--  Start Date and Time  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="Start Date" />
                 <HorizontalStackLayout Spacing="10">
                     <DatePicker x:Name="startDatePicker" WidthRequest="160" />
                     <TimePicker x:Name="startTimePicker" WidthRequest="140" />
                 </HorizontalStackLayout>
 
-                <!-- End Date and Time -->
-                <Label Text="End Date" FontAttributes="Bold" FontSize="Medium" />
+                <!--  End Date and Time  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="End Date" />
                 <HorizontalStackLayout Spacing="10">
                     <DatePicker x:Name="endDatePicker" WidthRequest="160" />
                     <TimePicker x:Name="endTimePicker" WidthRequest="140" />
                 </HorizontalStackLayout>
 
-                <!-- Reason -->
-                <Label Text="Reason" FontAttributes="Bold" FontSize="Medium" />
+                <!--  Reason  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="Reason" />
                 <Entry x:Name="reasonEntry" Placeholder="Enter reason" />
 
-                <!-- Status -->
-                <Label Text="Status" FontAttributes="Bold" FontSize="Medium" />
+                <!--  Status  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="Status" />
                 <Entry x:Name="statusEntry" Placeholder="Enter status" />
 
-                <!-- User ID -->
-                <Label Text="User ID" FontAttributes="Bold" FontSize="Medium" />
+                <!--  User ID  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="User ID" />
                 <Entry x:Name="userIdEntry" Placeholder="Enter user ID" />
 
-                <!-- Car ID -->
-                <Label Text="Car ID" FontAttributes="Bold" FontSize="Medium" />
-                <Entry x:Name="carIdEntry" Keyboard="Numeric" Placeholder="Enter car ID" />
+                <!--  Car ID  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="Car ID" />
+                <Entry
+                    x:Name="carIdEntry"
+                    Keyboard="Numeric"
+                    Placeholder="Enter car ID" />
 
-                <!-- Optional separator -->
-                <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,20" />
+                <!--  Optional separator  -->
+                <BoxView
+                    Margin="0,20"
+                    BackgroundColor="Gray"
+                    HeightRequest="1" />
 
-                <!-- Submit Button -->
-                <Button Text="Submit" BackgroundColor="#007ACC" TextColor="White" CornerRadius="10" />
+                <!--  Submit Button  -->
+                <Button
+                    BackgroundColor="#007ACC"
+                    CornerRadius="10"
+                    Text="Submit"
+                    TextColor="White" />
 
             </StackLayout>
         </ScrollView>

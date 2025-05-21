@@ -12,8 +12,24 @@ namespace CheckCars.ViewModels
     public class ViewEntryExitVM : INotifyPropertyChangedAbst
     {
 
+        #region Properties  
+
         private readonly APIService _apiService;
         private Thread reportThread = new Thread(() => { });
+
+        private bool _SendingDataCheck;
+        public bool SendingDataCheck
+        {
+            get { return _SendingDataCheck; }
+            set
+            {
+                if (_SendingDataCheck != value)
+                {
+                    _SendingDataCheck = value;
+                    OnPropertyChanged(nameof(SendingDataCheck));
+                }
+            }
+        }
 
         private bool _SendingData = false;
         public bool SendingData
@@ -54,26 +70,18 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        #endregion
+
+        #region Command
         public ICommand DownloadReportCommand { get; }
         public ICommand ISendReport { get; }
         public ICommand IDeleteReport { get; }
         public ICommand IShareImage { get; }
         public ICommand ISendServerReport { get; }
+        #endregion
 
-        private bool _SendingDataCheck;
-        public bool SendingDataCheck
-        {
-            get { return _SendingDataCheck; }
-            set
-            {
-                if (_SendingDataCheck != value)
-                {
-                    _SendingDataCheck = value;
-                    OnPropertyChanged(nameof(SendingDataCheck));
-                }
-            }
-        }
-
+        #region Constructor
         public ViewEntryExitVM()
         {
             _apiService = new();
@@ -96,8 +104,7 @@ namespace CheckCars.ViewModels
             IShareImage = new Command<string>(SharePhotoAsync);
 
         }
-
-
+        #endregion
 
         #region Methods
         /// <summary>
@@ -144,8 +151,9 @@ namespace CheckCars.ViewModels
                     Application.Current.MainPage.DisplayAlert("Información", "Ya se está enviando un reporte", "Ok");
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception d)
             {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
                 throw;
             }
             finally
@@ -155,32 +163,40 @@ namespace CheckCars.ViewModels
         }
         public async Task DeleteReport()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert(
-                   "Confirmación",
-                   "¿Deseas borrar este reporte?",
-                   "Sí",
-                   "No"
-               );
-
-            if (answer)
+            try
             {
+                bool answer = await Application.Current.MainPage.DisplayAlert(
+                 "Confirmación",
+                 "¿Deseas borrar este reporte?",
+                 "Sí",
+                 "No"
+             );
 
-                using (var db = new ReportsDBContextSQLite())
+                if (answer)
                 {
-                    db.Photos.RemoveRange(Report.Photos);
-                    db.SaveChanges();
 
-                    db.EntryExitReports.Remove(Report);
-                    db.SaveChanges();
-                    var paths = Report.Photos.Select(e => e.FilePath).ToList();
-                    if (paths.Any())
+                    using (var db = new ReportsDBContextSQLite())
                     {
-                        // Ejecuta la eliminación de fotos en un hilo aparte
-                        new Thread(() => DeletePhotos(paths)).Start();
+                        db.Photos.RemoveRange(Report.Photos);
+                        db.SaveChanges();
+
+                        db.EntryExitReports.Remove(Report);
+                        db.SaveChanges();
+                        var paths = Report.Photos.Select(e => e.FilePath).ToList();
+                        if (paths.Any())
+                        {
+                            // Ejecuta la eliminación de fotos en un hilo aparte
+                            new Thread(() => DeletePhotos(paths)).Start();
+                        }
+                        var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                        Application.Current.MainPage.Navigation.RemovePage(d);
                     }
-                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-                    Application.Current.MainPage.Navigation.RemovePage(d);
                 }
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
+                throw;
             }
         }
         public async Task SendPDFReport()
@@ -204,6 +220,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ex)
             {
+                Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
                 // Manejo de errores
                 Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
             }
@@ -240,6 +257,7 @@ namespace CheckCars.ViewModels
                 }
                 catch (Exception e)
                 {
+                    Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
                     // Manejo de errores (log, mensajes, etc.)
                     Console.WriteLine($"Error: {e.Message}");
                 }
@@ -268,14 +286,21 @@ namespace CheckCars.ViewModels
         }
         private async Task UpdateReport(bool state)
         {
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                Report.isUploaded = state;
-                db.EntryExitReports.Update(Report);
-                db.SaveChanges();
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    Report.isUploaded = state;
+                    db.EntryExitReports.Update(Report);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");    
+                throw;
             }
         }
-
         #endregion
 
     }

@@ -39,21 +39,32 @@ namespace CheckCars.ViewModels
             }
         }
         #endregion
+
+        #region Constructor
         public ViewCrashVM()
         {
-            var Id = Data.StaticData.ReportId;
-
-            IDeleteReport = new Command(async () => await DeleteReport());
-            DownloadReportCommand = new Command(async () => await DownloadReport());
-            ISendReportCommand = new Command(async () => await SendDataAsync());
-            IShareImage = new Command<string>(SharePhotoAsync);
-
-            using (var dbo = new ReportsDBContextSQLite())
+            try
             {
-                Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
+                var Id = Data.StaticData.ReportId;
 
+                IDeleteReport = new Command(async () => await DeleteReport());
+                DownloadReportCommand = new Command(async () => await DownloadReport());
+                ISendReportCommand = new Command(async () => await SendDataAsync());
+                IShareImage = new Command<string>(SharePhotoAsync);
+
+                using (var dbo = new ReportsDBContextSQLite())
+                {
+                    Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
+
+                }
+            }
+            catch (Exception fef)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", fef.Message, "OK");
+                throw;
             }
         }
+        #endregion
 
         #region Commands   
         public ICommand IDeleteReport { get; }
@@ -61,6 +72,7 @@ namespace CheckCars.ViewModels
         public ICommand ISendReportCommand { get; }
         public ICommand IShareImage { get; }
         #endregion
+        
         #region Methods
         public async Task DeleteReport()
         {
@@ -104,6 +116,7 @@ namespace CheckCars.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
                     // Puedes registrar el error o manejarlo según lo necesites
                     Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
                 }
@@ -126,26 +139,33 @@ namespace CheckCars.ViewModels
                 }
                 catch (Exception e)
                 {
-                    // Manejo de errores (log, mensajes, etc.)
+                    Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");    
                     Console.WriteLine($"Error: {e.Message}");
                 }
             });
         }
         private async Task ShareFile(string filePath)
         {
-            var request = new ShareFileRequest
+            try
             {
-                Title = "Enviar Reporte",
-                File = new ShareFile(filePath)
-            };
+                var request = new ShareFileRequest
+                {
+                    Title = "Enviar Reporte",
+                    File = new ShareFile(filePath)
+                };
 
-            await Share.Default.RequestAsync(request);
+                await Share.Default.RequestAsync(request);
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
+                throw;
+            }
         }
         private void SharePhotoAsync(string obj)
         {
             ShareFile(obj);
         }
-
         private async Task SendDataAsync()
         {
             try
@@ -171,8 +191,8 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-                Console.Write(e.Message);
-                //throw;
+                Application.Current.MainPage.DisplayAlert("Error", "Error al enviar el reporte. " + e.Message, "OK");
+                Console.WriteLine(e.Message);
             }
             finally
             {
@@ -181,14 +201,21 @@ namespace CheckCars.ViewModels
         }
         private async Task UpdateReport(bool e)
         {
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                Report.isUploaded = e;
-                db.CrashReports.Update(Report);
-                db.SaveChanges();
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    Report.isUploaded = e;
+                    db.CrashReports.Update(Report);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
+                throw;
             }
         }
         #endregion
-
     }
 }

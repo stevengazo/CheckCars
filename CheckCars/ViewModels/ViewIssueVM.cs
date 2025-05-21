@@ -10,6 +10,7 @@ namespace CheckCars.ViewModels
 {
     public class ViewIssueVM : INotifyPropertyChangedAbst
     {
+        #region Constructor
         public ViewIssueVM()
         {
             var Id = Data.StaticData.ReportId;
@@ -27,6 +28,8 @@ namespace CheckCars.ViewModels
 
             }
         }
+
+        #endregion
 
         #region Properties
         private readonly APIService _apiService;
@@ -84,35 +87,45 @@ namespace CheckCars.ViewModels
         }
         public async Task DeleteReport()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert(
-                   "Confirmación",
-                   "¿Deseas borrar este reporte?",
-                   "Sí",
-                   "No"
-               );
-
-            if (answer)
+            try
             {
+                bool answer = await Application.Current.MainPage.DisplayAlert(
+              "Confirmación",
+              "¿Deseas borrar este reporte?",
+              "Sí",
+              "No"
+          );
 
-                using (var db = new ReportsDBContextSQLite())
+                if (answer)
                 {
-                    db.Photos.RemoveRange(Report.Photos);
-                    db.SaveChanges();
-                    db.IssueReports.Remove(Report);
-                    db.SaveChanges();
 
-                    var paths = Report.Photos.Select(e => e.FilePath).ToList();
-                    if (paths.Any())
+                    using (var db = new ReportsDBContextSQLite())
                     {
-                        // Ejecuta la eliminación de fotos en un hilo aparte
-                        new Thread(() => DeletePhotos(paths)).Start();
-                    }
+                        db.Photos.RemoveRange(Report.Photos);
+                        db.SaveChanges();
+                        db.IssueReports.Remove(Report);
+                        db.SaveChanges();
 
-                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-                    Application.Current.MainPage.Navigation.RemovePage(d);
+                        var paths = Report.Photos.Select(e => e.FilePath).ToList();
+                        if (paths.Any())
+                        {
+                            // Ejecuta la eliminación de fotos en un hilo aparte
+                            new Thread(() => DeletePhotos(paths)).Start();
+                        }
+
+                        var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                        Application.Current.MainPage.Navigation.RemovePage(d);
+
+                    }
 
                 }
 
+
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
+                throw;
             }
 
         }
@@ -165,6 +178,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ex)
             {
+                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
                 // Manejo de errores
                 Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
             }
@@ -175,13 +189,20 @@ namespace CheckCars.ViewModels
         }
         private async Task ShareFile(string filePath)
         {
-            var request = new ShareFileRequest
+            try
             {
-                Title = "Enviar Reporte",
-                File = new ShareFile(filePath)
-            };
+                var request = new ShareFileRequest
+                {
+                    Title = "Enviar Reporte",
+                    File = new ShareFile(filePath)
+                };
 
-            await Share.Default.RequestAsync(request);
+                await Share.Default.RequestAsync(request);
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
+            }
         }
         private void SharePhotoAsync(string obj)
         {
