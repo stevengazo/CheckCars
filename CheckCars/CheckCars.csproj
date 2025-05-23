@@ -123,6 +123,9 @@
     <MauiXaml Update="Views\CarList.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\Components\BindablePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\Components\ExitCardItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

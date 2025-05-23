@@ -5,61 +5,100 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:CheckCars.Models"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    xmlns:compontents="clr-namespace:CheckCars.Views.Components"
     Title="Agregar Reserva">
+    <ContentPage.BindingContext>
+        <ViewModels:AddBookingVM />
+    </ContentPage.BindingContext>
+
     <Grid RowDefinitions="auto,auto">
         <ScrollView Grid.Row="0">
-            <StackLayout Padding="20" Spacing="25">
+            <StackLayout Padding="20" Spacing="5">
 
                 <!--  Start Date and Time  -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    Text="Start Date" />
+                    Text="Fecha y Hora Inicio" />
                 <HorizontalStackLayout Spacing="10">
-                    <DatePicker x:Name="startDatePicker" WidthRequest="160" />
-                    <TimePicker x:Name="startTimePicker" WidthRequest="140" />
+                    <DatePicker Date="{Binding StartDatePart, Mode=TwoWay}" />
+                    <TimePicker Time="{Binding StartTimePart, Mode=TwoWay}" />
+
                 </HorizontalStackLayout>
 
                 <!--  End Date and Time  -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    Text="End Date" />
+                    Text="Fecha y hora Final" />
                 <HorizontalStackLayout Spacing="10">
-                    <DatePicker x:Name="endDatePicker" WidthRequest="160" />
-                    <TimePicker x:Name="endTimePicker" WidthRequest="140" />
+                    <DatePicker Date="{Binding EndDatePart, Mode=TwoWay}" />
+                    <TimePicker Time="{Binding EndTimePart, Mode=TwoWay}" />
                 </HorizontalStackLayout>
 
                 <!--  Reason  -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    Text="Reason" />
+                    Text="Motivo" />
                 <Entry x:Name="reasonEntry" Placeholder="Enter reason" />
-
-                <!--  Status  -->
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    Text="Status" />
-                <Entry x:Name="statusEntry" Placeholder="Enter status" />
 
                 <!--  User ID  -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    Text="User ID" />
+                    Text="Usuario" />
                 <Entry x:Name="userIdEntry" Placeholder="Enter user ID" />
 
-                <!--  Car ID  -->
+                <!--  Car Plate  -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    Text="Car ID" />
-                <Entry
-                    x:Name="carIdEntry"
-                    Keyboard="Numeric"
-                    Placeholder="Enter car ID" />
+                    Text="Vehículo" />
+
+                <Picker
+                    Title="Seleccione el vehiculo"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
+                    ItemsSource="{Binding CarsList}"
+                    SelectedItem="{Binding SelectedCar}"
+                    TextColor="{AppThemeBinding Light=Black,
+                                                Dark=White}"
+                    TitleColor="{AppThemeBinding Light=Gray,
+                                                 Dark=WhiteSmoke}"
+                    VerticalOptions="Center" />
+
+                <Label 
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Text="Provincia" />
+
+                <Picker
+                    Title="Seleccione la provincia"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2"
+                   SelectedItem="{Binding Booking.Province}"
+                    BackgroundColor="{AppThemeBinding Light=White,
+                                                      Dark=Gray}"
+                    TextColor="{AppThemeBinding Light=Black,
+                                                Dark=White}"
+                    TitleColor="{AppThemeBinding Light=Gray,
+                                                 Dark=WhiteSmoke}">
+                    <Picker.Items>
+                        <x:String>San José</x:String>
+                        <x:String>Alajuela</x:String>
+                        <x:String>Cartago</x:String>
+                        <x:String>Heredia</x:String>
+                        <x:String>Guanacaste</x:String>
+                        <x:String>Puntarenas</x:String>
+                        <x:String>Limón</x:String>
+                    </Picker.Items>
+                </Picker>
+
 
                 <!--  Optional separator  -->
                 <BoxView
@@ -70,8 +109,9 @@
                 <!--  Submit Button  -->
                 <Button
                     BackgroundColor="#007ACC"
+                    Command="{Binding AddBookingCommand}"
                     CornerRadius="10"
-                    Text="Submit"
+                    Text="Validar"
                     TextColor="White" />
 
             </StackLayout>

@@ -17,7 +17,7 @@ namespace CheckCars.Services
         {
             try
             {
-                 CheckCars.Data.StaticData.URL.ToString().TrimEnd('/');
+                CheckCars.Data.StaticData.URL.ToString().TrimEnd('/');
 
                 if (string.IsNullOrEmpty(CheckCars.Data.StaticData.Port))
                 {
@@ -39,13 +39,13 @@ namespace CheckCars.Services
             }
             catch (Exception we)
             {
-          //     throw;
+                //     throw;
             }
         }
         #endregion
 
         #region Methods  
-        
+
         public async Task UpdateUrl(string url)
         {
             try
@@ -87,9 +87,9 @@ namespace CheckCars.Services
                     var json = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<T>(json);
                 }
-                else if( response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    Application.Current.MainPage.DisplayAlert("Información","No posee autorización","Ok");
+                    Application.Current.MainPage.DisplayAlert("Información", "No posee autorización", "Ok");
                 }
                 return default;
             }
@@ -100,8 +100,8 @@ namespace CheckCars.Services
                 return default;
             }
         }
- 
-        public async Task<(bool sucess, string response)> PostAsync<T>(string endpoint, T data )
+
+        public async Task<(bool sucess, string response)> PostAsync<T>(string endpoint, T data)
         {
             try
             {
@@ -148,7 +148,6 @@ namespace CheckCars.Services
 
                 Token = await GetJwtTokenAsync();
 
-                // Añadir el token al encabezado Authorization si existe
                 if (!string.IsNullOrEmpty(Token))
                 {
                     _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token);
@@ -156,26 +155,48 @@ namespace CheckCars.Services
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(endpoint, content, cts?.Token ?? CancellationToken.None);
+
+                // Leer el contenido de la respuesta como string
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // Guardar para debug
+                var debugResponse = responseBody;
+
+                // Mostrar en pantalla para debug
+
+
                 switch (response.StatusCode)
                 {
                     case System.Net.HttpStatusCode.RequestTimeout:
-                        Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error", "Tiempo de espera agotado", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Respuesta", debugResponse, "Ok");
                         break;
 
                     case System.Net.HttpStatusCode.Conflict:
-                        Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error", "El reporte ya se encuentra en el servidor", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Respuesta", debugResponse, "Ok");
+                        break;
+                    case System.Net.HttpStatusCode.Unauthorized:
+                        await Application.Current.MainPage.DisplayAlert("Error", "No posee autorización", "Ok");
+                        break;
+                    case System.Net.HttpStatusCode.BadRequest:
+                        await Application.Current.MainPage.DisplayAlert("Error", "Error en la solicitud" + responseBody, "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Respuesta", debugResponse, "Ok");
                         break;
                     default:
                         break;
                 }
+
                 return response.IsSuccessStatusCode;
             }
             catch (Exception r)
             {
+                await Application.Current.MainPage.DisplayAlert("Excepción", r.Message, "Ok");
                 return false;
             }
+
         }
-    
+
         public async Task<bool> PostAsync<T>(string endpoint, T data, List<string> files = null, TimeSpan? timeout = null)
         {
             try

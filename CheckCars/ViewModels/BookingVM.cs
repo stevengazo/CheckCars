@@ -70,7 +70,7 @@ namespace CheckCars.ViewModels
                 Status = "Confirmed",
                 UserId = "user123",
                 Deleted = false,
-                CarId = 101
+                CarId = "101"
             },          new Booking
             {
                 BookingId = 2,
@@ -80,7 +80,7 @@ namespace CheckCars.ViewModels
                 Status = "Confirmed",
                 UserId = "user123",
                 Deleted = false,
-                CarId = 101
+                CarId = "101"
             },            new Booking
             {
                 BookingId = 3,
@@ -89,7 +89,7 @@ namespace CheckCars.ViewModels
                 Status = "Confirmed",
                 UserId = "user123",
                 Deleted = false,
-                CarId = 101
+                CarId = "101"
             },          new Booking
             {
                 BookingId = 4,
@@ -99,7 +99,7 @@ namespace CheckCars.ViewModels
                 Status = "Confirmed",
                 UserId = "user123",
                 Deleted = false,
-                CarId = 101
+                CarId = "101"
             },        new Booking
             {
                 BookingId = 4,
@@ -109,7 +109,7 @@ namespace CheckCars.ViewModels
                 Status = "Confirmed",
                 UserId = "user123",
                 Deleted = false,
-                CarId = 101
+                CarId = "101"
             },        new Booking
             {
                 BookingId = 4,
@@ -119,7 +119,7 @@ namespace CheckCars.ViewModels
                 Status = "Confirmed",
                 UserId = "user123",
                 Deleted = false,
-                CarId = 101
+                CarId = "101"
             },
 
         };
