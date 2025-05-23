@@ -9,13 +9,14 @@ using System.Windows.Input;
 using CheckCars.Services;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using CheckCars.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheckCars.ViewModels
 {
     public class BookingVM : INotifyPropertyChangedAbst
     {
 
-         #region Properties
+        #region Properties
         private readonly APIService aPIService = new APIService();
         private readonly ReportsDBContextSQLite _db = new();
         public EventCollection Events { get; set; } = new EventCollection();
@@ -38,7 +39,7 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Commands
-        public ICommand AddBooking { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(  new AddBooking(),true ) );
+        public ICommand AddBooking { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddBooking(), true));
 
         #endregion
 
@@ -154,31 +155,63 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private async Task Demo()
+        private async Task SaveInDB(List<Booking> bookings)
         {
-            var api = new APIService();
-            var Reservas = await api.GetAsync<List<Booking>>("api/Bookings", TimeSpan.FromSeconds(55));
-            if(Reservas != null)
+            try
+            {
+                if (bookings != null)
+                {
+                    var ExistingIds = _db.Bookings.Select(b => b.BookingId).ToHashSet();
+                    var newBookings = bookings.Where(b => !ExistingIds.Contains(b.BookingId)).ToList();
+
+                    if (newBookings.Count > 0)
+                    {
+                        _db.Bookings.AddRange(newBookings);
+                    }
+
+                    await _db.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+
+
+        private async Task LoadData(List<Booking> bookings)
+        {
+            if (bookings != null)
             {
                 var eventos = new EventCollection();
-                var grouped = Reservas.GroupBy(b => b.Startdate.Date);
+                var grouped = bookings.GroupBy(b => b.Startdate.Date);
                 foreach (var group in grouped)
                 {
-
                     eventos.Add(group.Key, group.ToList());
                 }
                 Events = eventos;
-
                 Application.Current.MainPage.DisplayAlert("Info", " hay reservas", "OK");
             }
             else
             {
                 Application.Current.MainPage.DisplayAlert("Error", "No hay reservas", "OK");
-            }   
+            }
+        }
+
+
+
+        private async Task Demo()
+        {
+            var api = new APIService();
+            var Reservas = await api.GetAsync<List<Booking>>("api/Bookings", TimeSpan.FromSeconds(55));
+            List<Booking> bookings = await _db.Bookings
+             .Include(b => b.Car) // Si necesitas incluir la relación
+             .ToListAsync();
+            await LoadData(bookings);
         }
 
         #endregion
 
     }
- 
+
 }

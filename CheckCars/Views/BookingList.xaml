@@ -38,7 +38,8 @@
                                         FontAttributes="Bold"
                                         Text="Car ID:"
                                         WidthRequest="100" />
-                                    <Label Text="{Binding CarId}" />
+                                    <Label Text="{Binding Car.Model}" />
+                                    <Label Text="{Binding Car.Plate}" />
                                 </HorizontalStackLayout>
 
                                 <!--  Fila: Fecha Reserva  -->

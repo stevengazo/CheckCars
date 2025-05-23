@@ -12,6 +12,7 @@ namespace CheckCars.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<VehicleReturn> Returns { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         public ReportsDBContextSQLite(DbContextOptions<ReportsDBContextSQLite> contextOptions)
         {
