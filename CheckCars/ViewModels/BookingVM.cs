@@ -6,13 +6,18 @@ using System.ComponentModel;
 using System.Collections;
 using CheckCars.Views;
 using System.Windows.Input;
+using CheckCars.Services;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using CheckCars.Data;
 
 namespace CheckCars.ViewModels
 {
     public class BookingVM : INotifyPropertyChangedAbst
     {
 
-        #region Properties
+         #region Properties
+        private readonly APIService aPIService = new APIService();
+        private readonly ReportsDBContextSQLite _db = new();
         public EventCollection Events { get; set; } = new EventCollection();
 
         private DateTime _SelectedDate;
@@ -39,24 +44,26 @@ namespace CheckCars.ViewModels
 
         #region Methods
 
-        private EventCollection Bookings()
+        private async Task<EventCollection> BookingsAsync()
         {
-            var dates = GetSampleBookings().Select(e => e.Startdate).ToList();
+            var url = $"api/Bookings/Search?startDate={DateTime.UtcNow:yyyy-MM-ddTHH:mm:ss}&endDate={DateTime.UtcNow.AddMonths(1):yyyy-MM-ddTHH:mm:ss}";
 
+            var bookings = await aPIService.GetAsync<List<Booking>>(url, TimeSpan.FromSeconds(10));
             var eventos = new EventCollection();
 
-            var bookingsByDate = GetSampleBookings()
-                .GroupBy(b => b.Startdate.Date);
-
-            foreach (var group in bookingsByDate)
+            if (bookings != null)
             {
-                eventos.Add(group.Key, group.ToList());
+                var cars = _db.Cars.ToList();
+
+
+                var grouped = bookings.GroupBy(b => b.Startdate.Date);
+                foreach (var group in grouped)
+                {
+                    eventos.Add(group.Key, group.ToList());
+                }
             }
-
             return eventos;
-
         }
-
         public List<Booking> GetSampleBookings()
         {
             return new List<Booking>
@@ -138,13 +145,36 @@ namespace CheckCars.ViewModels
         {
             try
             {
-                Events = Bookings();
+                Task.Run(async () => await Demo());
             }
             catch (Exception gt)
             {
                 Application.Current.MainPage.DisplayAlert("Error", gt.Message, "OK");
                 throw;
             }
+        }
+
+        private async Task Demo()
+        {
+            var api = new APIService();
+            var Reservas = await api.GetAsync<List<Booking>>("api/Bookings", TimeSpan.FromSeconds(55));
+            if(Reservas != null)
+            {
+                var eventos = new EventCollection();
+                var grouped = Reservas.GroupBy(b => b.Startdate.Date);
+                foreach (var group in grouped)
+                {
+
+                    eventos.Add(group.Key, group.ToList());
+                }
+                Events = eventos;
+
+                Application.Current.MainPage.DisplayAlert("Info", " hay reservas", "OK");
+            }
+            else
+            {
+                Application.Current.MainPage.DisplayAlert("Error", "No hay reservas", "OK");
+            }   
         }
 
         #endregion
