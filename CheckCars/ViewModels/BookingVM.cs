@@ -184,17 +184,25 @@ namespace CheckCars.ViewModels
             if (bookings != null)
             {
                 var eventos = new EventCollection();
-                var grouped = bookings.GroupBy(b => b.Startdate.Date);
-                foreach (var group in grouped)
+
+                foreach (var booking in bookings)
                 {
-                    eventos.Add(group.Key, group.ToList());
+                    // Recorremos todos los días desde Startdate hasta Enddate inclusive  
+                    for (DateTime date = booking.Startdate.Date; date <= booking.EndDate.Date; date = date.AddDays(1))
+                    {
+                        if (!eventos.ContainsKey(date))
+                            eventos[date] = new List<Booking>(); // Cambiado ICollection a List<Booking>  
+
+                        ((List<Booking>)eventos[date]).Add(booking); // Realizamos un casting explícito a List<Booking>  
+                    }
                 }
+
                 Events = eventos;
-                Application.Current.MainPage.DisplayAlert("Info", " hay reservas", "OK");
+                await Application.Current.MainPage.DisplayAlert("Info", "Hay reservas", "OK");
             }
             else
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No hay reservas", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "No hay reservas", "OK");
             }
         }
 
@@ -204,6 +212,7 @@ namespace CheckCars.ViewModels
         {
             var api = new APIService();
             var Reservas = await api.GetAsync<List<Booking>>("api/Bookings", TimeSpan.FromSeconds(55));
+            await  SaveInDB(Reservas);
             List<Booking> bookings = await _db.Bookings
              .Include(b => b.Car) // Si necesitas incluir la relación
              .ToListAsync();
