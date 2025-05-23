@@ -3,6 +3,7 @@ using CheckCars.Models;
 using CheckCars.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,9 @@ namespace CheckCars.ViewModels
         public AddBookingVM()
         {
             // booking. =  Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+            booking = new Booking();
+            booking.Startdate = DateTime.Now;
+            booking.EndDate = DateTime.Now.AddHours(1);
             carsList = _db.Cars.Select(e => e.Plate).ToList();
         }
         #endregion
@@ -37,11 +41,7 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private Booking booking { get; set; } = new Booking()
-        {
-            Startdate = DateTime.Now,
-            EndDate = DateTime.Now.AddHours(1),
-        };
+        private Booking booking { get; set; } 
         public Booking Booking
         {
             get { return booking; }
@@ -78,12 +78,13 @@ namespace CheckCars.ViewModels
                 if (_startDateTime != value)
                 {
                     _startDateTime = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(StartDate));
                     OnPropertyChanged(nameof(StartDatePart));
                     OnPropertyChanged(nameof(StartTimePart));
                 }
             }
         }
+
         public DateTime StartDatePart
         {
             get => _startDateTime.Date;
@@ -92,6 +93,7 @@ namespace CheckCars.ViewModels
                 StartDate = value.Date + _startDateTime.TimeOfDay;
             }
         }
+
         public TimeSpan StartTimePart
         {
             get => _startDateTime.TimeOfDay;
@@ -100,6 +102,7 @@ namespace CheckCars.ViewModels
                 StartDate = _startDateTime.Date + value;
             }
         }
+
         private DateTime _endDateTime = DateTime.Now.AddHours(1);
         public DateTime EndDate
         {
@@ -109,18 +112,19 @@ namespace CheckCars.ViewModels
                 if (value < StartDate)
                 {
                     Application.Current.MainPage.DisplayAlert("Error", "La fecha final no puede ser anterior a la fecha de inicio", "OK");
-                    return;
+                    return; // Ya no se modifica StartDate, solo se cancela el cambio
                 }
 
                 if (_endDateTime != value)
                 {
                     _endDateTime = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(EndDate));
                     OnPropertyChanged(nameof(EndDatePart));
                     OnPropertyChanged(nameof(EndTimePart));
                 }
             }
         }
+
         public DateTime EndDatePart
         {
             get => _endDateTime.Date;
@@ -129,6 +133,7 @@ namespace CheckCars.ViewModels
                 EndDate = value.Date + _endDateTime.TimeOfDay;
             }
         }
+
         public TimeSpan EndTimePart
         {
             get => _endDateTime.TimeOfDay;
@@ -137,6 +142,15 @@ namespace CheckCars.ViewModels
                 EndDate = _endDateTime.Date + value;
             }
         }
+
+        // Método para notificar cambios en propiedades (debes implementarlo o usar INotifyPropertyChanged)
+        private void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private string _ErrorMessage { get; set; } = string.Empty;
         public string ErrorMessage
         {
@@ -173,9 +187,11 @@ namespace CheckCars.ViewModels
                 var bookings = await aPIService.GetAsync<List<Booking>>(url,TimeSpan.FromSeconds(24));
                 if (!bookings.Any())
                 {
+                    booking.Startdate = StartDate;
+                    booking.EndDate = EndDate;
                     booking.UserId = "6f969ce2-53a1-4b39-b8d0-aa0d25c5c4bb";
                     booking.Deleted = false;
-                    bool add = await Application.Current.MainPage.DisplayAlert(url, "¿Desea añadir la reserva?", "Añadir reserva", "Cancelar");
+                    bool add = await Application.Current.MainPage.DisplayAlert("Advertencia", "¿Desea añadir la reserva?", "Añadir reserva", "Cancelar");
                     if (add)
                     {
                         var R = await aPIService.PostAsync<Booking>("api/bookings", booking, TimeSpan.FromSeconds(23));
