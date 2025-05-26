@@ -54,126 +54,24 @@ namespace CheckCars.ViewModels
 
         public ICommand UpdateReports => new Command(async () => await UpdateBookings());
 
+
+
+        #endregion
+
+        #region Methods
         private async Task UpdateBookings()
         {
             throw new NotImplementedException();
         }
 
-        #endregion
-
-        #region Methods
-
-        private async Task<EventCollection> BookingsAsync()
-        {
-            var url = $"api/Bookings/Search?startDate={DateTime.UtcNow:yyyy-MM-ddTHH:mm:ss}&endDate={DateTime.UtcNow.AddMonths(1):yyyy-MM-ddTHH:mm:ss}";
-
-            var bookings = await aPIService.GetAsync<List<Booking>>(url, TimeSpan.FromSeconds(10));
-            var eventos = new EventCollection();
-
-            if (bookings != null)
-            {
-                var cars = _db.Cars.ToList();
-
-
-                var grouped = bookings.GroupBy(b => b.Startdate.Date);
-                foreach (var group in grouped)
-                {
-                    eventos.Add(group.Key, group.ToList());
-                }
-            }
-            return eventos;
-        }
-        public List<Booking> GetSampleBookings()
-        {
-            return new List<Booking>
-        {
-            new Booking
-            {
-                BookingId = 1,
-                Startdate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(2),
-                Reason = "Business Trip",
-                Status = "Confirmed",
-                UserId = "user123",
-                Deleted = false,
-                CarId = "101"
-            },          new Booking
-            {
-                BookingId = 2,
-                Startdate = DateTime.Now.AddDays(3).AddHours(3),
-                EndDate = DateTime.Now.AddDays(2),
-                Reason = "Business Trip",
-                Status = "Confirmed",
-                UserId = "user123",
-                Deleted = false,
-                CarId = "101"
-            },            new Booking
-            {
-                BookingId = 3,
-                Startdate = DateTime.Now.AddDays(3).AddHours(6),
-                Reason = "Business Trip",
-                Status = "Confirmed",
-                UserId = "user123",
-                Deleted = false,
-                CarId = "101"
-            },          new Booking
-            {
-                BookingId = 4,
-                Startdate = DateTime.Now.AddDays(3).AddHours(2),
-                EndDate = DateTime.Now.AddDays(2),
-                Reason = "Business Trip",
-                Status = "Confirmed",
-                UserId = "user123",
-                Deleted = false,
-                CarId = "101"
-            },        new Booking
-            {
-                BookingId = 4,
-                Startdate = DateTime.Now.AddDays(3).AddHours(2),
-                EndDate = DateTime.Now.AddDays(2),
-                Reason = "Business Trip",
-                Status = "Confirmed",
-                UserId = "user123",
-                Deleted = false,
-                CarId = "101"
-            },        new Booking
-            {
-                BookingId = 4,
-                Startdate = DateTime.Now.AddDays(3).AddHours(2),
-                EndDate = DateTime.Now.AddDays(2),
-                Reason = "Business Trip",
-                Status = "Confirmed",
-                UserId = "user123",
-                Deleted = false,
-                CarId = "101"
-            },
-
-        };
-        }
-
         public async Task UpdateBookings(DateTime d)
         {
-            // Update the list of bookings by the month and year
+            // Update the list of TmpBookings by the month and year
             throw new NotImplementedException();
         }
 
-        #endregion
 
-        #region Constructor
-        public BookingVM()
-        {
-            try
-            {
-                Task.Run(async () => await Demo());
-            }
-            catch (Exception gt)
-            {
-                Application.Current.MainPage.DisplayAlert("Error", gt.Message, "OK");
-                throw;
-            }
-        }
-
-        private async Task SaveInDB(List<Booking> bookings)
+        private async Task SaveInDBAsync(List<Booking> bookings)
         {
             try
             {
@@ -196,8 +94,7 @@ namespace CheckCars.ViewModels
             }
         }
 
-
-        private async Task LoadData(List<Booking> bookings)
+        private async Task LoadDataAsync(List<Booking> bookings)
         {
             if (bookings != null)
             {
@@ -224,17 +121,29 @@ namespace CheckCars.ViewModels
             }
         }
 
-
-
-        private async Task Demo()
+        private async Task GetData()
         {
             var api = new APIService();
             var Reservas = await api.GetAsync<List<Booking>>("api/Bookings", TimeSpan.FromSeconds(55));
-            await  SaveInDB(Reservas);
-            List<Booking> bookings = await _db.Bookings
-             .Include(b => b.Car) // Si necesitas incluir la relación
-             .ToListAsync();
-            await LoadData(bookings);
+            await SaveInDBAsync(Reservas);
+            List<Booking> TmpBookings = await _db.Bookings.Include(b => b.Car).ToListAsync();
+            await LoadDataAsync(TmpBookings);
+        }
+
+        #endregion
+
+        #region Constructor
+        public BookingVM()
+        {
+            try
+            {
+                Task.Run(async () => await GetData());
+            }
+            catch (Exception gt)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", gt.Message, "OK");
+                throw;
+            }
         }
 
         #endregion
