@@ -23,7 +23,7 @@
                 Events="{Binding Events}"
                 EventsScrollViewVisible="True"
                 SelectedDate="{Binding SelectedDat}"
-                SelectedDayBackgroundColor="Red">
+                SelectedDayBackgroundColor="Green">
                 <cal:Calendar.EventTemplate>
                     <DataTemplate>
                         <Frame Margin="0,2,0,2">
