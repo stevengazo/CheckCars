@@ -148,6 +148,9 @@ namespace CheckCars.ViewModels
             }
         } 
         );
+
+        public ICommand Update => new Command(async() => await RequestCars());
+
         #endregion
 
         #region Methods

@@ -41,6 +41,13 @@ namespace CheckCars.ViewModels
         #region Commands
         public ICommand AddBooking { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddBooking(), true));
 
+        public ICommand UpdateReports => new Command(async () => await UpdateBookings());
+
+        private async Task UpdateBookings()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Methods

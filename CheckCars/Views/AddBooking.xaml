@@ -6,10 +6,14 @@
     xmlns:Models="clr-namespace:CheckCars.Models"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     xmlns:compontents="clr-namespace:CheckCars.Views.Components"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Agregar Reserva">
     <ContentPage.BindingContext>
         <ViewModels:AddBookingVM />
     </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding UpdateBookings, Mode=OneWay}" EventName="Appearing" />
+    </ContentPage.Behaviors>
 
     <Grid RowDefinitions="auto,auto">
         <ScrollView Grid.Row="0">
@@ -41,7 +45,10 @@
                     FontAttributes="Bold"
                     FontSize="Medium"
                     Text="Motivo" />
-                <Entry x:Name="reasonEntry" Placeholder="Enter reason" />
+                <Entry
+                    x:Name="reasonEntry"
+                    Placeholder="Enter reason"
+                    Text="{Binding Booking.Reason}" />
 
                 <!--  User ID  -->
                 <Label
@@ -71,7 +78,7 @@
                                                  Dark=WhiteSmoke}"
                     VerticalOptions="Center" />
 
-                <Label 
+                <Label
                     FontAttributes="Bold"
                     FontSize="Medium"
                     Text="Provincia" />
@@ -81,9 +88,9 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="2"
-                   SelectedItem="{Binding Booking.Province}"
                     BackgroundColor="{AppThemeBinding Light=White,
                                                       Dark=Gray}"
+                    SelectedItem="{Binding Booking.Province}"
                     TextColor="{AppThemeBinding Light=Black,
                                                 Dark=White}"
                     TitleColor="{AppThemeBinding Light=Gray,

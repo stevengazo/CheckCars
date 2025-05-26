@@ -6,13 +6,17 @@
     xmlns:Controls="clr-namespace:CheckCars.Shared.Controls"
     xmlns:Models="clr-namespace:CheckCars.Models"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Vehículos"
     x:DataType="ViewModels:CarListVM">
 
     <ContentPage.BindingContext>
         <ViewModels:CarListVM />
     </ContentPage.BindingContext>
-
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding Update, Mode=OneWay}" EventName="Appearing" />
+    </ContentPage.Behaviors>
     <Grid
         HorizontalOptions="FillAndExpand"
         RowDefinitions="Auto, *"

@@ -13,14 +13,16 @@
     <Grid RowDefinitions="*,auto">
 
 
-        <ScrollView Grid.Row="0" VerticalOptions="StartAndExpand" Padding="5,0,5,0
-                    ">
+        <ScrollView
+            Grid.Row="0"
+            Padding="5,0,5,0"
+            VerticalOptions="StartAndExpand">
             <cal:Calendar
+                Margin="5,0,5,0"
                 CalendarLayout="Month"
-                SelectedDate="{Binding SelectedDat}"
-               Margin="5,0,5,0"
                 Events="{Binding Events}"
                 EventsScrollViewVisible="True"
+                SelectedDate="{Binding SelectedDat}"
                 SelectedDayBackgroundColor="Red">
                 <cal:Calendar.EventTemplate>
                     <DataTemplate>
@@ -38,7 +40,7 @@
                                         FontAttributes="Bold"
                                         Text="Car ID:"
                                         WidthRequest="100" />
-                                    <HorizontalStackLayout Spacing="20" HorizontalOptions="FillAndExpand">
+                                    <HorizontalStackLayout HorizontalOptions="FillAndExpand" Spacing="20">
 
                                         <Label Text="{Binding Car.Model}" />
                                         <Label Text="{Binding Car.Plate}" />
