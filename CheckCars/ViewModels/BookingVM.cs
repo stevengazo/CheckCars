@@ -19,11 +19,23 @@ namespace CheckCars.ViewModels
         #region Properties
         private readonly APIService aPIService = new APIService();
         private readonly ReportsDBContextSQLite _db = new();
-        public EventCollection Events { get; set; } = new EventCollection();
+        private EventCollection _events = new EventCollection();
+        public EventCollection Events
+        {
+            get => _events;
+            set
+            {
+                if (_events != value)
+                {
+                    _events = value;
+                    OnPropertyChanged(nameof(Events));
+                }
+            }
+        }
 
         private DateTime _SelectedDate;
 
-        public DateTime SelectedDat
+        public DateTime SelectedDate
         {
             get { return _SelectedDate; }
             set
@@ -31,8 +43,7 @@ namespace CheckCars.ViewModels
                 if (_SelectedDate != value)
                 {
                     _SelectedDate = value;
-                    UpdateBookings(value);
-                    OnPropertyChanged(nameof(SelectedDat));
+                    OnPropertyChanged(nameof(SelectedDate));
                 }
             }
         }
