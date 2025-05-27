@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using CheckCars.Views;
 
 namespace CheckCars.ViewModels
 {
@@ -15,6 +17,22 @@ namespace CheckCars.ViewModels
 
         #region Properties  
         private readonly APIService _apiService = new();
+
+        #endregion
+
+        #region Commands
+
+        public ICommand AddBooking => new Command(async () =>
+        {
+          // StaticData.CarId = Vehicle.CarId;
+            await Application.Current.MainPage.Navigation.PushAsync(new AddBooking());
+        });
+
+
+        public ICommand DeleteCar => new Command(async () =>
+        {
+            Application.Current.MainPage.DisplayPromptAsync("Eliminar Vehículo", "¿Estás seguro de eliminar este vehículo?", "Eliminar", "Cancelar", "Escribe 'eliminar' para confirmar", 2, keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+        });
 
         #endregion
 

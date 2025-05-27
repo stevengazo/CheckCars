@@ -44,7 +44,10 @@
                         BorderColor="#DDD"
                         CornerRadius="6"
                         HasShadow="False">
-                        <Grid ColumnSpacing="12" RowSpacing="8"  RowDefinitions="auto,*,*,*,*,*,*,*,*,*,*,*">
+                        <Grid
+                            ColumnSpacing="12"
+                            RowDefinitions="auto,*,*,*,*,*,*,*,*,*,*,*"
+                            RowSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -205,6 +208,7 @@
                             BackgroundColor="#E57373"
                             BorderWidth="0"
                             CornerRadius="6"
+                            Command="{Binding DeleteCar }"
                             Text="Eliminar"
                             TextColor="White"
                             WidthRequest="120" />
@@ -216,6 +220,7 @@
                             BorderWidth="0"
                             CornerRadius="6"
                             Text="Reservar"
+                            Command="{Binding AddBooking}"
                             TextColor="White"
                             WidthRequest="120" />
                     </HorizontalStackLayout>

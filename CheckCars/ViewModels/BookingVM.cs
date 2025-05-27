@@ -70,11 +70,11 @@ namespace CheckCars.ViewModels
             throw new NotImplementedException();
         }
 
-
         private async Task SaveInDBAsync(List<Booking> bookings)
         {
             try
             {
+                _db.Bookings.RemoveRange(_db.Bookings.ToList());
                 if (bookings != null)
                 {
                     var ExistingIds = _db.Bookings.Select(b => b.BookingId).ToHashSet();

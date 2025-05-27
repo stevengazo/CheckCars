@@ -33,17 +33,17 @@ namespace CheckCars.ViewModels
         private readonly APIService _apiService = new();
         private SensorManager _sensorManager = new();
 
-        private ObservableCollection<Photo> _photos = new();
+        private ObservableCollection<Photo> _imgs = new();
 
-        public ObservableCollection<Photo> Photos
+        public ObservableCollection<Photo> ImgList
         {
-            get { return _photos; }
+            get { return _imgs; }
             set
             {
-                if (_photos != value)
+                if (_imgs != value)
                 {
-                    _photos = value;
-                    OnPropertyChanged(nameof(Photos));
+                    _imgs = value;
+                    OnPropertyChanged(nameof(ImgList));
                 }
             }
 
@@ -62,6 +62,8 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+
 
         private VehicleReturn _VehicleReturn { get; set; } = new VehicleReturn();
         private string[] _CarsInfo;
@@ -145,7 +147,7 @@ namespace CheckCars.ViewModels
                 Photo photo = await _sensorManager.TakePhoto();
                 if (photo != null)
                 {
-                    Photos.Add(photo);
+                    ImgList.Add(photo);
                 }
             }
             catch (Exception e)
@@ -171,7 +173,7 @@ namespace CheckCars.ViewModels
                     {
                         VehicleReturn.Created = DateTime.Now;
                         VehicleReturn.CarPlate = VehicleReturn.CarPlate.Split(' ').First();
-                        VehicleReturn.Photos = Photos.Select(p =>
+                        VehicleReturn.Photos = ImgList.Select(p =>
                         {
                             p.PhotoId = Guid.NewGuid().ToString();
                             return p;
@@ -218,7 +220,7 @@ namespace CheckCars.ViewModels
                 {
                     File.Delete(photo.FilePath);
                 }
-                Photos.Remove(photo);
+                ImgList.Remove(photo);
             }
             catch (Exception e)
             {
@@ -254,7 +256,7 @@ namespace CheckCars.ViewModels
         {
             try
             {
-                if (Photos.Count > 0)
+                if (ImgList.Count > 0)
                 {
                     return true;
                 }

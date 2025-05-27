@@ -200,7 +200,6 @@ namespace CheckCars.ViewModels
                             await Application.Current.MainPage.DisplayAlert("info", "Reserva Añadida", "OK");
                         }
                     }
-
                     else
                     {
                         return;
