@@ -8,11 +8,15 @@ namespace CheckCars.ViewModels
     {
         #region Constructor 
 
+        /// <summary>
+        /// Initializes the AccountVM instance,
+        /// sets default user profile, and loads saved preferences for username, URL, and port.
+        /// </summary>
         public AccountVM()
         {
             StaticData.User = new UserProfile();
             var name = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
-           
+
             LocalUser.UserName = name;
             URL = StaticData.URL;
             Port = StaticData.Port;
@@ -20,6 +24,10 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Commands
+
+        /// <summary>
+        /// Command to delete all reports asynchronously after user confirmation.
+        /// </summary>
         public ICommand CleanReports
         {
             get
@@ -28,6 +36,10 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
+
+        /// <summary>
+        /// Command to delete cached PDFs asynchronously after user confirmation.
+        /// </summary>
         public ICommand CleanPdfs
         {
             get
@@ -36,6 +48,10 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
+
+        /// <summary>
+        /// Command to update the user profile asynchronously.
+        /// </summary>
         public ICommand UpdateUser
         {
             get
@@ -45,17 +61,21 @@ namespace CheckCars.ViewModels
             private set { }
         }
 
-
+        /// <summary>
+        /// Command to handle changes in API usage (unimplemented).
+        /// </summary>
         public ICommand IOnChangeUseAPI;
 
         #endregion
 
         #region Properties
-    
-
 
         private string _url;
 
+        /// <summary>
+        /// Gets or sets the API base URL.
+        /// Trims trailing slashes and updates StaticData.
+        /// </summary>
         public string URL
         {
             get { return _url; }
@@ -63,16 +83,19 @@ namespace CheckCars.ViewModels
             {
                 if (_url != value)
                 {
-
                     _url = value.TrimEnd('/');
-                    
-                            StaticData.URL = value;
+                    StaticData.URL = value;
                     OnPropertyChanged(nameof(URL));
                 }
             }
         }
+
         private string _Port;
 
+        /// <summary>
+        /// Gets or sets the port.
+        /// Updates StaticData on change.
+        /// </summary>
         public string Port
         {
             get { return _Port; }
@@ -87,10 +110,12 @@ namespace CheckCars.ViewModels
             }
         }
 
-
-
-
         private UserProfile _User = new();
+
+        /// <summary>
+        /// Gets or sets the local user profile.
+        /// Notifies property changes.
+        /// </summary>
         public UserProfile LocalUser
         {
             get { return _User; }
@@ -99,13 +124,19 @@ namespace CheckCars.ViewModels
                 if (_User != value)
                 {
                     _User = value;
-                    OnPropertyChanged(nameof(LocalUser));  // Notificamos el cambio de lista
+                    OnPropertyChanged(nameof(LocalUser));  // Notify change
                 }
             }
         }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Deletes all reports asynchronously after user confirmation.
+        /// Deletes related photos and clears related database tables.
+        /// </summary>
         private async Task DeleteReportsAsync()
         {
             try
@@ -137,6 +168,11 @@ namespace CheckCars.ViewModels
                 Console.Write(ec.Message);
             }
         }
+
+        /// <summary>
+        /// Deletes a list of photo files asynchronously.
+        /// </summary>
+        /// <param name="photos">List of file paths to delete.</param>
         private async Task DeletePhotosAsync(List<string> photos)
         {
             try
@@ -148,9 +184,13 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error al borrar las fotos", "Ok");  
+                Application.Current.MainPage.DisplayAlert("Error", "Error al borrar las fotos", "Ok");
             }
         }
+
+        /// <summary>
+        /// Deletes cached PDF files asynchronously after user confirmation.
+        /// </summary>
         private async Task DeletePdfAsync()
         {
             try
@@ -177,6 +217,10 @@ namespace CheckCars.ViewModels
                 Application.Current.MainPage.DisplayAlert("Error", "Error al borrar el cache", "Ok");
             }
         }
+
+        /// <summary>
+        /// Updates the user profile and saves the username in preferences asynchronously.
+        /// </summary>
         private async Task UpdateUserProfileAsync()
         {
             try

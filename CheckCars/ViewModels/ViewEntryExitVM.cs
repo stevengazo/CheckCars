@@ -2,7 +2,6 @@
 using CheckCars.Models;
 using CheckCars.Services;
 using CheckCars.Utilities;
-
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Windows.Input;
@@ -11,13 +10,23 @@ namespace CheckCars.ViewModels
 {
     public class ViewEntryExitVM : INotifyPropertyChangedAbst
     {
-
         #region Properties  
 
+        /// <summary>
+        /// API service used to send reports to the server.
+        /// </summary>
         private readonly APIService _apiService;
+
+        /// <summary>
+        /// Thread used for handling report operations.
+        /// </summary>
         private Thread reportThread = new Thread(() => { });
 
         private bool _SendingDataCheck;
+
+        /// <summary>
+        /// Flag to indicate if data is currently being sent (for SendServer).
+        /// </summary>
         public bool SendingDataCheck
         {
             get { return _SendingDataCheck; }
@@ -32,6 +41,10 @@ namespace CheckCars.ViewModels
         }
 
         private bool _SendingData = false;
+
+        /// <summary>
+        /// Indicates if a report is being processed or sent.
+        /// </summary>
         public bool SendingData
         {
             get { return _SendingData; }
@@ -44,7 +57,12 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
         private double _FuelLevel;
+
+        /// <summary>
+        /// Fuel level of the vehicle represented as a percentage (0–1).
+        /// </summary>
         public double FuelLevel
         {
             get { return _FuelLevel; }
@@ -57,7 +75,12 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
         private EntryExitReport _Report = new();
+
+        /// <summary>
+        /// The current entry/exit report being displayed or edited.
+        /// </summary>
         public EntryExitReport Report
         {
             get { return _Report; }
@@ -73,15 +96,41 @@ namespace CheckCars.ViewModels
 
         #endregion
 
-        #region Command
+        #region Commands
+
+        /// <summary>
+        /// Command to download the current report as PDF.
+        /// </summary>
         public ICommand DownloadReportCommand { get; }
+
+        /// <summary>
+        /// Command to share the report as a JSON file.
+        /// </summary>
         public ICommand ISendReport { get; }
+
+        /// <summary>
+        /// Command to delete the current report.
+        /// </summary>
         public ICommand IDeleteReport { get; }
+
+        /// <summary>
+        /// Command to share a photo from the report.
+        /// </summary>
         public ICommand IShareImage { get; }
+
+        /// <summary>
+        /// Command to send the report data to the server.
+        /// </summary>
         public ICommand ISendServerReport { get; }
+
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewEntryExitVM"/> class.
+        /// Loads the report data from the local database.
+        /// </summary>
         public ViewEntryExitVM()
         {
             _apiService = new();
@@ -102,15 +151,15 @@ namespace CheckCars.ViewModels
             ISendReport = new Command(async () => await SendPDFReport());
             ISendServerReport = new Command(async () => await SendServer());
             IShareImage = new Command<string>(SharePhotoAsync);
-
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
-        /// This Method get the data and send to the server 
+        /// Sends the report to the server (with or without images).
         /// </summary>
-        /// <returns></returns>
         public async Task SendServer()
         {
             try
@@ -119,9 +168,9 @@ namespace CheckCars.ViewModels
 
                 if (!Report.isUploaded && !SendingData)
                 {
-                    TimeSpan tp = new TimeSpan();
-                    tp = TimeSpan.FromSeconds(100);
+                    TimeSpan tp = TimeSpan.FromSeconds(100);
                     var result = false;
+
                     if (Report.Photos.Count > 0)
                     {
                         var photos = Report.Photos.Select(e => e.FilePath).ToList();
@@ -131,6 +180,7 @@ namespace CheckCars.ViewModels
                     {
                         result = await _apiService.PostAsync<EntryExitReport>("api/EntryExitReports/json", Report, tp);
                     }
+
                     if (result)
                     {
                         UpdateReport(true);
@@ -141,7 +191,6 @@ namespace CheckCars.ViewModels
                         Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos", "Ok");
                     }
                 }
-
                 else if (Report.isUploaded && !SendingData)
                 {
                     Application.Current.MainPage.DisplayAlert("Información", "Este reporte ya fue enviado", "Ok");
@@ -161,20 +210,23 @@ namespace CheckCars.ViewModels
                 SendingDataCheck = false;
             }
         }
+
+        /// <summary>
+        /// Deletes the current report and its associated photos.
+        /// </summary>
         public async Task DeleteReport()
         {
             try
             {
                 bool answer = await Application.Current.MainPage.DisplayAlert(
-                 "Confirmación",
-                 "¿Deseas borrar este reporte?",
-                 "Sí",
-                 "No"
-             );
+                    "Confirmación",
+                    "¿Deseas borrar este reporte?",
+                    "Sí",
+                    "No"
+                );
 
                 if (answer)
                 {
-
                     using (var db = new ReportsDBContextSQLite())
                     {
                         db.Photos.RemoveRange(Report.Photos);
@@ -182,12 +234,13 @@ namespace CheckCars.ViewModels
 
                         db.EntryExitReports.Remove(Report);
                         db.SaveChanges();
+
                         var paths = Report.Photos.Select(e => e.FilePath).ToList();
                         if (paths.Any())
                         {
-                            // Ejecuta la eliminación de fotos en un hilo aparte
                             new Thread(() => DeletePhotos(paths)).Start();
                         }
+
                         var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
                         Application.Current.MainPage.Navigation.RemovePage(d);
                     }
@@ -199,32 +252,35 @@ namespace CheckCars.ViewModels
                 throw;
             }
         }
+
+        /// <summary>
+        /// Serializes the report as JSON and shares it.
+        /// </summary>
         public async Task SendPDFReport()
         {
             try
             {
-                // 1. Serializar el objeto 'Report' a JSON
                 string jsonContent = JsonConvert.SerializeObject(Report, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
-                // 2. Generar un archivo y guardar el JSON en el almacenamiento local
+
                 string fileName = "reporte.json";
                 string filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
-
-                // Guardar el JSON en el archivo
                 await File.WriteAllTextAsync(filePath, jsonContent);
 
-                // 3. Compartir el archivo (opcional)
                 await ShareFile(filePath, "Compartir Reporte de Entrada y Salida");
             }
             catch (Exception ex)
             {
                 Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
-                // Manejo de errores
                 Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Deletes a list of photo files from the file system.
+        /// </summary>
         private async Task DeletePhotos(List<string> paths)
         {
             foreach (var item in paths)
@@ -235,11 +291,14 @@ namespace CheckCars.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    // Puedes registrar el error o manejarlo según lo necesites
                     Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
                 }
             }
         }
+
+        /// <summary>
+        /// Generates a PDF from the report and shares it.
+        /// </summary>
         private void DownloadReport()
         {
             Task.Run(async () =>
@@ -249,7 +308,7 @@ namespace CheckCars.ViewModels
                     if (Report != null)
                     {
                         PDFGenerate d = new PDFGenerate();
-                        byte[] pdfBytes = await d.EntryExitReport(Report); // Asegúrate de usar 'await' con métodos async.
+                        byte[] pdfBytes = await d.EntryExitReport(Report);
                         var filePath = Path.Combine(FileSystem.CacheDirectory, $"Reporte Entrada {Report.CarPlate} {DateTime.Now:yy-MM-dd hh-mm-ss}.pdf");
                         File.WriteAllBytes(filePath, pdfBytes);
                         ShareFile(filePath, "Compartir Reporte de Entrada y Salida");
@@ -258,32 +317,41 @@ namespace CheckCars.ViewModels
                 catch (Exception e)
                 {
                     Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
-                    // Manejo de errores (log, mensajes, etc.)
                     Console.WriteLine($"Error: {e.Message}");
                 }
             });
         }
+
+        /// <summary>
+        /// Shares a file using the native sharing feature.
+        /// </summary>
         private async Task ShareFile(string filePath, string title)
         {
             try
             {
-                // Compartir el archivo PDF usando el servicio de MAUI
                 await Share.RequestAsync(new ShareFileRequest
                 {
                     Title = title,
-                    File = new ShareFile(filePath) // Usar "File" en lugar de "Files"
+                    File = new ShareFile(filePath)
                 });
             }
             catch (Exception ex)
             {
-                // Manejo de errores en caso de que no se pueda compartir el archivo
                 await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
             }
         }
+
+        /// <summary>
+        /// Shares a specific photo file.
+        /// </summary>
         private void SharePhotoAsync(string obj)
         {
             ShareFile(obj, "Imagen");
         }
+
+        /// <summary>
+        /// Updates the local database to mark the report as uploaded.
+        /// </summary>
         private async Task UpdateReport(bool state)
         {
             try
@@ -297,11 +365,11 @@ namespace CheckCars.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");    
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
                 throw;
             }
         }
-        #endregion
 
+        #endregion
     }
 }

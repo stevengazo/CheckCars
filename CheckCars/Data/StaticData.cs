@@ -1,64 +1,80 @@
 ﻿using CheckCars.Models;
 
-namespace CheckCars.Data;
-
-
-public static class StaticData
+namespace CheckCars.Data
 {
-    private const string ReportIdKey = "ReportId";
-    private const string UserProfileKey = "UserProfile";
-    private const string URLKey = "URL";
-    private const string PortKey = "Port";
-    private const string UseAPIKey = "UseAPI";
-    private const string _CarId = "";
-    
-    // Métodos para CarId
-    public static string CarId
+    /// <summary>
+    /// Provides static access to application preferences such as ReportId, User, URL, etc.
+    /// </summary>
+    public static class StaticData
     {
-        get => Preferences.Get(_CarId, string.Empty);
-        set => Preferences.Set(_CarId, value);
-    }
+        private const string ReportIdKey = "ReportId";
+        private const string UserProfileKey = "UserProfile";
+        private const string URLKey = "URL";
+        private const string PortKey = "Port";
+        private const string UseAPIKey = "UseAPI";
+        private const string _CarId = "";
 
-    // Métodos para ReportId
-    public static string ReportId
-    {
-        get => Preferences.Get(ReportIdKey, string.Empty); // Valor predeterminado: ""
-        set => Preferences.Set(ReportIdKey, value);
-    }
-
-    // Métodos para URL
-    public static string URL
-    {
-        get => Preferences.Get(URLKey, ""); // Valor predeterminado
-        set => Preferences.Set(URLKey, value);
-    }
-
-    // Métodos para Port
-    public static string Port
-    {
-        get => Preferences.Get(PortKey, ""); // Valor predeterminado
-        set => Preferences.Set(PortKey, value);
-    }
-
-    // Métodos para UseAPI
-    public static bool UseA
-    {
-        get => Preferences.Get(UseAPIKey, true); // Valor predeterminado: true
-        set => Preferences.Set(UseAPIKey, value);
-    }
-
-    // Guardar y recuperar objetos complejos (como UserProfile)
-    public static UserProfile User
-    {
-        get
+        /// <summary>
+        /// Gets or sets the selected car ID in preferences.
+        /// </summary>
+        public static string CarId
         {
-            var json = Preferences.Get(UserProfileKey, string.Empty);
-            return string.IsNullOrEmpty(json) ? null : System.Text.Json.JsonSerializer.Deserialize<UserProfile>(json);
+            get => Preferences.Get(_CarId, string.Empty);
+            set => Preferences.Set(_CarId, value);
         }
-        set
+
+        /// <summary>
+        /// Gets or sets the current report ID used in the application.
+        /// </summary>
+        public static string ReportId
         {
-            var json = System.Text.Json.JsonSerializer.Serialize(value);
-            Preferences.Set(UserProfileKey, json);
+            get => Preferences.Get(ReportIdKey, string.Empty);
+            set => Preferences.Set(ReportIdKey, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the base URL for the API.
+        /// </summary>
+        public static string URL
+        {
+            get => Preferences.Get(URLKey, string.Empty);
+            set => Preferences.Set(URLKey, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the port used by the API.
+        /// </summary>
+        public static string Port
+        {
+            get => Preferences.Get(PortKey, string.Empty);
+            set => Preferences.Set(PortKey, value);
+        }
+
+        /// <summary>
+        /// Gets or sets whether the API should be used.
+        /// </summary>
+        public static bool UseA
+        {
+            get => Preferences.Get(UseAPIKey, true);
+            set => Preferences.Set(UseAPIKey, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the current user profile stored in preferences.
+        /// The object is serialized/deserialized using System.Text.Json.
+        /// </summary>
+        public static UserProfile User
+        {
+            get
+            {
+                var json = Preferences.Get(UserProfileKey, string.Empty);
+                return string.IsNullOrEmpty(json) ? null : System.Text.Json.JsonSerializer.Deserialize<UserProfile>(json);
+            }
+            set
+            {
+                var json = System.Text.Json.JsonSerializer.Serialize(value);
+                Preferences.Set(UserProfileKey, json);
+            }
         }
     }
 }

@@ -30,14 +30,27 @@ namespace CheckCars.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// API service used for network or data operations.
+        /// </summary>
         private readonly APIService _apiService = new();
+
+        /// <summary>
+        /// Manager for sensor-related functionalities.
+        /// </summary>
         private SensorManager _sensorManager = new();
 
+        /// <summary>
+        /// Backing field for the collection of photos.
+        /// </summary>
         private ObservableCollection<Photo> _imgs = new();
 
+        /// <summary>
+        /// Collection of photos displayed or managed in the UI.
+        /// </summary>
         public ObservableCollection<Photo> ImgList
         {
-            get { return _imgs; }
+            get => _imgs;
             set
             {
                 if (_imgs != value)
@@ -46,53 +59,73 @@ namespace CheckCars.ViewModels
                     OnPropertyChanged(nameof(ImgList));
                 }
             }
-
         }
 
+        /// <summary>
+        /// Backing field for the loading state.
+        /// </summary>
         private bool _loading = false;
-        public bool loading
+
+        /// <summary>
+        /// Indicates whether the ViewModel is currently performing a loading operation.
+        /// </summary>
+        public bool Loading
         {
-            get { return _loading; }
+            get => _loading;
             set
             {
                 if (_loading != value)
                 {
                     _loading = value;
-                    OnPropertyChanged(nameof(loading));
+                    OnPropertyChanged(nameof(Loading));
                 }
             }
         }
 
+        /// <summary>
+        /// Backing field for vehicle return data.
+        /// </summary>
+        private VehicleReturn _vehicleReturn = new();
 
-
-        private VehicleReturn _VehicleReturn { get; set; } = new VehicleReturn();
-        private string[] _CarsInfo;
+        /// <summary>
+        /// Vehicle return data, likely retrieved from the API or processed in the app.
+        /// </summary>
         public VehicleReturn VehicleReturn
         {
-            get { return _VehicleReturn; }
+            get => _vehicleReturn;
             set
             {
-                if (_VehicleReturn != value)
+                if (_vehicleReturn != value)
                 {
-                    _VehicleReturn = value;
+                    _vehicleReturn = value;
                     OnPropertyChanged(nameof(VehicleReturn));
                 }
             }
         }
+
+        /// <summary>
+        /// Backing field for an array of car information strings.
+        /// </summary>
+        private string[] _carsInfo;
+
+        /// <summary>
+        /// Array of string information about cars, such as plates.
+        /// </summary>
         public string[] CarsInfo
         {
-            get { return _CarsInfo; }
+            get => _carsInfo;
             set
             {
-                if (_CarsInfo != value)
+                if (_carsInfo != value)
                 {
-                    _CarsInfo = value;
+                    _carsInfo = value;
                     OnPropertyChanged(nameof(CarsInfo));
                 }
             }
         }
 
         #endregion
+
 
         #region Commands
 
@@ -119,27 +152,30 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Retrieves an array of car information strings ordered by plate.
+        /// </summary>
+        /// <returns>Array of strings with car plate and model, or null if error.</returns>
         private async Task<string[]> GetCarsInfoAsync()
         {
             try
             {
-                using (var db = new ReportsDBContextSQLite())
-                {
-                    return (from C in db.Cars
-                            orderby C.Plate ascending
-                            select $"{C.Plate} {C.Model}"
-
-                                ).ToArray();
-                }
+                using var db = new ReportsDBContextSQLite();
+                return (from C in db.Cars
+                        orderby C.Plate ascending
+                        select $"{C.Plate} {C.Model}").ToArray();
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error: " + d.Message, "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "Error: " + d.Message, "Ok");
                 return null;
             }
-
         }
 
+        /// <summary>
+        /// Takes a photo using the sensor manager and adds it to the image list.
+        /// </summary>
         private async Task TakePhotoAsync()
         {
             try
@@ -150,66 +186,80 @@ namespace CheckCars.ViewModels
                     ImgList.Add(photo);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error interno al tomar la foto", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "Internal error while taking photo", "Ok");
             }
         }
 
+        /// <summary>
+        /// Adds a vehicle return record after user confirmation and photo validation.
+        /// Saves to local DB and sends data to the server.
+        /// </summary>
         private async Task AddVehicleReturnAsync()
         {
             try
             {
                 bool answer = await Application.Current.MainPage.DisplayAlert(
-                 "Confirmación",
-                 "¿Deseas agregar una entrega?",
-                 "Sí",
-                 "No"
-             );
-                var IsValid = await PromptPhotosAsync();
-                if (IsValid && answer)
+                    "Confirmación",
+                    "¿Deseas agregar una entrega?",
+                    "Sí",
+                    "No");
+
+                var isValid = await PromptPhotosAsync();
+
+                if (isValid && answer)
                 {
-                    using (var db = new ReportsDBContextSQLite())
+                    using var db = new ReportsDBContextSQLite();
+
+                    VehicleReturn.Created = DateTime.Now;
+                    VehicleReturn.CarPlate = VehicleReturn.CarPlate.Split(' ').First();
+                    VehicleReturn.Photos = ImgList.Select(p =>
                     {
-                        VehicleReturn.Created = DateTime.Now;
-                        VehicleReturn.CarPlate = VehicleReturn.CarPlate.Split(' ').First();
-                        VehicleReturn.Photos = ImgList.Select(p =>
-                        {
-                            p.PhotoId = Guid.NewGuid().ToString();
-                            return p;
-                        }).ToList();
-                        // Add in the DB
-                        db.Returns.Add(VehicleReturn);
-                        db.SaveChanges();
+                        p.PhotoId = Guid.NewGuid().ToString();
+                        return p;
+                    }).ToList();
 
-                        // Send To The Server
-                        await SendDataAsync(VehicleReturn);
+                    // Add in the DB
+                    db.Returns.Add(VehicleReturn);
+                    db.SaveChanges();
 
-                        CloseAsync();
-                    }
+                    // Send to the server
+                    await SendDataAsync(VehicleReturn);
 
+                    await CloseAsync();
                 }
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Interno al agregar un vehiculo: Error: " + e.Message, "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "Internal error adding vehicle: " + e.Message, "Ok");
             }
         }
 
+        /// <summary>
+        /// Closes the current page from the navigation stack.
+        /// </summary>
         private async Task CloseAsync()
         {
             try
             {
-                var ThisPage = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-                Application.Current.MainPage.Navigation.RemovePage(ThisPage);
+                var currentPage = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                if (currentPage != null)
+                {
+                    Application.Current.MainPage.Navigation.RemovePage(currentPage);
+                }
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se logró cerrar la página: " + d.Message, "Ok");
-                throw d;
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to close page: " + d.Message, "Ok");
+                throw;
             }
         }
 
+        /// <summary>
+        /// Deletes the photo file from disk and removes it from the image list.
+        /// </summary>
+        /// <param name="photo">Photo to delete.</param>
         private void DeletePhoto(Photo photo)
         {
             if (photo == null) return;
@@ -222,19 +272,22 @@ namespace CheckCars.ViewModels
                 }
                 ImgList.Remove(photo);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se logró borrar la foto", "Ok");
+                Application.Current.MainPage.DisplayAlert("Error", "Failed to delete photo", "Ok");
             }
         }
 
+        /// <summary>
+        /// Loads the current geographic location and updates the VehicleReturn coordinates.
+        /// </summary>
         private async Task LoadUbicationAsync()
         {
             try
             {
                 double[] location = await _sensorManager.GetCurrentLocation();
 
-                if (location != null)
+                if (location != null && location.Length >= 2)
                 {
                     VehicleReturn.Latitude = location[0];
                     VehicleReturn.Longitude = location[1];
@@ -248,10 +301,14 @@ namespace CheckCars.ViewModels
             catch (Exception c)
             {
                 _sensorManager.CancelRequest();
-                Console.WriteLine("Error al obtener la ubicación " + c.Message );
+                Console.WriteLine("Error obtaining location: " + c.Message);
             }
         }
 
+        /// <summary>
+        /// Checks if there are photos in the list and prompts the user if none exist.
+        /// </summary>
+        /// <returns>True if photos exist; otherwise false.</returns>
         private async Task<bool> PromptPhotosAsync()
         {
             try
@@ -262,53 +319,58 @@ namespace CheckCars.ViewModels
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Advertencia", "No se pueden agregar registros sin fotos", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Warning", "Cannot add records without photos", "Ok");
                     return false;
                 }
             }
-            catch (Exception vd)
+            catch
             {
                 return false;
             }
         }
 
+        /// <summary>
+        /// Sends the vehicle return data along with photos to the server.
+        /// Shows loading state during the operation.
+        /// </summary>
+        /// <param name="vehicleReturn">The vehicle return data to send.</param>
         private async Task SendDataAsync(VehicleReturn vehicleReturn)
         {
             try
             {
-                loading = true;
-                TimeSpan tp;
+                Loading = true;
 
                 const int baseTime = 30;
-                const int TimePerPhoto = 20;
+                const int timePerPhoto = 20;
+                TimeSpan timeout;
 
                 if (vehicleReturn.Photos?.Count > 0)
                 {
-                    int totalTime = baseTime + (vehicleReturn.Photos.Count * TimePerPhoto);
-                    tp = TimeSpan.FromSeconds(totalTime);
+                    int totalTime = baseTime + (vehicleReturn.Photos.Count * timePerPhoto);
+                    timeout = TimeSpan.FromSeconds(totalTime);
 
                     var photos = vehicleReturn.Photos.Select(e => e.FilePath).ToList();
-                    await _apiService.PostAsync<VehicleReturn>("api/VehicleReturns/form", vehicleReturn, photos, tp);
+                    await _apiService.PostAsync<VehicleReturn>("api/VehicleReturns/form", vehicleReturn, photos, timeout);
                 }
                 else
                 {
-                    tp = TimeSpan.FromSeconds(baseTime);
-
-                    await _apiService.PostAsync<VehicleReturn>("api/VehicleReturns/json", vehicleReturn, tp);
+                    timeout = TimeSpan.FromSeconds(baseTime);
+                    await _apiService.PostAsync<VehicleReturn>("api/VehicleReturns/json", vehicleReturn, timeout);
                 }
             }
             catch (Exception ef)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo enviar el reporte. Error: " + ef.Message, "ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to send report: " + ef.Message, "Ok");
                 Console.WriteLine(ef.Message);
             }
             finally
             {
-                loading = false;
+                Loading = false;
             }
         }
 
         #endregion
+
 
     }
 }

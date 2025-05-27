@@ -9,6 +9,10 @@ namespace CheckCars.ViewModels
     public class AddCrashVM : INotifyPropertyChangedAbst
     {
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the AddCrashVM class,
+        /// sets up commands, loads cars info, and begins location loading.
+        /// </summary>
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
@@ -19,11 +23,30 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// API service for network requests.
+        /// </summary>
         private readonly APIService _apiService = new APIService();
+
+        /// <summary>
+        /// Sensor manager for camera and location functionality.
+        /// </summary>
         private CheckCars.Utilities.SensorManager SensorManager = new();
+
+        /// <summary>
+        /// Collection of photos attached to the crash report.
+        /// </summary>
         private ObservableCollection<Photo> _imgs = new();
+
+        /// <summary>
+        /// The crash report being created or edited.
+        /// </summary>
         private CrashReport _newCrashReport = new() { DateOfCrash = DateTime.Now, Created = DateTime.Now };
 
+        /// <summary>
+        /// Indicates whether data is currently being sent.
+        /// </summary>
         private bool _SendingData;
         public bool SendingData
         {
@@ -38,6 +61,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// List of car info strings for selection.
+        /// </summary>
         private string[] _CarsInfo;
         public string[] CarsInfo
         {
@@ -51,7 +77,10 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-        // Propiedad para la lista de fotos
+
+        /// <summary>
+        /// List of photos associated with the crash report.
+        /// </summary>
         public ObservableCollection<Photo> ImgList
         {
             get { return _imgs; }
@@ -60,12 +89,14 @@ namespace CheckCars.ViewModels
                 if (_imgs != value)
                 {
                     _imgs = value;
-                    OnPropertyChanged(nameof(ImgList));  // Notificamos el cambio de lista
+                    OnPropertyChanged(nameof(ImgList));
                 }
             }
         }
 
-
+        /// <summary>
+        /// The crash report model instance.
+        /// </summary>
         public CrashReport newCrashReport
         {
             get { return _newCrashReport; }
@@ -82,7 +113,14 @@ namespace CheckCars.ViewModels
 
         #region Commands
 
+        /// <summary>
+        /// Command to delete a photo from the list.
+        /// </summary>
         public ICommand DeletePhotoCommand { get; }
+
+        /// <summary>
+        /// Command to add the crash report.
+        /// </summary>
         public ICommand AddReport
         {
             get
@@ -91,6 +129,10 @@ namespace CheckCars.ViewModels
             }
             private set { }
         }
+
+        /// <summary>
+        /// Command to take photos asynchronously.
+        /// </summary>
         public ICommand TakePhotoCommand
         {
             get
@@ -103,6 +145,9 @@ namespace CheckCars.ViewModels
 
         #region Methods
 
+        /// <summary>
+        /// Validates and adds the crash report entry to the database and sends data.
+        /// </summary>
         private async Task AddReportEntryAsync()
         {
             try
@@ -118,16 +163,12 @@ namespace CheckCars.ViewModels
 
                 if (answer && valid)
                 {
-                    // newCrashReport.Author = "Temporal";
                     using (var db = new ReportsDBContextSQLite())
                     {
-
-                        //  newCrashReport.Author = string.IsNullOrWhiteSpace(StaticData.User.UserName) ? "Default" : StaticData.User.UserName;
                         newCrashReport.CarPlate = newCrashReport.CarPlate.Split(' ').First();
-                        // Asegura que ImgList tenga PhotoId autogenerado en la base de datos
                         newCrashReport.Photos = ImgList.Select(photo =>
                         {
-                            photo.PhotoId = Guid.NewGuid().ToString();  // Reset para que se genere automáticamente
+                            photo.PhotoId = Guid.NewGuid().ToString();
                             return photo;
                         }).ToList();
 
@@ -147,13 +188,16 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
             }
         }
+
+        /// <summary>
+        /// Closes the current page asynchronously.
+        /// </summary>
         private async Task CloseAsync()
         {
             try
             {
                 var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
                 Application.Current.MainPage.Navigation.RemovePage(d);
-
             }
             catch (Exception d)
             {
@@ -164,9 +208,14 @@ namespace CheckCars.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
         }
+
+        /// <summary>
+        /// Deletes a photo both from disk and from the list.
+        /// </summary>
+        /// <param name="photo">The photo to delete.</param>
         private void DeletePhoto(Photo photo)
         {
-            if (photo == null) return; // Evitar argumentos nulos
+            if (photo == null) return;
 
             try
             {
@@ -174,14 +223,18 @@ namespace CheckCars.ViewModels
                 {
                     File.Delete(photo.FilePath);
                 }
-                ImgList.Remove(photo); // Eliminar de la lista
+                ImgList.Remove(photo);
             }
             catch (Exception ex)
             {
-                // Manejar la excepción (por ejemplo, loguearla)
                 Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Gets the list of car info strings from the database.
+        /// </summary>
+        /// <returns>Array of car info strings.</returns>
         private string[] GetCarsInfo()
         {
             try
@@ -201,6 +254,10 @@ namespace CheckCars.ViewModels
                 return null;
             }
         }
+
+        /// <summary>
+        /// Takes a photo asynchronously using the sensor manager.
+        /// </summary>
         private async Task TakePhotosAsync()
         {
             try
@@ -216,31 +273,31 @@ namespace CheckCars.ViewModels
                 Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
             }
         }
+
+        /// <summary>
+        /// Validates required fields in the crash report.
+        /// </summary>
+        /// <returns>True if valid; otherwise false.</returns>
         private bool ValidateData()
         {
-
             if (string.IsNullOrEmpty(newCrashReport.CarPlate))
-            {
                 return false;
-            }
 
             if (string.IsNullOrEmpty(newCrashReport.Location))
-            {
                 return false;
-            }
 
             if (string.IsNullOrEmpty(newCrashReport.CrashDetails))
-            {
                 return false;
-            }
 
             if (string.IsNullOrEmpty(newCrashReport.CrashedParts))
-            {
                 return false;
-            }
-            return true;
 
+            return true;
         }
+
+        /// <summary>
+        /// Loads the current GPS location asynchronously and updates the crash report.
+        /// </summary>
         private async Task LoadUbicationAsync()
         {
             try
@@ -264,35 +321,33 @@ namespace CheckCars.ViewModels
                 SensorManager.CancelRequest();
             }
         }
+
+        /// <summary>
+        /// Sends the crash report data, including photos if any, to the API.
+        /// </summary>
+        /// <param name="crashReport">Crash report data to send.</param>
         private async Task SendingDataAsync(CrashReport crashReport)
         {
             try
             {
                 SendingData = true;
+
+                const int baseTime = 30;        // Base time in seconds
+                const int timePerPhoto = 10;    // Additional seconds per photo
+
                 TimeSpan tp;
-
-                // Tiempo base: 30 segundos para datos sin fotos
-                const int baseTime = 30;
-
-                // Incremento: 10 segundos por cada foto
-                const int timePerPhoto = 10;
 
                 if (crashReport.Photos?.Count > 0)
                 {
-                    // Calcula el tiempo dinámicamente
                     int totalTime = baseTime + (crashReport.Photos.Count * timePerPhoto);
                     tp = TimeSpan.FromSeconds(totalTime);
 
-                    // Envía los datos con las fotos
                     var photos = crashReport.Photos.Select(e => e.FilePath).ToList();
                     await _apiService.PostAsync<CrashReport>("api/CrashReports/form", crashReport, photos, tp);
                 }
                 else
                 {
-                    // Tiempo para envío sin fotos
                     tp = TimeSpan.FromSeconds(baseTime);
-
-                    // Envía los datos sin fotos
                     await _apiService.PostAsync<CrashReport>("api/CrashReports/json", crashReport, tp);
                 }
             }

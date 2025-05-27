@@ -12,37 +12,53 @@ using CheckCars.Views;
 
 namespace CheckCars.ViewModels
 {
+    /// <summary>
+    /// ViewModel for viewing car details and associated reports.
+    /// </summary>
     public class ViewCarVM : INotifyPropertyChangedAbst
     {
+        #region Fields
 
-        #region Properties  
         private readonly APIService _apiService = new();
 
         #endregion
 
         #region Commands
 
+        /// <summary>
+        /// Navigates to the AddBooking page.
+        /// </summary>
         public ICommand AddBooking => new Command(async () =>
         {
-          // StaticData.CarId = Vehicle.CarId;
             await Application.Current.MainPage.Navigation.PushAsync(new AddBooking());
         });
 
-
+        /// <summary>
+        /// Prompts the user for confirmation before deleting a car.
+        /// </summary>
         public ICommand DeleteCar => new Command(async () =>
         {
-            Application.Current.MainPage.DisplayPromptAsync("Eliminar Vehículo", "¿Estás seguro de eliminar este vehículo?", "Eliminar", "Cancelar", "Escribe 'eliminar' para confirmar", 2, keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+            await Application.Current.MainPage.DisplayPromptAsync(
+                "Eliminar Vehículo",
+                "¿Estás seguro de eliminar este vehículo?",
+                "Eliminar",
+                "Cancelar",
+                "Escribe 'eliminar' para confirmar",
+                2,
+                keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
         });
 
         #endregion
 
         #region Constructor
-        public ViewCarVM() 
-        {
 
-    
+        /// <summary>
+        /// Initializes the ViewModel, loads vehicle data and associated reports.
+        /// </summary>
+        public ViewCarVM()
+        {
             var id = StaticData.CarId;
-            using (var db =  new ReportsDBContextSQLite ())
+            using (var db = new ReportsDBContextSQLite())
             {
                 Vehicle = db.Cars.FirstOrDefault(e => e.CarId == id);
             }
@@ -50,18 +66,20 @@ namespace CheckCars.ViewModels
             RequestExists();
             IssuesExists();
             ReturnsExists();
-
-
         }
+
         #endregion
 
         #region Properties
 
         private CarModel _Vehicle;
 
+        /// <summary>
+        /// Gets or sets the vehicle details.
+        /// </summary>
         public CarModel Vehicle
         {
-            get { return _Vehicle; }
+            get => _Vehicle;
             set
             {
                 if (_Vehicle != value)
@@ -72,11 +90,14 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private ObservableCollection<EntryExitReport> _ExistsReports = new() ;
+        private ObservableCollection<EntryExitReport> _ExistsReports = new();
 
+        /// <summary>
+        /// Gets or sets the entry/exit reports related to the vehicle.
+        /// </summary>
         public ObservableCollection<EntryExitReport> ExistsReports
         {
-            get { return _ExistsReports; }
+            get => _ExistsReports;
             set
             {
                 if (_ExistsReports != value)
@@ -89,9 +110,12 @@ namespace CheckCars.ViewModels
 
         private ObservableCollection<IssueReport> _IssuesReports = new();
 
+        /// <summary>
+        /// Gets or sets the issue reports related to the vehicle.
+        /// </summary>
         public ObservableCollection<IssueReport> IssuesReports
         {
-            get { return _IssuesReports; }
+            get => _IssuesReports;
             set
             {
                 if (_IssuesReports != value)
@@ -104,9 +128,12 @@ namespace CheckCars.ViewModels
 
         private ObservableCollection<VehicleReturn> _ReturnReports = new();
 
+        /// <summary>
+        /// Gets or sets the return reports related to the vehicle.
+        /// </summary>
         public ObservableCollection<VehicleReturn> ReturnReports
         {
-            get { return _ReturnReports; }
+            get => _ReturnReports;
             set
             {
                 if (_ReturnReports != value)
@@ -117,126 +144,146 @@ namespace CheckCars.ViewModels
             }
         }
 
-
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Loads entry/exit reports for today and yesterday.
+        /// </summary>
         private async void RequestExists()
         {
-
             try
             {
                 ExistsReports.Clear();
 
-                // Today
-                var info = await _apiService.GetAsync<List<EntryExitReport>>($"api/EntryExitReports/search?date={DateTime.Today.ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
-                if(info != null)
+                var today = await _apiService.GetAsync<List<EntryExitReport>>(
+                    $"api/EntryExitReports/search?date={DateTime.Today:yyyy-MM-dd}&carId={Vehicle.CarId}",
+                    TimeSpan.FromSeconds(30));
+
+                if (today != null)
                 {
-                    foreach (var i in info)
+                    foreach (var i in today)
                     {
                         i.Photos = await GetPhotos(i.ReportId);
                         ExistsReports.Add(i);
                     }
                 }
 
-                // Yesterday
-                var dV = await _apiService.GetAsync<List<EntryExitReport>>($"api/EntryExitReports/search?date={DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
-               if(dV != null)
+                var yesterday = await _apiService.GetAsync<List<EntryExitReport>>(
+                    $"api/EntryExitReports/search?date={DateTime.Today.AddDays(-1):yyyy-MM-dd}&carId={Vehicle.CarId}",
+                    TimeSpan.FromSeconds(30));
+
+                if (yesterday != null)
                 {
-                    foreach(var i in dV){
+                    foreach (var i in yesterday)
+                    {
                         i.Photos = await GetPhotos(i.ReportId);
                         ExistsReports.Add(i);
                     }
-                }                
+                }
             }
-            catch (Exception ef)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de entrada/salida", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de entrada/salida", "OK");
                 throw;
             }
         }
 
+        /// <summary>
+        /// Loads issue reports for today and yesterday.
+        /// </summary>
         private async void IssuesExists()
         {
-
             try
             {
                 IssuesReports.Clear();
 
-                // Today
-                var info = await _apiService.GetAsync<List<IssueReport>>($"api/IssueReports/search?date={DateTime.Today.ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
-                if (info != null)
+                var today = await _apiService.GetAsync<List<IssueReport>>(
+                    $"api/IssueReports/search?date={DateTime.Today:yyyy-MM-dd}&carId={Vehicle.CarId}",
+                    TimeSpan.FromSeconds(30));
+
+                if (today != null)
                 {
-                    foreach (var i in info)
+                    foreach (var i in today)
                     {
                         i.Photos = await GetPhotos(i.ReportId);
                         IssuesReports.Add(i);
                     }
                 }
-                // Yesterday
-                var dV = await _apiService.GetAsync<List<IssueReport>>($"api/IssueReports/search?date={DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
-                if (dV != null)
+
+                var yesterday = await _apiService.GetAsync<List<IssueReport>>(
+                    $"api/IssueReports/search?date={DateTime.Today.AddDays(-1):yyyy-MM-dd}&carId={Vehicle.CarId}",
+                    TimeSpan.FromSeconds(30));
+
+                if (yesterday != null)
                 {
-                    foreach (var i in dV)
+                    foreach (var i in yesterday)
                     {
                         i.Photos = await GetPhotos(i.ReportId);
                         IssuesReports.Add(i);
                     }
                 }
             }
-            catch (Exception ef)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("error", "Error al cargar los reportes de problemas. " + ef.Message, "OK");  
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de problemas. " + ex.Message, "OK");
                 throw;
             }
         }
 
-        private async Task< List<CheckCars.Models.Photo>> GetPhotos( string id)
-        {
-            var info = await _apiService.GetAsync<List<CheckCars.Models.Photo>>($"api/Photos/report/{id}", TimeSpan.FromSeconds(30));
-            if(info == null)
-            {
-                return new();
-            }
-            else
-            {
-                return info.ToList();
-            }
-        }
-
+        /// <summary>
+        /// Loads return reports for today and yesterday.
+        /// </summary>
         private async void ReturnsExists()
         {
-
             try
             {
                 ReturnReports.Clear();
 
-                // Today
-                var info = await _apiService.GetAsync<List<VehicleReturn>>($"api/VehicleReturns/search?date={DateTime.Today.ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
-                if (info != null)
+                var today = await _apiService.GetAsync<List<VehicleReturn>>(
+                    $"api/VehicleReturns/search?date={DateTime.Today:yyyy-MM-dd}&carId={Vehicle.CarId}",
+                    TimeSpan.FromSeconds(30));
+
+                if (today != null)
                 {
-                    foreach (var i in info)
+                    foreach (var i in today)
                     {
                         ReturnReports.Add(i);
                     }
                 }
 
-                // Yesterday
-                var dV = await _apiService.GetAsync<List<VehicleReturn>>($"api/VehicleReturns/search?date={DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")}&carId={Vehicle.CarId}", TimeSpan.FromSeconds(30));
-                if (dV != null)
+                var yesterday = await _apiService.GetAsync<List<VehicleReturn>>(
+                    $"api/VehicleReturns/search?date={DateTime.Today.AddDays(-1):yyyy-MM-dd}&carId={Vehicle.CarId}",
+                    TimeSpan.FromSeconds(30));
+
+                if (yesterday != null)
                 {
-                    foreach (var i in dV)
+                    foreach (var i in yesterday)
                     {
-                       ReturnReports.Add(i);
+                        ReturnReports.Add(i);
                     }
                 }
             }
-            catch (Exception ef)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("error", "Error al cargar los reportes de devoluciones. " + ef.Message, "OK");
-
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de devoluciones. " + ex.Message, "OK");
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Retrieves photos associated with a report ID.
+        /// </summary>
+        /// <param name="id">The report ID.</param>
+        /// <returns>A list of associated photos.</returns>
+        private async Task<List<CheckCars.Models.Photo>> GetPhotos(string id)
+        {
+            var info = await _apiService.GetAsync<List<CheckCars.Models.Photo>>(
+                $"api/Photos/report/{id}",
+                TimeSpan.FromSeconds(30));
+
+            return info ?? new List<CheckCars.Models.Photo>();
         }
 
         #endregion

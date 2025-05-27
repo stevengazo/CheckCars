@@ -9,12 +9,15 @@ using Newtonsoft.Json;
 
 namespace CheckCars.ViewModels
 {
+    /// <summary>
+    /// ViewModel responsible for managing the login process, including user credentials,
+    /// server connection, token validation, and navigation.
+    /// </summary>
     public class LoginPageVM : INotifyPropertyChangedAbst
     {
-
         #region Properties
-        private readonly APIService _apiService = new APIService();
 
+        private readonly APIService _apiService = new APIService();
 
         private string _UserName;
         private string _Password;
@@ -22,9 +25,13 @@ namespace CheckCars.ViewModels
         private string _ErrorMessage;
         private bool _IsBusy = false;
         private bool _IsErrorVisible = false;
+
+        /// <summary>
+        /// Gets or sets the username for login.
+        /// </summary>
         public string UserName
         {
-            get { return _UserName; }
+            get => _UserName;
             set
             {
                 if (_UserName != value)
@@ -34,9 +41,13 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the password for login.
+        /// </summary>
         public string Password
         {
-            get { return _Password; }
+            get => _Password;
             set
             {
                 if (_Password != value)
@@ -47,9 +58,12 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the server URL to which the application connects.
+        /// </summary>
         public string Server
         {
-            get { return _Server; }
+            get => _Server;
             set
             {
                 if (_Server != value)
@@ -59,9 +73,13 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the error message shown in the UI if login fails.
+        /// </summary>
         public string ErrorMessage
         {
-            get { return _ErrorMessage; }
+            get => _ErrorMessage;
             set
             {
                 if (_ErrorMessage != value)
@@ -71,9 +89,13 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a login operation is in progress.
+        /// </summary>
         public bool IsBusy
         {
-            get { return _IsBusy; }
+            get => _IsBusy;
             set
             {
                 if (_IsBusy != value)
@@ -83,9 +105,13 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the error message is visible in the UI.
+        /// </summary>
         public bool IsErrorVisible
         {
-            get { return _IsErrorVisible; }
+            get => _IsErrorVisible;
             set
             {
                 if (_IsErrorVisible != value)
@@ -99,6 +125,11 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginPageVM"/> class.
+        /// Sets up commands and attempts to load an existing token.
+        /// </summary>
         public LoginPageVM()
         {
             try
@@ -119,27 +150,36 @@ namespace CheckCars.ViewModels
 
         #endregion
 
-
         #region Commands
+
+        /// <summary>
+        /// Command executed to attempt user login.
+        /// </summary>
         public ICommand Login { get; set; }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Attempts to sign in the user asynchronously using the provided credentials.
+        /// Handles connection, token retrieval, and navigation on success.
+        /// </summary>
+        /// <returns>A task representing the asynchronous login operation.</returns>
         public async Task SignInAsync()
         {
             try
             {
                 await _apiService.UpdateUrl(Server);
-                var isConected = EstaConectado();
-                if (!isConected)
+                var isConnected = EstaConectado();
+                if (!isConnected)
                 {
                     throw new HttpRequestException("No hay conexión a internet");
                 }
 
-
                 IsBusy = true;
                 var data = new DataSignIn { email = UserName, password = Password };
-                ValidateAndAssignServerUrl();
+                await ValidateAndAssignServerUrl();
 
                 (bool sucess, string response) respon = await _apiService.PostAsync<DataSignIn>("api/Account/login", data);
 
@@ -164,7 +204,6 @@ namespace CheckCars.ViewModels
                 {
                     IsErrorVisible = true;
                     ErrorMessage = "Usuario o contraseña incorrectos";
-                    //    Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrectos", "Aceptar");  
                 }
             }
             catch (Exception e)
@@ -178,49 +217,53 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Validates the server URL and assigns it to static variables.
+        /// Handles URLs with ports or IP addresses.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task ValidateAndAssignServerUrl()
         {
-            // Asignar valores por defecto
             string url = string.Empty;
             int port = 0;
 
             try
             {
-                // Si la URL contiene un puerto, se separa y valida
                 Uri serverUri;
                 if (Uri.TryCreate(Server, UriKind.Absolute, out serverUri))
                 {
-                    // Asignar URL y puerto de la URI
-                    url = serverUri.Host; // Esto toma la parte del dominio o IP
+                    url = serverUri.Host;
                 }
                 else
                 {
-                    // Si no es una URL válida, asumir que es una IP local con puerto
                     var parts = Server.Split(':');
                     if (parts.Length == 2 && IPAddress.TryParse(parts[0], out IPAddress ip))
                     {
-                        url = parts[0]; // IP
-                        port = int.Parse(parts[1]); // Puerto
+                        url = parts[0];
+                        port = int.Parse(parts[1]);
                     }
                     else
                     {
                         throw new ArgumentException("URL del servidor no válida.");
                     }
                 }
-                // Asignar los valores a las variables globales o estáticas
                 CheckCars.Data.StaticData.URL = Server;
                 CheckCars.Data.StaticData.Port = "";
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al validar la URL del servidor: {ex.Message}");
-                Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar"); 
-                // Manejo de errores o valores por defecto si es necesario
+                await Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar");
                 CheckCars.Data.StaticData.URL = "localhost";
                 CheckCars.Data.StaticData.Port = 8080.ToString();
             }
         }
 
+        /// <summary>
+        /// Loads the token from secure storage and navigates to the main page if valid.
+        /// Displays error message if the token is expired or invalid.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task LoadToken()
         {
             try
@@ -245,10 +288,14 @@ namespace CheckCars.ViewModels
             {
                 Application.Current.MainPage.DisplayAlert("Info", ec.Message, "ok");
                 Console.WriteLine(ec.Message + ec.InnerException);
-                //throw;
             }
         }
 
+        /// <summary>
+        /// Validates the JWT token expiration.
+        /// </summary>
+        /// <param name="token">JWT token string.</param>
+        /// <returns>True if token is valid (not expired), false otherwise.</returns>
         private bool IsTokenValid(string token)
         {
             try
@@ -264,13 +311,16 @@ namespace CheckCars.ViewModels
             }
             catch (Exception ed)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Token inválido +" + ed.Message , "Aceptar");
-                // Si ocurre un error al procesar el token, lo tratamos como inválido
+                Application.Current.MainPage.DisplayAlert("Error", "Token inválido +" + ed.Message, "Aceptar");
                 return false;
             }
             return false;
         }
 
+        /// <summary>
+        /// Checks if the device has an active internet connection.
+        /// </summary>
+        /// <returns>True if connected to the internet; otherwise false.</returns>
         public bool EstaConectado()
         {
             return Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
@@ -278,9 +328,19 @@ namespace CheckCars.ViewModels
 
         #endregion
 
+        /// <summary>
+        /// Data class representing the login credentials payload.
+        /// </summary>
         public class DataSignIn
         {
+            /// <summary>
+            /// Gets or sets the email for login.
+            /// </summary>
             public string email { get; set; }
+
+            /// <summary>
+            /// Gets or sets the password for login.
+            /// </summary>
             public string password { get; set; }
         }
     }

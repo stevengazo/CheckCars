@@ -13,6 +13,10 @@ namespace CheckCars.ViewModels
     public class AddBookingVM : INotifyPropertyChangedAbst
     {
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the AddBookingVM class,
+        /// setting default booking dates and loading car plates.
+        /// </summary>
         public AddBookingVM()
         {
             // booking. =  Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
@@ -24,10 +28,24 @@ namespace CheckCars.ViewModels
         #endregion
 
         #region Properties
+        /// <summary>
+        /// API service instance for network operations.
+        /// </summary>
         private readonly APIService aPIService = new APIService();
+
+        /// <summary>
+        /// Database context instance for local data access.
+        /// </summary>
         private readonly ReportsDBContextSQLite _db = new();
 
+        /// <summary>
+        /// List of available car plates.
+        /// </summary>
         private List<string> carsList = new();
+
+        /// <summary>
+        /// Gets or sets the list of car plates.
+        /// </summary>
         public List<string> CarsList
         {
             get { return carsList; }
@@ -41,7 +59,14 @@ namespace CheckCars.ViewModels
             }
         }
 
-        private Booking booking { get; set; } 
+        /// <summary>
+        /// Booking object being created or edited.
+        /// </summary>
+        private Booking booking { get; set; }
+
+        /// <summary>
+        /// Gets or sets the booking details.
+        /// </summary>
         public Booking Booking
         {
             get { return booking; }
@@ -55,7 +80,14 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Selected car plate string.
+        /// </summary>
         private string selectedCar { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the selected car and updates the booking's CarId.
+        /// </summary>
         public string SelectedCar
         {
             get { return selectedCar; }
@@ -69,7 +101,15 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Backing field for StartDate property.
+        /// </summary>
         private DateTime _startDateTime = DateTime.Now;
+
+        /// <summary>
+        /// Gets or sets the start date and time of the booking.
+        /// </summary>
         public DateTime StartDate
         {
             get => _startDateTime;
@@ -85,6 +125,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the date part of the start datetime.
+        /// </summary>
         public DateTime StartDatePart
         {
             get => _startDateTime.Date;
@@ -94,6 +137,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the time part of the start datetime.
+        /// </summary>
         public TimeSpan StartTimePart
         {
             get => _startDateTime.TimeOfDay;
@@ -103,7 +149,15 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Backing field for EndDate property.
+        /// </summary>
         private DateTime _endDateTime = DateTime.Now.AddHours(1);
+
+        /// <summary>
+        /// Gets or sets the end date and time of the booking.
+        /// Validates end date is not earlier than start date.
+        /// </summary>
         public DateTime EndDate
         {
             get => _endDateTime;
@@ -125,6 +179,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the date part of the end datetime.
+        /// </summary>
         public DateTime EndDatePart
         {
             get => _endDateTime.Date;
@@ -134,6 +191,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the time part of the end datetime.
+        /// </summary>
         public TimeSpan EndTimePart
         {
             get => _endDateTime.TimeOfDay;
@@ -143,15 +203,28 @@ namespace CheckCars.ViewModels
             }
         }
 
-        // Método para notificar cambios en propiedades (debes implementarlo o usar INotifyPropertyChanged)
+        /// <summary>
+        /// Notifies property changes.
+        /// </summary>
+        /// <param name="propertyName">Property name that changed.</param>
         private void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Event triggered when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Backing field for error message.
+        /// </summary>
         private string _ErrorMessage { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the error message text.
+        /// </summary>
         public string ErrorMessage
         {
             get { return _ErrorMessage; }
@@ -170,21 +243,30 @@ namespace CheckCars.ViewModels
 
         #region Commands
 
+        /// <summary>
+        /// Command to add a new booking.
+        /// </summary>
         public Command AddBookingCommand => new Command(async () => await AddBooking());
+
+        /// <summary>
+        /// Command to cancel the booking process.
+        /// </summary>
         public Command CancelBookingCommand => new Command(async () => await CancelBooking());
-
-
-
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Checks if the booking time slot is available via the API.
+        /// Prompts the user to confirm adding the booking if available.
+        /// </summary>
         private async Task CheckAvariable()
         {
             try
             {
                 var url = $"api/Bookings/Search?startDate={StartDate.ToString("yyyy-MM-ddTHH:mm:ss")}&endDate={EndDate.ToString("yyyy-MM-ddTHH:mm:ss")}";
-                var bookings = await aPIService.GetAsync<List<Booking>>(url,TimeSpan.FromSeconds(24));
+                var bookings = await aPIService.GetAsync<List<Booking>>(url, TimeSpan.FromSeconds(24));
                 if (!bookings.Any())
                 {
                     booking.Startdate = StartDate;
@@ -218,13 +300,14 @@ namespace CheckCars.ViewModels
             }
 
         }
+        /// <summary>
+        /// Initiates adding a booking asynchronously.
+        /// </summary>
         private async Task AddBooking()
         {
             try
             {
-
                 CheckAvariable();
-
             }
             catch (Exception ds)
             {
@@ -233,6 +316,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Cancels the booking and removes the current page from navigation.
+        /// </summary>
         private async Task CancelBooking()
         {
             try
@@ -246,6 +332,9 @@ namespace CheckCars.ViewModels
             }
         }
 
+        /// <summary>
+        /// Placeholder for sending booking data asynchronously.
+        /// </summary>
         private async Task SendBooking()
         {
             try

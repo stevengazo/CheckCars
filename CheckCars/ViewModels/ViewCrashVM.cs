@@ -7,14 +7,23 @@ using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
+    /// <summary>
+    /// ViewModel for displaying and managing crash reports.
+    /// </summary>
     public class ViewCrashVM : INotifyPropertyChangedAbst
     {
         #region Properties
+
         private readonly APIService _apiService = new APIService();
+
         private CrashReport _Report = new();
+
+        /// <summary>
+        /// Gets or sets the crash report being viewed.
+        /// </summary>
         public CrashReport Report
         {
-            get { return _Report; }
+            get => _Report;
             set
             {
                 if (_Report != value)
@@ -26,9 +35,13 @@ namespace CheckCars.ViewModels
         }
 
         private bool _SendingDataF = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the report is currently being sent.
+        /// </summary>
         public bool SendingDataF
         {
-            get { return _SendingDataF; }
+            get => _SendingDataF;
             set
             {
                 if (_SendingDataF != value)
@@ -38,9 +51,15 @@ namespace CheckCars.ViewModels
                 }
             }
         }
+
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewCrashVM"/> class.
+        /// Loads the crash report and sets up commands.
+        /// </summary>
         public ViewCrashVM()
         {
             try
@@ -54,74 +73,101 @@ namespace CheckCars.ViewModels
 
                 using (var dbo = new ReportsDBContextSQLite())
                 {
-                    Report = dbo.CrashReports.Include(E => E.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
-
+                    Report = dbo.CrashReports.Include(e => e.Photos).FirstOrDefault(e => e.ReportId.Equals(Id));
                 }
             }
-            catch (Exception fef)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", fef.Message, "OK");
+                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
                 throw;
             }
         }
+
         #endregion
 
-        #region Commands   
+        #region Commands
+
+        /// <summary>
+        /// Command to delete the crash report.
+        /// </summary>
         public ICommand IDeleteReport { get; }
+
+        /// <summary>
+        /// Command to download the crash report as a PDF.
+        /// </summary>
         public ICommand DownloadReportCommand { get; }
+
+        /// <summary>
+        /// Command to send the crash report to the server.
+        /// </summary>
         public ICommand ISendReportCommand { get; }
+
+        /// <summary>
+        /// Command to share an image associated with the report.
+        /// </summary>
         public ICommand IShareImage { get; }
+
         #endregion
-        
+
         #region Methods
+
+        /// <summary>
+        /// Deletes the crash report and associated photos from the database and filesystem.
+        /// </summary>
         public async Task DeleteReport()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert(
-                   "Confirmación",
-                   "¿Deseas borrar este reporte?",
-                   "Sí",
-                   "No"
-               );
+            bool confirm = await Application.Current.MainPage.DisplayAlert(
+                "Confirmación",
+                "¿Deseas borrar este reporte?",
+                "Sí",
+                "No"
+            );
 
-            if (answer)
+            if (confirm)
             {
-
                 using (var db = new ReportsDBContextSQLite())
                 {
                     db.Photos.RemoveRange(Report.Photos);
                     db.SaveChanges();
+
                     db.CrashReports.Remove(Report);
                     db.SaveChanges();
 
-                    var d = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                    var pageToRemove = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
 
                     var paths = Report.Photos.Select(e => e.FilePath).ToList();
                     if (paths.Any())
                     {
-                        // Ejecuta la eliminación de fotos en un hilo aparte
                         new Thread(() => DeletePhotos(paths)).Start();
                     }
-                    Application.Current.MainPage.Navigation.RemovePage(d);
 
+                    Application.Current.MainPage.Navigation.RemovePage(pageToRemove);
                 }
             }
         }
-        private async Task DeletePhotos(List<string> paths)
+
+        /// <summary>
+        /// Deletes a list of image files from the filesystem.
+        /// </summary>
+        private void DeletePhotos(List<string> paths)
         {
-            foreach (var item in paths)
+            foreach (var path in paths)
             {
                 try
                 {
-                    File.Delete(item);
+                    File.Delete(path);
                 }
                 catch (Exception ex)
                 {
                     Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-                    // Puedes registrar el error o manejarlo según lo necesites
-                    Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
+                    Console.WriteLine($"Error al eliminar el archivo {path}: {ex.Message}");
                 }
             }
         }
+
+        /// <summary>
+        /// Generates and downloads a PDF of the crash report, then shares it.
+        /// </summary>
         private async Task DownloadReport()
         {
             Task.Run(async () =>
@@ -130,20 +176,29 @@ namespace CheckCars.ViewModels
                 {
                     if (Report != null)
                     {
-                        PDFGenerate d = new PDFGenerate();
-                        byte[] pdfBytes = await d.CrashReports(Report); // Asegúrate de usar 'await' con métodos async.
-                        var filePath = Path.Combine(FileSystem.CacheDirectory, $"Accidente {Report.CarPlate} {DateTime.Now:yy-MM-dd hh-mm-ss}.pdf");
+                        PDFGenerate generator = new PDFGenerate();
+                        byte[] pdfBytes = await generator.CrashReports(Report);
+
+                        string filePath = Path.Combine(
+                            FileSystem.CacheDirectory,
+                            $"Accidente {Report.CarPlate} {DateTime.Now:yy-MM-dd hh-mm-ss}.pdf"
+                        );
+
                         File.WriteAllBytes(filePath, pdfBytes);
                         ShareFile(filePath);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");    
-                    Console.WriteLine($"Error: {e.Message}");
+                    Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                    Console.WriteLine($"Error: {ex.Message}");
                 }
             });
         }
+
+        /// <summary>
+        /// Shares a PDF file using the device's native share dialog.
+        /// </summary>
         private async Task ShareFile(string filePath)
         {
             try
@@ -156,66 +211,81 @@ namespace CheckCars.ViewModels
 
                 await Share.Default.RequestAsync(request);
             }
-            catch (Exception d)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
+                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
                 throw;
             }
         }
-        private void SharePhotoAsync(string obj)
+
+        /// <summary>
+        /// Shares a single photo file.
+        /// </summary>
+        private void SharePhotoAsync(string filePath)
         {
-            ShareFile(obj);
+            ShareFile(filePath);
         }
+
+        /// <summary>
+        /// Sends the crash report and its photos to the server.
+        /// </summary>
         private async Task SendDataAsync()
         {
             try
             {
                 SendingDataF = true;
 
-                TimeSpan time = TimeSpan.FromSeconds(30);
                 bool result;
+                TimeSpan timeout = TimeSpan.FromSeconds(30);
+
                 if (Report.Photos.Count > 0)
                 {
                     List<string> paths = Report.Photos.Select(e => e.FilePath).ToList();
-                    result = await _apiService.PostAsync("api/CrashReports/form", Report, paths, time);
+                    result = await _apiService.PostAsync("api/CrashReports/form", Report, paths, timeout);
                 }
                 else
                 {
-                    result = await _apiService.PostAsync("api/CrashReports/json", Report, time);
+                    result = await _apiService.PostAsync("api/CrashReports/json", Report, timeout);
                 }
+
                 if (result)
                 {
-                    Application.Current?.MainPage.DisplayAlert("Información", "Reporte enviado correctamente", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Información", "Reporte enviado correctamente", "Ok");
                     await UpdateReport(result);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error al enviar el reporte. " + e.Message, "OK");
-                Console.WriteLine(e.Message);
+                await Application.Current.MainPage.DisplayAlert("Error", "Error al enviar el reporte. " + ex.Message, "OK");
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 SendingDataF = false;
             }
         }
-        private async Task UpdateReport(bool e)
+
+        /// <summary>
+        /// Updates the local report to indicate it has been uploaded.
+        /// </summary>
+        private async Task UpdateReport(bool uploaded)
         {
             try
             {
                 using (var db = new ReportsDBContextSQLite())
                 {
-                    Report.isUploaded = e;
+                    Report.isUploaded = uploaded;
                     db.CrashReports.Update(Report);
                     db.SaveChanges();
                 }
             }
-            catch (Exception d)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
                 throw;
             }
         }
+
         #endregion
     }
 }
