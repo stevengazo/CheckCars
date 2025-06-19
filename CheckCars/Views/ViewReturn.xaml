@@ -139,6 +139,7 @@
                                     Margin="5"
                                     Padding="6"
                                     BackgroundColor="blue"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ViewReturnsVM}}, Path=ShareImage}"
                                     CommandParameter="{Binding FilePath}"
                                     CornerRadius="50"
                                     HeightRequest="50"

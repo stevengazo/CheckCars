@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CheckCars.ViewModels
 {
@@ -25,6 +26,8 @@ namespace CheckCars.ViewModels
         {
             var Id = Data.StaticData.ReportId;
             _apiService = new APIService();
+
+            ShareImage = new Command<string>(SharePhotoAsync);
 
             using (var db = new ReportsDBContextSQLite())
             {
@@ -65,10 +68,43 @@ namespace CheckCars.ViewModels
 
         #region Commands
         // Define any ICommand properties here for UI interactions (e.g., Send, Delete, Share).
+      
+        public ICommand ShareImage { get; }
         #endregion
 
         #region Methods
         // Define logic for interacting with the Report, such as uploading, downloading, or deleting.
+       
+        /// <summary>
+        /// Shares a photo by file path using the Share API.
+        /// </summary>
+        /// <param name="obj">File path of the image to share.</param>
+        private void SharePhotoAsync(string obj)
+        {
+            ShareFile(obj);
+        }
+
+        /// <summary>
+        /// Shares a file using the native share feature.
+        /// </summary>
+        private async Task ShareFile(string filePath)
+        {
+            try
+            {
+                var request = new ShareFileRequest
+                {
+                    Title = "Compartir Imagen",
+                    File = new ShareFile(filePath)
+                };
+
+                await Share.Default.RequestAsync(request);
+            }
+            catch (Exception d)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
+            }
+        }
+
         #endregion
     }
 }
