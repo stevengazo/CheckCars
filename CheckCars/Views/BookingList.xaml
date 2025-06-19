@@ -53,7 +53,7 @@
                                         FontAttributes="Bold"
                                         Text="Fecha Reserva:"
                                         WidthRequest="100" />
-                                    <Label Text="{Binding Startdate}" />
+                                    <Label Text="{Binding StartDate}" />
                                 </HorizontalStackLayout>
 
                                 <!--  Fila: End Date  -->

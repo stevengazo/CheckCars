@@ -49,17 +49,12 @@ namespace CheckCars.ViewModels
             }
         });
 
-        /// <summary>
-        /// Command to reload the return reports.
-        /// </summary>
-        public ICommand UpdateReports => new Command(() => LoadReports());
 
         #endregion
 
         #region Properties
 
         private ObservableCollection<VehicleReturn> _Returns = new();
-
         /// <summary>
         /// Gets or sets the collection of vehicle return reports.
         /// </summary>
@@ -75,36 +70,9 @@ namespace CheckCars.ViewModels
                 }
             }
         }
-
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Loads vehicle return reports from the local database asynchronously.
-        /// </summary>
-        public async Task LoadReports()
-        {
-            try
-            {
-                using (var db = new ReportsDBContextSQLite())
-                {
-                    Returns.Clear();
-                    var data = db.Returns.OrderByDescending(e => e.Created).ToList();
-
-                    foreach (var entry in data)
-                    {
-                        Returns.Add(entry);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la información", "OK");
-                Console.WriteLine(e.Message);
-            }
-        }
-
         /// <summary>
         /// Loads return data synchronously when the ViewModel is initialized.
         /// </summary>

@@ -138,7 +138,7 @@ namespace CheckCars.ViewModels
                 foreach (var booking in bookings)
                 {
                     // Iterate through all days from Startdate to EndDate inclusive
-                    for (DateTime date = booking.Startdate.Date; date <= booking.EndDate.Date; date = date.AddDays(1))
+                    for (DateTime date = booking.StartDate.Date; date <= booking.EndDate.Date; date = date.AddDays(1))
                     {
                         if (!eventos.ContainsKey(date))
                             eventos[date] = new List<Booking>(); // Changed ICollection to List<Booking>
@@ -161,8 +161,9 @@ namespace CheckCars.ViewModels
         /// </summary>
         private async Task GetData()
         {
+
             var api = new APIService();
-            var Reservas = await api.GetAsync<List<Booking>>("api/Bookings", TimeSpan.FromSeconds(55));
+            var Reservas = await api.GetAsync<List<Booking>>($"api/Bookings/Search?startDate={DateTime.UtcNow.ToString("yyyy-MM-dd")}&EndDate={DateTime.UtcNow.AddMonths(1).ToString("yyyy-MM-dd")}", TimeSpan.FromSeconds(55));
             await SaveInDBAsync(Reservas);
             List<Booking> TmpBookings = await _db.Bookings.Include(b => b.Car).ToListAsync();
             await LoadDataAsync(TmpBookings);

@@ -17,7 +17,6 @@ namespace CheckCars.ViewModels
     public class AddReturnVM : INotifyPropertyChangedAbst
     {
         #region Constructor
-
         public AddReturnVM()
         {
             CarsInfo = GetCarsInfoAsync().Result;
@@ -126,7 +125,6 @@ namespace CheckCars.ViewModels
 
         #endregion
 
-
         #region Commands
 
         public ICommand AddReportCommand
@@ -208,7 +206,7 @@ namespace CheckCars.ViewModels
 
                 var isValid = await PromptPhotosAsync();
 
-                if (isValid && answer)
+                if (isValid && answer )
                 {
                     using var db = new ReportsDBContextSQLite();
 
@@ -221,8 +219,9 @@ namespace CheckCars.ViewModels
                     }).ToList();
 
                     // Add in the DB
-                    db.Returns.Add(VehicleReturn);
-                    db.SaveChanges();
+                    await db.Returns.AddAsync(VehicleReturn);
+                    await db.SaveChangesAsync();
+                    
 
                     // Send to the server
                     await SendDataAsync(VehicleReturn);
@@ -232,7 +231,7 @@ namespace CheckCars.ViewModels
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Internal error adding vehicle: " + e.Message, "Ok");
+                await Application.Current.MainPage.DisplayAlert("Error", "Error interno al agregar el reporte: " + e.Message, "Ok");
             }
         }
 
@@ -319,7 +318,7 @@ namespace CheckCars.ViewModels
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Warning", "Cannot add records without photos", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Advertencia", "No se puede agregar un reporte sin fotos", "Ok");
                     return false;
                 }
             }
@@ -370,7 +369,6 @@ namespace CheckCars.ViewModels
         }
 
         #endregion
-
 
     }
 }

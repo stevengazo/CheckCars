@@ -87,17 +87,15 @@
                 <CollectionView
                     Margin="0,10"
                     HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding Photos}"
-                    VerticalOptions="Start">
+                    ItemsSource="{Binding ImgList}"
+                    VerticalOptions="StartAndExpand">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Photo">
-                            <Grid Padding="5">
+                            <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Image
                                     Aspect="AspectFill"
-                                    HeightRequest="150"
                                     HorizontalOptions="Center"
-                                    Source="{Binding FilePath}"
-                                    WidthRequest="150" />
+                                    Source="{Binding FilePath}" />
                                 <Button
                                     Padding="4"
                                     BackgroundColor="Crimson"
@@ -110,7 +108,8 @@
                                     TextColor="White"
                                     VerticalOptions="End"
                                     WidthRequest="70" />
-                            </Grid>
+
+                            </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

@@ -35,10 +35,12 @@
             Title="Vehículos"
             ContentTemplate="{DataTemplate Views:CarList}"
             Route="CarList" />
-        <ShellContent
+        <!--
+            ShellContent
             Title="Reservas"
             ContentTemplate="{DataTemplate Views:BookingList}"
-            Route="Booking" />
+            Route="Booking" /
+        -->
         <ShellContent
             Title="Configuración"
             ContentTemplate="{DataTemplate Views:Account}"

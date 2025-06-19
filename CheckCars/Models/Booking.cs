@@ -16,7 +16,7 @@ namespace CheckCars.Models
         /// <summary>
         /// Gets or sets the start date of the booking.
         /// </summary>
-        public DateTime Startdate { get; set; }
+        public DateTime StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the end date of the booking.
@@ -26,22 +26,22 @@ namespace CheckCars.Models
         /// <summary>
         /// Gets or sets the reason for the booking.
         /// </summary>
-        public string Reason { get; set; } = "";
+        public string Reason { get; set; }
 
         /// <summary>
         /// Gets or sets the current status of the booking.
         /// </summary>
-        public string Status { get; set; } = "";
+        public string Status { get; set; }
 
         /// <summary>
-        /// Gets or sets the user ID who made the booking.
+        /// Gets or sets the identifier of the user who made the booking.
         /// </summary>
-        public string UserId { get; set; } = "";
+        public string UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the province associated with the booking.
+        /// Gets or sets the province related to the booking.
         /// </summary>
-        public string Province { get; set; } = "";
+        public string Province { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the booking has been deleted.
@@ -49,12 +49,16 @@ namespace CheckCars.Models
         public bool Deleted { get; set; } = false;
 
         /// <summary>
-        /// Gets or sets the ID of the car associated with the booking.
+        /// Gets or sets the identifier of the car being booked.
         /// </summary>
         public string CarId { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the booking is confirmed.
+        /// </summary>
+        public bool Confirmed { get; set; } = false;
 
         /// <summary>
-        /// Gets or sets the car model related to this booking.
+        /// Gets or sets the car associated with the booking.
         /// </summary>
         public CarModel? Car { get; set; }
     }

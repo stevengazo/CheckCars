@@ -1,6 +1,7 @@
 ﻿using CheckCars.Data;
 using CheckCars.Models;
 using CheckCars.Services;
+using iText.StyledXmlParser.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,9 +22,14 @@ namespace CheckCars.ViewModels
         {
             // booking. =  Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
             booking = new Booking();
-            booking.Startdate = DateTime.Now;
+            booking.StartDate = DateTime.Now;
+            booking.Status = "Pendiente";
+            booking.Deleted = false;
+            booking.Confirmed = false;
             booking.EndDate = DateTime.Now.AddHours(1);
             carsList = _db.Cars.Select(e => e.Plate).ToList();
+            LoadingUsers();
+
         }
         #endregion
 
@@ -238,6 +244,24 @@ namespace CheckCars.ViewModels
             }
         }
 
+
+        private Dictionary<string, string> _Users;
+
+        public Dictionary<string, string> Users
+        {
+            get { return _Users; }
+            set
+            {
+                if (_Users != value)
+                {
+                    _Users = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(UsersList)); // <- Notifica el cambio
+                }
+            }
+        }
+        public List<KeyValuePair<string, string>> UsersList => _Users?.ToList();
+
         #endregion
 
 
@@ -265,11 +289,20 @@ namespace CheckCars.ViewModels
         {
             try
             {
+                var urlCar = "api/Cars/available/" + booking.CarId;
+                var Car = await aPIService.GetAsync<CarModel>(urlCar, TimeSpan.FromSeconds(24)); /// si es null no esta disponibile
+
+                if (Car == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Vehículo no disponible", "OK");
+                    return;
+                }
+
                 var url = $"api/Bookings/Search?startDate={StartDate.ToString("yyyy-MM-ddTHH:mm:ss")}&endDate={EndDate.ToString("yyyy-MM-ddTHH:mm:ss")}";
                 var bookings = await aPIService.GetAsync<List<Booking>>(url, TimeSpan.FromSeconds(24));
                 if (!bookings.Any())
                 {
-                    booking.Startdate = StartDate;
+                    booking.StartDate = StartDate;
                     booking.EndDate = EndDate;
                     booking.UserId = "6f969ce2-53a1-4b39-b8d0-aa0d25c5c4bb";
                     booking.Deleted = false;
@@ -347,7 +380,19 @@ namespace CheckCars.ViewModels
             }
         }
 
+        private async Task LoadingUsers()
+        {
+            try
+            {
+                var api = new APIService();
+                var Users = await api.GetAsync<Dictionary<string, string>>("api/GetUsersDic", TimeSpan.FromSeconds(10));
 
+            }
+            catch (Exception n)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Error Interno: " + n.Message, "OK");
+            }
+        }
         #endregion
     }
 }
