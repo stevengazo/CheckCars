@@ -21,7 +21,7 @@ namespace CheckCars.ViewModels
 
         private string _UserName;
         private string _Password;
-        private string _Server;
+        private string _Server = "https://checarsv2.stevengazo.co.cr/";
         private string _ErrorMessage;
         private bool _IsBusy = false;
         private bool _IsErrorVisible = false;
@@ -138,6 +138,7 @@ namespace CheckCars.ViewModels
                 LoadToken();
                 if (!string.IsNullOrEmpty(StaticData.URL))
                 {
+                    StaticData.URL = "https://checarsv2.stevengazo.co.cr/";
                     Server = StaticData.URL;
                 }
             }
@@ -178,7 +179,7 @@ namespace CheckCars.ViewModels
                 }
 
                 IsBusy = true;
-                var data = new DataSignIn { email = UserName, password = Password };
+                var data = new DataSignIn { UserName = UserName, password = Password };
                 await ValidateAndAssignServerUrl();
 
                 (bool sucess, string response) respon = await _apiService.PostAsync<DataSignIn>("api/Account/login", data);
@@ -334,9 +335,9 @@ namespace CheckCars.ViewModels
         public class DataSignIn
         {
             /// <summary>
-            /// Gets or sets the email for login.
+            /// Gets or sets the UserName for login.
             /// </summary>
-            public string email { get; set; }
+            public string UserName { get; set; }
 
             /// <summary>
             /// Gets or sets the password for login.

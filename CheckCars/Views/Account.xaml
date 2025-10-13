@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     Title="Configuración"
-    x:DataType="ViewModels:AccountVM">
+    x:DataType="ViewModels:AccountVM"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}">
 
     <ContentPage.BindingContext>
         <ViewModels:AccountVM />
@@ -13,10 +14,11 @@
 
     <ScrollView>
         <StackLayout Padding="15" Spacing="10">
-            <!--  Sección Usuario  -->
+
+            <!-- Sección Usuario -->
             <Frame
                 Padding="5"
-                BackgroundColor="#f5f5f5"
+                BackgroundColor="{AppThemeBinding Light=#f5f5f5, Dark=#2C2C2C}"
                 CornerRadius="10">
                 <Grid ColumnDefinitions="auto, *, auto" ColumnSpacing="10">
                     <Label
@@ -24,20 +26,23 @@
                         Grid.Column="0"
                         FontSize="14"
                         Text="Usuario"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     <Entry
                         Grid.Row="0"
                         Grid.Column="1"
                         FontSize="14"
                         HeightRequest="40"
                         Placeholder="Nombre de Usuario"
-                        Text="{Binding LocalUser.UserName, Mode=TwoWay}" />
+                        Text="{Binding LocalUser.UserName, Mode=TwoWay}"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#3A3A3A}" />
 
                     <Button
                         Grid.Row="1"
                         Grid.Column="3"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="#007AFF"
+                        BackgroundColor="{AppThemeBinding Light=#007AFF, Dark=#0A84FF}"
                         Command="{Binding UpdateUser}"
                         CornerRadius="8"
                         FontSize="11"
@@ -46,10 +51,11 @@
                         TextColor="White" />
                 </Grid>
             </Frame>
-            <!--  Sección de Borrado  -->
+
+            <!-- Sección de Borrado -->
             <Frame
                 Padding="10"
-                BackgroundColor="#f5f5f5"
+                BackgroundColor="{AppThemeBinding Light=#f5f5f5, Dark=#2C2C2C}"
                 CornerRadius="10">
                 <Grid
                     ColumnDefinitions="*, auto, auto"
@@ -60,11 +66,12 @@
                         Grid.Column="0"
                         FontSize="14"
                         Text="Borrar Reportes existentes"
-                        VerticalTextAlignment="Center" />
+                        VerticalTextAlignment="Center"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     <Button
                         Grid.Row="0"
                         Grid.Column="1"
-                        BackgroundColor="#D32F2F"
+                        BackgroundColor="{AppThemeBinding Light=#D32F2F, Dark=#EF5350}"
                         Command="{Binding CleanReports}"
                         CornerRadius="8"
                         FontSize="Small"
@@ -76,11 +83,12 @@
                         Grid.Column="0"
                         FontSize="14"
                         Text="Borrar PDFs existentes"
-                        VerticalTextAlignment="Center" />
+                        VerticalTextAlignment="Center"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     <Button
                         Grid.Row="1"
                         Grid.Column="1"
-                        BackgroundColor="#FF9800"
+                        BackgroundColor="{AppThemeBinding Light=#FF9800, Dark=#FFA726}"
                         Command="{Binding CleanPdfs}"
                         CornerRadius="8"
                         FontSize="Small"
@@ -88,10 +96,11 @@
                         TextColor="White" />
                 </Grid>
             </Frame>
-            <!--  Sección de Configuración del Servidor  -->
+
+            <!-- Sección de Configuración del Servidor -->
             <Frame
                 Padding="10"
-                BackgroundColor="#f5f5f5"
+                BackgroundColor="{AppThemeBinding Light=#f5f5f5, Dark=#2C2C2C}"
                 CornerRadius="10">
                 <Grid
                     ColumnDefinitions="auto, *"
@@ -103,14 +112,17 @@
                         FontAttributes="Bold"
                         FontSize="14"
                         Text="Servidor"
-                        VerticalTextAlignment="Center" />
+                        VerticalTextAlignment="Center"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     <Entry
                         Grid.Row="0"
                         Grid.Column="1"
                         FontSize="14"
                         HeightRequest="40"
                         Placeholder="http://8.8.8.8"
-                        Text="{Binding URL}" />
+                        Text="{Binding URL}"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#3A3A3A}" />
 
                     <Label
                         Grid.Row="1"
@@ -118,14 +130,17 @@
                         FontAttributes="Bold"
                         FontSize="14"
                         Text="Puerto"
-                        VerticalTextAlignment="Center" />
+                        VerticalTextAlignment="Center"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                     <Entry
                         Grid.Row="1"
                         Grid.Column="1"
                         FontSize="14"
                         HeightRequest="40"
                         Placeholder="8080"
-                        Text="{Binding Port}" />
+                        Text="{Binding Port}"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#3A3A3A}" />
                 </Grid>
             </Frame>
 
