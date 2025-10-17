@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    Title="Retorno de Vehículos">
+    Title="Retorno de Vehículos"
+    BackgroundColor="{AppThemeBinding Light=WhiteSmoke, Dark=#121212}">
 
     <ContentPage.BindingContext>
         <ViewModels:ReturnsPageVM />
@@ -16,86 +17,99 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <!--  Informaciòn  -->
+
+        <!--  Información  -->
         <ScrollView Grid.Row="0">
-            <CollectionView ItemsSource="{Binding Returns, Mode=OneWay}" SelectionMode="Single">
+            <CollectionView
+                ItemsSource="{Binding Returns, Mode=OneWay}"
+                SelectionMode="Single"
+                BackgroundColor="{AppThemeBinding Light=WhiteSmoke, Dark=#121212}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame
                             Margin="5"
                             Padding="10"
                             CornerRadius="8"
-                            HasShadow="True">
-                            <!--  TapGestureRecognizer en el Frame  -->
+                            HasShadow="True"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+                            BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+
+                            <!-- TapGestureRecognizer en el Frame -->
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ReturnsPageVM}}, Path=ViewReport}" CommandParameter="{Binding ReportId}" />
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ReturnsPageVM}}, Path=ViewReport}"
+                                    CommandParameter="{Binding ReportId}" />
                             </Frame.GestureRecognizers>
-                            <!--  Agrega un Grid para usar Grid.Row y Grid.Column  -->
-                            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="auto,auto">
+
+                            <!-- Grid interno para disposición -->
+                            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto">
+                                <!-- Placa -->
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
+                                    FontSize="Small"
                                     Text="Placa"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     FontSize="Small"
                                     Text="{Binding CarPlate}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
+                                <!-- Kilometraje -->
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="2"
                                     FontAttributes="Bold"
+                                    FontSize="Small"
                                     Text="Kilometraje"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="3"
                                     FontSize="Small"
                                     Text="{Binding mileage, StringFormat='{0:N0}'}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
+                                <!-- Fecha -->
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
+                                    FontSize="Small"
                                     Text="Fecha"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     FontSize="Small"
                                     Text="{Binding Created}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
         </ScrollView>
-        <!--  Agregar Info  -->
+
+        <!--  Botón Agregar Info  -->
         <Button
             Grid.Row="1"
             Margin="10"
             Padding="0"
-            BackgroundColor="Green"
+            HeightRequest="45"
+            CornerRadius="10"
             Command="{Binding ViewAddReturn}"
-            HeightRequest="15"
-            Text="Agregar Entrega" />
+            Text="Agregar Entrega"
+            FontAttributes="Bold"
+            BackgroundColor="{AppThemeBinding Light=#00796B, Dark=#26A69A}"
+            TextColor="{AppThemeBinding Light=White, Dark=Black}"
+            BorderColor="{AppThemeBinding Light=#004D40, Dark=#80CBC4}"
+            BorderWidth="1" />
     </Grid>
-
 </ContentPage>

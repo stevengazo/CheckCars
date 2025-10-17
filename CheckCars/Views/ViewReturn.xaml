@@ -11,130 +11,139 @@
         <ViewModels:ViewReturnsVM />
     </ContentPage.BindingContext>
 
-
-
     <ScrollView>
-        <VerticalStackLayout>
-            <!--  Datos del reporte  -->
-            <Grid
-                Padding="10"
-                ColumnSpacing="10"
-                RowSpacing="6">
+        <VerticalStackLayout Padding="15" Spacing="12">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+            <!-- Información General -->
+            <Frame
+                Padding="15"
+                CornerRadius="12"
+                HasShadow="True"
+                BackgroundColor="{AppThemeBinding Light=#f9f9f9, Dark=#2a2a2a}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="Detalles del Reporte"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                <!--  Vehículo  -->
-                <Frame
-                    Grid.Row="0"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
+                    <Grid
+                        ColumnSpacing="10"
+                        RowSpacing="8">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Vehículo -->
                         <Label
+                            Grid.Row="0"
                             FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Vehículo" />
-                        <Label FontSize="Small" Text="{Binding Report.CarPlate}" />
-                    </VerticalStackLayout>
-                </Frame>
-
-                <!--  Fecha  -->
-                <Frame
-                    Grid.Row="1"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
+                            Text="Vehículo:"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Fecha" />
-                        <Label FontSize="Small" Text="{Binding Report.Created}" />
-                    </VerticalStackLayout>
-                </Frame>
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding Report.CarPlate}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                <!--  Autor  -->
-                <Frame
-                    Grid.Row="2"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
+                        <!-- Fecha -->
                         <Label
+                            Grid.Row="1"
                             FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Autor" />
-                        <Label FontSize="Small" Text="{Binding Report.Author}" />
-                    </VerticalStackLayout>
-                </Frame>
-
-                <!--  Latitud  -->
-                <Frame
-                    Grid.Row="3"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
+                            Text="Fecha:"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Latitud" />
-                        <Label FontSize="Small" Text="{Binding Report.Latitude}" />
-                    </VerticalStackLayout>
-                </Frame>
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Report.Created}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                <!--  Longitud  -->
-                <Frame
-                    Grid.Row="4"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
+                        <!-- Autor -->
                         <Label
+                            Grid.Row="2"
                             FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Longitud" />
-                        <Label FontSize="Small" Text="{Binding Report.Longitude}" />
-                    </VerticalStackLayout>
-                </Frame>
-
-                <!--  Kilometraje  -->
-                <Frame
-                    Grid.Row="5"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
+                            Text="Autor:"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                         <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding Report.Author}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
+                        <!-- Latitud -->
+                        <Label
+                            Grid.Row="3"
                             FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Kilometraje" />
-                        <Label FontSize="Small" Text="{Binding Report.mileage, StringFormat='{0:N0} km'}" />
-                    </VerticalStackLayout>
-                </Frame>
+                            Text="Latitud:"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Text="{Binding Report.Latitude}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-            </Grid>
+                        <!-- Longitud -->
+                        <Label
+                            Grid.Row="4"
+                            FontAttributes="Bold"
+                            Text="Longitud:"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Text="{Binding Report.Longitude}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-            <!--  Imágenes del reporte  -->
+                        <!-- Kilometraje -->
+                        <Label
+                            Grid.Row="5"
+                            FontAttributes="Bold"
+                            Text="Kilometraje:"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Text="{Binding Report.mileage, StringFormat='{0:N0} km'}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Imágenes del reporte -->
+            <Label
+                Text="Imágenes del Reporte"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Margin="0,10,0,0"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
             <CollectionView
-                Margin="10,15,10,5"
+                Margin="0,5,0,15"
                 HorizontalOptions="FillAndExpand"
                 ItemsSource="{Binding Report.Photos}"
                 VerticalOptions="Start">
-
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="5" Orientation="Vertical">
+                        <Frame
+                            Padding="8"
+                            Margin="5"
+                            CornerRadius="10"
+                            HasShadow="True"
+                            BackgroundColor="{AppThemeBinding Light=#ffffff, Dark=#333333}">
                             <Grid>
-
                                 <Image
                                     Margin="5"
                                     Aspect="AspectFit"
                                     HorizontalOptions="CenterAndExpand"
                                     Source="{Binding FilePath}"
                                     VerticalOptions="Center" />
-
                                 <ImageButton
                                     Margin="5"
                                     Padding="6"
@@ -148,18 +157,11 @@
                                     VerticalOptions="End"
                                     WidthRequest="50" />
                             </Grid>
-                        </StackLayout>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-
-
         </VerticalStackLayout>
     </ScrollView>
-
-
-
-
-
 </ContentPage>
