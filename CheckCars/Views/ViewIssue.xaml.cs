@@ -1,4 +1,4 @@
-namespace CheckCars.Views;
+namespace ReviCar.Views;
 
 public partial class ViewIssue : ContentPage
 {

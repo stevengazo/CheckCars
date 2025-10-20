@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     /// <summary>
     /// Base class implementing INotifyPropertyChanged to simplify property change notification in ViewModels.

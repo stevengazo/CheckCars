@@ -1,12 +1,12 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Services;
-using CheckCars.Utilities;
+﻿using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Services;
+using ReviCar.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     public class ViewEntryExitVM : INotifyPropertyChangedAbst
     {

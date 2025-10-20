@@ -1,7 +1,7 @@
-﻿using CheckCars.Models;
+﻿using ReviCar.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CheckCars.Data
+namespace ReviCar.Data
 {
     /// <summary>
     /// SQLite database context for Reports, Cars, and related entities.

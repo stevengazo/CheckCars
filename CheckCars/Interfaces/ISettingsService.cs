@@ -1,4 +1,4 @@
-namespace CheckCars.Interfaces
+namespace ReviCar.Interfaces
 {
     /// <summary>
     /// Interface to manage application settings related to API usage and connection.

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Views;
+using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Views;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     /// <summary>
     /// ViewModel for managing the vehicle returns page.

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CheckCars.Models
+namespace ReviCar.Models
 {
     /// <summary>
     /// Abstract base class representing a generic report.

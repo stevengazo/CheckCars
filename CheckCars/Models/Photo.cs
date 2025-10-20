@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CheckCars.Models
+namespace ReviCar.Models
 {
     /// <summary>
     /// Represents a photo associated with a report.

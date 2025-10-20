@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace CheckCars
+namespace ReviCar
 {
     [Application]
     public class MainApplication : MauiApplication

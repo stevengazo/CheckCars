@@ -1,8 +1,8 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.ViewModels;
+﻿using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.ViewModels;
 
-namespace CheckCars
+namespace ReviCar
 {
     public partial class MainPage : ContentPage
     {

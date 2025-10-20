@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="CheckCars.Views.AddBooking"
+    x:Class="ReviCar.Views.AddBooking"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:BindPick="clr-namespace:CheckCars.Views.Components"
-    xmlns:Models="clr-namespace:CheckCars.Models"
-    xmlns:ViewModels="clr-namespace:CheckCars.ViewModels"
+    xmlns:BindPick="clr-namespace:ReviCar.Views.Components"
+    xmlns:Models="clr-namespace:ReviCar.Models"
+    xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Agregar Reserva"
     BackgroundColor="{AppThemeBinding Light='White',

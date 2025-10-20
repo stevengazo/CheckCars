@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckCars.Shared.Controls
+namespace ReviCar.Shared.Controls
 {
     /// <summary>
     /// Represents a modal loader control that displays a loading indicator and an optional message.

@@ -1,9 +1,9 @@
-﻿using CheckCars.Data;
-using CheckCars.ViewModels;
+﻿using ReviCar.Data;
+using ReviCar.ViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
-namespace CheckCars
+namespace ReviCar
 {
     /// <summary>
     /// Provides the Maui application configuration and setup.

@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace CheckCars
+namespace ReviCar
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

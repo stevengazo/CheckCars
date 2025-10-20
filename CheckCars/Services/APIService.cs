@@ -6,7 +6,7 @@ using System.Net;
 using System.IO;
 using System.Linq;
 
-namespace CheckCars.Services
+namespace ReviCar.Services
 {
     public class APIService
     {
@@ -32,9 +32,9 @@ namespace CheckCars.Services
         {
             try
             {
-                var baseUrl = CheckCars.Data.StaticData.URL?.TrimEnd('/') ?? "";
+                var baseUrl = ReviCar.Data.StaticData.URL?.TrimEnd('/') ?? "";
 
-                if (string.IsNullOrEmpty(CheckCars.Data.StaticData.Port))
+                if (string.IsNullOrEmpty(ReviCar.Data.StaticData.Port))
                 {
                     _httpClient = new HttpClient()
                     {
@@ -46,7 +46,7 @@ namespace CheckCars.Services
                 {
                     _httpClient = new HttpClient()
                     {
-                        BaseAddress = new Uri($"{baseUrl}:{CheckCars.Data.StaticData.Port}/"),
+                        BaseAddress = new Uri($"{baseUrl}:{ReviCar.Data.StaticData.Port}/"),
                         Timeout = timeout ?? TimeSpan.FromSeconds(100)
                     };
                 }

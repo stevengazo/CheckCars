@@ -1,13 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Windows.Input;
-using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Services;
+using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Services;
 using CommunityToolkit.Maui;
 using Newtonsoft.Json;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     /// <summary>
     /// ViewModel responsible for managing the login process, including user credentials,
@@ -248,15 +248,15 @@ namespace CheckCars.ViewModels
                         throw new ArgumentException("URL del servidor no válida.");
                     }
                 }
-                CheckCars.Data.StaticData.URL = Server;
-                CheckCars.Data.StaticData.Port = "";
+                ReviCar.Data.StaticData.URL = Server;
+                ReviCar.Data.StaticData.Port = "";
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al validar la URL del servidor: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar");
-                CheckCars.Data.StaticData.URL = "localhost";
-                CheckCars.Data.StaticData.Port = 8080.ToString();
+                ReviCar.Data.StaticData.URL = "localhost";
+                ReviCar.Data.StaticData.Port = 8080.ToString();
             }
         }
 

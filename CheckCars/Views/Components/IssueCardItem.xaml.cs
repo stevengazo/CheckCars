@@ -1,4 +1,4 @@
-namespace CheckCars.Views.Components;
+namespace ReviCar.Views.Components;
 
 public partial class IssueCardItem : ContentView
 {

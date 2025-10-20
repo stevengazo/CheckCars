@@ -1,10 +1,10 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Views;
+﻿using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     /// <summary>
     /// ViewModel for managing a list of Entry/Exit reports.

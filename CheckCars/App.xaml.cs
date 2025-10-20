@@ -1,6 +1,6 @@
-﻿using CheckCars.Views;
+﻿using ReviCar.Views;
 
-namespace CheckCars
+namespace ReviCar
 {
     public partial class App : Application
     {

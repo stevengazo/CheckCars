@@ -1,12 +1,12 @@
 ﻿
-using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Services;
-using CheckCars.Views;
+using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Services;
+using ReviCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     /// <summary>
     /// ViewModel responsible for managing the list of cars, including adding, deleting, and loading cars.

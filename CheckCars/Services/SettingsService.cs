@@ -1,6 +1,6 @@
-using CheckCars.Interfaces;
+using ReviCar.Interfaces;
 
-namespace CheckCars.Services;
+namespace ReviCar.Services;
 
 public sealed class SettingsService : ISettingsService
 {

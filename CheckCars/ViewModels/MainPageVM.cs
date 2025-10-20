@@ -1,9 +1,9 @@
-﻿using CheckCars.Data;
-using CheckCars.Views;
+﻿using ReviCar.Data;
+using ReviCar.Views;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     /// <summary>
     /// ViewModel for the main page. Provides commands for navigating to different report views.

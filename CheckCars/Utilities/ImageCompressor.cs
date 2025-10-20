@@ -16,7 +16,7 @@ using MetadataExtractor.Formats.Xmp;
 using SkiaSharp;
 using MetadataExtractor.Formats.Exif;
 
-namespace CheckCars.Utilities
+namespace ReviCar.Utilities
 {
     public class ImageCompressor
     {

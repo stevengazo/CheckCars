@@ -1,6 +1,6 @@
 ﻿
 
-using CheckCars.Models;
+using ReviCar.Models;
 using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Layout;
@@ -8,7 +8,7 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 
 
-namespace CheckCars.Utilities
+namespace ReviCar.Utilities
 {
     public class PDFGenerate
     {

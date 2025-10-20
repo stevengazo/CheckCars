@@ -1,8 +1,8 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
+﻿using ReviCar.Data;
+using ReviCar.Models;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     public class AccountVM : INotifyPropertyChangedAbst
     {

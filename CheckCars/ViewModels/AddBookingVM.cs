@@ -1,6 +1,6 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Services;
+﻿using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Services;
 using iText.StyledXmlParser.Util;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     public class AddBookingVM : INotifyPropertyChangedAbst
     {

@@ -1,10 +1,10 @@
-﻿using CheckCars.Data;
-using CheckCars.Models;
-using CheckCars.Services;
+﻿using ReviCar.Data;
+using ReviCar.Models;
+using ReviCar.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace CheckCars.ViewModels
+namespace ReviCar.ViewModels
 {
     public class AddCrashVM : INotifyPropertyChangedAbst
     {
@@ -32,7 +32,7 @@ namespace CheckCars.ViewModels
         /// <summary>
         /// Sensor manager for camera and location functionality.
         /// </summary>
-        private CheckCars.Utilities.SensorManager SensorManager = new();
+        private ReviCar.Utilities.SensorManager SensorManager = new();
 
         /// <summary>
         /// Collection of photos attached to the crash report.
