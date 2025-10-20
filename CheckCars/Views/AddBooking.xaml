@@ -61,12 +61,11 @@
 
             <!--  User ID  -->
             <Label Text="Usuario" />
-         
+
 
             <BindPick:BindablePicker
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding UsersList}"
-            
                 SelectedValuePath="Key" />
 
             <!--  Car Plate  -->

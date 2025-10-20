@@ -16,90 +16,65 @@ namespace ReviCar.ViewModels
     /// </summary>
     public class ReturnsPageVM : INotifyPropertyChangedAbst
     {
-        #region Constructor
+        public ObservableCollection<VehicleReturn> Returns { get; set; } = new();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReturnsPageVM"/> class.
-        /// Loads return reports on initialization.
-        /// </summary>
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set { _isRefreshing = value; OnPropertyChanged(nameof(IsRefreshing)); }
+        }
+
+        public ICommand LoadDataCommand { get; }
+        public ICommand ViewAddReturn { get; }
+        public ICommand ViewReport { get; }
+
         public ReturnsPageVM()
         {
-            loadData();
-        }
-
-        #endregion
-
-        #region Commands
-
-        /// <summary>
-        /// Command to navigate to the add return report page.
-        /// </summary>
-        public ICommand ViewAddReturn { get; } = new Command(async () =>
-            await Application.Current.MainPage.Navigation.PushAsync(new AddReturn(), true));
-
-        /// <summary>
-        /// Command to navigate to the view return report page with the specified report ID.
-        /// </summary>
-        public ICommand ViewReport { get; } = new Command(async (e) =>
-        {
-            if (e is string reportId)
+            LoadDataCommand = new Command(async () =>
             {
-                Data.StaticData.ReportId = reportId;
-                await Application.Current.MainPage.Navigation.PushAsync(new ViewReturn(), true);
-            }
-        });
+                IsRefreshing = true;
+                await LoadDataAsync();
+                IsRefreshing = false;
+            });
 
+            ViewAddReturn = new Command(async () =>
+                await Application.Current.MainPage.Navigation.PushAsync(new AddReturn(), true));
 
-        #endregion
-
-        #region Properties
-
-        private ObservableCollection<VehicleReturn> _Returns = new();
-        /// <summary>
-        /// Gets or sets the collection of vehicle return reports.
-        /// </summary>
-        public ObservableCollection<VehicleReturn> Returns
-        {
-            get { return _Returns; }
-            set
+            ViewReport = new Command(async (e) =>
             {
-                _Returns = value;
-                if (_Returns != null)
+                if (e is string reportId)
                 {
-                    OnPropertyChanged(nameof(Returns));
+                    Data.StaticData.ReportId = reportId;
+                    await Application.Current.MainPage.Navigation.PushAsync(new ViewReturn(), true);
                 }
-            }
-        }
-        #endregion
+            });
 
-        #region Methods
-        /// <summary>
-        /// Loads return data synchronously when the ViewModel is initialized.
-        /// </summary>
-        private void loadData()
+            _ = LoadDataAsync(); // carga inicial
+        }
+
+        public async Task LoadDataAsync()
         {
             try
             {
-                using (var db = new ReportsDBContextSQLite())
+                await Task.Run(() =>
                 {
+                    using var db = new ReportsDBContextSQLite();
                     var d = db.Returns.OrderByDescending(e => e.Created).ToList();
-                    if (d.Any())
+
+                    MainThread.BeginInvokeOnMainThread(() =>
                     {
                         Returns.Clear();
                         foreach (var v in d)
-                        {
                             Returns.Add(v);
-                        }
-                    }
-                }
+                    });
+                });
             }
-            catch (Exception we)
+            catch
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la información", "OK");
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la información", "OK");
             }
         }
-
-        #endregion
     }
+
 }

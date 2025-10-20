@@ -7,7 +7,8 @@
     xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
     Title="Nuevo Accidente"
     x:DataType="ViewModels:AddCrashVM"
-    BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush}, Dark={StaticResource Gray950Brush}}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush},
+                                      Dark={StaticResource Gray950Brush}}">
 
     <ContentPage.BindingContext>
         <ViewModels:AddCrashVM />
@@ -49,69 +50,122 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Padding="16" Spacing="16">
 
-                <!-- Sección de datos -->
+                <!--  Sección de datos  -->
                 <Frame
                     Padding="12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100Brush},
+                                                      Dark={StaticResource Gray900Brush}}"
                     CornerRadius="12"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100Brush}, Dark={StaticResource Gray900Brush}}"
                     HasShadow="True">
 
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,3*,45,3*,Auto" RowSpacing="10" ColumnSpacing="10">
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="10"
+                        RowDefinitions="Auto,Auto,Auto,Auto,3*,45,3*,Auto"
+                        RowSpacing="10">
 
-                        <!-- Fecha -->
-                        <Label Grid.Row="0" Grid.Column="0" Text="Fecha" VerticalOptions="Center" />
-                        <DatePicker Grid.Row="0" Grid.Column="1"
-                                    Date="{Binding newCrashReport.Created}"
-                                    BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush}, Dark={StaticResource Gray950Brush}}"
-                                    TextColor="{AppThemeBinding Light={StaticResource BlackBrush}, Dark={StaticResource WhiteBrush}}" />
+                        <!--  Fecha  -->
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Fecha"
+                            VerticalOptions="Center" />
+                        <DatePicker
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush},
+                                                              Dark={StaticResource Gray950Brush}}"
+                            Date="{Binding newCrashReport.Created}"
+                            TextColor="{AppThemeBinding Light={StaticResource BlackBrush},
+                                                        Dark={StaticResource WhiteBrush}}" />
 
-                        <!-- Vehículo -->
-                        <Label Grid.Row="1" Grid.Column="0" Text="Vehículo" VerticalOptions="Center" />
-                        <Picker Grid.Row="1" Grid.Column="1"
-                                Title="Seleccione"
-                                ItemsSource="{Binding CarsInfo}"
-                                SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush}, Dark={StaticResource Gray950Brush}}"
-                                TextColor="{AppThemeBinding Light={StaticResource BlackBrush}, Dark={StaticResource WhiteBrush}}"
-                                TitleColor="{AppThemeBinding Light={StaticResource Gray500Brush}, Dark={StaticResource Gray400Brush}}" />
+                        <!--  Vehículo  -->
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Vehículo"
+                            VerticalOptions="Center" />
+                        <Picker
+                            Title="Seleccione"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush},
+                                                              Dark={StaticResource Gray950Brush}}"
+                            ItemsSource="{Binding CarsInfo}"
+                            SelectedItem="{Binding newCrashReport.CarPlate, Mode=TwoWay}"
+                            TextColor="{AppThemeBinding Light={StaticResource BlackBrush},
+                                                        Dark={StaticResource WhiteBrush}}"
+                            TitleColor="{AppThemeBinding Light={StaticResource Gray500Brush},
+                                                         Dark={StaticResource Gray400Brush}}" />
 
-                        <!-- Ubicación -->
-                        <Label Grid.Row="2" Grid.Column="0" Text="Ubicación" VerticalOptions="Center" />
-                        <Entry Grid.Row="2" Grid.Column="1"
-                               Placeholder="Ubicación"
-                               Text="{Binding newCrashReport.Location, Mode=TwoWay}" />
+                        <!--  Ubicación  -->
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Ubicación"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Placeholder="Ubicación"
+                            Text="{Binding newCrashReport.Location, Mode=TwoWay}" />
 
-                        <!-- Detalles -->
-                        <Label Grid.Row="3" Grid.Column="0" Text="Detalles" VerticalOptions="Center" />
-                        <Editor Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
-                                HeightRequest="110"
-                                Text="{Binding newCrashReport.CrashDetails, Mode=TwoWay}" />
+                        <!--  Detalles  -->
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Detalles"
+                            VerticalOptions="Center" />
+                        <Editor
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            HeightRequest="110"
+                            Text="{Binding newCrashReport.CrashDetails, Mode=TwoWay}" />
 
-                        <!-- Daños -->
-                        <Label Grid.Row="5" Grid.Column="0" Text="Daños" VerticalOptions="Center" />
-                        <Editor Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
-                                HeightRequest="110"
-                                Text="{Binding newCrashReport.CrashedParts, Mode=TwoWay}" />
+                        <!--  Daños  -->
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Text="Daños"
+                            VerticalOptions="Center" />
+                        <Editor
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            HeightRequest="110"
+                            Text="{Binding newCrashReport.CrashedParts, Mode=TwoWay}" />
 
-                        <!-- Autor -->
-                        <Label Grid.Row="7" Grid.Column="0" Text="Autor" VerticalOptions="Center" />
-                        <Entry Grid.Row="7" Grid.Column="1"
-                               Text="{Binding newCrashReport.Author, Mode=TwoWay}"
-                               IsEnabled="False" />
+                        <!--  Autor  -->
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Text="Autor"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            IsEnabled="False"
+                            Text="{Binding newCrashReport.Author, Mode=TwoWay}" />
                     </Grid>
                 </Frame>
 
-                <!-- Sección de imágenes -->
+                <!--  Sección de imágenes  -->
                 <VerticalStackLayout Spacing="12">
-                    <Label FontSize="Subtitle" HorizontalOptions="Center" Text="Imágenes" />
+                    <Label
+                        FontSize="Subtitle"
+                        HorizontalOptions="Center"
+                        Text="Imágenes" />
 
-                    <Button Text="Agregar Foto"
-            Command="{Binding TakePhotoCommand}"
-            BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryBrush}, Dark={StaticResource PrimaryDarkBrush}}"
-            TextColor="{StaticResource WhiteBrush}" />
+                    <Button
+                        BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryBrush},
+                                                          Dark={StaticResource PrimaryDarkBrush}}"
+                        Command="{Binding TakePhotoCommand}"
+                        Text="Agregar Foto"
+                        TextColor="{StaticResource WhiteBrush}" />
 
-                    <CollectionView ItemsSource="{Binding ImgList}" HorizontalOptions="FillAndExpand">
-                        <!-- Layout tipo grid con dos columnas y tamaño fijo -->
+                    <CollectionView HorizontalOptions="FillAndExpand" ItemsSource="{Binding ImgList}">
+                        <!--  Layout tipo grid con dos columnas y tamaño fijo  -->
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="2" />
                         </CollectionView.ItemsLayout>
@@ -119,38 +173,39 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="Models:Photo">
                                 <Frame
-                    CornerRadius="8"
-                    Padding="5"
-                    Margin="5"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100Brush}, Dark={StaticResource Gray900Brush}}"
-                    HasShadow="True"
-                    HeightRequest="150"
-                    WidthRequest="150">
+                                    Margin="5"
+                                    Padding="5"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource Gray100Brush},
+                                                                      Dark={StaticResource Gray900Brush}}"
+                                    CornerRadius="8"
+                                    HasShadow="True"
+                                    HeightRequest="150"
+                                    WidthRequest="150">
 
                                     <Grid>
-                                        <!-- Imagen de la foto -->
+                                        <!--  Imagen de la foto  -->
                                         <Image
-                            Source="{Binding FilePath}"
-                            Aspect="AspectFill"
-                            HorizontalOptions="Fill"
-                            VerticalOptions="Fill"
-                            HeightRequest="140"
-                            WidthRequest="140" />
+                                            Aspect="AspectFill"
+                                            HeightRequest="140"
+                                            HorizontalOptions="Fill"
+                                            Source="{Binding FilePath}"
+                                            VerticalOptions="Fill"
+                                            WidthRequest="140" />
 
-                                        <!-- Botón para eliminar la foto -->
+                                        <!--  Botón para eliminar la foto  -->
                                         <Button
-                            Text="Eliminar"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddCrashVM}}, Path=DeletePhotoCommand}"
-                            CommandParameter="{Binding .}"
-                            BackgroundColor="{StaticResource MagentaBrush}"
-                            TextColor="{StaticResource WhiteBrush}"
-                            CornerRadius="6"
-                            FontSize="12"
-                            HeightRequest="28"
-                            WidthRequest="70"
-                            HorizontalOptions="End"
-                            VerticalOptions="End"
-                            Margin="0,0,2,2" />
+                                            Margin="0,0,2,2"
+                                            BackgroundColor="{StaticResource MagentaBrush}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddCrashVM}}, Path=DeletePhotoCommand}"
+                                            CommandParameter="{Binding .}"
+                                            CornerRadius="6"
+                                            FontSize="12"
+                                            HeightRequest="28"
+                                            HorizontalOptions="End"
+                                            Text="Eliminar"
+                                            TextColor="{StaticResource WhiteBrush}"
+                                            VerticalOptions="End"
+                                            WidthRequest="70" />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
@@ -161,34 +216,43 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Botón Agregar Reporte -->
-        <HorizontalStackLayout Grid.Row="1" Padding="8" HorizontalOptions="Center">
-            <Button Text="Agregar Reporte"
-                    Command="{Binding AddReport}"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryBrush}, Dark={StaticResource PrimaryDarkBrush}}"
-                    TextColor="{StaticResource WhiteBrush}"
-                    WidthRequest="160"
-                    HeightRequest="45" />
+        <!--  Botón Agregar Reporte  -->
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Padding="8"
+            HorizontalOptions="Center">
+            <Button
+                BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryBrush},
+                                                  Dark={StaticResource PrimaryDarkBrush}}"
+                Command="{Binding AddReport}"
+                HeightRequest="45"
+                Text="Agregar Reporte"
+                TextColor="{StaticResource WhiteBrush}"
+                WidthRequest="160" />
         </HorizontalStackLayout>
 
-        <!-- Modal enviando datos -->
-        <ContentView Grid.RowSpan="2"
-                     BackgroundColor="#80000000"
-                     IsVisible="{Binding SendingData}">
-            <VerticalStackLayout Padding="20"
-                                 BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush}, Dark={StaticResource Gray950Brush}}"
-                                 Spacing="12"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"
-                                 WidthRequest="220"
-                                 HeightRequest="160" >
-                <ActivityIndicator IsRunning="True"
-                                   Color="{StaticResource PrimaryBrush}" />
-                <Label Text="Enviando información"
-                       FontSize="Medium"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       TextColor="{AppThemeBinding Light={StaticResource BlackBrush}, Dark={StaticResource WhiteBrush}}" />
+        <!--  Modal enviando datos  -->
+        <ContentView
+            Grid.RowSpan="2"
+            BackgroundColor="#80000000"
+            IsVisible="{Binding SendingData}">
+            <VerticalStackLayout
+                Padding="20"
+                BackgroundColor="{AppThemeBinding Light={StaticResource WhiteBrush},
+                                                  Dark={StaticResource Gray950Brush}}"
+                HeightRequest="160"
+                HorizontalOptions="Center"
+                Spacing="12"
+                VerticalOptions="Center"
+                WidthRequest="220">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource PrimaryBrush}" />
+                <Label
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="Enviando información"
+                    TextColor="{AppThemeBinding Light={StaticResource BlackBrush},
+                                                Dark={StaticResource WhiteBrush}}" />
             </VerticalStackLayout>
         </ContentView>
 

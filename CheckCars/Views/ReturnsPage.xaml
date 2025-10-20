@@ -6,12 +6,17 @@
     xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title="Retorno de Vehículos"
-    BackgroundColor="{AppThemeBinding Light=WhiteSmoke,
-                                      Dark=#121212}">
+    BackgroundColor="{AppThemeBinding Light=WhiteSmoke, Dark=#121212}">
 
     <ContentPage.BindingContext>
         <ViewModels:ReturnsPageVM />
     </ContentPage.BindingContext>
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            Command="{Binding LoadDataCommand}" 
+            EventName="Appearing" />
+    </ContentPage.Behaviors>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,108 +24,77 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
-        <!--  Información  -->
-        <ScrollView Grid.Row="0">
+        <!-- Swipe-to-Refresh -->
+        <RefreshView
+            Grid.Row="0"
+            Command="{Binding LoadDataCommand}"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+
             <CollectionView
-                BackgroundColor="{AppThemeBinding Light=WhiteSmoke,
-                                                  Dark=#121212}"
+                BackgroundColor="{AppThemeBinding Light=WhiteSmoke, Dark=#121212}"
                 ItemsSource="{Binding Returns, Mode=OneWay}"
                 SelectionMode="Single">
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame
                             Margin="5"
                             Padding="10"
-                            BackgroundColor="{AppThemeBinding Light=White,
-                                                              Dark=#1E1E1E}"
-                            BorderColor="{AppThemeBinding Light=LightGray,
-                                                          Dark=DarkGray}"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+                            BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
                             CornerRadius="8"
                             HasShadow="True">
 
-                            <!--  TapGestureRecognizer en el Frame  -->
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ReturnsPageVM}}, Path=ViewReport}" CommandParameter="{Binding ReportId}" />
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ReturnsPageVM}}, Path=ViewReport}"
+                                    CommandParameter="{Binding ReportId}" />
                             </Frame.GestureRecognizers>
 
-                            <!--  Grid interno para disposición  -->
-                            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto">
-                                <!--  Placa  -->
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Placa"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Padding="5">
+                                <!-- Fila 0: Placa y Kilometraje -->
+                                <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="5">
+                                    <Label Text="Placa:" FontAttributes="Bold" FontSize="Small"
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                    <Label Text="{Binding CarPlate}" FontSize="Small"
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                </StackLayout>
 
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding CarPlate}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="5">
+                                    <Label Text="Kilometraje:" FontAttributes="Bold" FontSize="Small"
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                    <Label Text="{Binding mileage, StringFormat='{0:N0}'}" FontSize="Small"
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                </StackLayout>
 
-                                <!--  Kilometraje  -->
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="2"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Kilometraje"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="3"
-                                    FontSize="Small"
-                                    Text="{Binding mileage, StringFormat='{0:N0}'}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <!--  Fecha  -->
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    FontAttributes="Bold"
-                                    FontSize="Small"
-                                    Text="Fecha"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
-
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    FontSize="Small"
-                                    Text="{Binding Created}"
-                                    TextColor="{AppThemeBinding Light=Black,
-                                                                Dark=White}" />
+                                <!-- Fila 1: Fecha -->
+                                <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="5">
+                                    <Label Text="Fecha:" FontAttributes="Bold" FontSize="Small"
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                    <Label Text="{Binding Created}" FontSize="Small"
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                </StackLayout>
                             </Grid>
+
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </ScrollView>
+        </RefreshView>
 
-        <!--  Botón Agregar Info  -->
+        <!-- Botón Agregar Info -->
         <Button
             Grid.Row="1"
             Margin="10"
             Padding="0"
-            BackgroundColor="{AppThemeBinding Light=#00796B,
-                                              Dark=#26A69A}"
-            BorderColor="{AppThemeBinding Light=#004D40,
-                                          Dark=#80CBC4}"
+            BackgroundColor="{AppThemeBinding Light=#00796B, Dark=#26A69A}"
+            BorderColor="{AppThemeBinding Light=#004D40, Dark=#80CBC4}"
             BorderWidth="1"
             Command="{Binding ViewAddReturn}"
             CornerRadius="10"
             FontAttributes="Bold"
             HeightRequest="45"
             Text="Agregar Entrega"
-            TextColor="{AppThemeBinding Light=White,
-                                        Dark=Black}" />
+            TextColor="{AppThemeBinding Light=White, Dark=Black}" />
     </Grid>
 </ContentPage>
