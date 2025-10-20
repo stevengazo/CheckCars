@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="ReviCar.Views.AddReturn"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:ReviCar.Models"
     xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
-    Title="Agregar Salida">
+    Title="Agregar Salida"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+
     <ContentPage.BindingContext>
         <ViewModels:AddReturnVM />
     </ContentPage.BindingContext>
 
-    <Grid Padding="20" BackgroundColor="White">
+    <Grid Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -18,109 +19,116 @@
         </Grid.RowDefinitions>
 
         <!--  Header  -->
-        <StackLayout
-            Grid.Row="0"
-            Padding="0,10"
-            HorizontalOptions="Center">
+        <StackLayout Grid.Row="0" Padding="0,10" HorizontalOptions="Center">
             <Label
                 FontAttributes="Bold"
                 FontSize="24"
                 HorizontalTextAlignment="Center"
                 Text="Información de Reporte"
-                TextColor="DarkSlateGray" />
+                TextColor="{AppThemeBinding Light=DarkSlateGray, Dark=LightGray}" />
         </StackLayout>
 
         <!--  Contenido principal  -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="10" Spacing="15">
-                <!--  Vehículo  -->
-                <Label
-                    FontSize="Medium"
-                    Text="Vehículo"
-                    TextColor="Black" />
+
+                <!-- Vehículo -->
+                <Label FontSize="Medium" Text="Vehículo"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 <Picker
                     Title="Seleccione el vehiculo"
-                    Grid.Row="1"
-                    Grid.Column="1"
                     Margin="2"
-                    BackgroundColor="{AppThemeBinding Light=White,
-                                                      Dark=Gray}"
+                    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
                     ItemsSource="{Binding CarsInfo}"
                     SelectedItem="{Binding VehicleReturn.CarPlate}"
-                    TextColor="{AppThemeBinding Light=Black,
-                                                Dark=White}"
-                    TitleColor="{AppThemeBinding Light=Gray,
-                                                 Dark=WhiteSmoke}"
-                    VerticalOptions="Center" />
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                    TitleColor="{AppThemeBinding Light=Gray, Dark=WhiteSmoke}" />
 
-                <!--  Kilometraje  -->
-                <Label
-                    FontSize="Medium"
-                    Text="Kilometraje"
-                    TextColor="Black" />
+                <!-- Kilometraje -->
+                <Label FontSize="Medium" Text="Kilometraje"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 <Entry
-                    Grid.Row="3"
-                    Grid.Column="1"
                     Margin="2"
-                    BackgroundColor="{AppThemeBinding Light=White,
-                                                      Dark=Gray}"
+                    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}"
                     Keyboard="Numeric"
                     Placeholder="Kilometraje"
                     Text="{Binding VehicleReturn.mileage}"
-                    TextColor="{AppThemeBinding Light=Black,
-                                                Dark=White}" />
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                <!--  Imágenes  -->
-                <Label
-                    FontSize="Medium"
-                    Text="Imágenes"
-                    TextColor="Black" />
+                <!-- Imágenes -->
+                <Label FontSize="Medium" Text="Imágenes"
+                       TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 <Button
-                    BackgroundColor="LightGray"
+                    BackgroundColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}"
                     Command="{Binding TakePhotoCommand}"
                     CornerRadius="8"
                     HeightRequest="40"
                     Text="Agregar Imágenes"
-                    TextColor="Black" />
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                <!--  Vista de imágenes  -->
+                <!-- Vista de imágenes -->
                 <CollectionView
-                    Margin="0,10"
-                    HorizontalOptions="FillAndExpand"
-                    ItemsSource="{Binding ImgList}"
-                    VerticalOptions="StartAndExpand">
+    Margin="0,10"
+    HorizontalOptions="FillAndExpand"
+    ItemsSource="{Binding ImgList}"
+    VerticalOptions="StartAndExpand">
+
+                    <!-- Layout tipo grid para galería -->
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Photo">
-                            <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Image
-                                    Aspect="AspectFill"
-                                    HorizontalOptions="Center"
-                                    Source="{Binding FilePath}" />
-                                <Button
-                                    Padding="4"
-                                    BackgroundColor="Crimson"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddReturnVM}}, Path=DeletePhotoCommand}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="10"
-                                    FontSize="12"
-                                    HorizontalOptions="End"
-                                    Text="Eliminar"
-                                    TextColor="White"
-                                    VerticalOptions="End"
-                                    WidthRequest="70" />
+                            <Frame
+                CornerRadius="8"
+                Padding="5"
+                Margin="5"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100Brush}, Dark={StaticResource Gray900Brush}}"
+                HasShadow="True"
+                HeightRequest="150"
+                WidthRequest="150">
 
-                            </StackLayout>
+                                <Grid>
+                                    <!-- Imagen con tamaño fijo -->
+                                    <Image
+                        Aspect="AspectFill"
+                        Source="{Binding FilePath}"
+                        HeightRequest="140"
+                        WidthRequest="140"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill" />
+                                    <!-- Botón eliminar -->
+
+                                    <ImageButton
+                                       
+                                          Padding="4"
+  BackgroundColor="Crimson"
+  Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:AddReturnVM}}, Path=DeletePhotoCommand}"
+  CommandParameter="{Binding .}"
+  CornerRadius="10"
+  HeightRequest="20"
+  HorizontalOptions="End"
+  VerticalOptions="End"
+  WidthRequest="20"
+ Source="delete.png"
+  Margin="0,0,2,2"
+                                        >
+                                        
+                                    </ImageButton>
+ 
+                                   
+                                </Grid>
+                            </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+
             </VerticalStackLayout>
         </ScrollView>
 
-        <!--  Botones  -->
-        <Grid
-            Grid.Row="2"
-            Padding="10"
-            ColumnSpacing="10">
+        <!-- Botones -->
+        <Grid Grid.Row="2" Padding="10" ColumnSpacing="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -147,4 +155,3 @@
         </Grid>
     </Grid>
 </ContentPage>
-
