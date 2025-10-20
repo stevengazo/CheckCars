@@ -1,11 +1,13 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Windows.Input;
+﻿using CommunityToolkit.Maui;
+using Newtonsoft.Json;
 using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Services;
-using CommunityToolkit.Maui;
-using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace ReviCar.ViewModels
 {
@@ -15,10 +17,9 @@ namespace ReviCar.ViewModels
     /// </summary>
     public class LoginPageVM : INotifyPropertyChangedAbst
     {
-        #region Properties
+        #region Fields
 
         private readonly APIService _apiService = new APIService();
-
         private string _UserName;
         private string _Password;
         private string _Server = "https://checarsv2.stevengazo.co.cr/";
@@ -26,126 +27,70 @@ namespace ReviCar.ViewModels
         private bool _IsBusy = false;
         private bool _IsErrorVisible = false;
 
-        /// <summary>
-        /// Gets or sets the username for login.
-        /// </summary>
+        #endregion
+
+        #region Properties
+
         public string UserName
         {
             get => _UserName;
-            set
-            {
-                if (_UserName != value)
-                {
-                    _UserName = value;
-                    OnPropertyChanged(nameof(UserName));
-                }
-            }
+            set => SetProperty(ref _UserName, value);
         }
 
-        /// <summary>
-        /// Gets or sets the password for login.
-        /// </summary>
         public string Password
         {
             get => _Password;
-            set
-            {
-                if (_Password != value)
-                {
-                    _Password = value;
-                    OnPropertyChanged(nameof(Password));
-                }
-            }
+            set => SetProperty(ref _Password, value);
         }
 
-        /// <summary>
-        /// Gets or sets the server URL to which the application connects.
-        /// </summary>
         public string Server
         {
             get => _Server;
-            set
-            {
-                if (_Server != value)
-                {
-                    _Server = value;
-                    OnPropertyChanged(nameof(Server));
-                }
-            }
+            set => SetProperty(ref _Server, value);
         }
 
-        /// <summary>
-        /// Gets or sets the error message shown in the UI if login fails.
-        /// </summary>
         public string ErrorMessage
         {
             get => _ErrorMessage;
-            set
-            {
-                if (_ErrorMessage != value)
-                {
-                    _ErrorMessage = value;
-                    OnPropertyChanged(nameof(ErrorMessage));
-                }
-            }
+            set => SetProperty(ref _ErrorMessage, value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether a login operation is in progress.
-        /// </summary>
         public bool IsBusy
         {
             get => _IsBusy;
-            set
-            {
-                if (_IsBusy != value)
-                {
-                    _IsBusy = value;
-                    OnPropertyChanged(nameof(IsBusy));
-                }
-            }
+            set => SetProperty(ref _IsBusy, value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the error message is visible in the UI.
-        /// </summary>
         public bool IsErrorVisible
         {
             get => _IsErrorVisible;
-            set
-            {
-                if (_IsErrorVisible != value)
-                {
-                    _IsErrorVisible = value;
-                    OnPropertyChanged(nameof(IsErrorVisible));
-                }
-            }
+            set => SetProperty(ref _IsErrorVisible, value);
         }
+
+        // Lista observable para vehículos cargados
+        public ObservableCollection<CarModel> Cars { get; } = new ObservableCollection<CarModel>();
 
         #endregion
 
         #region Constructor
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LoginPageVM"/> class.
-        /// Sets up commands and attempts to load an existing token.
-        /// </summary>
         public LoginPageVM()
         {
             try
             {
                 Login = new Command(async () => await SignInAsync());
-                LoadToken();
+                _ = LoadToken();
+
                 if (!string.IsNullOrEmpty(StaticData.URL))
                 {
                     StaticData.URL = "https://checarsv2.stevengazo.co.cr/";
                     Server = StaticData.URL;
                 }
             }
-            catch (Exception d)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Aceptar");
-                Console.WriteLine(d.Message);
+                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                Console.WriteLine(ex);
             }
         }
 
@@ -153,52 +98,45 @@ namespace ReviCar.ViewModels
 
         #region Commands
 
-        /// <summary>
-        /// Command executed to attempt user login.
-        /// </summary>
         public ICommand Login { get; set; }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Attempts to sign in the user asynchronously using the provided credentials.
-        /// Handles connection, token retrieval, and navigation on success.
-        /// </summary>
-        /// <returns>A task representing the asynchronous login operation.</returns>
         public async Task SignInAsync()
         {
             try
             {
                 await _apiService.UpdateUrl(Server);
-                var isConnected = EstaConectado();
-                if (!isConnected)
-                {
+
+                if (!EstaConectado())
                     throw new HttpRequestException("No hay conexión a internet");
-                }
 
                 IsBusy = true;
+
                 var data = new DataSignIn { UserName = UserName, password = Password };
                 await ValidateAndAssignServerUrl();
 
                 (bool sucess, string response) respon = await _apiService.PostAsync<DataSignIn>("api/Account/login", data);
 
-                // Deserialize the response to a dynamic object
                 dynamic jSonData = JsonConvert.DeserializeObject(respon.response);
-
-                // Access the "token" property directly
                 string token = jSonData.token;
 
                 if (respon.sucess)
                 {
                     IsErrorVisible = false;
                     SecureStorage.Remove("token");
-                    
+
                     StaticData.User = new UserProfile();
                     Preferences.Set(nameof(UserProfile.UserName), UserName);
                     StaticData.User.UserName = UserName;
+
                     await SecureStorage.SetAsync("token", token);
+
+                    // Cargar vehículos en hilo separado sin bloquear UI
+                    _ = Task.Run(async () => await GetCarsAsync());
+
                     Application.Current.MainPage = new AppShell();
                 }
                 else
@@ -209,8 +147,8 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Application.Current.MainPage.DisplayAlert("Error", e.Message, "Aceptar");
+                Console.WriteLine(e);
+                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "Aceptar");
             }
             finally
             {
@@ -218,85 +156,93 @@ namespace ReviCar.ViewModels
             }
         }
 
-        /// <summary>
-        /// Validates the server URL and assigns it to static variables.
-        /// Handles URLs with ports or IP addresses.
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        private async Task ValidateAndAssignServerUrl()
+        private async Task GetCarsAsync()
         {
-            string url = string.Empty;
-            int port = 0;
-
             try
             {
-                Uri serverUri;
-                if (Uri.TryCreate(Server, UriKind.Absolute, out serverUri))
+                var carsFromServer = await _apiService.GetAsync<List<CarModel>>("api/Cars", TimeSpan.FromSeconds(30));
+                if (carsFromServer == null)
                 {
-                    url = serverUri.Host;
+                    throw new NullReferenceException("No fue posible obtener vehículos desde el servidor");
                 }
-                else
+
+                await Task.Run(() =>
+                {
+                    using (var db = new ReportsDBContextSQLite())
+                    {
+                        foreach (var item in carsFromServer)
+                        {
+                            if (!db.Cars.Any(c => c.Plate == item.Plate))
+                            {
+                                Cars.Add(item);
+                                db.Cars.Add(item);
+                            }
+                        }
+                        db.SaveChanges();
+                    }
+                });
+            }
+            catch (NullReferenceException ef)
+            {
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Advertencia", ef.Message, "OK"));
+            }
+            catch (Exception e)
+            {
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Error", "Error de la aplicación, vuelva a intentarlo", "OK"));
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private async Task ValidateAndAssignServerUrl()
+        {
+            try
+            {
+                if (!Uri.TryCreate(Server, UriKind.Absolute, out Uri serverUri))
                 {
                     var parts = Server.Split(':');
-                    if (parts.Length == 2 && IPAddress.TryParse(parts[0], out IPAddress ip))
-                    {
-                        url = parts[0];
-                        port = int.Parse(parts[1]);
-                    }
-                    else
-                    {
+                    if (parts.Length != 2 || !IPAddress.TryParse(parts[0], out _))
                         throw new ArgumentException("URL del servidor no válida.");
-                    }
                 }
-                ReviCar.Data.StaticData.URL = Server;
-                ReviCar.Data.StaticData.Port = "";
+
+                StaticData.URL = Server;
+                StaticData.Port = "";
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al validar la URL del servidor: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar");
-                ReviCar.Data.StaticData.URL = "localhost";
-                ReviCar.Data.StaticData.Port = 8080.ToString();
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar"));
+
+                StaticData.URL = "localhost";
+                StaticData.Port = "8080";
             }
         }
 
-        /// <summary>
-        /// Loads the token from secure storage and navigates to the main page if valid.
-        /// Displays error message if the token is expired or invalid.
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
         private async Task LoadToken()
         {
             try
             {
                 var token = await SecureStorage.GetAsync("token");
-
-                if (!string.IsNullOrEmpty(token))
+                if (!string.IsNullOrEmpty(token) && IsTokenValid(token))
                 {
-                    var isTokenValid = IsTokenValid(token);
-                    if (isTokenValid)
-                    {
-                        Application.Current.MainPage = new AppShell();
-                    }
-                    else
-                    {
-                        ErrorMessage = "Sesión expirada, vuelva a iniciar sesión";
-                        IsErrorVisible = true;
-                    }
+                    Application.Current.MainPage = new AppShell();
+                }
+                else if (!string.IsNullOrEmpty(token))
+                {
+                    ErrorMessage = "Sesión expirada, vuelva a iniciar sesión";
+                    IsErrorVisible = true;
                 }
             }
-            catch (Exception ec)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Info", ec.Message, "ok");
-                Console.WriteLine(ec.Message + ec.InnerException);
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    Application.Current.MainPage.DisplayAlert("Info", ex.Message, "OK"));
+                Console.WriteLine(ex);
             }
         }
 
-        /// <summary>
-        /// Validates the JWT token expiration.
-        /// </summary>
-        /// <param name="token">JWT token string.</param>
-        /// <returns>True if token is valid (not expired), false otherwise.</returns>
         private bool IsTokenValid(string token)
         {
             try
@@ -304,45 +250,40 @@ namespace ReviCar.ViewModels
                 var jwtHandler = new JwtSecurityTokenHandler();
                 var jwtToken = jwtHandler.ReadToken(token) as JwtSecurityToken;
 
-                if (jwtToken != null)
-                {
-                    var expiration = jwtToken.ValidTo;
-                    return expiration > DateTime.UtcNow;
-                }
+                return jwtToken != null && jwtToken.ValidTo > DateTime.UtcNow;
             }
-            catch (Exception ed)
+            catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Token inválido +" + ed.Message, "Aceptar");
+                Application.Current.MainPage.DisplayAlert("Error", "Token inválido: " + ex.Message, "Aceptar");
                 return false;
             }
-            return false;
         }
 
-        /// <summary>
-        /// Checks if the device has an active internet connection.
-        /// </summary>
-        /// <returns>True if connected to the internet; otherwise false.</returns>
-        public bool EstaConectado()
+        public bool EstaConectado() => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+
+        #endregion
+
+        #region Helper Methods
+
+        private void SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
         {
-            return Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+            if (!EqualityComparer<T>.Default.Equals(backingStore, value))
+            {
+                backingStore = value;
+                OnPropertyChanged(propertyName);
+            }
         }
 
         #endregion
 
-        /// <summary>
-        /// Data class representing the login credentials payload.
-        /// </summary>
+        #region Nested Classes
+
         public class DataSignIn
         {
-            /// <summary>
-            /// Gets or sets the UserName for login.
-            /// </summary>
             public string UserName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the password for login.
-            /// </summary>
             public string password { get; set; }
         }
+
+        #endregion
     }
 }
