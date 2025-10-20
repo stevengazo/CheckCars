@@ -14,147 +14,131 @@
 
 
     <ScrollView>
-        <VerticalStackLayout>
-            <!--  Datos del reporte  -->
-            <Grid
-                Padding="10"
-                ColumnSpacing="10"
-                RowSpacing="6">
+        <VerticalStackLayout Padding="10" Spacing="12">
 
+            <!-- Datos del reporte en Grid de 2 columnas: etiqueta | valor -->
+            <Grid ColumnDefinitions="Auto, *" RowSpacing="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <!-- Vehículo -->
                     <RowDefinition Height="Auto" />
+                    <!-- Fecha -->
                     <RowDefinition Height="Auto" />
+                    <!-- Autor -->
                     <RowDefinition Height="Auto" />
+                    <!-- Latitud -->
                     <RowDefinition Height="Auto" />
+                    <!-- Longitud -->
                     <RowDefinition Height="Auto" />
+                    <!-- Kilometraje -->
                 </Grid.RowDefinitions>
 
-                <!--  Vehículo  -->
-                <Frame
-                    Grid.Row="0"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Vehículo" />
-                        <Label FontSize="Small" Text="{Binding Report.CarPlate}" />
-                    </VerticalStackLayout>
+                <!-- Vehículo -->
+                <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="Small"
+           Text="Vehículo" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <Frame Grid.Row="0" Grid.Column="1" Padding="8" CornerRadius="6"
+           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+                    <Label FontSize="Small" Text="{Binding Report.CarPlate}" 
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 </Frame>
 
-                <!--  Fecha  -->
-                <Frame
-                    Grid.Row="1"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Fecha" />
-                        <Label FontSize="Small" Text="{Binding Report.Created}" />
-                    </VerticalStackLayout>
+                <!-- Fecha -->
+                <Label Grid.Row="1" Grid.Column="0" FontAttributes="Bold" FontSize="Small"
+           Text="Fecha" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <Frame Grid.Row="1" Grid.Column="1" Padding="8" CornerRadius="6"
+           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+                    <Label FontSize="Small" Text="{Binding Report.Created}" 
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 </Frame>
 
-                <!--  Autor  -->
-                <Frame
-                    Grid.Row="2"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Autor" />
-                        <Label FontSize="Small" Text="{Binding Report.Author}" />
-                    </VerticalStackLayout>
+                <!-- Autor -->
+                <Label Grid.Row="2" Grid.Column="0" FontAttributes="Bold" FontSize="Small"
+           Text="Autor" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <Frame Grid.Row="2" Grid.Column="1" Padding="8" CornerRadius="6"
+           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+                    <Label FontSize="Small" Text="{Binding Report.Author}" 
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 </Frame>
 
-                <!--  Latitud  -->
-                <Frame
-                    Grid.Row="3"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Latitud" />
-                        <Label FontSize="Small" Text="{Binding Report.Latitude}" />
-                    </VerticalStackLayout>
+                <!-- Latitud -->
+                <Label Grid.Row="3" Grid.Column="0" FontAttributes="Bold" FontSize="Small"
+           Text="Latitud" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <Frame Grid.Row="3" Grid.Column="1" Padding="8" CornerRadius="6"
+           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+                    <Label FontSize="Small" Text="{Binding Report.Latitude}" 
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 </Frame>
 
-                <!--  Longitud  -->
-                <Frame
-                    Grid.Row="4"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Longitud" />
-                        <Label FontSize="Small" Text="{Binding Report.Longitude}" />
-                    </VerticalStackLayout>
+                <!-- Longitud -->
+                <Label Grid.Row="4" Grid.Column="0" FontAttributes="Bold" FontSize="Small"
+           Text="Longitud" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <Frame Grid.Row="4" Grid.Column="1" Padding="8" CornerRadius="6"
+           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+                    <Label FontSize="Small" Text="{Binding Report.Longitude}" 
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 </Frame>
 
-                <!--  Kilometraje  -->
-                <Frame
-                    Grid.Row="5"
-                    Padding="8"
-                    BorderColor="LightGray">
-                    <VerticalStackLayout>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="Small"
-                            Text="Kilometraje" />
-                        <Label FontSize="Small" Text="{Binding Report.mileage, StringFormat='{0:N0} km'}" />
-                    </VerticalStackLayout>
+                <!-- Kilometraje -->
+                <Label Grid.Row="5" Grid.Column="0" FontAttributes="Bold" FontSize="Small"
+           Text="Kilometraje" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                <Frame Grid.Row="5" Grid.Column="1" Padding="8" CornerRadius="6"
+           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
+                    <Label FontSize="Small" Text="{Binding Report.mileage, StringFormat='{0:N0} km'}" 
+               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                 </Frame>
-
             </Grid>
 
-            <!--  Imágenes del reporte  -->
+
+
+
+            <!-- Imágenes del reporte -->
             <CollectionView
-                Margin="10,15,10,5"
-                HorizontalOptions="FillAndExpand"
-                ItemsSource="{Binding Report.Photos}"
-                VerticalOptions="Start">
+            Margin="0,15,0,0"
+            HorizontalOptions="FillAndExpand"
+            ItemsSource="{Binding Report.Photos}"
+            VerticalOptions="Start"
+            ItemsLayout="HorizontalList">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="5" Orientation="Vertical">
+                        <Frame Margin="5" Padding="5" CornerRadius="8" HasShadow="True"
+                           BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+                           BorderColor="{AppThemeBinding Light=LightGray, Dark=DarkGray}">
                             <Grid>
-
+                                <!-- Imagen principal -->
                                 <Image
-                                    Margin="5"
-                                    Aspect="AspectFit"
-                                    HorizontalOptions="CenterAndExpand"
-                                    Source="{Binding FilePath}"
-                                    VerticalOptions="Center" />
+        Aspect="AspectFit"
+        WidthRequest="300"
+        HeightRequest="450"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        Source="{Binding FilePath}" />
 
+                                <!-- Botón de compartir en esquina inferior derecha -->
                                 <ImageButton
-                                    Margin="5"
-                                    Padding="6"
-                                    BackgroundColor="blue"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ViewReturnsVM}}, Path=ShareImage}"
-                                    CommandParameter="{Binding FilePath}"
-                                    CornerRadius="50"
-                                    HeightRequest="50"
-                                    HorizontalOptions="End"
-                                    Source="share.png"
-                                    VerticalOptions="End"
-                                    WidthRequest="50" />
+        Margin="10"
+        Padding="6"
+        BackgroundColor="Blue"
+        CornerRadius="25"
+        HeightRequest="50"
+        WidthRequest="50"
+        HorizontalOptions="End"
+        VerticalOptions="End"
+        Source="share.png"
+        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ViewReturnsVM}}, Path=ShareImage}"
+        CommandParameter="{Binding FilePath}" />
                             </Grid>
-                        </StackLayout>
+
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
-
         </VerticalStackLayout>
     </ScrollView>
 
