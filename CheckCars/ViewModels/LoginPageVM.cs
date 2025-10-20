@@ -194,7 +194,7 @@ namespace CheckCars.ViewModels
                 {
                     IsErrorVisible = false;
                     SecureStorage.Remove("token");
-
+                    
                     StaticData.User = new UserProfile();
                     Preferences.Set(nameof(UserProfile.UserName), UserName);
                     StaticData.User.UserName = UserName;
