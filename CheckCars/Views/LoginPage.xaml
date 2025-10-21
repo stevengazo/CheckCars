@@ -5,8 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:ReviCar.Models"
     xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
-    BackgroundColor="{AppThemeBinding Light=White,
-                                      Dark=Gray}">
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}">
 
     <ContentPage.BindingContext>
         <ViewModels:LoginPageVM />
@@ -14,122 +13,89 @@
 
     <VerticalStackLayout Padding="10">
 
+        <!-- Encabezado -->
         <StackLayout Margin="5" Padding="5">
-            <Image Source="checkcar.png" WidthRequest="100" />
+            <Image Source="checkcar.png" WidthRequest="100" HorizontalOptions="Center" />
             <Label
                 FontAttributes="Bold"
                 FontSize="Large"
                 HorizontalOptions="Center"
                 Text="ReviCar"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}" />
+                TextColor="{AppThemeBinding Light=Black, Dark=White}" />
             <Label
                 FontSize="Medium"
                 HorizontalOptions="Center"
                 Text="Inicio de Sesión"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}" />
+                TextColor="{AppThemeBinding Light=Black, Dark=White}" />
         </StackLayout>
 
+        <!-- Formulario -->
         <StackLayout
             Padding="20"
-            BackgroundColor="{AppThemeBinding Light=WhiteSmoke,
-                                              Dark=#1E1E1E}"
+            BackgroundColor="{AppThemeBinding Light=WhiteSmoke, Dark=#1E1E1E}"
             HorizontalOptions="Center"
             Spacing="15"
             VerticalOptions="Center">
 
-            <!--  Servidor  -->
-            <Label
-                FontSize="Medium"
-                HorizontalOptions="Center"
-                Text="Servidor"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}" />
-            <Entry
-                FontSize="Medium"
-                HorizontalTextAlignment="Center"
-                Keyboard="Url"
-                Placeholder="www.ejemplo.com"
-                PlaceholderColor="Gray"
-                Text="{Binding Server}"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}"
-                WidthRequest="250" />
-
-            <!--  Usuario  -->
+            <!-- Usuario -->
             <Label
                 FontSize="Medium"
                 HorizontalOptions="Center"
                 Text="Usuario"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}" />
+                TextColor="{AppThemeBinding Light=Black, Dark=White}" />
             <Entry
                 x:Name="UsernameEntry"
                 FontSize="Medium"
                 HorizontalTextAlignment="Center"
-                InputView.AutomationId="username"
-                IsTextPredictionEnabled="False"
                 Keyboard="Email"
                 Placeholder="Ingresa tu usuario"
                 PlaceholderColor="Gray"
-                ReturnType="Next"
-                SemanticProperties.Description="Campo para ingresar el nombre de usuario"
-                SemanticProperties.Hint="Nombre de usuario"
                 Text="{Binding UserName}"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}"
-                TextTransform="None"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"
                 WidthRequest="250" />
 
-            <!--  Contraseña  -->
+            <!-- Contraseña -->
             <Label
                 FontSize="Medium"
                 HorizontalOptions="Center"
                 Text="Contraseña"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}" />
+                TextColor="{AppThemeBinding Light=Black, Dark=White}" />
             <Entry
                 x:Name="PasswordEntry"
                 FontSize="Medium"
                 HorizontalTextAlignment="Center"
                 IsPassword="True"
-                Keyboard="Text"
                 Placeholder="Ingresa tu contraseña"
                 PlaceholderColor="Gray"
                 Text="{Binding Password}"
-                TextColor="{AppThemeBinding Light=Black,
-                                            Dark=White}"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"
                 WidthRequest="250" />
 
-            <!--  Mensaje de error  -->
+            <!-- Mensaje de error -->
             <Label
-                AutomationId="Login_Password"
                 FontSize="Small"
                 HorizontalOptions="Center"
                 IsVisible="{Binding IsErrorVisible}"
                 Text="{Binding ErrorMessage}"
                 TextColor="Red" />
 
-            <!--  Cargando  -->
+            <!-- Cargando -->
             <ActivityIndicator
                 HorizontalOptions="Center"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
-                Color="{AppThemeBinding Light=Black,
-                                        Dark=White}" />
+                Color="{AppThemeBinding Light=Black, Dark=White}" />
 
-            <!--  Botón de Iniciar sesión  -->
+            <!-- Botón de Iniciar sesión -->
             <Button
-                BackgroundColor="{AppThemeBinding Light=Black,
-                                                  Dark=White}"
+                BackgroundColor="{AppThemeBinding Light=Black, Dark=White}"
                 Command="{Binding Login}"
                 CornerRadius="10"
                 HorizontalOptions="Center"
                 Text="Iniciar sesión"
-                TextColor="{AppThemeBinding Light=White,
-                                            Dark=Black}"
+                TextColor="{AppThemeBinding Light=White, Dark=Black}"
                 WidthRequest="200" />
+
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

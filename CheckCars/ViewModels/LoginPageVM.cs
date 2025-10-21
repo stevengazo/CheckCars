@@ -28,11 +28,17 @@ namespace ReviCar.ViewModels
         private string _ErrorMessage;
         private bool _IsBusy = false;
         private bool _IsErrorVisible = false;
+        private bool _ShowServerEntry = false;
 
         #endregion
 
         #region Properties
 
+        public bool ShowServerEntry
+        {
+            get => _ShowServerEntry;
+            set => SetProperty(ref _ShowServerEntry, value);
+        }
         public string UserName
         {
             get => _UserName;
@@ -100,6 +106,10 @@ namespace ReviCar.ViewModels
         #region Commands
 
         public ICommand Login { get; set; }
+        public ICommand ToggleServerEntryCommand => new Command(() =>
+        {
+            ShowServerEntry = !ShowServerEntry;
+        }); 
 
         #endregion
 
