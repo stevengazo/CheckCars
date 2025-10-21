@@ -4,6 +4,7 @@ using ReviCar.Services;
 using ReviCar.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace ReviCar.ViewModels
 {
@@ -116,40 +117,47 @@ namespace ReviCar.ViewModels
         /// </summary>
         public async Task DeleteReport()
         {
-            bool confirm = await Application.Current.MainPage.DisplayAlert(
-                "Confirmación",
-                "¿Deseas borrar este reporte?",
-                "Sí",
-                "No"
-            );
-
-            if (confirm)
+            try
             {
-                using (var db = new ReportsDBContextSQLite())
+                bool confirm = await Application.Current.MainPage.DisplayAlert(
+              "Confirmación",
+              "¿Deseas borrar este reporte?",
+              "Sí",
+              "No"
+          );
+
+                if (confirm)
                 {
-                    db.Photos.RemoveRange(Report.Photos);
-                    db.SaveChanges();
-
-                    db.CrashReports.Remove(Report);
-                    db.SaveChanges();
-
-                    var pageToRemove = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
-
-                    var paths = Report.Photos.Select(e => e.FilePath).ToList();
-                    if (paths.Any())
+                    using (var db = new ReportsDBContextSQLite())
                     {
-                        new Thread(() => DeletePhotos(paths)).Start();
-                    }
+                        db.Photos.RemoveRange(Report.Photos);
+                        db.SaveChanges();
 
-                    Application.Current.MainPage.Navigation.RemovePage(pageToRemove);
+                        db.CrashReports.Remove(Report);
+                        db.SaveChanges();
+
+                        var pageToRemove = Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+
+                        var paths = Report.Photos.Select(e => e.FilePath).ToList();
+                        if (paths.Any())
+                        {
+                            new Thread(() => DeletePhotos(paths)).Start();
+                        }
+
+                        Application.Current.MainPage.Navigation.RemovePage(pageToRemove);
+                    }
                 }
+            }
+            catch (Exception df)
+            {
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + df.Message);
             }
         }
 
         /// <summary>
         /// Deletes a list of image files from the filesystem.
         /// </summary>
-        private void DeletePhotos(List<string> paths)
+        private async Task DeletePhotos(List<string> paths)
         {
             foreach (var path in paths)
             {
@@ -159,8 +167,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-                    Console.WriteLine($"Error al eliminar el archivo {path}: {ex.Message}");
+                    await MessageUtilities.ShowInfoMessage("Error", $"No se pudo eliminar el archivo {path}: {ex.Message}");
                 }
             }
         }
@@ -190,8 +197,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-                    Console.WriteLine($"Error: {ex.Message}");
+                     MessageUtilities.ShowInfoMessage("Error", "No se pudo generar el PDF. " + ex.Message);
                 }
             });
         }
@@ -213,8 +219,8 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-                throw;
+              
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, ex.Message);
             }
         }
 
@@ -256,8 +262,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al enviar el reporte. " + ex.Message, "OK");
-                Console.WriteLine(ex.Message);
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al enviar el reporte. " + ex.Message);
             }
             finally
             {
@@ -281,8 +286,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al actualizar el reporte. " + ex.Message);
             }
         }
 

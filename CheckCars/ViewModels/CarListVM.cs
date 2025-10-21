@@ -2,6 +2,7 @@
 using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Services;
+using ReviCar.Utilities;
 using ReviCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -222,12 +223,11 @@ namespace ReviCar.ViewModels
             }
             catch (NullReferenceException ef)
             {
-                await Application.Current.MainPage.DisplayAlert("Advertencia", ef.Message, "OK");
+                await MessageUtilities.ShowLongToast("Error al obtener vehículos desde el servidor. " + ef.Message);
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error de la aplicación, vuelva a intentarlo", "OK");
-                Console.WriteLine(e.Message);
+                await MessageUtilities.ShowLongToast("Error al obtener vehículos desde el servidor. " + e.Message);
             }
             finally
             {
@@ -261,14 +261,13 @@ namespace ReviCar.ViewModels
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Información", "Los datos no pueden contener espacios, ni guión bajo", "OK");
+                    await MessageUtilities.ShowLongToast("Los datos no pueden contener espacios, ni guión bajo");
                 }
                 CleanProperties();
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error de la aplicación, vuelva a intentarlo más tarde", "OK");
-                Console.WriteLine(e.Message);
+                await MessageUtilities.ShowLongToast("Error al agregar el vehículo. " + e.Message);
             }
         }
 

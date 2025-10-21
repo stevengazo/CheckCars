@@ -4,7 +4,8 @@ using ReviCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;  // For ToListAsync if using EF Core
+using Microsoft.EntityFrameworkCore;
+using ReviCar.Utilities;  // For ToListAsync if using EF Core
 
 namespace ReviCar.ViewModels
 {
@@ -94,8 +95,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la lista de informes de problemas.", "OK");
-                Console.WriteLine(e.Message);
+                await MessageUtilities.ShowLongToast("Error al cargar los informes de problemas: " + e.Message);
             }
         }
 

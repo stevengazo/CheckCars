@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ReviCar.Utilities;
 
 namespace ReviCar.ViewModels
 {
@@ -312,24 +313,22 @@ namespace ReviCar.ViewModels
                         var R = await aPIService.PostAsync<Booking>("api/bookings", booking, TimeSpan.FromSeconds(23));
                         if (R)
                         {
-                            await Application.Current.MainPage.DisplayAlert("info", "Reserva Añadida", "OK");
+                            await MessageUtilities.ShowToast("Reserva Añadida");
                         }
                     }
                     else
                     {
                         return;
                     }
-
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", "Vehículo no disponible", "OK");
+                      await MessageUtilities.ShowToast("Vehículo no disponible en esas fechas");
                 }
-
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
+                await MessageUtilities.ShowLongToast("Error de la aplicación, intente de nuevo."  + e.Message);
             }
 
         }
@@ -344,8 +343,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ds)
             {
-                Application.Current.MainPage.DisplayAlert("Error", ds.Message, "OK");
-                throw;
+                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + ds.Message);
             }
         }
 
@@ -360,8 +358,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception fd)
             {
-                Application.Current.MainPage.DisplayAlert("Error", fd.Message, "OK");
-
+                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + fd.Message);
             }
         }
 
@@ -376,7 +373,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception f)
             {
-                Application.Current.MainPage.DisplayAlert("Error", f.Message, "OK");
+                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + f.Message);
             }
         }
 
@@ -386,11 +383,10 @@ namespace ReviCar.ViewModels
             {
                 var api = new APIService();
                 var Users = await api.GetAsync<Dictionary<string, string>>("api/GetUsersDic", TimeSpan.FromSeconds(10));
-
             }
             catch (Exception n)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error Interno: " + n.Message, "OK");
+                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + n.Message);
             }
         }
         #endregion

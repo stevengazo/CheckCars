@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ReviCar.Utilities;
 
 namespace ReviCar.ViewModels
 {
@@ -101,7 +102,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
+                await MessageUtilities.ShowLongToast("Error al compartir la imagen: " + d.Message);
             }
         }
 

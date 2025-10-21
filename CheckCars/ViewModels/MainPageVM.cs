@@ -1,4 +1,5 @@
 ﻿using ReviCar.Data;
+using ReviCar.Utilities;
 using ReviCar.Views;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -68,7 +69,13 @@ namespace ReviCar.ViewModels
         /// </summary>
         private void test()
         {
-            var d = reportsDB.CrashReports.ToList();
+            try
+            {
+                var d = reportsDB.CrashReports.ToList();
+            }
+            catch (Exception f)
+            { MessageUtilities.ShowInfoMessage("Error", f.Message).Wait();
+            }
         }
 
         /// <summary>

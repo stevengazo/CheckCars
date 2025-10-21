@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ReviCar.Data;
 using ReviCar.Models;
+using ReviCar.Utilities;
 using ReviCar.Views;
 
 namespace ReviCar.ViewModels
@@ -31,26 +32,34 @@ namespace ReviCar.ViewModels
 
         public ReturnsPageVM()
         {
-            LoadDataCommand = new Command(async () =>
+            try
             {
-                IsRefreshing = true;
-                await LoadDataAsync();
-                IsRefreshing = false;
-            });
-
-            ViewAddReturn = new Command(async () =>
-                await Application.Current.MainPage.Navigation.PushAsync(new AddReturn(), true));
-
-            ViewReport = new Command(async (e) =>
-            {
-                if (e is string reportId)
+                LoadDataCommand = new Command(async () =>
                 {
-                    Data.StaticData.ReportId = reportId;
-                    await Application.Current.MainPage.Navigation.PushAsync(new ViewReturn(), true);
-                }
-            });
+                    IsRefreshing = true;
+                    await LoadDataAsync();
+                    IsRefreshing = false;
+                });
 
-            _ = LoadDataAsync(); // carga inicial
+                ViewAddReturn = new Command(async () =>
+                    await Application.Current.MainPage.Navigation.PushAsync(new AddReturn(), true));
+
+                ViewReport = new Command(async (e) =>
+                {
+                    if (e is string reportId)
+                    {
+                        Data.StaticData.ReportId = reportId;
+                        await Application.Current.MainPage.Navigation.PushAsync(new ViewReturn(), true);
+                    }
+                });
+
+                _ = LoadDataAsync(); // carga inicial
+
+            }
+            catch (Exception c)
+            {
+               MessageUtilities.ShowInfoMessage("Error", $"No se pudo inicializar la vista de devoluciones. {c.Message}").Wait();
+            }
         }
 
         public async Task LoadDataAsync()
@@ -72,7 +81,7 @@ namespace ReviCar.ViewModels
             }
             catch
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la información", "OK");
+                await MessageUtilities.ShowInfoMessage("Error", "No se pudo cargar la información de devoluciones.");
             }
         }
     }

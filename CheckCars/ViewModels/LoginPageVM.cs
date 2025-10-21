@@ -3,10 +3,12 @@ using Newtonsoft.Json;
 using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Services;
+using ReviCar.Utilities;
 using System.Collections.ObjectModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ReviCar.ViewModels
@@ -89,8 +91,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
-                Console.WriteLine(ex);
+                MessageUtilities.ShowInfoMessage("Error", ex.Message);
             }
         }
 
@@ -147,8 +148,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "Aceptar");
+                await MessageUtilities.ShowLongToast("Error al iniciar sesión: " + e.Message);
             }
             finally
             {
@@ -184,14 +184,11 @@ namespace ReviCar.ViewModels
             }
             catch (NullReferenceException ef)
             {
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                    Application.Current.MainPage.DisplayAlert("Advertencia", ef.Message, "OK"));
+                await MessageUtilities.ShowLongToast("Advertencia. " + ef.Message);
             }
             catch (Exception e)
             {
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                    Application.Current.MainPage.DisplayAlert("Error", "Error de la aplicación, vuelva a intentarlo", "OK"));
-                Console.WriteLine(e.Message);
+                await MessageUtilities.ShowLongToast("Error al obtener vehículos: " + e.Message);
             }
         }
 
@@ -211,9 +208,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al validar la URL del servidor: {ex.Message}");
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                    Application.Current.MainPage.DisplayAlert("Error", "URL del servidor no válida. Se asignarán valores por defecto.", "Aceptar"));
+                await MessageUtilities.ShowLongToast("URL del servidor no válida. Se asignarán valores por defecto.");
 
                 StaticData.URL = "localhost";
                 StaticData.Port = "8080";
@@ -225,7 +220,7 @@ namespace ReviCar.ViewModels
             try
             {
                 var token = await SecureStorage.GetAsync("token");
-                if (!string.IsNullOrEmpty(token) && IsTokenValid(token))
+                if (!string.IsNullOrEmpty(token) && await IsTokenValid(token))
                 {
                     Application.Current.MainPage = new AppShell();
                 }
@@ -237,13 +232,11 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                    Application.Current.MainPage.DisplayAlert("Info", ex.Message, "OK"));
-                Console.WriteLine(ex);
+                await MessageUtilities.ShowLongToast("Error al cargar token: " + ex.Message);  
             }
         }
 
-        private bool IsTokenValid(string token)
+        private async Task<bool> IsTokenValid(string token)
         {
             try
             {
@@ -254,7 +247,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Token inválido: " + ex.Message, "Aceptar");
+                await MessageUtilities.ShowLongToast("Token inválido: " + ex.Message);
                 return false;
             }
         }
@@ -267,10 +260,17 @@ namespace ReviCar.ViewModels
 
         private void SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
         {
-            if (!EqualityComparer<T>.Default.Equals(backingStore, value))
+            try
             {
-                backingStore = value;
-                OnPropertyChanged(propertyName);
+                if (!EqualityComparer<T>.Default.Equals(backingStore, value))
+                {
+                    backingStore = value;
+                    OnPropertyChanged(propertyName);
+                }
+            }
+            catch (Exception f)
+            {
+                MessageUtilities.ShowLongToast("Error al establecer propiedad: " + f.Message);
             }
         }
 

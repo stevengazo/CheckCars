@@ -184,26 +184,25 @@ namespace ReviCar.ViewModels
                     if (result)
                     {
                         UpdateReport(true);
-                        Application.Current.MainPage.DisplayAlert("Información", "Datos enviados al servidor", "Ok");
+                        await MessageUtilities.ShowToast("Reporte enviado correctamente");
                     }
                     else
                     {
-                        Application.Current.MainPage.DisplayAlert("Información", "Error al enviar los datos", "Ok");
+                        await MessageUtilities.ShowLongToast("Error al enviar los datos");
                     }
                 }
                 else if (Report.isUploaded && !SendingData)
                 {
-                    Application.Current.MainPage.DisplayAlert("Información", "Este reporte ya fue enviado", "Ok");
+                    await MessageUtilities.ShowLongToast("Este reporte ya fue enviado");
                 }
                 else if (SendingData)
                 {
-                    Application.Current.MainPage.DisplayAlert("Información", "Ya se está enviando un reporte", "Ok");
+                    await MessageUtilities.ShowToast("Ya se está enviando un reporte");
                 }
             }
             catch (System.Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
-                throw;
+                await MessageUtilities.ShowInfoMessage( MessageUtilities.TitleInfo,"Error al enviar los datos." + d.Message);  
             }
             finally
             {
@@ -248,8 +247,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, d.Message);
             }
         }
 
@@ -273,8 +271,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
-                Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al generar o enviar el reporte: " + ex.Message);
             }
         }
 
@@ -291,7 +288,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
+                    await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, $"Error al eliminar el archivo {item}: {ex.Message}");
                 }
             }
         }
@@ -316,8 +313,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception e)
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", e.Message, "OK");
-                    Console.WriteLine($"Error: {e.Message}");
+                    await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al generar o descargar el reporte: " + e.Message);
                 }
             });
         }
@@ -337,7 +333,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "No se pudo compartir el archivo: " + ex.Message);
             }
         }
 
@@ -365,8 +361,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "Ok");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al actualizar el reporte: " + d.Message);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using ReviCar.Data;
 using ReviCar.Models;
+using ReviCar.Utilities;
 using ReviCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -96,8 +97,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes", "OK");
-                Console.WriteLine(e.Message);
+                await MessageUtilities.ShowLongToast("Error al cargar los reportes. Error: "+ e.Message);
             }
         }
 

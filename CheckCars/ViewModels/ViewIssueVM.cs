@@ -114,16 +114,23 @@ namespace ReviCar.ViewModels
         /// </summary>
         private async Task DeletePhotos(List<string> paths)
         {
-            foreach (var item in paths)
+            try
             {
-                try
+                foreach (var item in paths)
                 {
-                    File.Delete(item);
+                    try
+                    {
+                        File.Delete(item);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error al eliminar el archivo {item}: {ex.Message}");
-                }
+            }
+            catch (Exception v)
+            {
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + v.Message);
             }
         }
 
@@ -163,8 +170,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "OK");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + d.Message);
             }
         }
 
@@ -188,7 +194,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Error: {e.Message}");
+                    await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, e.Message);
                 }
             });
         }
@@ -224,8 +230,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
-                Console.WriteLine($"Error al generar o enviar el reporte: {ex.Message}");
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al enviar los datos\nIntentelo más tarde");
             }
             finally
             {

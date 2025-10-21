@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ReviCar.Views;
+using ReviCar.Utilities;
 
 namespace ReviCar.ViewModels
 {
@@ -185,8 +186,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de entrada/salida", "OK");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al cargar los reportes de entrada/salida. Error: " + ex.Message);
             }
         }
 
@@ -227,8 +227,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de problemas. " + ex.Message, "OK");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + ex.Message);
             }
         }
 
@@ -267,8 +266,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al cargar los reportes de devoluciones. " + ex.Message, "OK");
-                throw;
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + ex.Message);
             }
         }
 
@@ -279,11 +277,19 @@ namespace ReviCar.ViewModels
         /// <returns>A list of associated photos.</returns>
         private async Task<List<ReviCar.Models.Photo>> GetPhotos(string id)
         {
-            var info = await _apiService.GetAsync<List<ReviCar.Models.Photo>>(
-                $"api/Photos/report/{id}",
-                TimeSpan.FromSeconds(30));
+            try
+            {
+                var info = await _apiService.GetAsync<List<ReviCar.Models.Photo>>(
+              $"api/Photos/report/{id}",
+              TimeSpan.FromSeconds(30));
 
-            return info ?? new List<ReviCar.Models.Photo>();
+                return info ?? new List<ReviCar.Models.Photo>();
+            }
+            catch (Exception f)
+            {
+                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al cargar las fotos: " + f.Message);
+                return null;
+            }
         }
 
         #endregion

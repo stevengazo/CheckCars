@@ -166,7 +166,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error: " + d.Message, "Ok");
+                await MessageUtilities.ShowLongToast("No se pudo cargar la información de los autos. Error: " + d.Message);
                 return null;
             }
         }
@@ -184,9 +184,9 @@ namespace ReviCar.ViewModels
                     ImgList.Add(photo);
                 }
             }
-            catch (Exception)
+            catch (Exception d)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Internal error while taking photo", "Ok");
+                await MessageUtilities.ShowLongToast("Error interno al tomar la foto: " + d.Message);
             }
         }
 
@@ -206,7 +206,7 @@ namespace ReviCar.ViewModels
 
                 var isValid = await PromptPhotosAsync();
 
-                if (isValid && answer )
+                if (isValid && answer)
                 {
                     using var db = new ReportsDBContextSQLite();
 
@@ -221,7 +221,7 @@ namespace ReviCar.ViewModels
                     // Add in the DB
                     await db.Returns.AddAsync(VehicleReturn);
                     await db.SaveChangesAsync();
-                    
+
 
                     // Send to the server
                     await SendDataAsync(VehicleReturn);
@@ -231,7 +231,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error interno al agregar el reporte: " + e.Message, "Ok");
+                await MessageUtilities.ShowLongToast("Error interno al agregar el reporte: " + e.Message);
             }
         }
 
@@ -250,8 +250,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to close page: " + d.Message, "Ok");
-                throw;
+                await MessageUtilities.ShowLongToast("Error interno al cerrar la página: " + d.Message);
             }
         }
 
@@ -271,9 +270,9 @@ namespace ReviCar.ViewModels
                 }
                 ImgList.Remove(photo);
             }
-            catch (Exception)
+            catch (Exception f)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Failed to delete photo", "Ok");
+                MessageUtilities.ShowLongToast("Error interno al eliminar la foto.");
             }
         }
 
@@ -300,7 +299,7 @@ namespace ReviCar.ViewModels
             catch (Exception c)
             {
                 _sensorManager.CancelRequest();
-                Console.WriteLine("Error obtaining location: " + c.Message);
+                await MessageUtilities.ShowLongToast("No se pudo obtener la ubicación actual: " + c.Message);
             }
         }
 
@@ -318,12 +317,13 @@ namespace ReviCar.ViewModels
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Advertencia", "No se puede agregar un reporte sin fotos", "Ok");
+                    await MessageUtilities.ShowLongToast("Agrega al menos una foto para continuar.");
                     return false;
                 }
             }
-            catch
+            catch (Exception F)
             {
+                await MessageUtilities.ShowLongToast("Error interno al validar las fotos: " + F.Message);
                 return false;
             }
         }
@@ -359,15 +359,13 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ef)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to send report: " + ef.Message, "Ok");
-                Console.WriteLine(ef.Message);
+                await MessageUtilities.ShowLongToast("Error al enviar el reporte: " + ef.Message);
             }
             finally
             {
                 Loading = false;
             }
         }
-
         #endregion
 
     }

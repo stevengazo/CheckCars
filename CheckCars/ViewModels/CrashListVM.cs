@@ -1,5 +1,6 @@
 ﻿using ReviCar.Data;
 using ReviCar.Models;
+using ReviCar.Utilities;
 using ReviCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -84,9 +85,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la lista de informes de accidentes.", "OK");
-                // You may log or handle the exception here if needed
-                Console.WriteLine(e.Message);
+                await MessageUtilities.ShowLongToast("Error al cargar los informes de accidentes. Error: "+ e.Message);
             }
         }
 

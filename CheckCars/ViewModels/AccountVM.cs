@@ -1,6 +1,7 @@
 ﻿using ReviCar.Data;
 using ReviCar.Models;
 using System.Windows.Input;
+using ReviCar.Utilities;
 
 namespace ReviCar.ViewModels
 {
@@ -158,14 +159,13 @@ namespace ReviCar.ViewModels
                         db.IssueReports.RemoveRange(db.IssueReports.ToList());
                         db.CrashReports.RemoveRange(db.CrashReports.ToList());
                         db.SaveChanges();
-                        await Application.Current.MainPage.DisplayAlert("Información", "Base de Datos Borrada", "Ok");
+                        await MessageUtilities.ShowLongToast("Reportes Borrados");
                     }
                 }
             }
             catch (Exception ec)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al borrar la base de datos", "Ok");
-                Console.Write(ec.Message);
+                await MessageUtilities.ShowInfoMessage("Error", "Error al borrar los reportes. Error:" + ec.Message);
             }
         }
 
@@ -184,7 +184,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error al borrar las fotos", "Ok");
+                await MessageUtilities.ShowInfoMessage("Error", "Error al borrar las fotos. Error:" + e.Message);
             }
         }
 
@@ -209,12 +209,13 @@ namespace ReviCar.ViewModels
                     {
                         File.Delete(file);
                     }
-                    Application.Current.MainPage.DisplayAlert("Información", "Cache Borrada", "Ok");
+                    await MessageUtilities.ShowLongToast("Cache Borrada");
                 }
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "Error al borrar el cache", "Ok");
+
+                await MessageUtilities.ShowInfoMessage("Error", "Error al borrar el cache. Error:" + e.Message);
             }
         }
 
@@ -227,11 +228,11 @@ namespace ReviCar.ViewModels
             {
                 Preferences.Set(nameof(UserProfile.UserName), LocalUser.UserName);
                 StaticData.User.UserName = LocalUser.UserName;
-                Application.Current.MainPage.DisplayAlert("Información", "Usuario Actualizado", "Ok");
+                await MessageUtilities.ShowLongToast("Usuario Actualizado");
             }
             catch (Exception ed)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Error al actualizar el usuario", "Ok");
+                await MessageUtilities.ShowInfoMessage("Error", "Error al actualizar el usuario. Error:" + ed.Message);
             }
         }
 

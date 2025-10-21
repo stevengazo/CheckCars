@@ -1,7 +1,9 @@
 ﻿using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Services;
+using ReviCar.Utilities;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ReviCar.ViewModels
@@ -16,7 +18,7 @@ namespace ReviCar.ViewModels
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
-            CarsInfo = GetCarsInfo();
+            CarsInfo = GetCarsInfo().Result;
             Task.Run(() => LoadUbicationAsync());
             newCrashReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
         }
@@ -180,12 +182,12 @@ namespace ReviCar.ViewModels
                 }
                 else if (answer && !valid)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Valide la información", "ok");
+                    await MessageUtilities.ShowLongToast("Valide la información");
                 }
             }
             catch (Exception rf)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", rf.Message, "ok");
+                await MessageUtilities.ShowLongToast("No se pudo guardar el reporte. Error: " + rf.Message);
             }
         }
 
@@ -201,7 +203,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayAlert("Error", d.Message, "ok");
+                await MessageUtilities.ShowLongToast("No se pudo cerrar la página. Error: " + d.Message);
             }
             finally
             {
@@ -216,7 +218,6 @@ namespace ReviCar.ViewModels
         private void DeletePhoto(Photo photo)
         {
             if (photo == null) return;
-
             try
             {
                 if (File.Exists(photo.FilePath))
@@ -227,7 +228,8 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
+                MessageUtilities.ShowLongToast("No se pudo eliminar la foto. Error: " + ex.Message);
+             
             }
         }
 
@@ -235,7 +237,7 @@ namespace ReviCar.ViewModels
         /// Gets the list of car info strings from the database.
         /// </summary>
         /// <returns>Array of car info strings.</returns>
-        private string[] GetCarsInfo()
+        private async Task<string[]> GetCarsInfo()
         {
             try
             {
@@ -249,7 +251,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                await MessageUtilities.ShowLongToast("No se pudieron cargar los autos. Error:" + e.Message);
                 CloseAsync();
                 return null;
             }
@@ -270,7 +272,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                await MessageUtilities.ShowLongToast("No logró capturar la fotográfia. Error: " + e.Message);
             }
         }
 
@@ -317,7 +319,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
+                await MessageUtilities.ShowLongToast("No se pudo obtener la ubicación. Error: " + e.Message );
                 SensorManager.CancelRequest();
             }
         }
@@ -353,8 +355,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", e.Message, "ok");
-                throw;
+                await MessageUtilities.ShowLongToast("No se pudo enviar el reporte. Error: " + e.Message);
             }
             finally
             {
@@ -362,6 +363,5 @@ namespace ReviCar.ViewModels
             }
         }
         #endregion
-
     }
 }

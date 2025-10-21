@@ -3,6 +3,7 @@ using ReviCar.Models;
 using ReviCar.Services;
 using ReviCar.Utilities;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ReviCar.ViewModels
@@ -150,8 +151,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo tomar la foto", "ok");
-                Console.WriteLine(e.Message.ToString());
+                await MessageUtilities.ShowLongToast  ("No se pudo tomar la foto. Error: " + e.Message);
             }
         }
 
@@ -193,13 +193,12 @@ namespace ReviCar.ViewModels
                 }
                 else if (answer && !valid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", "Verifique la información", "ok");
+                    await MessageUtilities.ShowLongToast("Verifique la información");
                 }
             }
             catch (Exception rf)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo guardar el reporte. Error: " + rf.Message, "ok");
-                Console.WriteLine(rf.ToString());
+                await MessageUtilities.ShowLongToast("No se pudo guardar el reporte. Error: " + rf.Message);
                 CloseAsync();
             }
         }
@@ -216,8 +215,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo cerrar la página", "ok");
-                throw e;
+                await MessageUtilities.ShowLongToast("No se pudo cerrar la página. Error: " + e.Message);
             }
         }
 
@@ -239,8 +237,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
-                Application.Current.MainPage.DisplayActionSheet("Error", "ok", null, "No se pudo eliminar la foto");
+                MessageUtilities.ShowLongToast("No se pudo eliminar la foto. Error: " + ex.Message);
             }
         }
 
@@ -283,7 +280,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                Application.Current.MainPage.DisplayActionSheet("Error", "ok", null, "No se pudo cargar la información de los autos");
+                await MessageUtilities.ShowLongToast("No se pudo cargar la información de los autos. Error: " + d.Message);
                 CloseAsync();
                 return null;
             }
@@ -312,7 +309,7 @@ namespace ReviCar.ViewModels
             catch (Exception d)
             {
                 SensorManager.CancelRequest();
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener la ubicación", "ok");
+                await MessageUtilities.ShowLongToast("No se pudo obtener la ubicación. Error: " + d.Message);
             }
         }
 
@@ -349,7 +346,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Error", "No se pudo enviar el reporte. Error: " + e.Message, "ok");
+                await MessageUtilities.ShowLongToast("No se pudo enviar el reporte. Error: " + e.Message);
             }
             finally
             {

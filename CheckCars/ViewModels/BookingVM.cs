@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ReviCar.Services;
 using ReviCar.Data;
 using Microsoft.EntityFrameworkCore;
+using ReviCar.Utilities;
 
 namespace ReviCar.ViewModels
 {
@@ -184,8 +185,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception gt)
             {
-                Application.Current.MainPage.DisplayAlert("Error", gt.Message, "OK");
-                throw;
+                MessageUtilities.ShowLongToast("Error al cargar las reservas: " + gt.Message);
             }
         }
 
