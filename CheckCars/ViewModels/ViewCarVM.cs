@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ReviCar.Views;
 using ReviCar.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReviCar.ViewModels
 {
@@ -29,25 +30,12 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Navigates to the AddBooking page.
         /// </summary>
-        public ICommand AddBooking => new Command(async () =>
-        {
-            await Application.Current.MainPage.Navigation.PushAsync(new AddBooking());
-        });
+        public ICommand AddBooking { get; }
 
         /// <summary>
         /// Prompts the user for confirmation before deleting a car.
         /// </summary>
-        public ICommand DeleteCar => new Command(async () =>
-        {
-            await Application.Current.MainPage.DisplayPromptAsync(
-                "Eliminar Vehículo",
-                "¿Estás seguro de eliminar este vehículo?",
-                "Eliminar",
-                "Cancelar",
-                "Escribe 'eliminar' para confirmar",
-                2,
-                keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
-        });
+        public ICommand DeleteCar { get; }
 
         #endregion
 
@@ -58,15 +46,59 @@ namespace ReviCar.ViewModels
         /// </summary>
         public ViewCarVM()
         {
-            var id = StaticData.CarId;
-            using (var db = new ReportsDBContextSQLite())
+            try
             {
-                Vehicle = db.Cars.FirstOrDefault(e => e.CarId == id);
-            }
+                AddBooking = new Command(async () =>
+                {
+                    await Application.Current.MainPage.Navigation.PushAsync(new AddBooking());
+                });
+                DeleteCar = new Command(async () =>
+                {
+                    await Application.Current.MainPage.DisplayPromptAsync(
+                        "Eliminar Vehículo",
+                        "¿Estás seguro de eliminar este vehículo?",
+                        "Eliminar",
+                        "Cancelar",
+                        "Escribe 'eliminar' para confirmar",
+                        2,
+                        keyboard: Keyboard.Create(KeyboardFlags.CapitalizeCharacter));
+                });
 
-            RequestExists();
-            IssuesExists();
-            ReturnsExists();
+            
+
+                _ = InitializedAsync();
+
+            }
+            catch (Exception f)
+            {
+                MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + f.Message);
+            }
+        }
+
+        private async Task InitializedAsync()
+        {
+            try
+            {
+
+                var id = StaticData.CarId;
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    Vehicle = await db.Cars?.FirstOrDefaultAsync(e => e.CarId == id);
+                }
+                if(Vehicle == null)
+                {
+                    await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: Vehículo no encontrado.");
+                    return;
+                }
+
+                await RequestExistsAsync();
+                await IssuesExistsAsync();
+                await ReturnsExistsAsync();
+            }
+            catch (Exception v)
+            {
+              await  MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + v.Message);
+            }
         }
 
         #endregion
@@ -152,7 +184,7 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Loads entry/exit reports for today and yesterday.
         /// </summary>
-        private async void RequestExists()
+        private async Task RequestExistsAsync()
         {
             try
             {
@@ -193,7 +225,7 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Loads issue reports for today and yesterday.
         /// </summary>
-        private async void IssuesExists()
+        private async Task IssuesExistsAsync()
         {
             try
             {
@@ -234,7 +266,7 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Loads return reports for today and yesterday.
         /// </summary>
-        private async void ReturnsExists()
+        private async Task ReturnsExistsAsync()
         {
             try
             {

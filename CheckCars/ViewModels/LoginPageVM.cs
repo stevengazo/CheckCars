@@ -87,7 +87,7 @@ namespace ReviCar.ViewModels
             try
             {
                 Login = new Command(async () => await SignInAsync());
-                _ = LoadToken();
+                _ = LoadTokenAsync();
 
                 if (!string.IsNullOrEmpty(StaticData.URL))
                 {
@@ -225,7 +225,7 @@ namespace ReviCar.ViewModels
             }
         }
 
-        private async Task LoadToken()
+        private async Task LoadTokenAsync()
         {
             try
             {

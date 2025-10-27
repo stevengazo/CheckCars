@@ -25,14 +25,39 @@ namespace ReviCar.ViewModels
         {
             _apiService = new APIService();
 
+            // Commands
+            IAddCar = new Command(() => AddCar());
             IDeleteCar = new Command<CarModel>(DeleteCar);
-            RequestCars();
-
-            using (var db = new ReportsDBContextSQLite())
+            IClean = new Command(() => CleanProperties());
+            IViewIssue = new Command(async (id) =>
             {
-                // Load cars ordered by Brand and then by Model into the observable collection
-                var d = db.Cars.OrderBy(e => e.Brand).ThenBy(e => e.Model).ToList();
-                d.ForEach(car => { Cars.Add(car); });
+                if (id is string CarId)
+                {
+                    Data.StaticData.CarId = CarId;
+                    await Application.Current.MainPage.Navigation.PushAsync(new ViewCar(), true);
+                }
+            });
+            Update = new Command(async () => await RequestCars());
+
+            _ = InitializationAsync();
+        }
+        private async Task InitializationAsync()
+        {
+            try
+            {
+                // Any asynchronous initialization logic can go here
+                await RequestCars();
+
+                using (var db = new ReportsDBContextSQLite())
+                {
+                    // Load cars ordered by Brand and then by Model into the observable collection
+                    var d = db.Cars.OrderBy(e => e.Brand).ThenBy(e => e.Model).ToList();
+                    d.ForEach(car => { Cars.Add(car); });
+                }
+            }
+            catch (Exception e)
+            {
+                await MessageUtilities.ShowLongToast("Error de inicialización. " + e.Message);
             }
         }
 
@@ -147,7 +172,7 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to add a new car.
         /// </summary>
-        public ICommand IAddCar => new Command(() => AddCar());
+        public ICommand IAddCar { get; }
 
         /// <summary>
         /// Command to delete a selected car.
@@ -157,25 +182,18 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to clear all input properties.
         /// </summary>
-        public ICommand IClean => new Command(() => CleanProperties());
+        public ICommand IClean { get; }
 
         /// <summary>
         /// Command to view details of a specific car by its ID.
         /// Navigates to ViewCar page.
         /// </summary>
-        public ICommand IViewIssue { get; } = new Command(async (id) =>
-        {
-            if (id is string CarId)
-            {
-                Data.StaticData.CarId = CarId;
-                await Application.Current.MainPage.Navigation.PushAsync(new ViewCar(), true);
-            }
-        });
+        public ICommand IViewIssue { get; }
 
         /// <summary>
         /// Command to update the list of cars from the server.
         /// </summary>
-        public ICommand Update => new Command(async () => await RequestCars());
+        public ICommand Update { get; }
 
         #endregion
 
@@ -223,11 +241,11 @@ namespace ReviCar.ViewModels
             }
             catch (NullReferenceException ef)
             {
-                await MessageUtilities.ShowLongToast("Error al obtener vehículos desde el servidor. " + ef.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"Error al obtener vehículos desde el servidor. " + ef.Message);
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast("Error al obtener vehículos desde el servidor. " + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"Error al obtener vehículos desde el servidor. " + e.Message);
             }
             finally
             {
@@ -267,7 +285,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast("Error al agregar el vehículo. " + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"Error al agregar el vehículo. " + e.Message);
             }
         }
 
@@ -290,9 +308,9 @@ namespace ReviCar.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Información", "El vehículo no enviado al servidor", "OK");
                 }
             }
-            catch (Exception)
+            catch (Exception f)
             {
-                await Application.Current.MainPage.DisplayAlert("Información", "Error al enviar al servidor\n Borre el vehículo e inténtelo de nuevo", "OK");
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al enviar al servidor\n Borre el vehículo e inténtelo de nuevo");
             }
         }
 
@@ -316,8 +334,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert(CarPlate, "Error al eliminar el vehículo", "OK");
-                Console.WriteLine($"Error al eliminar la foto: {ex.Message}");
+                MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al eliminar el vehículo");
             }
         }
 

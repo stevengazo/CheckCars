@@ -1,4 +1,5 @@
-﻿using ReviCar.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Utilities;
 using ReviCar.Views;
@@ -21,7 +22,38 @@ namespace ReviCar.ViewModels
         /// </summary>
         public EntryExitReportsListVM()
         {
-            LoadReports();
+
+            try
+            {
+                AddReport = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(), true));
+                ViewReport = new Command(async (e) =>
+                {
+                    if (e is string reportId) // Change type if needed
+                    {
+                        Data.StaticData.ReportId = reportId;
+                        await Application.Current.MainPage.Navigation.PushAsync(new ViewEntryExit(), true);
+                    }
+                });
+                UpdateReports = new Command(async () => await LoadReportsAsync());
+
+                _ = InitializedAsyc();
+            }
+            catch (Exception f)
+            {
+                MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + f.Message);
+            }
+        }
+
+        private async Task InitializedAsyc()
+        {
+            try
+            {
+                await LoadReportsAsync();
+            }
+            catch (Exception f)
+            {
+                await MessageUtilities.ShowInfoMessageAsync("EntryExitReportsListVM", "Error: " + f.Message);
+            }
         }
 
         #endregion
@@ -53,25 +85,18 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to navigate to the AddEntryExitReport page for adding a new report.
         /// </summary>
-        public ICommand AddReport { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddEntryExitReport(), true));
+        public ICommand AddReport { get; } 
 
         /// <summary>
         /// Command to view an existing report by its ID.
         /// Navigates to the ViewEntryExit page.
         /// </summary>
-        public ICommand ViewReport { get; } = new Command(async (e) =>
-        {
-            if (e is string reportId) // Change type if needed
-            {
-                Data.StaticData.ReportId = reportId;
-                await Application.Current.MainPage.Navigation.PushAsync(new ViewEntryExit(), true);
-            }
-        });
+        public ICommand ViewReport { get; }
 
         /// <summary>
         /// Command to reload the list of reports.
         /// </summary>
-        public ICommand UpdateReports => new Command(() => LoadReports());
+        public ICommand UpdateReports { get; }
 
         #endregion
 
@@ -81,14 +106,14 @@ namespace ReviCar.ViewModels
         /// Loads Entry/Exit reports from the local database asynchronously
         /// and populates the observable collection.
         /// </summary>
-        public async Task LoadReports()
+        public async Task LoadReportsAsync()
         {
             try
             {
                 using (var db = new ReportsDBContextSQLite())
                 {
                     EntryExitReports.Clear();
-                    var data = db.EntryExitReports.OrderByDescending(e => e.Created).ToList();
+                    var data =await db.EntryExitReports.OrderByDescending(e => e.Created).ToListAsync();
                     foreach (var entry in data)
                     {
                         EntryExitReports.Add(entry);
@@ -97,7 +122,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast("Error al cargar los reportes. Error: "+ e.Message);
+                await MessageUtilities.ShowLongToast("Error al cargar los reportes. Error: " + e.Message);
             }
         }
 

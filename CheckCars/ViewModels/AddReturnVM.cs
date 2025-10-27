@@ -19,12 +19,32 @@ namespace ReviCar.ViewModels
         #region Constructor
         public AddReturnVM()
         {
-            CarsInfo = GetCarsInfoAsync().Result;
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
-            Task.Run(async () => LoadUbicationAsync());
             VehicleReturn.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre Usuario");
 
+            // Comandos async seguros
+            AddReportCommand = new Command(async () => await AddVehicleReturnAsync());
+            TakePhotoCommand = new Command(async () => await TakePhotoAsync());
+
+            // Inicialización asincrónica
+            _ = InitializeAsync();
         }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                // Carga autos sin bloquear UI
+                CarsInfo = await GetCarsInfoAsync();
+                await LoadUbicationAsync();
+                
+            }
+            catch (Exception ex)
+            {
+                await MessageUtilities.ShowLongToast("Error al inicializar: " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -127,25 +147,11 @@ namespace ReviCar.ViewModels
 
         #region Commands
 
-        public ICommand AddReportCommand
-        {
-            get
-            {
-                return new Command(async () => await AddVehicleReturnAsync());
-            }
-            private set { }
-        }
+        public ICommand AddReportCommand { get; }
 
         public ICommand DeletePhotoCommand { get; }
 
-        public ICommand TakePhotoCommand
-        {
-            get
-            {
-                return new Command(async () => await TakePhotoAsync());
-            }
-            private set { }
-        }
+        public ICommand TakePhotoCommand {  get;  }
 
         #endregion
 
@@ -161,7 +167,7 @@ namespace ReviCar.ViewModels
             {
                 using var db = new ReportsDBContextSQLite();
                 return (from C in db.Cars
-                        orderby C.Plate ascending
+                        orderby C.Brand,C.Model ascending
                         select $"{C.Plate} {C.Model}").ToArray();
             }
             catch (Exception d)

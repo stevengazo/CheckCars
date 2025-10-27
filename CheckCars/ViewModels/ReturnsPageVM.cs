@@ -17,8 +17,9 @@ namespace ReviCar.ViewModels
     /// </summary>
     public class ReturnsPageVM : INotifyPropertyChangedAbst
     {
-        public ObservableCollection<VehicleReturn> Returns { get; set; } = new();
 
+        #region Properties
+        public ObservableCollection<VehicleReturn> Returns { get; set; } = new();
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -26,10 +27,17 @@ namespace ReviCar.ViewModels
             set { _isRefreshing = value; OnPropertyChanged(nameof(IsRefreshing)); }
         }
 
+        #endregion
+
+        #region Commands
+
         public ICommand LoadDataCommand { get; }
         public ICommand ViewAddReturn { get; }
         public ICommand ViewReport { get; }
 
+        #endregion
+
+        #region Constructor
         public ReturnsPageVM()
         {
             try
@@ -41,8 +49,7 @@ namespace ReviCar.ViewModels
                     IsRefreshing = false;
                 });
 
-                ViewAddReturn = new Command(async () =>
-                    await Application.Current.MainPage.Navigation.PushAsync(new AddReturn(), true));
+                ViewAddReturn = new Command(async () =>await Application.Current.MainPage.Navigation.PushAsync(new AddReturn(), true));
 
                 ViewReport = new Command(async (e) =>
                 {
@@ -61,7 +68,10 @@ namespace ReviCar.ViewModels
                MessageUtilities.ShowInfoMessageAsync("Error", $"No se pudo inicializar la vista de devoluciones. {c.Message}").Wait();
             }
         }
+     
+        #endregion
 
+        #region Methods
         public async Task LoadDataAsync()
         {
             try
@@ -84,6 +94,7 @@ namespace ReviCar.ViewModels
                 await MessageUtilities.ShowInfoMessageAsync("Error", "No se pudo cargar la información de devoluciones.");
             }
         }
-    }
 
+        #endregion
+    }
 }

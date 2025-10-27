@@ -18,12 +18,12 @@ namespace ReviCar.ViewModels
         /// </summary>
         public AddIssuesReportVM()
         {
-            DeletePhotoCommand = new Command<Photo>(DeletePhoto);
             newIssueReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
 
             // Comandos correctamente async
             AddReport = new Command(async () => await AddReportEntryAsync());
             TakePhotoCommand = new Command(async () => await TakePhotosAsync());
+            DeletePhotoCommand = new Command<Photo>(async (photo) => await DeletePhoto(photo));
 
             // Inicialización asincrónica segura
             _ = InitializeAsync();

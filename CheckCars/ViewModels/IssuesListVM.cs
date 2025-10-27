@@ -22,7 +22,33 @@ namespace ReviCar.ViewModels
         /// </summary>
         public IssuesListVM()
         {
-            Task.Run(() => LoadData());
+
+            AddIssueReport = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddIssuesReport()));
+            ViewIssue= new Command(async (e) =>
+            {
+                if (e is string reportId)
+                {
+                    Data.StaticData.ReportId = reportId;
+                    await Application.Current.MainPage.Navigation.PushAsync(new ViewIssue(), true);
+                }
+            });
+            UpdateIssues = new Command(async () => await LoadData());
+
+            _= InitializedAsync();
+
+
+        }
+
+        private async Task InitializedAsync()
+        {
+            try
+            {
+             await LoadData();
+            }
+            catch (Exception v)
+            {
+                MessageUtilities.ShowLongToast("Error al inicializar la vista de informes de problemas: " + v.Message).Wait();
+            }
         }
 
         #endregion
@@ -51,24 +77,16 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to navigate to the Add Issue Report page.
         /// </summary>
-        public ICommand AddIssueReport { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddIssuesReport()));
-
+        public ICommand AddIssueReport { get; } 
         /// <summary>
         /// Command to view the details of a specific issue report by its ID.
         /// </summary>
-        public ICommand ViewIssue { get; } = new Command(async (e) =>
-        {
-            if (e is string reportId)
-            {
-                Data.StaticData.ReportId = reportId;
-                await Application.Current.MainPage.Navigation.PushAsync(new ViewIssue(), true);
-            }
-        });
+        public ICommand ViewIssue { get; } 
 
         /// <summary>
         /// Command to reload and update the list of issue reports.
         /// </summary>
-        public ICommand UpdateIssues => new Command(async () => await LoadData());
+        public ICommand UpdateIssues { get; }
 
         #endregion
 

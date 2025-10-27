@@ -1,4 +1,5 @@
-﻿using ReviCar.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Utilities;
 using ReviCar.Views;
@@ -14,6 +15,23 @@ namespace ReviCar.ViewModels
     /// </summary>
     public class CrashListVM : INotifyPropertyChangedAbst
     {
+        #region Constructor
+        public CrashListVM()
+        {
+            Update = new Command(async () => await LoadDataAsync());
+            AddCrashReport = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddCrash()));
+            ViewReport = new Command(async (e) =>
+                 {
+                     if (e is string reportId) // Adjust type if needed
+                     {
+                         Data.StaticData.ReportId = reportId;
+                         await Application.Current.MainPage.Navigation.PushAsync(new ViewCrash(), true);
+                     }
+                 });
+        }
+        #endregion
+
+
         #region Properties
 
         private ObservableCollection<CrashReport> _crashReports = new();
@@ -41,25 +59,18 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to navigate to the AddCrash page for creating a new crash report.
         /// </summary>
-        public ICommand AddCrashReport { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new AddCrash()));
+        public ICommand AddCrashReport { get; }
 
         /// <summary>
         /// Command to view a specific crash report by its ID.
         /// Navigates to the ViewCrash page.
         /// </summary>
-        public ICommand ViewReport { get; } = new Command(async (e) =>
-        {
-            if (e is string reportId) // Adjust type if needed
-            {
-                Data.StaticData.ReportId = reportId;
-                await Application.Current.MainPage.Navigation.PushAsync(new ViewCrash(), true);
-            }
-        });
+        public ICommand ViewReport { get; }
 
         /// <summary>
         /// Command to refresh the crash reports collection by loading data asynchronously.
         /// </summary>
-        public ICommand Update => new Command(() => LoadDataAsync());
+        public ICommand Update { get; }
 
         #endregion
 
@@ -76,7 +87,7 @@ namespace ReviCar.ViewModels
                 using (var db = new ReportsDBContextSQLite())
                 {
                     CrashReports.Clear();
-                    var data = db.CrashReports.OrderByDescending(e => e.Created).ToList();
+                    var data = await db.CrashReports.OrderByDescending(e => e.Created).ToListAsync();
                     foreach (var entry in data)
                     {
                         CrashReports.Add(entry);
@@ -85,7 +96,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast("Error al cargar los informes de accidentes. Error: "+ e.Message);
+                await MessageUtilities.ShowLongToast("Error al cargar los informes de accidentes. Error: " + e.Message);
             }
         }
 
