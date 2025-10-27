@@ -202,7 +202,7 @@ namespace ReviCar.ViewModels
             }
             catch (System.Exception d)
             {
-                await MessageUtilities.ShowInfoMessage( MessageUtilities.TitleInfo,"Error al enviar los datos." + d.Message);  
+                await MessageUtilities.ShowInfoMessageAsync( MessageUtilities.TitleInfo,"Error al enviar los datos." + d.Message);  
             }
             finally
             {
@@ -247,7 +247,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, d.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, d.Message);
             }
         }
 
@@ -271,7 +271,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al generar o enviar el reporte: " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al generar o enviar el reporte: " + ex.Message);
             }
         }
 
@@ -288,7 +288,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, $"Error al eliminar el archivo {item}: {ex.Message}");
+                    await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, $"Error al eliminar el archivo {item}: {ex.Message}");
                 }
             }
         }
@@ -313,7 +313,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception e)
                 {
-                    await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al generar o descargar el reporte: " + e.Message);
+                    await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al generar o descargar el reporte: " + e.Message);
                 }
             });
         }
@@ -333,7 +333,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "No se pudo compartir el archivo: " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "No se pudo compartir el archivo: " + ex.Message);
             }
         }
 
@@ -361,7 +361,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al actualizar el reporte: " + d.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al actualizar el reporte: " + d.Message);
             }
         }
 

@@ -97,7 +97,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                MessageUtilities.ShowInfoMessage("Error", ex.Message);
+                MessageUtilities.ShowInfoMessageAsync("Error", ex.Message);
             }
         }
 

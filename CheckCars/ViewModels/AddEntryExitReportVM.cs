@@ -17,11 +17,33 @@ namespace ReviCar.ViewModels
         /// </summary>
         public AddEntryExitReportVM()
         {
-            CarsInfo = GetCarsInfoAsync().Result;
-            DeletePhotoCommand = new Command<Photo>(DeletePhotoAsync);
-            Task.Run(() => LoadUbicationAsync());
             Report.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+
+            // Comandos async correctamente
+            TakePhotoCommand = new Command(async () => await TakePhotosAsync());
+            AddReport = new Command(async () => await AddReportEntryAsync());
+            DeletePhotoCommand = new Command<Photo>(DeletePhotoAsync);
+
+            // Inicialización asincrónica sin bloquear UI
+            _ = InitializeAsync();
         }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                // Cargar autos de forma async sin bloquear
+                CarsInfo = await GetCarsInfoAsync();
+
+                // Cargar ubicación en hilo principal si es necesario
+                await LoadUbicationAsync();
+            }
+            catch (Exception ex)
+            {
+                await MessageUtilities.ShowLongToast("Error al inicializar: " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -108,26 +130,12 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to take a photo asynchronously.
         /// </summary>
-        public ICommand TakePhotoCommand
-        {
-            get
-            {
-                return new Command(() => Task.Run(TakePhotosAsync));
-            }
-            private set { }
-        }
+        public ICommand TakePhotoCommand { get; }
 
         /// <summary>
         /// Command to add a new entry-exit report asynchronously.
         /// </summary>
-        public ICommand AddReport
-        {
-            get
-            {
-                return new Command(() => AddReportEntryAsync());
-            }
-            private set { }
-        }
+        public ICommand AddReport { get; }
 
         /// <summary>
         /// Command to delete a photo from the collection and storage.

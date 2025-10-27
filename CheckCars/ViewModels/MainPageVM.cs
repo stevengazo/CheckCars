@@ -1,14 +1,13 @@
-﻿using ReviCar.Data;
-using ReviCar.Utilities;
+﻿using ReviCar.Utilities;
 using ReviCar.Views;
 using System.ComponentModel;
 using System.Windows.Input;
 
+
 namespace ReviCar.ViewModels
 {
-    /// <summary>
-    /// ViewModel for the main page. Provides commands for navigating to different report views.
-    /// </summary>
+ 
+
     public class MainPageVM : INotifyPropertyChanged
     {
         #region Commands
@@ -16,27 +15,23 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to navigate to the Entry/Exit report list page.
         /// </summary>
-        public ICommand ViewEntryExitList { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new EntryExitReportList(), true));
+        public ICommand ViewEntryExitList { get; }
 
         /// <summary>
         /// Command to navigate to the crash reports list page.
         /// </summary>
-        public ICommand CrashList { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new CrashList(), true));
+        public ICommand CrashList { get; }
 
         /// <summary>
         /// Command to navigate to the issues list page.
         /// </summary>
-        public ICommand IssuesList { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new IssuesList(), true));
+        public ICommand IssuesList { get; }
 
         /// <summary>
         /// Command to navigate to the returns list page.
         /// </summary>
-        public ICommand ReturnList { get; } = new Command(async () => await Application.Current.MainPage.Navigation.PushAsync(new ReturnsPage(), true));
+        public ICommand ReturnList { get; }
 
-        /// <summary>
-        /// Test command for internal testing or debugging.
-        /// </summary>
-        public ICommand TestCommand { get; }
 
         #endregion
 
@@ -47,36 +42,43 @@ namespace ReviCar.ViewModels
         /// </summary>
         public MainPageVM()
         {
-            TestCommand = new Command(() => test());
+            ViewEntryExitList = new Command(async () => await ViewEntryListReport());
+            CrashList = new Command(async () => await ExecuteSafeNavigationAsync(new CrashList()));
+            IssuesList = new Command(async () => await ExecuteSafeNavigationAsync(new IssuesList()));
+            ReturnList = new Command(async () => await ExecuteSafeNavigationAsync(new ReturnsPage()));
+          
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainPageVM"/> class with a database context.
-        /// </summary>
-        /// <param name="db">The database context to use for data access.</param>
-        public MainPageVM(ReportsDBContextSQLite db)
-        {
-            reportsDB = db;
-            TestCommand = new Command(() => test());
-        }
+    
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Test method to retrieve crash reports from the database.
+        /// Handles navigation to the Entry/Exit report list page with error handling.
         /// </summary>
-        private void test()
+        private async Task ViewEntryListReport()
+        {
+            await ExecuteSafeNavigationAsync(new EntryExitReportList());
+        }
+
+        /// <summary>
+        /// Helper method to safely navigate to a page, showing an error if something fails.
+        /// </summary>
+        private static async Task ExecuteSafeNavigationAsync(Page page)
         {
             try
             {
-                var d = reportsDB.CrashReports.ToList();
+                await Application.Current.MainPage.Navigation.PushAsync(page, true);
             }
-            catch (Exception f)
-            { MessageUtilities.ShowInfoMessage("Error", f.Message).Wait();
+            catch (Exception ex)
+            {
+                await MessageUtilities.ShowInfoMessageAsync("Error", ex.Message);
             }
         }
+
+        
 
         /// <summary>
         /// Triggers the PropertyChanged event for a given property.
@@ -91,10 +93,7 @@ namespace ReviCar.ViewModels
 
         #region Properties
 
-        /// <summary>
-        /// The local database context used to access report data.
-        /// </summary>
-        private readonly ReportsDBContextSQLite reportsDB;
+
 
         /// <summary>
         /// Event raised when a property value changes.
@@ -103,4 +102,5 @@ namespace ReviCar.ViewModels
 
         #endregion
     }
+
 }

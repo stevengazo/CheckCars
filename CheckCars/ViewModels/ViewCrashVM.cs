@@ -150,7 +150,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception df)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + df.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + df.Message);
             }
         }
 
@@ -167,7 +167,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    await MessageUtilities.ShowInfoMessage("Error", $"No se pudo eliminar el archivo {path}: {ex.Message}");
+                    await MessageUtilities.ShowInfoMessageAsync("Error", $"No se pudo eliminar el archivo {path}: {ex.Message}");
                 }
             }
         }
@@ -197,7 +197,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception ex)
                 {
-                     MessageUtilities.ShowInfoMessage("Error", "No se pudo generar el PDF. " + ex.Message);
+                     MessageUtilities.ShowInfoMessageAsync("Error", "No se pudo generar el PDF. " + ex.Message);
                 }
             });
         }
@@ -220,7 +220,7 @@ namespace ReviCar.ViewModels
             catch (Exception ex)
             {
               
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, ex.Message);
             }
         }
 
@@ -262,7 +262,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al enviar el reporte. " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al enviar el reporte. " + ex.Message);
             }
             finally
             {
@@ -286,7 +286,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al actualizar el reporte. " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al actualizar el reporte. " + ex.Message);
             }
         }
 

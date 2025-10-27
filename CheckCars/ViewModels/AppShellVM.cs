@@ -23,7 +23,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception v)
             {
-                MessageUtilities.ShowInfoMessage("AppShellVM", v.Message).Wait();
+                MessageUtilities.ShowInfoMessageAsync("AppShellVM", v.Message).Wait();
             }
         }
 
@@ -45,7 +45,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception f)
             {
-                await MessageUtilities.ShowInfoMessage("Error", "Error: " + f.Message);
+                await MessageUtilities.ShowInfoMessageAsync("Error", "Error: " + f.Message);
             }
         }
     }

@@ -130,7 +130,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception v)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + v.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + v.Message);
             }
         }
 
@@ -170,7 +170,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception d)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + d.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + d.Message);
             }
         }
 
@@ -194,7 +194,7 @@ namespace ReviCar.ViewModels
                 }
                 catch (Exception e)
                 {
-                    await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, e.Message);
+                    await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, e.Message);
                 }
             });
         }
@@ -230,7 +230,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al enviar los datos\nIntentelo más tarde");
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al enviar los datos\nIntentelo más tarde");
             }
             finally
             {

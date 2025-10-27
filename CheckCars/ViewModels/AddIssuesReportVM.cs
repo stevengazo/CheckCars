@@ -11,6 +11,7 @@ namespace ReviCar.ViewModels
     public class AddIssuesReportVM : INotifyPropertyChangedAbst
     {
         #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the AddIssuesReportVM class.
         /// Sets up commands, loads cars info and current location, and sets the author.
@@ -18,10 +19,31 @@ namespace ReviCar.ViewModels
         public AddIssuesReportVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
-            CarsInfo = GetCarsInfoAsync().Result;
-            Task.Run(() => LoadUbicationAsync());
             newIssueReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+
+            // Comandos correctamente async
+            AddReport = new Command(async () => await AddReportEntryAsync());
+            TakePhotoCommand = new Command(async () => await TakePhotosAsync());
+
+            // Inicialización asincrónica segura
+            _ = InitializeAsync();
         }
+
+        // Inicialización async segura
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                // Cargar autos sin bloquear UI
+                CarsInfo = await GetCarsInfoAsync();
+                await LoadUbicationAsync();  
+            }
+            catch (Exception ex)
+            {
+                await MessageUtilities.ShowLongToast("Error al inicializar: " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -106,14 +128,7 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to add the issue report asynchronously.
         /// </summary>
-        public ICommand AddReport
-        {
-            get
-            {
-                return new Command(() => AddReportEntryAsync());
-            }
-            private set { }
-        }
+        public ICommand AddReport { get; }
 
         /// <summary>
         /// Command to delete a photo from the collection and disk.
@@ -123,14 +138,7 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to take photos asynchronously.
         /// </summary>
-        public ICommand TakePhotoCommand
-        {
-            get
-            {
-                return new Command(() => Task.Run(TakePhotosAsync));
-            }
-            private set { }
-        }
+        public ICommand TakePhotoCommand { get; }
 
         #endregion
 
@@ -151,7 +159,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast  ("No se pudo tomar la foto. Error: " + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"No se pudo tomar la foto. Error: " + e.Message);
             }
         }
 
@@ -198,8 +206,8 @@ namespace ReviCar.ViewModels
             }
             catch (Exception rf)
             {
-                await MessageUtilities.ShowLongToast("No se pudo guardar el reporte. Error: " + rf.Message);
-                CloseAsync();
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"No se pudo guardar el reporte. Error: " + rf.Message);
+                await CloseAsync();
             }
         }
 
@@ -215,7 +223,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast("No se pudo cerrar la página. Error: " + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "No se pudo cerrar la página. Error: " + e.Message);
             }
         }
 
@@ -223,7 +231,7 @@ namespace ReviCar.ViewModels
         /// Deletes the specified photo from disk and removes it from ImgList.
         /// </summary>
         /// <param name="photo">The photo to delete.</param>
-        private void DeletePhoto(Photo photo)
+        private async Task DeletePhoto(Photo photo)
         {
             if (photo == null) return; // Prevent null arguments
 
@@ -237,7 +245,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                MessageUtilities.ShowLongToast("No se pudo eliminar la foto. Error: " + ex.Message);
+               await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"No se pudo eliminar la foto. Error: " + ex.Message);
             }
         }
 
@@ -272,16 +280,14 @@ namespace ReviCar.ViewModels
             {
                 using (var db = new ReportsDBContextSQLite())
                 {
-                    return (from C in db.Cars
-                            orderby C.Plate ascending
-                            select $"{C.Plate} {C.Model}"
+                    return (from C in db.Cars orderby C.Brand, C.Model ascending select $"{C.Plate} {C.Model}"
                                 ).ToArray();
                 }
             }
             catch (Exception d)
             {
-                await MessageUtilities.ShowLongToast("No se pudo cargar la información de los autos. Error: " + d.Message);
-                CloseAsync();
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError,"No se pudo cargar la información de los autos. Error: " + d.Message);
+                await CloseAsync();
                 return null;
             }
         }

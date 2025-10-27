@@ -58,7 +58,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception c)
             {
-               MessageUtilities.ShowInfoMessage("Error", $"No se pudo inicializar la vista de devoluciones. {c.Message}").Wait();
+               MessageUtilities.ShowInfoMessageAsync("Error", $"No se pudo inicializar la vista de devoluciones. {c.Message}").Wait();
             }
         }
 
@@ -81,7 +81,7 @@ namespace ReviCar.ViewModels
             }
             catch
             {
-                await MessageUtilities.ShowInfoMessage("Error", "No se pudo cargar la información de devoluciones.");
+                await MessageUtilities.ShowInfoMessageAsync("Error", "No se pudo cargar la información de devoluciones.");
             }
         }
     }

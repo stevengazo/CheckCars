@@ -1,14 +1,15 @@
-﻿using ReviCar.Data;
+﻿using iText.StyledXmlParser.Util;
+using Microsoft.EntityFrameworkCore;
+using ReviCar.Data;
 using ReviCar.Models;
 using ReviCar.Services;
-using iText.StyledXmlParser.Util;
+using ReviCar.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ReviCar.Utilities;
 
 namespace ReviCar.ViewModels
 {
@@ -21,16 +22,43 @@ namespace ReviCar.ViewModels
         /// </summary>
         public AddBookingVM()
         {
-            // booking. =  Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
-            booking = new Booking();
-            booking.StartDate = DateTime.Now;
-            booking.Status = "Pendiente";
-            booking.Deleted = false;
-            booking.Confirmed = false;
-            booking.EndDate = DateTime.Now.AddHours(1);
-            carsList = _db.Cars.Select(e => e.Plate).ToList();
-            LoadingUsers();
+            booking = new Booking()
+            {
+                StartDate = DateTime.Now,
+                Status = "Pendiente",
+                Deleted = false,
+                Confirmed = false,
+                EndDate = DateTime.Now.AddHours(1)
+            };
+            MainThread.BeginInvokeOnMainThread(async () => {
 
+                try
+                {
+                    carsList = await _db.Cars.Select(e => e.Plate).ToListAsync();
+                   await LoadingUsers();
+                }
+                catch (Exception v)
+                {
+                    MessageUtilities.ShowLongToast("Error al cargar datos: " + v.Message).Wait();
+                }
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitializeAsync()
+        {
+            try
+            {
+                CarsList = await _db.Cars.Select(e => e.Plate).ToListAsync();
+                await LoadingUsers();
+            }
+            catch (Exception ex)
+            {
+                await MessageUtilities.ShowLongToast("Error al cargar datos: " + ex.Message);
+            }
         }
         #endregion
 
@@ -323,12 +351,12 @@ namespace ReviCar.ViewModels
                 }
                 else
                 {
-                      await MessageUtilities.ShowToast("Vehículo no disponible en esas fechas");
+                    await MessageUtilities.ShowToast("Vehículo no disponible en esas fechas");
                 }
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowLongToast("Error de la aplicación, intente de nuevo."  + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error de la aplicación, intente de nuevo." + e.Message);
             }
 
         }
@@ -339,11 +367,11 @@ namespace ReviCar.ViewModels
         {
             try
             {
-                CheckAvariable();
+                await CheckAvariable();
             }
             catch (Exception ds)
             {
-                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + ds.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error interno, intente de nuevo. " + ds.Message);
             }
         }
 
@@ -354,11 +382,19 @@ namespace ReviCar.ViewModels
         {
             try
             {
-                Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                // Usar la nueva API recomendada para obtener la página principal
+                var mainWindow = Application.Current?.Windows.FirstOrDefault();
+                var mainPage = mainWindow?.Page;
+
+                if (mainPage?.Navigation?.NavigationStack?.Count > 0)
+                {
+                    var lastPage = mainPage.Navigation.NavigationStack[mainPage.Navigation.NavigationStack.Count - 1];
+                    mainPage.Navigation.RemovePage(lastPage);
+                }
             }
             catch (Exception fd)
             {
-                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + fd.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error interno, intente de nuevo. " + fd.Message);
             }
         }
 
@@ -373,7 +409,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception f)
             {
-                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + f.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error interno, intente de nuevo. " + f.Message);
             }
         }
 
@@ -386,7 +422,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception n)
             {
-                await MessageUtilities.ShowLongToast("Error interno, intente de nuevo. " + n.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error interno, intente de nuevo. " + n.Message);
             }
         }
         #endregion

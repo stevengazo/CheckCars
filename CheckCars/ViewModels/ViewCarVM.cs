@@ -186,7 +186,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al cargar los reportes de entrada/salida. Error: " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al cargar los reportes de entrada/salida. Error: " + ex.Message);
             }
         }
 
@@ -227,7 +227,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + ex.Message);
             }
         }
 
@@ -266,7 +266,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ex)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error: " + ex.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error: " + ex.Message);
             }
         }
 
@@ -287,7 +287,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception f)
             {
-                await MessageUtilities.ShowInfoMessage(MessageUtilities.TitleError, "Error al cargar las fotos: " + f.Message);
+                await MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error al cargar las fotos: " + f.Message);
                 return null;
             }
         }

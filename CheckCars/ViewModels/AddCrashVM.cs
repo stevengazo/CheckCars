@@ -18,10 +18,34 @@ namespace ReviCar.ViewModels
         public AddCrashVM()
         {
             DeletePhotoCommand = new Command<Photo>(DeletePhoto);
-            CarsInfo = GetCarsInfo().Result;
-            Task.Run(() => LoadUbicationAsync());
             newCrashReport.Author = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
+
+            // Carga asíncrona sin bloquear el hilo principal
+            _ = InitializeDataAsync();
         }
+
+        private async Task InitializeDataAsync()
+        {
+            try
+            {
+                // Ejecutar en el hilo principal solo cuando se actualicen propiedades ligadas a la UI
+                var cars = await GetCarsInfo();
+
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    CarsInfo = cars;
+                    newCrashReport.DateOfCrash = DateTime.Now;
+                    newCrashReport.Created = DateTime.Now;
+                });
+
+                await LoadUbicationAsync();
+            }
+            catch (Exception ex)
+            {
+                await MessageUtilities.ShowLongToast("Error al establecer la fecha y hora: " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -177,7 +201,7 @@ namespace ReviCar.ViewModels
                         db.CrashReports.Add(newCrashReport);
                         db.SaveChanges();
                         await SendingDataAsync(newCrashReport);
-                        CloseAsync();
+                        await CloseAsync();
                     }
                 }
                 else if (answer && !valid)
@@ -244,7 +268,7 @@ namespace ReviCar.ViewModels
                 using (var db = new ReportsDBContextSQLite())
                 {
                     return (from C in db.Cars
-                            orderby C.Plate ascending
+                            orderby C.Brand, C.Model ascending
                             select $"{C.Plate} {C.Model}"
                                 ).ToArray();
                 }
@@ -252,7 +276,7 @@ namespace ReviCar.ViewModels
             catch (Exception e)
             {
                 await MessageUtilities.ShowLongToast("No se pudieron cargar los autos. Error:" + e.Message);
-                CloseAsync();
+                await CloseAsync();
                 return null;
             }
         }

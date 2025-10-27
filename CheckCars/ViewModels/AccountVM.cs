@@ -15,9 +15,16 @@ namespace ReviCar.ViewModels
         /// </summary>
         public AccountVM()
         {
+            // Initialize commands
+            UpdateUser = new Command(async () => await UpdateUserAsync());
+            CleanPdfs = new Command(async () => await DeletePdfAsync());
+            CleanReports = new Command(async () => await DeleteReportsAsync());
+
+            // Load user profile and settings
             StaticData.User = new UserProfile();
             var name = Preferences.Get(nameof(UserProfile.UserName), "Nombre de Usuario");
 
+            // Set local user profile
             LocalUser.UserName = name;
             URL = StaticData.URL;
             Port = StaticData.Port;
@@ -29,38 +36,17 @@ namespace ReviCar.ViewModels
         /// <summary>
         /// Command to delete all reports asynchronously after user confirmation.
         /// </summary>
-        public ICommand CleanReports
-        {
-            get
-            {
-                return new Command(async () => await DeleteReportsAsync());
-            }
-            private set { }
-        }
+        public ICommand CleanReports   {  get;}
 
         /// <summary>
         /// Command to delete cached PDFs asynchronously after user confirmation.
         /// </summary>
-        public ICommand CleanPdfs
-        {
-            get
-            {
-                return new Command(async () => await DeletePdfAsync());
-            }
-            private set { }
-        }
+        public ICommand CleanPdfs  { get;  }
 
         /// <summary>
         /// Command to update the user profile asynchronously.
         /// </summary>
-        public ICommand UpdateUser
-        {
-            get
-            {
-                return new Command(async () => await UpdateUserProfileAsync());
-            }
-            private set { }
-        }
+        public ICommand UpdateUser  { get; }
 
         /// <summary>
         /// Command to handle changes in API usage (unimplemented).
@@ -68,6 +54,8 @@ namespace ReviCar.ViewModels
         public ICommand IOnChangeUseAPI;
 
         #endregion
+
+
 
         #region Properties
 
@@ -165,7 +153,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ec)
             {
-                await MessageUtilities.ShowInfoMessage("Error", "Error al borrar los reportes. Error:" + ec.Message);
+                await MessageUtilities.ShowInfoMessageAsync("Error", "Error al borrar los reportes. Error:" + ec.Message);
             }
         }
 
@@ -184,7 +172,7 @@ namespace ReviCar.ViewModels
             }
             catch (Exception e)
             {
-                await MessageUtilities.ShowInfoMessage("Error", "Error al borrar las fotos. Error:" + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync("Error", "Error al borrar las fotos. Error:" + e.Message);
             }
         }
 
@@ -215,7 +203,7 @@ namespace ReviCar.ViewModels
             catch (Exception e)
             {
 
-                await MessageUtilities.ShowInfoMessage("Error", "Error al borrar el cache. Error:" + e.Message);
+                await MessageUtilities.ShowInfoMessageAsync("Error", "Error al borrar el cache. Error:" + e.Message);
             }
         }
 
@@ -232,9 +220,27 @@ namespace ReviCar.ViewModels
             }
             catch (Exception ed)
             {
-                await MessageUtilities.ShowInfoMessage("Error", "Error al actualizar el usuario. Error:" + ed.Message);
+                await MessageUtilities.ShowInfoMessageAsync("Error", "Error al actualizar el usuario. Error:" + ed.Message);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private async Task UpdateUserAsync()
+        {
+            try
+            {
+                await UpdateUserProfileAsync();
+            }
+            catch (Exception f)
+            {
+                MessageUtilities.ShowInfoMessageAsync(MessageUtilities.TitleError, "Error:" + f.Message);
+            }
+        }
+
+
 
         #endregion
     }

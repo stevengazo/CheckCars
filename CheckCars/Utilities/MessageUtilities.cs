@@ -16,7 +16,7 @@ namespace ReviCar.Utilities
         public const string TitleInfo = "Información";
         public const string TitleWarning = "Advertencia";
 
-        public static async Task ShowInfoMessage(string title, string message)
+        public static async Task ShowInfoMessageAsync(string title, string message)
         {
             await App.Current.MainPage.DisplayAlert(title, message, "OK");
         }
