@@ -1,15 +1,15 @@
-﻿using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Services;
-using ReviCar.Utilities;
+﻿using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Services;
+using CheckCar.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     /// <summary>
-    /// ViewModel for handling issue reports in the ReviCar application.
+    /// ViewModel for handling issue reports in the CheckCar application.
     /// Provides functionality to view, send, delete, and share reports.
     /// </summary>
     public class ViewIssueVM : INotifyPropertyChangedAbst

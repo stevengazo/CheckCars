@@ -1,6 +1,6 @@
-﻿using ReviCar.Models;
+﻿using CheckCar.Models;
 
-namespace ReviCar.Utilities
+namespace CheckCar.Utilities
 {
     public class SensorManager
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ReviCar.Models
+namespace CheckCar.Models
 {
     /// <summary>
     /// Represents a car with its details.

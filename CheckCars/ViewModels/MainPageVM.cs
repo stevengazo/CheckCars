@@ -1,10 +1,10 @@
-﻿using ReviCar.Utilities;
-using ReviCar.Views;
+﻿using CheckCar.Utilities;
+using CheckCar.Views;
 using System.ComponentModel;
 using System.Windows.Input;
 
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
  
 

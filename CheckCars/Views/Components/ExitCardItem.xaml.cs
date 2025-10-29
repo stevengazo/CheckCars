@@ -1,4 +1,4 @@
-namespace ReviCar.Views.Components;
+namespace CheckCar.Views.Components;
 
 public partial class ExitCardItem : ContentView
 {

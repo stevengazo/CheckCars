@@ -1,6 +1,6 @@
-﻿using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Services;
+﻿using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ReviCar.Views;
-using ReviCar.Utilities;
+using CheckCar.Views;
+using CheckCar.Utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     /// <summary>
     /// ViewModel for viewing car details and associated reports.
@@ -307,15 +307,15 @@ namespace ReviCar.ViewModels
         /// </summary>
         /// <param name="id">The report ID.</param>
         /// <returns>A list of associated photos.</returns>
-        private async Task<List<ReviCar.Models.Photo>> GetPhotos(string id)
+        private async Task<List<CheckCar.Models.Photo>> GetPhotos(string id)
         {
             try
             {
-                var info = await _apiService.GetAsync<List<ReviCar.Models.Photo>>(
+                var info = await _apiService.GetAsync<List<CheckCar.Models.Photo>>(
               $"api/Photos/report/{id}",
               TimeSpan.FromSeconds(30));
 
-                return info ?? new List<ReviCar.Models.Photo>();
+                return info ?? new List<CheckCar.Models.Photo>();
             }
             catch (Exception f)
             {

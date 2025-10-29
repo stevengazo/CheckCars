@@ -1,4 +1,4 @@
-﻿namespace ReviCar.Models
+﻿namespace CheckCar.Models
 {
     /// <summary>
     /// Represents a vehicle entry and exit report, extending the base Report class.

@@ -1,12 +1,12 @@
-﻿using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Services;
-using ReviCar.Utilities;
+﻿using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Services;
+using CheckCar.Utilities;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     public class AddIssuesReportVM : INotifyPropertyChangedAbst
     {
@@ -48,7 +48,7 @@ namespace ReviCar.ViewModels
 
         #region Properties
         private readonly APIService _apiService = new();
-        private ReviCar.Utilities.SensorManager SensorManager = new();
+        private CheckCar.Utilities.SensorManager SensorManager = new();
         private ObservableCollection<Photo> _imgs = new();
 
         private IssueReport _newIssueReport = new()

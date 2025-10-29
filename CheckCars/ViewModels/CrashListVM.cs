@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Utilities;
-using ReviCar.Views;
+using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Utilities;
+using CheckCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     /// <summary>
     /// ViewModel that manages the collection of crash reports.

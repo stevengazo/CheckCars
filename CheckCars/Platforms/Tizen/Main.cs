@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace ReviCar
+namespace CheckCar
 {
     internal class Program : MauiApplication
     {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="ReviCar.Views.ViewIssue"
+    x:Class="CheckCar.Views.ViewIssue"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:Controls="clr-namespace:ReviCar.Shared.Controls"
-    xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
+    xmlns:Controls="clr-namespace:CheckCar.Shared.Controls"
+    xmlns:ViewModels="clr-namespace:CheckCar.ViewModels"
     Title="Información">
     <ContentPage.BindingContext>
         <ViewModels:ViewIssueVM />

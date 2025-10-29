@@ -1,7 +1,7 @@
-﻿using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Services;
-using ReviCar.Utilities;
+﻿using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Services;
+using CheckCar.Utilities;
 using Org.BouncyCastle.Asn1;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using static Microsoft.Maui.ApplicationModel.Permissions;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     public class AddReturnVM : INotifyPropertyChangedAbst
     {

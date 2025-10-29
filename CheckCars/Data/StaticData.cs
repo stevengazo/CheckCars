@@ -1,6 +1,6 @@
-﻿using ReviCar.Models;
+﻿using CheckCar.Models;
 
-namespace ReviCar.Data
+namespace CheckCar.Data
 {
     /// <summary>
     /// Provides static access to application preferences such as ReportId, User, URL, etc.

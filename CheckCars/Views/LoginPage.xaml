@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="ReviCar.Views.LoginPage"
+    x:Class="CheckCar.Views.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:Models="clr-namespace:ReviCar.Models"
-    xmlns:ViewModels="clr-namespace:ReviCar.ViewModels"
+    xmlns:Models="clr-namespace:CheckCar.Models"
+    xmlns:ViewModels="clr-namespace:CheckCar.ViewModels"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Gray}">
 
     <ContentPage.BindingContext>
@@ -20,7 +20,7 @@
                 FontAttributes="Bold"
                 FontSize="Large"
                 HorizontalOptions="Center"
-                Text="ReviCar"
+                Text="CheckCar"
                 TextColor="{AppThemeBinding Light=Black, Dark=White}" />
             <Label
                 FontSize="Medium"

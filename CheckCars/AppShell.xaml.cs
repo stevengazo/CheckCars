@@ -1,4 +1,4 @@
-﻿namespace ReviCar
+﻿namespace CheckCar
 {
     public partial class AppShell : Shell
     {

@@ -1,13 +1,13 @@
 ﻿using Plugin.Maui.Calendar.Models;
-using ReviCar.Models;
-using ReviCar.Views;
+using CheckCar.Models;
+using CheckCar.Views;
 using System.Windows.Input;
-using ReviCar.Services;
-using ReviCar.Data;
+using CheckCar.Services;
+using CheckCar.Data;
 using Microsoft.EntityFrameworkCore;
-using ReviCar.Utilities;
+using CheckCar.Utilities;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     /// <summary>
     /// ViewModel responsible for managing booking data and events.

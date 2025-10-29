@@ -1,9 +1,9 @@
 ﻿using iText.StyledXmlParser.Util;
 using Microsoft.EntityFrameworkCore;
-using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Services;
-using ReviCar.Utilities;
+using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Services;
+using CheckCar.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     public class AddBookingVM : INotifyPropertyChangedAbst
     {

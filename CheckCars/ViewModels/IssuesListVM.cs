@@ -1,13 +1,13 @@
-﻿using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Views;
+﻿using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ReviCar.Utilities;  // For ToListAsync if using EF Core
+using CheckCar.Utilities;  // For ToListAsync if using EF Core
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     /// <summary>
     /// ViewModel for managing and displaying a list of issue reports.

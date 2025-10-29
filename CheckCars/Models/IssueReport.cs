@@ -1,4 +1,4 @@
-﻿namespace ReviCar.Models
+﻿namespace CheckCar.Models
 {
     /// <summary>
     /// Represents an issue report, extending the base Report class.

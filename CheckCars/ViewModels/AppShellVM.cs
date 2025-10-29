@@ -1,5 +1,5 @@
-﻿using ReviCar.Utilities;
-using ReviCar.Views;
+﻿using CheckCar.Utilities;
+using CheckCar.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     public class AppShellVM : INotifyPropertyChangedAbst
     {

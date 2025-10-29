@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="ReviCar.AppShell"
+    x:Class="CheckCar.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:VM="clr-namespace:ReviCar.ViewModels"
-    xmlns:Views="clr-namespace:ReviCar.Views"
-    xmlns:local="clr-namespace:ReviCar"
-    Title="ReviCar"
+    xmlns:VM="clr-namespace:CheckCar.ViewModels"
+    xmlns:Views="clr-namespace:CheckCar.Views"
+    xmlns:local="clr-namespace:CheckCar"
+    Title="CheckCar"
     BackgroundColor="LightBlue"
     FlyoutBackgroundColor="{AppThemeBinding Light=LightGray,
                                             Dark=DarkGray}"

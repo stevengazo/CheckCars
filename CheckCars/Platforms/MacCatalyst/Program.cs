@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace ReviCar
+namespace CheckCar
 {
     public class Program
     {

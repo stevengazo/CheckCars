@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Reflection;
 
-namespace ReviCar.Views.Components;
+namespace CheckCar.Views.Components;
 
 public partial class BindablePicker : ContentView
 {

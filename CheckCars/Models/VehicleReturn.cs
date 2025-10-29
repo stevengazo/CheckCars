@@ -1,4 +1,4 @@
-﻿namespace ReviCar.Models
+﻿namespace CheckCar.Models
 {
     /// <summary>
     /// Represents a vehicle return report, inheriting from the base Report class.

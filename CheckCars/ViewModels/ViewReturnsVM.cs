@@ -1,6 +1,6 @@
-﻿using ReviCar.Data;
-using ReviCar.Models;
-using ReviCar.Services;
+﻿using CheckCar.Data;
+using CheckCar.Models;
+using CheckCar.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ReviCar.Utilities;
+using CheckCar.Utilities;
 
-namespace ReviCar.ViewModels
+namespace CheckCar.ViewModels
 {
     /// <summary>
     /// ViewModel for displaying a vehicle return report.

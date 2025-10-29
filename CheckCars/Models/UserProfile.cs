@@ -1,4 +1,4 @@
-﻿namespace ReviCar.Models
+﻿namespace CheckCar.Models
 {
     /// <summary>
     /// Represents a user's profile information.
